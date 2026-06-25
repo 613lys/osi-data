@@ -1,0 +1,753 @@
+name: CollateralMarginReportingOntology
+description: OSI scenario for collateral margin regulatory reporting built from physical
+  table metadata first.
+ontology:
+- concept:
+    name: AccountData
+    type: EntityType
+    description: Base concept for account-like records with common identifiers and
+      status fields.
+    identify_by:
+    - account_id
+  relationships:
+  - name: account_id
+    verbalizes:
+    - '{AccountData} has account identifier {AccountIdentifier}'
+    roles:
+    - name: value
+      concept: AccountIdentifier
+      multiplicity: one
+  - name: account_status
+    verbalizes:
+    - '{AccountData} has account status {StatusCode}'
+    roles:
+    - name: value
+      concept: StatusCode
+      multiplicity: one
+- concept:
+    name: MarginAccount
+    type: EntityType
+    description: Account used to hold margin obligations and pledged collateral.
+    extends:
+    - AccountData
+    identify_by:
+    - account_id
+  relationships:
+  - name: reference_counterparty
+    verbalizes:
+    - '{MarginAccount} is owned by {Counterparty}'
+    roles:
+    - name: owner
+      concept: Counterparty
+      multiplicity: one
+  - name: pledge_collateral
+    verbalizes:
+    - '{MarginAccount} pledges {CollateralAsset}'
+    roles:
+    - name: pledged_asset
+      concept: CollateralAsset
+      multiplicity: many
+  - name: base_currency
+    verbalizes:
+    - '{MarginAccount} has base currency {CurrencyCode}'
+    roles:
+    - name: value
+      concept: CurrencyCode
+      multiplicity: one
+- concept:
+    name: Counterparty
+    type: EntityType
+    description: Legal entity that owns margin accounts and posts collateral.
+    identify_by:
+    - counterparty_id
+  relationships:
+  - name: counterparty_id
+    roles:
+    - name: value
+      concept: CounterpartyIdentifier
+      multiplicity: one
+  - name: legal_name
+    roles:
+    - name: value
+      concept: LegalName
+      multiplicity: one
+  - name: domicile_country
+    roles:
+    - name: value
+      concept: CountryCode
+      multiplicity: one
+  - name: regulatory_segment
+    roles:
+    - name: value
+      concept: RegulatorySegment
+      multiplicity: one
+- concept:
+    name: CollateralAsset
+    type: EntityType
+    description: Asset pledged as collateral for margin obligations.
+    identify_by:
+    - collateral_id
+  relationships:
+  - name: collateral_id
+    roles:
+    - name: value
+      concept: CollateralIdentifier
+      multiplicity: one
+  - name: asset_type
+    roles:
+    - name: value
+      concept: AssetType
+      multiplicity: one
+  - name: currency
+    roles:
+    - name: value
+      concept: CurrencyCode
+      multiplicity: one
+  - name: issuer_country
+    roles:
+    - name: value
+      concept: CountryCode
+      multiplicity: one
+  - name: market_value_amount
+    roles:
+    - name: value
+      concept: MonetaryAmount
+      multiplicity: one
+- concept:
+    name: CollateralValuation
+    type: EntityType
+    description: Daily valuation record for collateral after market close.
+    identify_by:
+    - valuation_id
+  relationships:
+  - name: valuation_id
+    roles:
+    - name: value
+      concept: ValuationIdentifier
+      multiplicity: one
+  - name: value_collateral
+    verbalizes:
+    - '{CollateralValuation} values {CollateralAsset}'
+    roles:
+    - name: collateral
+      concept: CollateralAsset
+      multiplicity: one
+  - name: valuation_date
+    roles:
+    - name: value
+      concept: Date
+      multiplicity: one
+  - name: market_value_amount
+    roles:
+    - name: value
+      concept: MonetaryAmount
+      multiplicity: one
+  - name: haircut_rate
+    roles:
+    - name: value
+      concept: Rate
+      multiplicity: one
+- concept:
+    name: AccountIdentifier
+    type: ValueType
+    description: Stable account identifier reused across account and collateral positions.
+- concept:
+    name: CounterpartyIdentifier
+    type: ValueType
+    description: Stable counterparty identifier.
+- concept:
+    name: CollateralIdentifier
+    type: ValueType
+    description: Stable pledged collateral identifier.
+- concept:
+    name: ValuationIdentifier
+    type: ValueType
+    description: Stable valuation record identifier.
+- concept:
+    name: CurrencyCode
+    type: ValueType
+    description: ISO currency code.
+- concept:
+    name: CountryCode
+    type: ValueType
+    description: ISO country code.
+- concept:
+    name: MonetaryAmount
+    type: ValueType
+    description: Decimal monetary amount.
+- concept:
+    name: Rate
+    type: ValueType
+    description: Decimal percentage rate.
+- concept:
+    name: StatusCode
+    type: ValueType
+    description: Operational status code.
+- concept:
+    name: LegalName
+    type: ValueType
+    description: Legal entity name.
+- concept:
+    name: RegulatorySegment
+    type: ValueType
+    description: Regulatory classification segment.
+- concept:
+    name: AssetType
+    type: ValueType
+    description: Collateral asset type.
+- concept:
+    name: Date
+    type: ValueType
+    description: Calendar date.
+ontology_mappings:
+- name: CollateralMarginSemanticMapping
+  ontology: CollateralMarginReportingOntology
+  semantic_model:
+    name: CollateralMarginSemanticModel
+    description: Table-backed semantic model for collateral margin reporting.
+    datasets:
+    - name: margin_accounts
+      source: margin_core.margin_accounts
+      primary_key:
+      - account_id
+      description: Source table for margin accounts.
+      fields:
+      - name: account_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: account_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: counterparty_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: counterparty_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: base_currency
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: base_currency
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: account_status
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: account_status
+        ai_context:
+          physical_type: string
+          nullable: false
+      ai_context:
+        physical_kind: table
+    - name: counterparties
+      source: margin_core.counterparties
+      primary_key:
+      - counterparty_id
+      description: Legal counterparty reference table.
+      fields:
+      - name: counterparty_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: counterparty_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: legal_name
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: legal_name
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: domicile_country
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: domicile_country
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: regulatory_segment
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: regulatory_segment
+        ai_context:
+          physical_type: string
+          nullable: true
+      ai_context:
+        physical_kind: table
+    - name: collateral_positions
+      source: collateral_master.collateral_positions
+      primary_key:
+      - collateral_id
+      description: Pledged collateral positions assigned to margin accounts.
+      fields:
+      - name: collateral_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: collateral_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: account_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: account_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: asset_type
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: asset_type
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: currency
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: currency
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: issuer_country
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: issuer_country
+        ai_context:
+          physical_type: string
+          nullable: true
+      ai_context:
+        physical_kind: table
+    - name: collateral_valuations
+      source: market_risk.collateral_valuations
+      primary_key:
+      - valuation_id
+      description: Daily valuation and haircut measures for collateral.
+      fields:
+      - name: valuation_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: valuation_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: collateral_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: collateral_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: valuation_date
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: valuation_date
+        ai_context:
+          physical_type: date
+          nullable: false
+      - name: market_value_amount
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: market_value_amount
+        ai_context:
+          physical_type: decimal
+          nullable: false
+      - name: haircut_rate
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: haircut_rate
+        ai_context:
+          physical_type: decimal
+          nullable: false
+      ai_context:
+        physical_kind: table
+    - name: collateral_margin_report_lines
+      source: reporting.collateral_margin_report_lines
+      primary_key:
+      - report_id
+      - line_number
+      description: Physical output table for the collateral margin report.
+      fields:
+      - name: report_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: report_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: line_number
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: line_number
+        ai_context:
+          physical_type: integer
+          nullable: false
+      - name: account_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: account_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: counterparty_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: counterparty_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: collateral_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: collateral_id
+        ai_context:
+          physical_type: string
+          nullable: false
+      - name: valuation_date
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: valuation_date
+        ai_context:
+          physical_type: date
+          nullable: false
+      - name: eligible_collateral_value
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: eligible_collateral_value
+        ai_context:
+          physical_type: decimal
+          nullable: false
+      ai_context:
+        physical_kind: table
+    relationships:
+    - name: reference_counterparty
+      from: margin_accounts
+      to: counterparties
+      from_columns:
+      - counterparty_id
+      to_columns:
+      - counterparty_id
+    - name: pledge_collateral
+      from: collateral_positions
+      to: margin_accounts
+      from_columns:
+      - account_id
+      to_columns:
+      - account_id
+    - name: value_collateral
+      from: collateral_valuations
+      to: collateral_positions
+      from_columns:
+      - collateral_id
+      to_columns:
+      - collateral_id
+    metrics:
+    - name: eligible_collateral_value
+      description: Market value after haircut for regulatory eligible collateral reporting.
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)
+      ai_context:
+        metric_type: calculated_report_measure
+  concept_mappings:
+  - concept: MarginAccount
+    object_mappings:
+    - referent_mappings:
+      - relationship: account_id
+        expression: margin_accounts.account_id
+    link_mappings:
+    - object_mapping:
+        referent_mappings:
+        - relationship: account_id
+          expression: margin_accounts.account_id
+      children:
+      - relationship: account_id
+        object_mapping:
+          concept: AccountIdentifier
+          expression: margin_accounts.account_id
+      - relationship: reference_counterparty
+        object_mapping:
+          concept: Counterparty
+          referent_mappings:
+          - relationship: counterparty_id
+            expression: margin_accounts.counterparty_id
+      - relationship: base_currency
+        object_mapping:
+          concept: CurrencyCode
+          expression: margin_accounts.base_currency
+      - relationship: account_status
+        object_mapping:
+          concept: StatusCode
+          expression: margin_accounts.account_status
+  - concept: Counterparty
+    object_mappings:
+    - referent_mappings:
+      - relationship: counterparty_id
+        expression: counterparties.counterparty_id
+    link_mappings:
+    - object_mapping:
+        referent_mappings:
+        - relationship: counterparty_id
+          expression: counterparties.counterparty_id
+      children:
+      - relationship: counterparty_id
+        object_mapping:
+          concept: CounterpartyIdentifier
+          expression: counterparties.counterparty_id
+      - relationship: legal_name
+        object_mapping:
+          concept: LegalName
+          expression: counterparties.legal_name
+      - relationship: domicile_country
+        object_mapping:
+          concept: CountryCode
+          expression: counterparties.domicile_country
+      - relationship: regulatory_segment
+        object_mapping:
+          concept: RegulatorySegment
+          expression: counterparties.regulatory_segment
+  - concept: CollateralAsset
+    object_mappings:
+    - referent_mappings:
+      - relationship: collateral_id
+        expression: collateral_positions.collateral_id
+    link_mappings:
+    - object_mapping:
+        referent_mappings:
+        - relationship: collateral_id
+          expression: collateral_positions.collateral_id
+      children:
+      - relationship: collateral_id
+        object_mapping:
+          concept: CollateralIdentifier
+          expression: collateral_positions.collateral_id
+      - relationship: asset_type
+        object_mapping:
+          concept: AssetType
+          expression: collateral_positions.asset_type
+      - relationship: currency
+        object_mapping:
+          concept: CurrencyCode
+          expression: collateral_positions.currency
+      - relationship: issuer_country
+        object_mapping:
+          concept: CountryCode
+          expression: collateral_positions.issuer_country
+  - concept: CollateralValuation
+    object_mappings:
+    - referent_mappings:
+      - relationship: valuation_id
+        expression: collateral_valuations.valuation_id
+    link_mappings:
+    - object_mapping:
+        referent_mappings:
+        - relationship: valuation_id
+          expression: collateral_valuations.valuation_id
+      children:
+      - relationship: valuation_id
+        object_mapping:
+          concept: ValuationIdentifier
+          expression: collateral_valuations.valuation_id
+      - relationship: value_collateral
+        object_mapping:
+          concept: CollateralAsset
+          referent_mappings:
+          - relationship: collateral_id
+            expression: collateral_valuations.collateral_id
+      - relationship: valuation_date
+        object_mapping:
+          concept: Date
+          expression: collateral_valuations.valuation_date
+      - relationship: market_value_amount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: collateral_valuations.market_value_amount
+      - relationship: haircut_rate
+        object_mapping:
+          concept: Rate
+          expression: collateral_valuations.haircut_rate
+reporting_requirements:
+- name: EligibleCollateralRequirement
+  type: RegulatoryRequirement
+  description: Regulator requires daily account-level eligible collateral details.
+  regulator: Example Prudential Authority
+  regulation: MarginRule-2026
+  reporting_frequency: daily
+  reporting_grain:
+    concept: CollateralValuation
+    description: One row per collateral valuation used for eligible collateral reporting.
+  semantic_scope:
+    concepts:
+    - MarginAccount
+    - Counterparty
+    - CollateralAsset
+    - CollateralValuation
+    relationships:
+    - source: MarginAccount
+      relationship: reference_counterparty
+      target: Counterparty
+      mandatory: true
+      purpose: Counterparty ownership is required for supervisory aggregation.
+    - source: MarginAccount
+      relationship: pledge_collateral
+      target: CollateralAsset
+      mandatory: true
+      purpose: Pledged collateral must be linked to the account.
+    - source: CollateralValuation
+      relationship: value_collateral
+      target: CollateralAsset
+      mandatory: true
+      purpose: Valuation must identify the collateral being valued.
+    required_fields:
+    - name: account_identifier
+      concept: MarginAccount
+      relationship: account_id
+      semantic_reference: MarginAccount.account_id
+      value_concept: AccountIdentifier
+      required: true
+      purpose: Account-level reconciliation key.
+    - name: counterparty_identifier
+      concept: Counterparty
+      relationship: counterparty_id
+      semantic_reference: Counterparty.counterparty_id
+      value_concept: CounterpartyIdentifier
+      required: true
+      purpose: Counterparty aggregation key.
+    - name: collateral_identifier
+      concept: CollateralAsset
+      relationship: collateral_id
+      semantic_reference: CollateralAsset.collateral_id
+      value_concept: CollateralIdentifier
+      required: true
+      purpose: Collateral position key.
+    - name: valuation_date
+      concept: CollateralValuation
+      relationship: valuation_date
+      semantic_reference: CollateralValuation.valuation_date
+      value_concept: Date
+      required: true
+      purpose: Reporting valuation date.
+    - name: market_value_amount
+      concept: CollateralValuation
+      relationship: market_value_amount
+      semantic_reference: CollateralValuation.market_value_amount
+      value_concept: MonetaryAmount
+      required: true
+      purpose: Gross market value before haircut.
+    - name: haircut_rate
+      concept: CollateralValuation
+      relationship: haircut_rate
+      semantic_reference: CollateralValuation.haircut_rate
+      value_concept: Rate
+      required: true
+      purpose: Supervisory haircut rate.
+    controls:
+    - name: valuation_date_present
+      target: CollateralValuation.valuation_date
+      rule: Valuation date must be present.
+    - name: haircut_non_negative
+      target: CollateralValuation.haircut_rate
+      rule: Haircut rate must be greater than or equal to zero.
+  calculations:
+  - name: eligible_collateral_value
+    output: eligible_collateral_value
+    inputs:
+    - CollateralValuation.market_value_amount
+    - CollateralValuation.haircut_rate
+    expression: CollateralValuation.market_value_amount * (1 - CollateralValuation.haircut_rate)
+report_implementations:
+- name: DailyEligibleCollateralReport
+  type: ReportImplementation
+  description: Physical implementation of the eligible collateral regulatory report.
+  implements: EligibleCollateralRequirement
+  owner: Collateral Reporting Technology
+  schedule: Daily EOD
+  output_datasets:
+  - dataset: collateral_margin_report_lines
+    role: line
+    fields:
+    - name: account_id
+      requirement_field: account_identifier
+      semantic_reference: MarginAccount.account_id
+      source_field: margin_accounts.account_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: margin_accounts.account_id
+    - name: counterparty_id
+      requirement_field: counterparty_identifier
+      semantic_reference: Counterparty.counterparty_id
+      source_field: counterparties.counterparty_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: counterparties.counterparty_id
+    - name: collateral_id
+      requirement_field: collateral_identifier
+      semantic_reference: CollateralAsset.collateral_id
+      source_field: collateral_positions.collateral_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: collateral_positions.collateral_id
+    - name: valuation_date
+      requirement_field: valuation_date
+      semantic_reference: CollateralValuation.valuation_date
+      source_field: collateral_valuations.valuation_date
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: collateral_valuations.valuation_date
+    - name: eligible_collateral_value
+      requirement_field: eligible_collateral_value
+      semantic_reference: metric.eligible_collateral_value
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)
+  source_fields:
+  - margin_accounts.account_id
+  - margin_accounts.counterparty_id
+  - counterparties.counterparty_id
+  - collateral_positions.collateral_id
+  - collateral_positions.account_id
+  - collateral_valuations.collateral_id
+  - collateral_valuations.valuation_date
+  - collateral_valuations.market_value_amount
+  - collateral_valuations.haircut_rate
+ai_context:
+  model_version: 1.0.0
+  owner: Collateral Regulatory Reporting
+  source_systems:
+  - margin_core
+  - collateral_master
+  - market_risk

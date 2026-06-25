@@ -1,0 +1,402 @@
+[
+  {
+    "id": "concept.AccountData",
+    "type": "base_entity_concept",
+    "text": "concept.AccountData base_entity_concept AccountData Base concept for account-like records with common identifiers and status fields. Base concept for account-like records with common identifiers and status fields."
+  },
+  {
+    "id": "value.AccountData.account_id",
+    "type": "value_type_property",
+    "text": "value.AccountData.account_id value_type_property account_id {AccountData} has account identifier {AccountIdentifier} {AccountData} has account identifier {AccountIdentifier}"
+  },
+  {
+    "id": "value.AccountData.account_status",
+    "type": "value_type_property",
+    "text": "value.AccountData.account_status value_type_property account_status {AccountData} has account status {StatusCode} {AccountData} has account status {StatusCode}"
+  },
+  {
+    "id": "concept.MarginAccount",
+    "type": "entity_type_concept",
+    "text": "concept.MarginAccount entity_type_concept MarginAccount Account used to hold margin obligations and pledged collateral. Account used to hold margin obligations and pledged collateral. margin_accounts margin_accounts.account_id margin_accounts.account_status margin_accounts.base_currency margin_accounts.counterparty_id"
+  },
+  {
+    "id": "concept.Counterparty",
+    "type": "entity_type_concept",
+    "text": "concept.Counterparty entity_type_concept Counterparty Legal entity that owns margin accounts and posts collateral. Legal entity that owns margin accounts and posts collateral. counterparties counterparties.counterparty_id counterparties.domicile_country counterparties.legal_name counterparties.regulatory_segment"
+  },
+  {
+    "id": "concept.CollateralAsset",
+    "type": "entity_type_concept",
+    "text": "concept.CollateralAsset entity_type_concept CollateralAsset Asset pledged as collateral for margin obligations. Asset pledged as collateral for margin obligations. collateral_positions collateral_positions.asset_type collateral_positions.collateral_id collateral_positions.currency collateral_positions.issuer_country"
+  },
+  {
+    "id": "value.MarginAccount.base_currency",
+    "type": "value_type_property",
+    "text": "value.MarginAccount.base_currency value_type_property base_currency {MarginAccount} has base currency {CurrencyCode} {MarginAccount} has base currency {CurrencyCode}"
+  },
+  {
+    "id": "value.Counterparty.counterparty_id",
+    "type": "value_type_property",
+    "text": "value.Counterparty.counterparty_id value_type_property counterparty_id Counterparty.counterparty_id uses CounterpartyIdentifier. Counterparty.counterparty_id uses CounterpartyIdentifier."
+  },
+  {
+    "id": "value.Counterparty.legal_name",
+    "type": "value_type_property",
+    "text": "value.Counterparty.legal_name value_type_property legal_name Counterparty.legal_name uses LegalName. Counterparty.legal_name uses LegalName."
+  },
+  {
+    "id": "value.Counterparty.domicile_country",
+    "type": "value_type_property",
+    "text": "value.Counterparty.domicile_country value_type_property domicile_country Counterparty.domicile_country uses CountryCode. Counterparty.domicile_country uses CountryCode."
+  },
+  {
+    "id": "value.Counterparty.regulatory_segment",
+    "type": "value_type_property",
+    "text": "value.Counterparty.regulatory_segment value_type_property regulatory_segment Counterparty.regulatory_segment uses RegulatorySegment. Counterparty.regulatory_segment uses RegulatorySegment."
+  },
+  {
+    "id": "value.CollateralAsset.collateral_id",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.collateral_id value_type_property collateral_id CollateralAsset.collateral_id uses CollateralIdentifier. CollateralAsset.collateral_id uses CollateralIdentifier."
+  },
+  {
+    "id": "value.CollateralAsset.asset_type",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.asset_type value_type_property asset_type CollateralAsset.asset_type uses AssetType. CollateralAsset.asset_type uses AssetType."
+  },
+  {
+    "id": "value.CollateralAsset.currency",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.currency value_type_property currency CollateralAsset.currency uses CurrencyCode. CollateralAsset.currency uses CurrencyCode."
+  },
+  {
+    "id": "value.CollateralAsset.issuer_country",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.issuer_country value_type_property issuer_country CollateralAsset.issuer_country uses CountryCode. CollateralAsset.issuer_country uses CountryCode."
+  },
+  {
+    "id": "value.CollateralAsset.market_value_amount",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.market_value_amount value_type_property market_value_amount CollateralAsset.market_value_amount uses MonetaryAmount. CollateralAsset.market_value_amount uses MonetaryAmount."
+  },
+  {
+    "id": "concept.CollateralValuation",
+    "type": "entity_type_concept",
+    "text": "concept.CollateralValuation entity_type_concept CollateralValuation Daily valuation record for collateral after market close. Daily valuation record for collateral after market close. collateral_valuations collateral_valuations.collateral_id collateral_valuations.haircut_rate collateral_valuations.market_value_amount collateral_valuations.valuation_date collateral_valuations.valuation_id"
+  },
+  {
+    "id": "value.CollateralValuation.valuation_id",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.valuation_id value_type_property valuation_id CollateralValuation.valuation_id uses ValuationIdentifier. CollateralValuation.valuation_id uses ValuationIdentifier."
+  },
+  {
+    "id": "value.CollateralValuation.valuation_date",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.valuation_date value_type_property valuation_date CollateralValuation.valuation_date uses Date. CollateralValuation.valuation_date uses Date."
+  },
+  {
+    "id": "value.CollateralValuation.market_value_amount",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.market_value_amount value_type_property market_value_amount CollateralValuation.market_value_amount uses MonetaryAmount. CollateralValuation.market_value_amount uses MonetaryAmount."
+  },
+  {
+    "id": "value.CollateralValuation.haircut_rate",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.haircut_rate value_type_property haircut_rate CollateralValuation.haircut_rate uses Rate. CollateralValuation.haircut_rate uses Rate."
+  },
+  {
+    "id": "value.MarginAccount.account_id",
+    "type": "value_type_property",
+    "text": "value.MarginAccount.account_id value_type_property account_id Inherited from AccountData. {AccountData} has account identifier {AccountIdentifier} Inherited from AccountData. {AccountData} has account identifier {AccountIdentifier}"
+  },
+  {
+    "id": "value.MarginAccount.account_status",
+    "type": "value_type_property",
+    "text": "value.MarginAccount.account_status value_type_property account_status Inherited from AccountData. {AccountData} has account status {StatusCode} Inherited from AccountData. {AccountData} has account status {StatusCode}"
+  },
+  {
+    "id": "table.margin_accounts",
+    "type": "physical_table",
+    "text": "table.margin_accounts physical_table margin_accounts Source table for margin accounts. Source table for margin accounts. margin_core.margin_accounts"
+  },
+  {
+    "id": "column.margin_accounts.account_id",
+    "type": "column",
+    "text": "column.margin_accounts.account_id column account_id"
+  },
+  {
+    "id": "column.margin_accounts.counterparty_id",
+    "type": "column",
+    "text": "column.margin_accounts.counterparty_id column counterparty_id"
+  },
+  {
+    "id": "column.margin_accounts.base_currency",
+    "type": "column",
+    "text": "column.margin_accounts.base_currency column base_currency"
+  },
+  {
+    "id": "column.margin_accounts.account_status",
+    "type": "column",
+    "text": "column.margin_accounts.account_status column account_status"
+  },
+  {
+    "id": "table.counterparties",
+    "type": "physical_table",
+    "text": "table.counterparties physical_table counterparties Legal counterparty reference table. Legal counterparty reference table. margin_core.counterparties"
+  },
+  {
+    "id": "column.counterparties.counterparty_id",
+    "type": "column",
+    "text": "column.counterparties.counterparty_id column counterparty_id"
+  },
+  {
+    "id": "column.counterparties.legal_name",
+    "type": "column",
+    "text": "column.counterparties.legal_name column legal_name"
+  },
+  {
+    "id": "column.counterparties.domicile_country",
+    "type": "column",
+    "text": "column.counterparties.domicile_country column domicile_country"
+  },
+  {
+    "id": "column.counterparties.regulatory_segment",
+    "type": "column",
+    "text": "column.counterparties.regulatory_segment column regulatory_segment"
+  },
+  {
+    "id": "table.collateral_positions",
+    "type": "physical_table",
+    "text": "table.collateral_positions physical_table collateral_positions Pledged collateral positions assigned to margin accounts. Pledged collateral positions assigned to margin accounts. collateral_master.collateral_positions"
+  },
+  {
+    "id": "column.collateral_positions.collateral_id",
+    "type": "column",
+    "text": "column.collateral_positions.collateral_id column collateral_id"
+  },
+  {
+    "id": "column.collateral_positions.account_id",
+    "type": "column",
+    "text": "column.collateral_positions.account_id column account_id"
+  },
+  {
+    "id": "column.collateral_positions.asset_type",
+    "type": "column",
+    "text": "column.collateral_positions.asset_type column asset_type"
+  },
+  {
+    "id": "column.collateral_positions.currency",
+    "type": "column",
+    "text": "column.collateral_positions.currency column currency"
+  },
+  {
+    "id": "column.collateral_positions.issuer_country",
+    "type": "column",
+    "text": "column.collateral_positions.issuer_country column issuer_country"
+  },
+  {
+    "id": "table.collateral_valuations",
+    "type": "physical_table",
+    "text": "table.collateral_valuations physical_table collateral_valuations Daily valuation and haircut measures for collateral. Daily valuation and haircut measures for collateral. market_risk.collateral_valuations"
+  },
+  {
+    "id": "column.collateral_valuations.valuation_id",
+    "type": "column",
+    "text": "column.collateral_valuations.valuation_id column valuation_id"
+  },
+  {
+    "id": "column.collateral_valuations.collateral_id",
+    "type": "column",
+    "text": "column.collateral_valuations.collateral_id column collateral_id"
+  },
+  {
+    "id": "column.collateral_valuations.valuation_date",
+    "type": "column",
+    "text": "column.collateral_valuations.valuation_date column valuation_date"
+  },
+  {
+    "id": "column.collateral_valuations.market_value_amount",
+    "type": "column",
+    "text": "column.collateral_valuations.market_value_amount column market_value_amount"
+  },
+  {
+    "id": "column.collateral_valuations.haircut_rate",
+    "type": "column",
+    "text": "column.collateral_valuations.haircut_rate column haircut_rate"
+  },
+  {
+    "id": "table.collateral_margin_report_lines",
+    "type": "physical_table",
+    "text": "table.collateral_margin_report_lines physical_table collateral_margin_report_lines Physical output table for the collateral margin report. Physical output table for the collateral margin report. reporting.collateral_margin_report_lines"
+  },
+  {
+    "id": "column.collateral_margin_report_lines.report_id",
+    "type": "column",
+    "text": "column.collateral_margin_report_lines.report_id column report_id"
+  },
+  {
+    "id": "column.collateral_margin_report_lines.line_number",
+    "type": "column",
+    "text": "column.collateral_margin_report_lines.line_number column line_number"
+  },
+  {
+    "id": "column.collateral_margin_report_lines.account_id",
+    "type": "column",
+    "text": "column.collateral_margin_report_lines.account_id column account_id"
+  },
+  {
+    "id": "column.collateral_margin_report_lines.counterparty_id",
+    "type": "column",
+    "text": "column.collateral_margin_report_lines.counterparty_id column counterparty_id"
+  },
+  {
+    "id": "column.collateral_margin_report_lines.collateral_id",
+    "type": "column",
+    "text": "column.collateral_margin_report_lines.collateral_id column collateral_id"
+  },
+  {
+    "id": "column.collateral_margin_report_lines.valuation_date",
+    "type": "column",
+    "text": "column.collateral_margin_report_lines.valuation_date column valuation_date"
+  },
+  {
+    "id": "column.collateral_margin_report_lines.eligible_collateral_value",
+    "type": "column",
+    "text": "column.collateral_margin_report_lines.eligible_collateral_value column eligible_collateral_value"
+  },
+  {
+    "id": "metric_field.collateral_valuations.eligible_collateral_value",
+    "type": "metric_field",
+    "text": "metric_field.collateral_valuations.eligible_collateral_value metric_field eligible_collateral_value Market value after haircut for regulatory eligible collateral reporting. Market value after haircut for regulatory eligible collateral reporting."
+  },
+  {
+    "id": "requirement.EligibleCollateralRequirement",
+    "type": "regulatory_requirement",
+    "text": "requirement.EligibleCollateralRequirement regulatory_requirement EligibleCollateralRequirement Regulator requires daily account-level eligible collateral details. Regulator requires daily account-level eligible collateral details."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty requirement_semantic_item MarginAccount.reference_counterparty Counterparty ownership is required for supervisory aggregation."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral requirement_semantic_item MarginAccount.pledge_collateral Pledged collateral must be linked to the account."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral requirement_semantic_item CollateralValuation.value_collateral Valuation must identify the collateral being valued."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.account_identifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.account_identifier requirement_semantic_item MarginAccount.account_id Account-level reconciliation key. Account-level reconciliation key."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.counterparty_identifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.counterparty_identifier requirement_semantic_item Counterparty.counterparty_id Counterparty aggregation key. Counterparty aggregation key."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.collateral_identifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.collateral_identifier requirement_semantic_item CollateralAsset.collateral_id Collateral position key. Collateral position key."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.valuation_date",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.valuation_date requirement_semantic_item CollateralValuation.valuation_date Reporting valuation date. Reporting valuation date."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.market_value_amount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.market_value_amount requirement_semantic_item CollateralValuation.market_value_amount Gross market value before haircut. Gross market value before haircut."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.haircut_rate",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.haircut_rate requirement_semantic_item CollateralValuation.haircut_rate Supervisory haircut rate. Supervisory haircut rate."
+  },
+  {
+    "id": "requirement_item.EligibleCollateralRequirement.eligible_collateral_value",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item.EligibleCollateralRequirement.eligible_collateral_value requirement_semantic_item eligible_collateral_value"
+  },
+  {
+    "id": "report_impl.DailyEligibleCollateralReport",
+    "type": "report_implementation",
+    "text": "report_impl.DailyEligibleCollateralReport report_implementation DailyEligibleCollateralReport Physical implementation of the eligible collateral regulatory report. Physical implementation of the eligible collateral regulatory report."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id implementation_field_binding collateral_margin_report_lines.account_id DailyEligibleCollateralReport outputs collateral_margin_report_lines.account_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id implementation_field_binding collateral_margin_report_lines.counterparty_id DailyEligibleCollateralReport outputs collateral_margin_report_lines.counterparty_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id implementation_field_binding collateral_margin_report_lines.collateral_id DailyEligibleCollateralReport outputs collateral_margin_report_lines.collateral_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date implementation_field_binding collateral_margin_report_lines.valuation_date DailyEligibleCollateralReport outputs collateral_margin_report_lines.valuation_date."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value implementation_field_binding collateral_margin_report_lines.eligible_collateral_value DailyEligibleCollateralReport outputs collateral_margin_report_lines.eligible_collateral_value."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.account_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.account_id implementation_field_binding margin_accounts.account_id DailyEligibleCollateralReport reads source field margin_accounts.account_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.counterparty_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.counterparty_id implementation_field_binding margin_accounts.counterparty_id DailyEligibleCollateralReport reads source field margin_accounts.counterparty_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.counterparties.counterparty_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.counterparties.counterparty_id implementation_field_binding counterparties.counterparty_id DailyEligibleCollateralReport reads source field counterparties.counterparty_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.collateral_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.collateral_id implementation_field_binding collateral_positions.collateral_id DailyEligibleCollateralReport reads source field collateral_positions.collateral_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.account_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.account_id implementation_field_binding collateral_positions.account_id DailyEligibleCollateralReport reads source field collateral_positions.account_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.collateral_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.collateral_id implementation_field_binding collateral_valuations.collateral_id DailyEligibleCollateralReport reads source field collateral_valuations.collateral_id."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.valuation_date",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.valuation_date implementation_field_binding collateral_valuations.valuation_date DailyEligibleCollateralReport reads source field collateral_valuations.valuation_date."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.market_value_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.market_value_amount implementation_field_binding collateral_valuations.market_value_amount DailyEligibleCollateralReport reads source field collateral_valuations.market_value_amount."
+  },
+  {
+    "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.haircut_rate",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.haircut_rate implementation_field_binding collateral_valuations.haircut_rate DailyEligibleCollateralReport reads source field collateral_valuations.haircut_rate."
+  }
+]

@@ -1,0 +1,4 @@
+interface:
+  display_name: "OSI KG UI"
+  short_description: "Generate OSI YAML, graph JS, and UI"
+  default_prompt: "Use $osi-kg-ui to turn metadata into an OSI regulatory reporting knowledge graph and render it as an interactive UI."

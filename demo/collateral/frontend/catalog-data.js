@@ -1,0 +1,2347 @@
+window.CATALOG_DATA = {
+  "concept.AccountData": {
+    "id": "concept.AccountData",
+    "type": "base_entity_concept",
+    "name": "AccountData",
+    "description": "Base concept for account-like records with common identifiers and status fields.",
+    "concept": {
+      "name": "AccountData",
+      "type": "EntityType",
+      "description": "Base concept for account-like records with common identifiers and status fields.",
+      "identify_by": [
+        "account_id"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "account_id",
+        "verbalizes": [
+          "{AccountData} has account identifier {AccountIdentifier}"
+        ],
+        "roles": [
+          {
+            "name": "value",
+            "concept": "AccountIdentifier",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "account_status",
+        "verbalizes": [
+          "{AccountData} has account status {StatusCode}"
+        ],
+        "roles": [
+          {
+            "name": "value",
+            "concept": "StatusCode",
+            "multiplicity": "one"
+          }
+        ]
+      }
+    ],
+    "mappings": []
+  },
+  "value.AccountData.account_id": {
+    "id": "value.AccountData.account_id",
+    "type": "value_type_property",
+    "name": "account_id",
+    "description": "{AccountData} has account identifier {AccountIdentifier}",
+    "parent": "concept.AccountData",
+    "data_type": "AccountIdentifier",
+    "value_concept": "AccountIdentifier",
+    "relationship": {
+      "name": "account_id",
+      "verbalizes": [
+        "{AccountData} has account identifier {AccountIdentifier}"
+      ],
+      "roles": [
+        {
+          "name": "value",
+          "concept": "AccountIdentifier",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.AccountData.account_status": {
+    "id": "value.AccountData.account_status",
+    "type": "value_type_property",
+    "name": "account_status",
+    "description": "{AccountData} has account status {StatusCode}",
+    "parent": "concept.AccountData",
+    "data_type": "StatusCode",
+    "value_concept": "StatusCode",
+    "relationship": {
+      "name": "account_status",
+      "verbalizes": [
+        "{AccountData} has account status {StatusCode}"
+      ],
+      "roles": [
+        {
+          "name": "value",
+          "concept": "StatusCode",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "concept.MarginAccount": {
+    "id": "concept.MarginAccount",
+    "type": "entity_type_concept",
+    "name": "MarginAccount",
+    "description": "Account used to hold margin obligations and pledged collateral.",
+    "concept": {
+      "name": "MarginAccount",
+      "type": "EntityType",
+      "description": "Account used to hold margin obligations and pledged collateral.",
+      "extends": [
+        "AccountData"
+      ],
+      "identify_by": [
+        "account_id"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "reference_counterparty",
+        "verbalizes": [
+          "{MarginAccount} is owned by {Counterparty}"
+        ],
+        "roles": [
+          {
+            "name": "owner",
+            "concept": "Counterparty",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "pledge_collateral",
+        "verbalizes": [
+          "{MarginAccount} pledges {CollateralAsset}"
+        ],
+        "roles": [
+          {
+            "name": "pledged_asset",
+            "concept": "CollateralAsset",
+            "multiplicity": "many"
+          }
+        ]
+      },
+      {
+        "name": "base_currency",
+        "verbalizes": [
+          "{MarginAccount} has base currency {CurrencyCode}"
+        ],
+        "roles": [
+          {
+            "name": "value",
+            "concept": "CurrencyCode",
+            "multiplicity": "one"
+          }
+        ]
+      }
+    ],
+    "mappings": [
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "margin_accounts.account_id"
+        ],
+        "expressions": [
+          "margin_accounts.account_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "margin_accounts.account_id"
+        ],
+        "fields": [
+          "margin_accounts.account_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "account_id",
+        "target_concept": "AccountIdentifier",
+        "expressions": [
+          "margin_accounts.account_id"
+        ],
+        "fields": [
+          "margin_accounts.account_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "reference_counterparty",
+        "target_concept": "Counterparty",
+        "expressions": [
+          "margin_accounts.counterparty_id"
+        ],
+        "fields": [
+          "margin_accounts.counterparty_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "base_currency",
+        "target_concept": "CurrencyCode",
+        "expressions": [
+          "margin_accounts.base_currency"
+        ],
+        "fields": [
+          "margin_accounts.base_currency"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "account_status",
+        "target_concept": "StatusCode",
+        "expressions": [
+          "margin_accounts.account_status"
+        ],
+        "fields": [
+          "margin_accounts.account_status"
+        ]
+      }
+    ],
+    "mapped_tables": [
+      "margin_accounts"
+    ],
+    "mapped_fields": [
+      "margin_accounts.account_id",
+      "margin_accounts.account_status",
+      "margin_accounts.base_currency",
+      "margin_accounts.counterparty_id"
+    ]
+  },
+  "value.MarginAccount.base_currency": {
+    "id": "value.MarginAccount.base_currency",
+    "type": "value_type_property",
+    "name": "base_currency",
+    "description": "{MarginAccount} has base currency {CurrencyCode}",
+    "parent": "concept.MarginAccount",
+    "data_type": "CurrencyCode",
+    "value_concept": "CurrencyCode",
+    "relationship": {
+      "name": "base_currency",
+      "verbalizes": [
+        "{MarginAccount} has base currency {CurrencyCode}"
+      ],
+      "roles": [
+        {
+          "name": "value",
+          "concept": "CurrencyCode",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "concept.Counterparty": {
+    "id": "concept.Counterparty",
+    "type": "entity_type_concept",
+    "name": "Counterparty",
+    "description": "Legal entity that owns margin accounts and posts collateral.",
+    "concept": {
+      "name": "Counterparty",
+      "type": "EntityType",
+      "description": "Legal entity that owns margin accounts and posts collateral.",
+      "identify_by": [
+        "counterparty_id"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "counterparty_id",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "CounterpartyIdentifier",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "legal_name",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "LegalName",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "domicile_country",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "CountryCode",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "regulatory_segment",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "RegulatorySegment",
+            "multiplicity": "one"
+          }
+        ]
+      }
+    ],
+    "mappings": [
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "counterparties.counterparty_id"
+        ],
+        "expressions": [
+          "counterparties.counterparty_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "counterparties.counterparty_id"
+        ],
+        "fields": [
+          "counterparties.counterparty_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "counterparty_id",
+        "target_concept": "CounterpartyIdentifier",
+        "expressions": [
+          "counterparties.counterparty_id"
+        ],
+        "fields": [
+          "counterparties.counterparty_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "legal_name",
+        "target_concept": "LegalName",
+        "expressions": [
+          "counterparties.legal_name"
+        ],
+        "fields": [
+          "counterparties.legal_name"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "domicile_country",
+        "target_concept": "CountryCode",
+        "expressions": [
+          "counterparties.domicile_country"
+        ],
+        "fields": [
+          "counterparties.domicile_country"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "regulatory_segment",
+        "target_concept": "RegulatorySegment",
+        "expressions": [
+          "counterparties.regulatory_segment"
+        ],
+        "fields": [
+          "counterparties.regulatory_segment"
+        ]
+      }
+    ],
+    "mapped_tables": [
+      "counterparties"
+    ],
+    "mapped_fields": [
+      "counterparties.counterparty_id",
+      "counterparties.domicile_country",
+      "counterparties.legal_name",
+      "counterparties.regulatory_segment"
+    ]
+  },
+  "value.Counterparty.counterparty_id": {
+    "id": "value.Counterparty.counterparty_id",
+    "type": "value_type_property",
+    "name": "counterparty_id",
+    "description": "Counterparty.counterparty_id uses CounterpartyIdentifier.",
+    "parent": "concept.Counterparty",
+    "data_type": "CounterpartyIdentifier",
+    "value_concept": "CounterpartyIdentifier",
+    "relationship": {
+      "name": "counterparty_id",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "CounterpartyIdentifier",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Counterparty.legal_name": {
+    "id": "value.Counterparty.legal_name",
+    "type": "value_type_property",
+    "name": "legal_name",
+    "description": "Counterparty.legal_name uses LegalName.",
+    "parent": "concept.Counterparty",
+    "data_type": "LegalName",
+    "value_concept": "LegalName",
+    "relationship": {
+      "name": "legal_name",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "LegalName",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Counterparty.domicile_country": {
+    "id": "value.Counterparty.domicile_country",
+    "type": "value_type_property",
+    "name": "domicile_country",
+    "description": "Counterparty.domicile_country uses CountryCode.",
+    "parent": "concept.Counterparty",
+    "data_type": "CountryCode",
+    "value_concept": "CountryCode",
+    "relationship": {
+      "name": "domicile_country",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "CountryCode",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Counterparty.regulatory_segment": {
+    "id": "value.Counterparty.regulatory_segment",
+    "type": "value_type_property",
+    "name": "regulatory_segment",
+    "description": "Counterparty.regulatory_segment uses RegulatorySegment.",
+    "parent": "concept.Counterparty",
+    "data_type": "RegulatorySegment",
+    "value_concept": "RegulatorySegment",
+    "relationship": {
+      "name": "regulatory_segment",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "RegulatorySegment",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "concept.CollateralAsset": {
+    "id": "concept.CollateralAsset",
+    "type": "entity_type_concept",
+    "name": "CollateralAsset",
+    "description": "Asset pledged as collateral for margin obligations.",
+    "concept": {
+      "name": "CollateralAsset",
+      "type": "EntityType",
+      "description": "Asset pledged as collateral for margin obligations.",
+      "identify_by": [
+        "collateral_id"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "collateral_id",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "CollateralIdentifier",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "asset_type",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "AssetType",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "currency",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "CurrencyCode",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "issuer_country",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "CountryCode",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "market_value_amount",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "MonetaryAmount",
+            "multiplicity": "one"
+          }
+        ]
+      }
+    ],
+    "mappings": [
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "collateral_positions.collateral_id"
+        ],
+        "expressions": [
+          "collateral_positions.collateral_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "collateral_positions.collateral_id"
+        ],
+        "fields": [
+          "collateral_positions.collateral_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "collateral_id",
+        "target_concept": "CollateralIdentifier",
+        "expressions": [
+          "collateral_positions.collateral_id"
+        ],
+        "fields": [
+          "collateral_positions.collateral_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "asset_type",
+        "target_concept": "AssetType",
+        "expressions": [
+          "collateral_positions.asset_type"
+        ],
+        "fields": [
+          "collateral_positions.asset_type"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "currency",
+        "target_concept": "CurrencyCode",
+        "expressions": [
+          "collateral_positions.currency"
+        ],
+        "fields": [
+          "collateral_positions.currency"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "issuer_country",
+        "target_concept": "CountryCode",
+        "expressions": [
+          "collateral_positions.issuer_country"
+        ],
+        "fields": [
+          "collateral_positions.issuer_country"
+        ]
+      }
+    ],
+    "mapped_tables": [
+      "collateral_positions"
+    ],
+    "mapped_fields": [
+      "collateral_positions.asset_type",
+      "collateral_positions.collateral_id",
+      "collateral_positions.currency",
+      "collateral_positions.issuer_country"
+    ]
+  },
+  "value.CollateralAsset.collateral_id": {
+    "id": "value.CollateralAsset.collateral_id",
+    "type": "value_type_property",
+    "name": "collateral_id",
+    "description": "CollateralAsset.collateral_id uses CollateralIdentifier.",
+    "parent": "concept.CollateralAsset",
+    "data_type": "CollateralIdentifier",
+    "value_concept": "CollateralIdentifier",
+    "relationship": {
+      "name": "collateral_id",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "CollateralIdentifier",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.CollateralAsset.asset_type": {
+    "id": "value.CollateralAsset.asset_type",
+    "type": "value_type_property",
+    "name": "asset_type",
+    "description": "CollateralAsset.asset_type uses AssetType.",
+    "parent": "concept.CollateralAsset",
+    "data_type": "AssetType",
+    "value_concept": "AssetType",
+    "relationship": {
+      "name": "asset_type",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "AssetType",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.CollateralAsset.currency": {
+    "id": "value.CollateralAsset.currency",
+    "type": "value_type_property",
+    "name": "currency",
+    "description": "CollateralAsset.currency uses CurrencyCode.",
+    "parent": "concept.CollateralAsset",
+    "data_type": "CurrencyCode",
+    "value_concept": "CurrencyCode",
+    "relationship": {
+      "name": "currency",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "CurrencyCode",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.CollateralAsset.issuer_country": {
+    "id": "value.CollateralAsset.issuer_country",
+    "type": "value_type_property",
+    "name": "issuer_country",
+    "description": "CollateralAsset.issuer_country uses CountryCode.",
+    "parent": "concept.CollateralAsset",
+    "data_type": "CountryCode",
+    "value_concept": "CountryCode",
+    "relationship": {
+      "name": "issuer_country",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "CountryCode",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.CollateralAsset.market_value_amount": {
+    "id": "value.CollateralAsset.market_value_amount",
+    "type": "value_type_property",
+    "name": "market_value_amount",
+    "description": "CollateralAsset.market_value_amount uses MonetaryAmount.",
+    "parent": "concept.CollateralAsset",
+    "data_type": "MonetaryAmount",
+    "value_concept": "MonetaryAmount",
+    "relationship": {
+      "name": "market_value_amount",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "MonetaryAmount",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "concept.CollateralValuation": {
+    "id": "concept.CollateralValuation",
+    "type": "entity_type_concept",
+    "name": "CollateralValuation",
+    "description": "Daily valuation record for collateral after market close.",
+    "concept": {
+      "name": "CollateralValuation",
+      "type": "EntityType",
+      "description": "Daily valuation record for collateral after market close.",
+      "identify_by": [
+        "valuation_id"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "valuation_id",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "ValuationIdentifier",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "value_collateral",
+        "verbalizes": [
+          "{CollateralValuation} values {CollateralAsset}"
+        ],
+        "roles": [
+          {
+            "name": "collateral",
+            "concept": "CollateralAsset",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "valuation_date",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "Date",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "market_value_amount",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "MonetaryAmount",
+            "multiplicity": "one"
+          }
+        ]
+      },
+      {
+        "name": "haircut_rate",
+        "roles": [
+          {
+            "name": "value",
+            "concept": "Rate",
+            "multiplicity": "one"
+          }
+        ]
+      }
+    ],
+    "mappings": [
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "collateral_valuations.valuation_id"
+        ],
+        "expressions": [
+          "collateral_valuations.valuation_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "collateral_valuations.valuation_id"
+        ],
+        "fields": [
+          "collateral_valuations.valuation_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "valuation_id",
+        "target_concept": "ValuationIdentifier",
+        "expressions": [
+          "collateral_valuations.valuation_id"
+        ],
+        "fields": [
+          "collateral_valuations.valuation_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "value_collateral",
+        "target_concept": "CollateralAsset",
+        "expressions": [
+          "collateral_valuations.collateral_id"
+        ],
+        "fields": [
+          "collateral_valuations.collateral_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "valuation_date",
+        "target_concept": "Date",
+        "expressions": [
+          "collateral_valuations.valuation_date"
+        ],
+        "fields": [
+          "collateral_valuations.valuation_date"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "market_value_amount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "collateral_valuations.market_value_amount"
+        ],
+        "fields": [
+          "collateral_valuations.market_value_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "haircut_rate",
+        "target_concept": "Rate",
+        "expressions": [
+          "collateral_valuations.haircut_rate"
+        ],
+        "fields": [
+          "collateral_valuations.haircut_rate"
+        ]
+      }
+    ],
+    "mapped_tables": [
+      "collateral_valuations"
+    ],
+    "mapped_fields": [
+      "collateral_valuations.collateral_id",
+      "collateral_valuations.haircut_rate",
+      "collateral_valuations.market_value_amount",
+      "collateral_valuations.valuation_date",
+      "collateral_valuations.valuation_id"
+    ]
+  },
+  "value.CollateralValuation.valuation_id": {
+    "id": "value.CollateralValuation.valuation_id",
+    "type": "value_type_property",
+    "name": "valuation_id",
+    "description": "CollateralValuation.valuation_id uses ValuationIdentifier.",
+    "parent": "concept.CollateralValuation",
+    "data_type": "ValuationIdentifier",
+    "value_concept": "ValuationIdentifier",
+    "relationship": {
+      "name": "valuation_id",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "ValuationIdentifier",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.CollateralValuation.valuation_date": {
+    "id": "value.CollateralValuation.valuation_date",
+    "type": "value_type_property",
+    "name": "valuation_date",
+    "description": "CollateralValuation.valuation_date uses Date.",
+    "parent": "concept.CollateralValuation",
+    "data_type": "Date",
+    "value_concept": "Date",
+    "relationship": {
+      "name": "valuation_date",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "Date",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.CollateralValuation.market_value_amount": {
+    "id": "value.CollateralValuation.market_value_amount",
+    "type": "value_type_property",
+    "name": "market_value_amount",
+    "description": "CollateralValuation.market_value_amount uses MonetaryAmount.",
+    "parent": "concept.CollateralValuation",
+    "data_type": "MonetaryAmount",
+    "value_concept": "MonetaryAmount",
+    "relationship": {
+      "name": "market_value_amount",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "MonetaryAmount",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.CollateralValuation.haircut_rate": {
+    "id": "value.CollateralValuation.haircut_rate",
+    "type": "value_type_property",
+    "name": "haircut_rate",
+    "description": "CollateralValuation.haircut_rate uses Rate.",
+    "parent": "concept.CollateralValuation",
+    "data_type": "Rate",
+    "value_concept": "Rate",
+    "relationship": {
+      "name": "haircut_rate",
+      "roles": [
+        {
+          "name": "value",
+          "concept": "Rate",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.MarginAccount.account_id": {
+    "id": "value.MarginAccount.account_id",
+    "type": "value_type_property",
+    "name": "account_id",
+    "description": "Inherited from AccountData. {AccountData} has account identifier {AccountIdentifier}",
+    "parent": "concept.MarginAccount",
+    "data_type": "AccountIdentifier",
+    "value_concept": "AccountIdentifier",
+    "relationship": {
+      "name": "account_id",
+      "verbalizes": [
+        "{AccountData} has account identifier {AccountIdentifier}"
+      ],
+      "roles": [
+        {
+          "name": "value",
+          "concept": "AccountIdentifier",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": true,
+    "inherited_from": "AccountData"
+  },
+  "value.MarginAccount.account_status": {
+    "id": "value.MarginAccount.account_status",
+    "type": "value_type_property",
+    "name": "account_status",
+    "description": "Inherited from AccountData. {AccountData} has account status {StatusCode}",
+    "parent": "concept.MarginAccount",
+    "data_type": "StatusCode",
+    "value_concept": "StatusCode",
+    "relationship": {
+      "name": "account_status",
+      "verbalizes": [
+        "{AccountData} has account status {StatusCode}"
+      ],
+      "roles": [
+        {
+          "name": "value",
+          "concept": "StatusCode",
+          "multiplicity": "one"
+        }
+      ]
+    },
+    "inherited": true,
+    "inherited_from": "AccountData"
+  },
+  "table.margin_accounts": {
+    "id": "table.margin_accounts",
+    "type": "physical_table",
+    "name": "margin_accounts",
+    "description": "Source table for margin accounts.",
+    "source": "margin_core.margin_accounts",
+    "primary_key": [
+      "account_id"
+    ],
+    "fields": [
+      {
+        "name": "account_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "account_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "counterparty_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "counterparty_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "base_currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "base_currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "account_status",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "account_status"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      }
+    ],
+    "columns": [
+      {
+        "name": "account_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "account_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "counterparty_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "counterparty_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "base_currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "base_currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "account_status",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "account_status"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      }
+    ]
+  },
+  "table.counterparties": {
+    "id": "table.counterparties",
+    "type": "physical_table",
+    "name": "counterparties",
+    "description": "Legal counterparty reference table.",
+    "source": "margin_core.counterparties",
+    "primary_key": [
+      "counterparty_id"
+    ],
+    "fields": [
+      {
+        "name": "counterparty_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "counterparty_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "legal_name",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "legal_name"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "domicile_country",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "domicile_country"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "regulatory_segment",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "regulatory_segment"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": true
+        }
+      }
+    ],
+    "columns": [
+      {
+        "name": "counterparty_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "counterparty_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "legal_name",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "legal_name"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "domicile_country",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "domicile_country"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "regulatory_segment",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "regulatory_segment"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": true
+        }
+      }
+    ]
+  },
+  "table.collateral_positions": {
+    "id": "table.collateral_positions",
+    "type": "physical_table",
+    "name": "collateral_positions",
+    "description": "Pledged collateral positions assigned to margin accounts.",
+    "source": "collateral_master.collateral_positions",
+    "primary_key": [
+      "collateral_id"
+    ],
+    "fields": [
+      {
+        "name": "collateral_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "collateral_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "account_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "account_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "asset_type",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "asset_type"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "issuer_country",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "issuer_country"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": true
+        }
+      }
+    ],
+    "columns": [
+      {
+        "name": "collateral_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "collateral_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "account_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "account_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "asset_type",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "asset_type"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "issuer_country",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "issuer_country"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": true
+        }
+      }
+    ]
+  },
+  "table.collateral_valuations": {
+    "id": "table.collateral_valuations",
+    "type": "physical_table",
+    "name": "collateral_valuations",
+    "description": "Daily valuation and haircut measures for collateral.",
+    "source": "market_risk.collateral_valuations",
+    "primary_key": [
+      "valuation_id"
+    ],
+    "fields": [
+      {
+        "name": "valuation_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "valuation_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "collateral_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "collateral_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "valuation_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "valuation_date"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        }
+      },
+      {
+        "name": "market_value_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "market_value_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        }
+      },
+      {
+        "name": "haircut_rate",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "haircut_rate"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        }
+      }
+    ],
+    "columns": [
+      {
+        "name": "valuation_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "valuation_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "collateral_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "collateral_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "valuation_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "valuation_date"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        }
+      },
+      {
+        "name": "market_value_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "market_value_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        }
+      },
+      {
+        "name": "haircut_rate",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "haircut_rate"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        }
+      }
+    ]
+  },
+  "table.collateral_margin_report_lines": {
+    "id": "table.collateral_margin_report_lines",
+    "type": "physical_table",
+    "name": "collateral_margin_report_lines",
+    "description": "Physical output table for the collateral margin report.",
+    "source": "reporting.collateral_margin_report_lines",
+    "primary_key": [
+      "report_id",
+      "line_number"
+    ],
+    "fields": [
+      {
+        "name": "report_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "report_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "line_number",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "line_number"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "integer",
+          "nullable": false
+        }
+      },
+      {
+        "name": "account_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "account_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "counterparty_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "counterparty_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "collateral_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "collateral_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "valuation_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "valuation_date"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        }
+      },
+      {
+        "name": "eligible_collateral_value",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "eligible_collateral_value"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        }
+      }
+    ],
+    "columns": [
+      {
+        "name": "report_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "report_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "line_number",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "line_number"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "integer",
+          "nullable": false
+        }
+      },
+      {
+        "name": "account_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "account_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "counterparty_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "counterparty_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "collateral_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "collateral_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        }
+      },
+      {
+        "name": "valuation_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "valuation_date"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        }
+      },
+      {
+        "name": "eligible_collateral_value",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "eligible_collateral_value"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        }
+      }
+    ]
+  },
+  "metric_field.collateral_valuations.eligible_collateral_value": {
+    "id": "metric_field.collateral_valuations.eligible_collateral_value",
+    "type": "metric_field",
+    "name": "eligible_collateral_value",
+    "description": "Market value after haircut for regulatory eligible collateral reporting.",
+    "parent": "table.collateral_valuations",
+    "metric": {
+      "name": "eligible_collateral_value",
+      "description": "Market value after haircut for regulatory eligible collateral reporting.",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
+          }
+        ]
+      },
+      "ai_context": {
+        "metric_type": "calculated_report_measure"
+      }
+    }
+  },
+  "requirement.EligibleCollateralRequirement": {
+    "id": "requirement.EligibleCollateralRequirement",
+    "type": "regulatory_requirement",
+    "name": "EligibleCollateralRequirement",
+    "description": "Regulator requires daily account-level eligible collateral details.",
+    "regulator": "Example Prudential Authority",
+    "regulation": "MarginRule-2026",
+    "reporting_frequency": "daily",
+    "reporting_grain": {
+      "concept": "CollateralValuation",
+      "description": "One row per collateral valuation used for eligible collateral reporting."
+    },
+    "semantic_scope": {
+      "concepts": [
+        "MarginAccount",
+        "Counterparty",
+        "CollateralAsset",
+        "CollateralValuation"
+      ],
+      "relationships": [
+        {
+          "source": "MarginAccount",
+          "relationship": "reference_counterparty",
+          "target": "Counterparty",
+          "mandatory": true,
+          "purpose": "Counterparty ownership is required for supervisory aggregation."
+        },
+        {
+          "source": "MarginAccount",
+          "relationship": "pledge_collateral",
+          "target": "CollateralAsset",
+          "mandatory": true,
+          "purpose": "Pledged collateral must be linked to the account."
+        },
+        {
+          "source": "CollateralValuation",
+          "relationship": "value_collateral",
+          "target": "CollateralAsset",
+          "mandatory": true,
+          "purpose": "Valuation must identify the collateral being valued."
+        }
+      ],
+      "required_fields": [
+        {
+          "name": "account_identifier",
+          "concept": "MarginAccount",
+          "relationship": "account_id",
+          "semantic_reference": "MarginAccount.account_id",
+          "value_concept": "AccountIdentifier",
+          "required": true,
+          "purpose": "Account-level reconciliation key."
+        },
+        {
+          "name": "counterparty_identifier",
+          "concept": "Counterparty",
+          "relationship": "counterparty_id",
+          "semantic_reference": "Counterparty.counterparty_id",
+          "value_concept": "CounterpartyIdentifier",
+          "required": true,
+          "purpose": "Counterparty aggregation key."
+        },
+        {
+          "name": "collateral_identifier",
+          "concept": "CollateralAsset",
+          "relationship": "collateral_id",
+          "semantic_reference": "CollateralAsset.collateral_id",
+          "value_concept": "CollateralIdentifier",
+          "required": true,
+          "purpose": "Collateral position key."
+        },
+        {
+          "name": "valuation_date",
+          "concept": "CollateralValuation",
+          "relationship": "valuation_date",
+          "semantic_reference": "CollateralValuation.valuation_date",
+          "value_concept": "Date",
+          "required": true,
+          "purpose": "Reporting valuation date."
+        },
+        {
+          "name": "market_value_amount",
+          "concept": "CollateralValuation",
+          "relationship": "market_value_amount",
+          "semantic_reference": "CollateralValuation.market_value_amount",
+          "value_concept": "MonetaryAmount",
+          "required": true,
+          "purpose": "Gross market value before haircut."
+        },
+        {
+          "name": "haircut_rate",
+          "concept": "CollateralValuation",
+          "relationship": "haircut_rate",
+          "semantic_reference": "CollateralValuation.haircut_rate",
+          "value_concept": "Rate",
+          "required": true,
+          "purpose": "Supervisory haircut rate."
+        }
+      ],
+      "controls": [
+        {
+          "name": "valuation_date_present",
+          "target": "CollateralValuation.valuation_date",
+          "rule": "Valuation date must be present."
+        },
+        {
+          "name": "haircut_non_negative",
+          "target": "CollateralValuation.haircut_rate",
+          "rule": "Haircut rate must be greater than or equal to zero."
+        }
+      ]
+    },
+    "required_fields": [
+      {
+        "name": "account_identifier",
+        "concept": "MarginAccount",
+        "relationship": "account_id",
+        "semantic_reference": "MarginAccount.account_id",
+        "value_concept": "AccountIdentifier",
+        "required": true,
+        "purpose": "Account-level reconciliation key."
+      },
+      {
+        "name": "counterparty_identifier",
+        "concept": "Counterparty",
+        "relationship": "counterparty_id",
+        "semantic_reference": "Counterparty.counterparty_id",
+        "value_concept": "CounterpartyIdentifier",
+        "required": true,
+        "purpose": "Counterparty aggregation key."
+      },
+      {
+        "name": "collateral_identifier",
+        "concept": "CollateralAsset",
+        "relationship": "collateral_id",
+        "semantic_reference": "CollateralAsset.collateral_id",
+        "value_concept": "CollateralIdentifier",
+        "required": true,
+        "purpose": "Collateral position key."
+      },
+      {
+        "name": "valuation_date",
+        "concept": "CollateralValuation",
+        "relationship": "valuation_date",
+        "semantic_reference": "CollateralValuation.valuation_date",
+        "value_concept": "Date",
+        "required": true,
+        "purpose": "Reporting valuation date."
+      },
+      {
+        "name": "market_value_amount",
+        "concept": "CollateralValuation",
+        "relationship": "market_value_amount",
+        "semantic_reference": "CollateralValuation.market_value_amount",
+        "value_concept": "MonetaryAmount",
+        "required": true,
+        "purpose": "Gross market value before haircut."
+      },
+      {
+        "name": "haircut_rate",
+        "concept": "CollateralValuation",
+        "relationship": "haircut_rate",
+        "semantic_reference": "CollateralValuation.haircut_rate",
+        "value_concept": "Rate",
+        "required": true,
+        "purpose": "Supervisory haircut rate."
+      }
+    ],
+    "calculations": [
+      {
+        "name": "eligible_collateral_value",
+        "output": "eligible_collateral_value",
+        "inputs": [
+          "CollateralValuation.market_value_amount",
+          "CollateralValuation.haircut_rate"
+        ],
+        "expression": "CollateralValuation.market_value_amount * (1 - CollateralValuation.haircut_rate)"
+      }
+    ],
+    "controls": []
+  },
+  "requirement_item.EligibleCollateralRequirement.account_identifier": {
+    "id": "requirement_item.EligibleCollateralRequirement.account_identifier",
+    "type": "requirement_semantic_item",
+    "name": "account_identifier",
+    "description": "Account-level reconciliation key.",
+    "parent": "requirement.EligibleCollateralRequirement",
+    "semantic_reference": "MarginAccount.account_id",
+    "required_field": {
+      "name": "account_identifier",
+      "concept": "MarginAccount",
+      "relationship": "account_id",
+      "semantic_reference": "MarginAccount.account_id",
+      "value_concept": "AccountIdentifier",
+      "required": true,
+      "purpose": "Account-level reconciliation key."
+    }
+  },
+  "requirement_item.EligibleCollateralRequirement.counterparty_identifier": {
+    "id": "requirement_item.EligibleCollateralRequirement.counterparty_identifier",
+    "type": "requirement_semantic_item",
+    "name": "counterparty_identifier",
+    "description": "Counterparty aggregation key.",
+    "parent": "requirement.EligibleCollateralRequirement",
+    "semantic_reference": "Counterparty.counterparty_id",
+    "required_field": {
+      "name": "counterparty_identifier",
+      "concept": "Counterparty",
+      "relationship": "counterparty_id",
+      "semantic_reference": "Counterparty.counterparty_id",
+      "value_concept": "CounterpartyIdentifier",
+      "required": true,
+      "purpose": "Counterparty aggregation key."
+    }
+  },
+  "requirement_item.EligibleCollateralRequirement.collateral_identifier": {
+    "id": "requirement_item.EligibleCollateralRequirement.collateral_identifier",
+    "type": "requirement_semantic_item",
+    "name": "collateral_identifier",
+    "description": "Collateral position key.",
+    "parent": "requirement.EligibleCollateralRequirement",
+    "semantic_reference": "CollateralAsset.collateral_id",
+    "required_field": {
+      "name": "collateral_identifier",
+      "concept": "CollateralAsset",
+      "relationship": "collateral_id",
+      "semantic_reference": "CollateralAsset.collateral_id",
+      "value_concept": "CollateralIdentifier",
+      "required": true,
+      "purpose": "Collateral position key."
+    }
+  },
+  "requirement_item.EligibleCollateralRequirement.valuation_date": {
+    "id": "requirement_item.EligibleCollateralRequirement.valuation_date",
+    "type": "requirement_semantic_item",
+    "name": "valuation_date",
+    "description": "Reporting valuation date.",
+    "parent": "requirement.EligibleCollateralRequirement",
+    "semantic_reference": "CollateralValuation.valuation_date",
+    "required_field": {
+      "name": "valuation_date",
+      "concept": "CollateralValuation",
+      "relationship": "valuation_date",
+      "semantic_reference": "CollateralValuation.valuation_date",
+      "value_concept": "Date",
+      "required": true,
+      "purpose": "Reporting valuation date."
+    }
+  },
+  "requirement_item.EligibleCollateralRequirement.market_value_amount": {
+    "id": "requirement_item.EligibleCollateralRequirement.market_value_amount",
+    "type": "requirement_semantic_item",
+    "name": "market_value_amount",
+    "description": "Gross market value before haircut.",
+    "parent": "requirement.EligibleCollateralRequirement",
+    "semantic_reference": "CollateralValuation.market_value_amount",
+    "required_field": {
+      "name": "market_value_amount",
+      "concept": "CollateralValuation",
+      "relationship": "market_value_amount",
+      "semantic_reference": "CollateralValuation.market_value_amount",
+      "value_concept": "MonetaryAmount",
+      "required": true,
+      "purpose": "Gross market value before haircut."
+    }
+  },
+  "requirement_item.EligibleCollateralRequirement.haircut_rate": {
+    "id": "requirement_item.EligibleCollateralRequirement.haircut_rate",
+    "type": "requirement_semantic_item",
+    "name": "haircut_rate",
+    "description": "Supervisory haircut rate.",
+    "parent": "requirement.EligibleCollateralRequirement",
+    "semantic_reference": "CollateralValuation.haircut_rate",
+    "required_field": {
+      "name": "haircut_rate",
+      "concept": "CollateralValuation",
+      "relationship": "haircut_rate",
+      "semantic_reference": "CollateralValuation.haircut_rate",
+      "value_concept": "Rate",
+      "required": true,
+      "purpose": "Supervisory haircut rate."
+    }
+  },
+  "report_impl.DailyEligibleCollateralReport": {
+    "id": "report_impl.DailyEligibleCollateralReport",
+    "type": "report_implementation",
+    "name": "DailyEligibleCollateralReport",
+    "description": "Physical implementation of the eligible collateral regulatory report.",
+    "owner": "Collateral Reporting Technology",
+    "schedule": "Daily EOD",
+    "implements": "EligibleCollateralRequirement",
+    "output_datasets": [
+      {
+        "dataset": "collateral_margin_report_lines",
+        "role": "line",
+        "fields": [
+          {
+            "name": "account_id",
+            "requirement_field": "account_identifier",
+            "semantic_reference": "MarginAccount.account_id",
+            "source_field": "margin_accounts.account_id",
+            "expression": {
+              "dialects": [
+                {
+                  "dialect": "ANSI_SQL",
+                  "expression": "margin_accounts.account_id"
+                }
+              ]
+            }
+          },
+          {
+            "name": "counterparty_id",
+            "requirement_field": "counterparty_identifier",
+            "semantic_reference": "Counterparty.counterparty_id",
+            "source_field": "counterparties.counterparty_id",
+            "expression": {
+              "dialects": [
+                {
+                  "dialect": "ANSI_SQL",
+                  "expression": "counterparties.counterparty_id"
+                }
+              ]
+            }
+          },
+          {
+            "name": "collateral_id",
+            "requirement_field": "collateral_identifier",
+            "semantic_reference": "CollateralAsset.collateral_id",
+            "source_field": "collateral_positions.collateral_id",
+            "expression": {
+              "dialects": [
+                {
+                  "dialect": "ANSI_SQL",
+                  "expression": "collateral_positions.collateral_id"
+                }
+              ]
+            }
+          },
+          {
+            "name": "valuation_date",
+            "requirement_field": "valuation_date",
+            "semantic_reference": "CollateralValuation.valuation_date",
+            "source_field": "collateral_valuations.valuation_date",
+            "expression": {
+              "dialects": [
+                {
+                  "dialect": "ANSI_SQL",
+                  "expression": "collateral_valuations.valuation_date"
+                }
+              ]
+            }
+          },
+          {
+            "name": "eligible_collateral_value",
+            "requirement_field": "eligible_collateral_value",
+            "semantic_reference": "metric.eligible_collateral_value",
+            "expression": {
+              "dialects": [
+                {
+                  "dialect": "ANSI_SQL",
+                  "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "source_fields": [
+      "margin_accounts.account_id",
+      "margin_accounts.counterparty_id",
+      "counterparties.counterparty_id",
+      "collateral_positions.collateral_id",
+      "collateral_positions.account_id",
+      "collateral_valuations.collateral_id",
+      "collateral_valuations.valuation_date",
+      "collateral_valuations.market_value_amount",
+      "collateral_valuations.haircut_rate"
+    ]
+  },
+  "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id": {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id",
+    "type": "implementation_field_binding",
+    "name": "collateral_margin_report_lines.account_id",
+    "description": "",
+    "parent": "report_impl.DailyEligibleCollateralReport",
+    "implementation_field": {
+      "name": "account_id",
+      "requirement_field": "account_identifier",
+      "semantic_reference": "MarginAccount.account_id",
+      "source_field": "margin_accounts.account_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "margin_accounts.account_id"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id": {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id",
+    "type": "implementation_field_binding",
+    "name": "collateral_margin_report_lines.counterparty_id",
+    "description": "",
+    "parent": "report_impl.DailyEligibleCollateralReport",
+    "implementation_field": {
+      "name": "counterparty_id",
+      "requirement_field": "counterparty_identifier",
+      "semantic_reference": "Counterparty.counterparty_id",
+      "source_field": "counterparties.counterparty_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "counterparties.counterparty_id"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id": {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id",
+    "type": "implementation_field_binding",
+    "name": "collateral_margin_report_lines.collateral_id",
+    "description": "",
+    "parent": "report_impl.DailyEligibleCollateralReport",
+    "implementation_field": {
+      "name": "collateral_id",
+      "requirement_field": "collateral_identifier",
+      "semantic_reference": "CollateralAsset.collateral_id",
+      "source_field": "collateral_positions.collateral_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "collateral_positions.collateral_id"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date": {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date",
+    "type": "implementation_field_binding",
+    "name": "collateral_margin_report_lines.valuation_date",
+    "description": "",
+    "parent": "report_impl.DailyEligibleCollateralReport",
+    "implementation_field": {
+      "name": "valuation_date",
+      "requirement_field": "valuation_date",
+      "semantic_reference": "CollateralValuation.valuation_date",
+      "source_field": "collateral_valuations.valuation_date",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "collateral_valuations.valuation_date"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value": {
+    "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
+    "type": "implementation_field_binding",
+    "name": "collateral_margin_report_lines.eligible_collateral_value",
+    "description": "",
+    "parent": "report_impl.DailyEligibleCollateralReport",
+    "implementation_field": {
+      "name": "eligible_collateral_value",
+      "requirement_field": "eligible_collateral_value",
+      "semantic_reference": "metric.eligible_collateral_value",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
+          }
+        ]
+      }
+    }
+  }
+};
+window.OSI_CATALOG_DATA = window.CATALOG_DATA;

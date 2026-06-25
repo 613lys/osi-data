@@ -1,0 +1,1248 @@
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import shutil
+from collections import defaultdict
+from pathlib import Path
+from typing import Any
+
+try:
+    import yaml
+except ImportError as exc:  # pragma: no cover - friendly local failure
+    raise SystemExit("PyYAML is required. Install with: pip install pyyaml") from exc
+
+
+SKILL_DIR = Path(__file__).resolve().parents[1]
+ROOT = Path.cwd().resolve()
+SOURCE = ROOT / "knowledge" / "regulatory-reporting-osi.yaml"
+INDEX_DIR = ROOT / "knowledge" / "indexes"
+FRONTEND_DIR = ROOT / "frontend"
+TEMPLATE_DIR = SKILL_DIR / "assets" / "frontend-template"
+
+BUILT_INS = {"Any", "Boolean", "Date", "DateTime", "Decimal", "Float", "Integer", "String"}
+ENTITY_CONCEPT_TYPES = {"EntityType"}
+SHOW_CONTAINER_NODES = False
+SHOW_REFERENCED_BUILT_INS = False
+
+
+def resolve_path(value: str | Path, root: Path) -> Path:
+    path = Path(value)
+    return path if path.is_absolute() else root / path
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Compile OSI regulatory-reporting YAML into graph indexes and frontend JS data.")
+    parser.add_argument("--root", default=".", help="Project root. Relative input/output paths resolve against this directory.")
+    parser.add_argument("--source", default="knowledge/regulatory-reporting-osi.yaml", help="Input OSI YAML path.")
+    parser.add_argument("--index-dir", default="knowledge/indexes", help="Output directory for graph/catalog/search/summary JSON.")
+    parser.add_argument("--frontend-dir", default="frontend", help="Output directory for frontend JS data and optional UI template.")
+    parser.add_argument("--template-dir", default=str(TEMPLATE_DIR), help="Frontend template directory to copy when requested.")
+    parser.add_argument("--copy-frontend-template", action="store_true", help="Copy the bundled static UI template into --frontend-dir.")
+    parser.add_argument("--overwrite-template", action="store_true", help="Overwrite existing index.html/app.js/style.css when copying the frontend template.")
+    return parser.parse_args()
+
+
+def copy_frontend_template(template_dir: Path, frontend_dir: Path, overwrite: bool = False) -> None:
+    if not template_dir.exists():
+        raise SystemExit(f"Frontend template not found: {template_dir}")
+    frontend_dir.mkdir(parents=True, exist_ok=True)
+    for item in template_dir.iterdir():
+        target = frontend_dir / item.name
+        if item.is_dir():
+            if target.exists() and overwrite:
+                shutil.rmtree(target)
+            if target.exists() and not overwrite:
+                continue
+            shutil.copytree(item, target)
+            continue
+        if not item.is_file():
+            continue
+        if target.exists() and not overwrite:
+            continue
+        shutil.copy2(item, target)
+
+
+def compact_type(value: Any) -> str:
+    return re.sub(r"[^A-Za-z0-9]+", "", str(value or ""))
+
+
+def normalized_concept_type(concept: dict[str, Any]) -> str:
+    return str(concept.get("type") or "EntityType")
+
+
+def is_entity_concept_type(concept_type: str) -> bool:
+    return concept_type in ENTITY_CONCEPT_TYPES
+
+
+def concept_type_for(declared_concepts: dict[str, dict[str, Any]], name: str) -> str:
+    if name in BUILT_INS:
+        return "ValueType"
+    concept = (declared_concepts.get(name, {}).get("concept") or {})
+    return normalized_concept_type(concept) if concept else ""
+
+
+def is_value_concept(declared_concepts: dict[str, dict[str, Any]], name: str) -> bool:
+    return concept_type_for(declared_concepts, name) == "ValueType"
+
+
+def slug(value: str) -> str:
+    value = re.sub(r"[^a-zA-Z0-9_.-]+", "_", str(value).strip())
+    return value.strip("_") or "item"
+
+
+def node_id(prefix: str, name: str) -> str:
+    return f"{prefix}.{slug(name)}"
+
+
+CONTROLLED_RELATIONSHIP_ACTIONS = {
+    "own",
+    "hold",
+    "book",
+    "reference",
+    "pledge",
+    "value",
+    "price",
+    "classify",
+    "settle",
+    "secure",
+    "derive",
+    "post",
+}
+
+
+def relationship_action(relationship_name: str) -> str:
+    action = slug(relationship_name).split("_", 1)[0].lower()
+    return action if action in CONTROLLED_RELATIONSHIP_ACTIONS else "relationship"
+
+
+def validate_business_relationship_name(relationship_name: str, owner_concept: str, target_concept: str) -> str:
+    text = slug(relationship_name).lower()
+    if "_" not in text:
+        raise SystemExit(
+            f"EntityType relationship '{owner_concept}.{relationship_name}' targeting '{target_concept}' must use '<action>_<role>'."
+        )
+    action = text.split("_", 1)[0]
+    if action not in CONTROLLED_RELATIONSHIP_ACTIONS:
+        allowed = ", ".join(sorted(CONTROLLED_RELATIONSHIP_ACTIONS))
+        raise SystemExit(
+            f"EntityType relationship '{owner_concept}.{relationship_name}' uses unsupported action '{action}'. "
+            f"Allowed actions: {allowed}."
+        )
+    return action
+
+
+def add_node(nodes: dict[str, dict[str, Any]], item_id: str, item_type: str, label: str, properties: dict[str, Any] | None = None) -> None:
+    if item_id in nodes:
+        nodes[item_id]["properties"].update(properties or {})
+        return
+    nodes[item_id] = {
+        "id": item_id,
+        "type": item_type,
+        "label": label,
+        "properties": properties or {},
+    }
+
+
+def add_edge(
+    edges: dict[str, dict[str, Any]],
+    source: str,
+    target: str,
+    edge_type: str,
+    label: str = "",
+    description: str = "",
+    properties: dict[str, Any] | None = None,
+    emit_type: bool = True,
+    edge_id: str | None = None,
+) -> None:
+    if not source or not target:
+        return
+    edge_type = edge_type.upper()
+    edge_id = slug(edge_id) if edge_id else f"edge.{slug(source)}.{slug(edge_type)}.{slug(label or edge_type)}.{slug(target)}"
+    edge_properties = dict(properties or {})
+    if description:
+        edge_properties = {"description": description, **edge_properties}
+    edge = {
+        "id": edge_id,
+        "source": source,
+        "target": target,
+        "label": label or edge_type,
+        "properties": edge_properties,
+    }
+    if emit_type:
+        edge["type"] = edge_type
+    edges[edge_id] = edge
+
+
+def expression_text(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        dialects = value.get("dialects") or []
+        if dialects:
+            return str(dialects[0].get("expression") or "")
+        return str(value.get("expression") or "")
+    return str(value)
+
+
+def expression_refs(value: Any) -> list[dict[str, str]]:
+    text = expression_text(value)
+    refs: list[dict[str, str]] = []
+    for dataset, field in re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b", text):
+        refs.append({"dataset": dataset, "field": field, "expression": text})
+    return refs
+
+
+def walk_object_mapping(mapping: dict[str, Any]) -> list[dict[str, str]]:
+    refs = expression_refs(mapping.get("expression"))
+    for referent in mapping.get("referent_mappings") or []:
+        refs.extend(walk_referent_mapping(referent))
+    return refs
+
+
+def walk_referent_mapping(mapping: dict[str, Any]) -> list[dict[str, str]]:
+    refs = expression_refs(mapping.get("expression"))
+    for child in mapping.get("referent_mappings") or []:
+        refs.extend(walk_referent_mapping(child))
+    return refs
+
+
+def relationship_field_refs(mapping: dict[str, Any]) -> list[dict[str, str]]:
+    """Return relationship-to-field mappings implied by OSI mapping nodes."""
+    rows: list[dict[str, str]] = []
+    relationship = mapping.get("relationship")
+    for ref in expression_refs(mapping.get("expression")):
+        if relationship and ref.get("dataset") and ref.get("field"):
+            rows.append(
+                {
+                    "relationship": str(relationship),
+                    "field": f'{ref["dataset"]}.{ref["field"]}',
+                    "expression": ref.get("expression", ""),
+                }
+            )
+    object_mapping = mapping.get("object_mapping")
+    if isinstance(object_mapping, dict):
+        if relationship:
+            for ref in expression_refs(object_mapping.get("expression")):
+                if ref.get("dataset") and ref.get("field"):
+                    rows.append(
+                        {
+                            "relationship": str(relationship),
+                            "field": f'{ref["dataset"]}.{ref["field"]}',
+                            "expression": ref.get("expression", ""),
+                        }
+                    )
+        rows.extend(relationship_field_refs(object_mapping))
+    for child in mapping.get("referent_mappings") or []:
+        rows.extend(relationship_field_refs(child))
+    for child in mapping.get("children") or []:
+        rows.extend(relationship_field_refs(child))
+    return rows
+
+
+def walk_link_mapping(mapping: dict[str, Any], rows: list[dict[str, Any]], depth: int = 1) -> list[dict[str, str]]:
+    refs: list[dict[str, str]] = []
+    object_mapping = mapping.get("object_mapping") or {}
+    refs.extend(walk_object_mapping(object_mapping))
+    rows.append(
+        {
+            "level": depth,
+            "relationship": mapping.get("relationship"),
+            "target_concept": object_mapping.get("concept"),
+            "expressions": sorted({ref["expression"] for ref in refs if ref.get("expression")}),
+            "fields": sorted({f'{ref["dataset"]}.{ref["field"]}' for ref in refs if ref.get("dataset")}),
+        }
+    )
+    for child in mapping.get("children") or []:
+        refs.extend(walk_link_mapping(child, rows, depth + 1))
+    return refs
+
+
+def relationship_properties(
+    owner_concept: str,
+    rel_name: str,
+    rel: dict[str, Any],
+    extra: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    properties: dict[str, Any] = {}
+    for key in ("multiplicity", "verbalizes", "requires", "derived_by"):
+        value = rel.get(key)
+        if value not in (None, "", [], {}):
+            properties[key] = value
+    for key, value in (extra or {}).items():
+        if value not in (None, "", [], {}):
+            properties[key] = value
+    return properties
+
+
+def semantic_reference_parts(reference: str) -> tuple[str, str]:
+    parts = str(reference or "").split(".", 1)
+    if len(parts) != 2:
+        return "", ""
+    return parts[0], parts[1]
+
+
+def column_node_id(field_ref: str) -> str:
+    return node_id("column", field_ref)
+
+
+def value_relationship_entries(
+    declared_concepts: dict[str, dict[str, Any]],
+    concept_name: str,
+) -> list[dict[str, Any]]:
+    component = (declared_concepts.get(concept_name) or {}).get("component") or {}
+    entries: list[dict[str, Any]] = []
+    for rel in component.get("relationships") or []:
+        rel_name = rel.get("name", "relationship")
+        for role in rel.get("roles") or []:
+            role_concept = role.get("concept")
+            if role_concept and is_value_concept(declared_concepts, role_concept):
+                entries.append(
+                    {
+                        "source_concept": concept_name,
+                        "rel_name": rel_name,
+                        "rel": rel,
+                        "role": role,
+                        "role_concept": role_concept,
+                    }
+                )
+    return entries
+
+
+def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    nodes: dict[str, dict[str, Any]] = {}
+    edges: dict[str, dict[str, Any]] = {}
+    catalog: dict[str, dict[str, Any]] = {}
+
+    ontology_id = node_id("ontology", data["name"]) if SHOW_CONTAINER_NODES else ""
+    if SHOW_CONTAINER_NODES:
+        add_node(
+            nodes,
+            ontology_id,
+            "ontology",
+            data["name"],
+            {
+                "description": data.get("description", ""),
+                "version": data.get("version"),
+                "source_file": str(SOURCE.relative_to(ROOT)).replace("\\", "/"),
+            },
+        )
+        catalog[ontology_id] = {
+            "id": ontology_id,
+            "type": "ontology",
+            "name": data["name"],
+            "description": data.get("description", ""),
+            "version": data.get("version"),
+            "ai_context": data.get("ai_context"),
+        }
+
+    declared_concepts: dict[str, dict[str, Any]] = {}
+    for component in data.get("ontology") or []:
+        concept = component.get("concept") or {}
+        name = concept.get("name")
+        if not name:
+            continue
+        declared_concepts[name] = {"component": component, "concept": concept}
+
+    extended_concept_names = {
+        parent
+        for entry in declared_concepts.values()
+        for parent in (entry["concept"].get("extends") or [])
+        if parent in declared_concepts and normalized_concept_type(declared_concepts[parent]["concept"]) == "EntityType"
+    }
+
+    def ensure_concept(name: str) -> str:
+        concept_id = node_id("concept", name)
+        if name in declared_concepts:
+            concept = declared_concepts[name]["concept"]
+            concept_type = normalized_concept_type(concept)
+            if not is_entity_concept_type(concept_type):
+                return ""
+            graph_type = "base_entity_concept" if name in extended_concept_names else "entity_type_concept"
+            add_node(
+                nodes,
+                concept_id,
+                graph_type,
+                name,
+                {
+                    "description": concept.get("description", ""),
+                    "concept_type": concept_type,
+                    "base_entity": name in extended_concept_names,
+                    "extends": concept.get("extends") or [],
+                    "identify_by": concept.get("identify_by") or [],
+                    "requires": concept.get("requires") or [],
+                },
+            )
+        elif SHOW_REFERENCED_BUILT_INS or name not in BUILT_INS:
+            add_node(
+                nodes,
+                concept_id,
+                "built_in_concept" if name in BUILT_INS else "external_concept",
+                name,
+                {
+                    "description": "Built-in OSI concept." if name in BUILT_INS else "Referenced concept not declared in this ontology.",
+                    "concept_type": "BuiltIn" if name in BUILT_INS else "External",
+                },
+            )
+        else:
+            return ""
+        return concept_id
+
+    value_usages: dict[str, list[str]] = defaultdict(list)
+
+    def add_value_property(
+        owner_name: str,
+        rel_name: str,
+        rel: dict[str, Any],
+        role_concept: str,
+        inherited_from: str = "",
+    ) -> str:
+        owner_id = ensure_concept(owner_name)
+        if not owner_id:
+            return ""
+        value_id = node_id("value", f"{owner_name}.{rel_name}")
+        verbalizes = "; ".join(rel.get("verbalizes") or [])
+        description = verbalizes or f"{owner_name}.{rel_name} uses {role_concept}."
+        if inherited_from:
+            description = f"Inherited from {inherited_from}. {description}"
+        properties = relationship_properties(
+            owner_name,
+            rel_name,
+            rel,
+            {
+                "source_field": "ontology.extends.relationships" if inherited_from else "ontology.relationships",
+                "value_concept": role_concept,
+                "inherited": bool(inherited_from),
+                "inherited_from": inherited_from,
+                "base_relationship_path": f"{inherited_from}.{rel_name}" if inherited_from else "",
+            },
+        )
+        add_node(
+            nodes,
+            value_id,
+            "value_type_property",
+            rel_name,
+            {
+                "description": description,
+                "parent": owner_id,
+                "data_type": role_concept,
+                "value_concept": role_concept,
+                **properties,
+            },
+        )
+        catalog[value_id] = {
+            "id": value_id,
+            "type": "value_type_property",
+            "name": rel_name,
+            "description": description,
+            "parent": owner_id,
+            "data_type": role_concept,
+            "value_concept": role_concept,
+            "relationship": rel,
+            "inherited": bool(inherited_from),
+            "inherited_from": inherited_from,
+        }
+        add_edge(
+            edges,
+            owner_id,
+            value_id,
+            "CONTAINS",
+            "inherited value" if inherited_from else "contains value",
+            f"{owner_name} inherits value concept {rel_name} ({role_concept}) from {inherited_from}."
+            if inherited_from
+            else f"{owner_name} has value concept {rel_name} ({role_concept}).",
+            properties,
+        )
+        if value_id not in value_usages[role_concept]:
+            value_usages[role_concept].append(value_id)
+        return value_id
+
+    for name, entry in declared_concepts.items():
+        concept = entry["concept"]
+        component = entry["component"]
+        concept_type = normalized_concept_type(concept)
+        if not is_entity_concept_type(concept_type):
+            continue
+        concept_id = ensure_concept(name)
+        if not concept_id:
+            continue
+        catalog[concept_id] = {
+            "id": concept_id,
+            "type": nodes[concept_id]["type"],
+            "name": name,
+            "description": concept.get("description", ""),
+            "concept": concept,
+            "relationships": component.get("relationships") or [],
+            "mappings": [],
+        }
+        if SHOW_CONTAINER_NODES:
+            add_edge(edges, ontology_id, concept_id, "CONTAINS_CONCEPT", "concept", f"{data['name']} declares {name}.")
+        for parent in concept.get("extends") or []:
+            parent_id = ensure_concept(parent)
+            if parent_id:
+                add_edge(
+                    edges,
+                    concept_id,
+                    parent_id,
+                    "EXTENDS",
+                    "extends",
+                    f"{name} extends {parent}.",
+                    {"base_entity": parent},
+                )
+        for rel in component.get("relationships") or []:
+            rel_name = rel.get("name", "relationship")
+            for role in rel.get("roles") or []:
+                role_concept = role.get("concept")
+                if not role_concept:
+                    continue
+                verbalizes = "; ".join(rel.get("verbalizes") or [])
+                if is_value_concept(declared_concepts, role_concept):
+                    add_value_property(name, rel_name, rel, role_concept)
+                    continue
+                target_id = ensure_concept(role_concept)
+                if target_id:
+                    action = validate_business_relationship_name(rel_name, name, role_concept)
+                    if rel_name in edges:
+                        raise SystemExit(
+                            f"EntityType relationship name '{rel_name}' is used more than once. "
+                            "Business relationship names must be globally unique because the graph edge id is the relationship name."
+                        )
+                    add_edge(
+                        edges,
+                        concept_id,
+                        target_id,
+                        action,
+                        rel_name,
+                        "",
+                        relationship_properties(name, rel_name, rel, {"roles": [role]}),
+                        emit_type=False,
+                        edge_id=rel_name,
+                    )
+
+    def inherited_value_entries(concept_name: str, stack: tuple[str, ...] = ()) -> list[dict[str, Any]]:
+        if concept_name in stack:
+            return []
+        concept = (declared_concepts.get(concept_name) or {}).get("concept") or {}
+        entries: list[dict[str, Any]] = []
+        for parent in concept.get("extends") or []:
+            if parent not in declared_concepts:
+                continue
+            entries.extend(inherited_value_entries(parent, (*stack, concept_name)))
+            entries.extend(value_relationship_entries(declared_concepts, parent))
+        return entries
+
+    for name, entry in declared_concepts.items():
+        concept = entry["concept"]
+        if not is_entity_concept_type(normalized_concept_type(concept)):
+            continue
+        own_value_names = {item["rel_name"] for item in value_relationship_entries(declared_concepts, name)}
+        for inherited in inherited_value_entries(name):
+            rel_name = inherited["rel_name"]
+            if rel_name in own_value_names:
+                continue
+            if node_id("value", f"{name}.{rel_name}") in nodes:
+                continue
+            add_value_property(
+                name,
+                rel_name,
+                inherited["rel"],
+                inherited["role_concept"],
+                inherited_from=inherited["source_concept"],
+            )
+
+    for value_concept, usage_ids in value_usages.items():
+        unique_ids = sorted(set(usage_ids))
+        for idx, source_id in enumerate(unique_ids):
+            for target_id in unique_ids[idx + 1:]:
+                add_edge(
+                    edges,
+                    source_id,
+                    target_id,
+                    "SHARES_VALUE_TYPE",
+                    value_concept,
+                    f"Both fields use ValueType concept {value_concept}.",
+                    {"source_field": "ontology.relationships.roles.concept", "value_concept": value_concept},
+                )
+
+    semantic_models: dict[str, dict[str, Any]] = {}
+    dataset_index: dict[str, dict[str, Any]] = {}
+    field_index: dict[str, dict[str, Any]] = {}
+
+    for ontology_map in data.get("ontology_mappings") or []:
+        sm = ontology_map.get("semantic_model") or {}
+        sm_name = sm.get("name", "semantic_model")
+        semantic_models[sm_name] = sm
+        sm_id = node_id("semantic_model", sm_name)
+        map_id = node_id("ontology_map", ontology_map.get("name", f"{sm_name}_map"))
+
+        if SHOW_CONTAINER_NODES:
+            add_node(nodes, sm_id, "semantic_model", sm_name, {"description": sm.get("description", "")})
+            catalog[sm_id] = {
+                "id": sm_id,
+                "type": "semantic_model",
+                "name": sm_name,
+                "description": sm.get("description", ""),
+                "semantic_model": sm,
+            }
+            add_node(nodes, map_id, "ontology_mapping", ontology_map.get("name", map_id), {"description": ontology_map.get("description", "")})
+            catalog[map_id] = {
+                "id": map_id,
+                "type": "ontology_mapping",
+                "name": ontology_map.get("name"),
+                "description": ontology_map.get("description", ""),
+                "concept_mappings": ontology_map.get("concept_mappings") or [],
+            }
+            add_edge(edges, map_id, sm_id, "MAPS_MODEL", "maps model", ontology_map.get("description", ""))
+
+        for dataset in sm.get("datasets") or []:
+            table_id = node_id("table", dataset.get("name", "dataset"))
+            dataset_index[dataset["name"]] = dataset
+            add_node(
+                nodes,
+                table_id,
+                "physical_table",
+                dataset["name"],
+                {
+                    "description": dataset.get("description", ""),
+                    "source": dataset.get("source"),
+                    "primary_key": dataset.get("primary_key") or [],
+                    "field_count": len(dataset.get("fields") or []),
+                },
+            )
+            catalog[table_id] = {
+                "id": table_id,
+                "type": "physical_table",
+                "name": dataset["name"],
+                "description": dataset.get("description", ""),
+                "source": dataset.get("source"),
+                "primary_key": dataset.get("primary_key") or [],
+                "fields": dataset.get("fields") or [],
+                "columns": dataset.get("fields") or [],
+            }
+            if SHOW_CONTAINER_NODES:
+                add_edge(edges, sm_id, table_id, "CONTAINS_TABLE", "dataset", f"{sm_name} contains physical table {dataset['name']}.")
+            for field in dataset.get("fields") or []:
+                field_index[f"{dataset['name']}.{field['name']}"] = {"dataset": dataset, "field": field}
+                column_id = node_id("column", f"{dataset['name']}.{field['name']}")
+                add_node(
+                    nodes,
+                    column_id,
+                    "column",
+                    field["name"],
+                    {
+                        "description": field.get("description", ""),
+                        "parent": table_id,
+                        "data_type": "time" if field.get("dimension", {}).get("is_time") else "field",
+                        "expression": expression_text(field.get("expression")),
+                    },
+                )
+                add_edge(
+                    edges,
+                    table_id,
+                    column_id,
+                    "CONTAINS",
+                    "contains",
+                    f"{dataset['name']} contains field {field['name']}.",
+                    {"source_field": "semantic_model.datasets.fields"},
+                )
+
+        for rel in sm.get("relationships") or []:
+            source = node_id("table", rel.get("from", ""))
+            target = node_id("table", rel.get("to", ""))
+            relationship_name = rel.get("semantic_relationship") or rel.get("relationship") or rel.get("name", "join")
+            add_edge(
+                edges,
+                source,
+                target,
+                "DATASET_JOIN",
+                relationship_name,
+                f"{rel.get('from')} joins {rel.get('to')} on {rel.get('from_columns')} = {rel.get('to_columns')}.",
+                {
+                    "join_name": rel.get("name", "join"),
+                    "relationship": rel,
+                },
+            )
+
+        for metric in sm.get("metrics") or []:
+            metric_name = metric.get("name")
+            if not metric_name:
+                continue
+            metric_expression = metric.get("expression")
+            refs = expression_refs(metric_expression)
+            source_fields = sorted({f'{ref["dataset"]}.{ref["field"]}' for ref in refs if ref.get("dataset") and ref.get("field")})
+            for dataset_name in sorted({ref["dataset"] for ref in refs if ref.get("dataset")}):
+                table_id = node_id("table", dataset_name)
+                concept_id = node_id("concept", dataset_name)
+                parent_id = table_id if table_id in nodes else concept_id if concept_id in nodes else ""
+                if not parent_id:
+                    continue
+
+                metric_id = node_id("metric_field", f"{dataset_name}.{metric_name}")
+                add_node(
+                    nodes,
+                    metric_id,
+                    "metric_field",
+                    metric_name,
+                    {
+                        "description": metric.get("description", ""),
+                        "parent": parent_id,
+                        "data_type": "metric",
+                        "metric_name": metric_name,
+                        "semantic_model": sm_name,
+                        "expression": expression_text(metric_expression),
+                        "source_fields": source_fields,
+                        "ai_context": metric.get("ai_context"),
+                    },
+                )
+                catalog[metric_id] = {
+                    "id": metric_id,
+                    "type": "metric_field",
+                    "name": metric_name,
+                    "description": metric.get("description", ""),
+                    "parent": parent_id,
+                    "metric": metric,
+                }
+                add_edge(
+                    edges,
+                    parent_id,
+                    metric_id,
+                    "CONTAINS",
+                    "contains metric",
+                    f"{dataset_name} exposes semantic metric {metric_name}.",
+                    {"source_field": "semantic_model.metrics", "metric_name": metric_name, "semantic_model": sm_name},
+                )
+                for field_ref in source_fields:
+                    field_owner, relationship_name = semantic_reference_parts(field_ref)
+                    column_id = column_node_id(field_ref)
+                    value_id = node_id("value", f"{field_owner}.{relationship_name}") if relationship_name else ""
+                    target_id = column_id if column_id in nodes else value_id
+                    if target_id in nodes:
+                        add_edge(
+                            edges,
+                            metric_id,
+                            target_id,
+                            "USES_FIELD",
+                            field_ref,
+                            f"Metric {metric_name} uses field {field_ref}.",
+                            {
+                                "source_field": "semantic_model.metrics.expression",
+                                "metric_name": metric_name,
+                                "expression": expression_text(metric_expression),
+                            },
+                        )
+
+        mapping_tables_by_concept: dict[str, set[str]] = defaultdict(set)
+        mapping_fields_by_concept: dict[str, set[str]] = defaultdict(set)
+        mapping_value_fields_by_concept: dict[str, set[tuple[str, str]]] = defaultdict(set)
+        mapping_rows_by_concept: dict[str, list[dict[str, Any]]] = defaultdict(list)
+
+        for concept_mapping in ontology_map.get("concept_mappings") or []:
+            concept = concept_mapping.get("concept")
+            if not concept:
+                continue
+            concept_id = ensure_concept(concept)
+            if not concept_id:
+                continue
+            if SHOW_CONTAINER_NODES:
+                add_edge(edges, map_id, concept_id, "MAPS_CONCEPT", "maps concept", f"{ontology_map.get('name')} maps {concept}.")
+
+            for object_mapping in concept_mapping.get("object_mappings") or []:
+                refs = walk_object_mapping(object_mapping)
+                fields = sorted({f'{ref["dataset"]}.{ref["field"]}' for ref in refs})
+                mapping_rows_by_concept[concept].append(
+                    {
+                        "kind": "object_mapping",
+                        "fields": fields,
+                        "expressions": sorted({ref["expression"] for ref in refs if ref.get("expression")}),
+                    }
+                )
+                for rel_ref in relationship_field_refs(object_mapping):
+                    mapping_value_fields_by_concept[concept].add((rel_ref["relationship"], rel_ref["field"]))
+                for ref in refs:
+                    mapping_tables_by_concept[concept].add(ref["dataset"])
+                    mapping_fields_by_concept[concept].add(f'{ref["dataset"]}.{ref["field"]}')
+
+            for link_mapping in concept_mapping.get("link_mappings") or []:
+                rows: list[dict[str, Any]] = []
+                refs = walk_link_mapping(link_mapping, rows)
+                mapping_rows_by_concept[concept].extend({"kind": "link_mapping", **row} for row in rows)
+                for rel_ref in relationship_field_refs(link_mapping):
+                    mapping_value_fields_by_concept[concept].add((rel_ref["relationship"], rel_ref["field"]))
+                for ref in refs:
+                    mapping_tables_by_concept[concept].add(ref["dataset"])
+                    mapping_fields_by_concept[concept].add(f'{ref["dataset"]}.{ref["field"]}')
+
+        for concept, datasets in mapping_tables_by_concept.items():
+            concept_id = ensure_concept(concept)
+            for dataset_name in sorted(datasets):
+                table_id = node_id("table", dataset_name)
+                if table_id in nodes:
+                    add_edge(
+                        edges,
+                        concept_id,
+                        table_id,
+                        "MAPPED_TO_TABLE",
+                        "maps to table",
+                        f"{concept} is populated from {dataset_name}.",
+                        {"fields": sorted(field for field in mapping_fields_by_concept[concept] if field.startswith(f"{dataset_name}."))},
+                    )
+            for field_ref in sorted(mapping_fields_by_concept[concept]):
+                column_id = node_id("column", field_ref)
+                if column_id in nodes:
+                    add_edge(
+                        edges,
+                        concept_id,
+                        column_id,
+                        "MAPS_TO",
+                        "maps to field",
+                        f"{concept} mapping references {field_ref}.",
+                        {"source_field": "ontology_mappings.concept_mappings"},
+                    )
+
+            for relationship, field_ref in sorted(mapping_value_fields_by_concept[concept]):
+                value_id = node_id("value", f"{concept}.{relationship}")
+                column_id = node_id("column", field_ref)
+                if value_id in nodes and column_id in nodes:
+                    add_edge(
+                        edges,
+                        value_id,
+                        column_id,
+                        "MAPS_TO_FIELD",
+                        relationship,
+                        f"{concept}.{relationship} maps to physical field {field_ref}.",
+                        {
+                            "source_field": "ontology_mappings.concept_mappings",
+                            "physical_field": field_ref,
+                        },
+                    )
+
+            catalog_entry = catalog.setdefault(
+                concept_id,
+                {"id": concept_id, "type": nodes[concept_id]["type"], "name": concept, "mappings": []},
+            )
+            catalog_entry["mappings"] = mapping_rows_by_concept[concept]
+            catalog_entry["mapped_tables"] = sorted(datasets)
+            catalog_entry["mapped_fields"] = sorted(mapping_fields_by_concept[concept])
+
+    semantic_metric_names = {
+        metric.get("name")
+        for ontology_map in data.get("ontology_mappings") or []
+        for metric in ((ontology_map.get("semantic_model") or {}).get("metrics") or [])
+        if metric.get("name")
+    }
+
+    def normalize_semantic_reference(reference: str) -> str:
+        if reference in semantic_metric_names:
+            return f"metric.{reference}"
+        return reference
+
+    def semantic_reference_node(reference: str) -> str:
+        concept_name, relationship = semantic_reference_parts(reference)
+        if not concept_name:
+            return ""
+        value_id = node_id("value", f"{concept_name}.{relationship}")
+        if value_id in nodes:
+            return value_id
+        concept_id = node_id("concept", concept_name)
+        return concept_id if concept_id in nodes else ""
+
+    requirement_ids: dict[str, str] = {}
+    requirement_field_ids: dict[str, dict[str, str]] = defaultdict(dict)
+    for requirement in data.get("reporting_requirements") or []:
+        name = requirement.get("name")
+        if not name:
+            continue
+        requirement_id = node_id("requirement", name)
+        requirement_ids[name] = requirement_id
+        semantic_scope = requirement.get("semantic_scope") or {}
+        add_node(
+            nodes,
+            requirement_id,
+            "regulatory_requirement",
+            name,
+            {
+                "description": requirement.get("description", ""),
+                "regulator": requirement.get("regulator", ""),
+                "regulation": requirement.get("regulation", ""),
+                "reporting_frequency": requirement.get("reporting_frequency", ""),
+                "reporting_grain": requirement.get("reporting_grain") or {},
+            },
+        )
+        catalog[requirement_id] = {
+            "id": requirement_id,
+            "type": "regulatory_requirement",
+            "name": name,
+            "description": requirement.get("description", ""),
+            "regulator": requirement.get("regulator"),
+            "regulation": requirement.get("regulation"),
+            "reporting_frequency": requirement.get("reporting_frequency"),
+            "reporting_grain": requirement.get("reporting_grain"),
+            "semantic_scope": semantic_scope,
+            "required_fields": semantic_scope.get("required_fields") or [],
+            "calculations": requirement.get("calculations") or [],
+            "controls": requirement.get("controls") or [],
+        }
+
+        required_concepts = set(semantic_scope.get("concepts") or [])
+        grain_concept = (requirement.get("reporting_grain") or {}).get("concept")
+        if grain_concept:
+            required_concepts.add(grain_concept)
+        for rel in semantic_scope.get("relationships") or []:
+            required_concepts.update([rel.get("source"), rel.get("target")])
+        for field in semantic_scope.get("required_fields") or []:
+            required_concepts.add(field.get("concept"))
+
+        for concept_name in sorted(item for item in required_concepts if item):
+            concept_id = ensure_concept(concept_name)
+            if concept_id:
+                add_edge(
+                    edges,
+                    requirement_id,
+                    concept_id,
+                    "REQUIRES_CONCEPT",
+                    "requires concept",
+                    f"{name} requires semantic concept {concept_name}.",
+                    {"source_field": "reporting_requirements.semantic_scope.concepts"},
+                )
+
+        for rel in semantic_scope.get("relationships") or []:
+            source_id = ensure_concept(rel.get("source", ""))
+            target_id = ensure_concept(rel.get("target", ""))
+            rel_name = rel.get("relationship", "relationship")
+            relationship_path = f"{rel.get('source')}.{rel_name}"
+            rel_description = rel.get("purpose") or f"{name} requires {relationship_path} -> {rel.get('target')}."
+
+            item_id = node_id("requirement_item", f"{name}.{rel.get('source')}.{rel_name}")
+            add_node(
+                nodes,
+                item_id,
+                "requirement_semantic_item",
+                relationship_path,
+                {
+                    "parent": requirement_id,
+                    "description": rel_description,
+                    "data_type": "relationship",
+                    "semantic_reference": relationship_path,
+                    "source_concept": rel.get("source"),
+                    "target_concept": rel.get("target"),
+                    "relationship": rel_name,
+                    "required": rel.get("mandatory"),
+                    "purpose": rel.get("purpose"),
+                },
+            )
+            add_edge(edges, requirement_id, item_id, "CONTAINS", "requires relationship", rel_description)
+            if source_id:
+                add_edge(edges, item_id, source_id, "REQUIRES_SEMANTIC_RELATIONSHIP", rel_name, rel_description)
+            if target_id:
+                add_edge(edges, item_id, target_id, "REQUIRES_SEMANTIC_RELATIONSHIP", rel_name, rel_description)
+
+        for field in semantic_scope.get("required_fields") or []:
+            item_name = field.get("name") or field.get("semantic_reference") or field.get("relationship")
+            item_id = node_id("requirement_item", f"{name}.{item_name}")
+            semantic_ref = normalize_semantic_reference(field.get("semantic_reference") or f"{field.get('concept')}.{field.get('relationship')}")
+            add_node(
+                nodes,
+                item_id,
+                "requirement_semantic_item",
+                semantic_ref,
+                {
+                    "parent": requirement_id,
+                    "description": field.get("purpose") or field.get("rule") or f"{name} requires {semantic_ref}.",
+                    "data_type": field.get("value_concept") or "semantic field",
+                    "semantic_reference": semantic_ref,
+                    "value_concept": field.get("value_concept"),
+                    "source_concept": field.get("concept"),
+                    "relationship": field.get("relationship"),
+                    "required": field.get("required"),
+                    "purpose": field.get("purpose"),
+                    "rule": field.get("rule"),
+                },
+            )
+            catalog[item_id] = {
+                "id": item_id,
+                "type": "requirement_semantic_item",
+                "name": item_name,
+                "description": field.get("purpose") or field.get("rule") or "",
+                "parent": requirement_id,
+                "semantic_reference": semantic_ref,
+                "required_field": field,
+            }
+            requirement_field_ids[name][item_name] = item_id
+            add_edge(edges, requirement_id, item_id, "CONTAINS", "requires field", f"{name} requires {semantic_ref}.")
+            semantic_node = semantic_reference_node(semantic_ref)
+            if semantic_node:
+                add_edge(
+                    edges,
+                    item_id,
+                    semantic_node,
+                    "REQUIRES_SEMANTIC_FIELD",
+                    semantic_ref,
+                    field.get("purpose") or f"{name} requires semantic field {semantic_ref}.",
+                    {"required_field": field},
+                )
+
+        for calc in requirement.get("calculations") or []:
+            calc_id = node_id("requirement_item", f"{name}.{calc.get('name', 'calculation')}")
+            add_node(
+                nodes,
+                calc_id,
+                "requirement_semantic_item",
+                calc.get("name", "calculation"),
+                {
+                    "parent": requirement_id,
+                    "description": calc.get("description", ""),
+                    "data_type": "calculation",
+                    "semantic_reference": normalize_semantic_reference(calc.get("output", calc.get("name", ""))),
+                    "expression": calc.get("expression", ""),
+                    "inputs": calc.get("inputs") or [],
+                },
+            )
+            requirement_field_ids[name][calc.get("name", "calculation")] = calc_id
+            add_edge(edges, requirement_id, calc_id, "CONTAINS", "requires calculation", calc.get("description", ""))
+            for input_ref in calc.get("inputs") or []:
+                semantic_node = semantic_reference_node(input_ref)
+                if semantic_node:
+                    add_edge(edges, calc_id, semantic_node, "USES_SEMANTIC_INPUT", input_ref, f"{calc.get('name')} uses {input_ref}.")
+
+    for implementation in data.get("report_implementations") or []:
+        name = implementation.get("name")
+        if not name:
+            continue
+        implementation_id = node_id("report_impl", name)
+        add_node(
+            nodes,
+            implementation_id,
+            "report_implementation",
+            name,
+            {
+                "description": implementation.get("description", ""),
+                "owner": implementation.get("owner", ""),
+                "schedule": implementation.get("schedule", ""),
+                "implements": implementation.get("implements", ""),
+            },
+        )
+        catalog[implementation_id] = {
+            "id": implementation_id,
+            "type": "report_implementation",
+            "name": name,
+            "description": implementation.get("description", ""),
+            "owner": implementation.get("owner"),
+            "schedule": implementation.get("schedule"),
+            "implements": implementation.get("implements"),
+            "output_datasets": implementation.get("output_datasets") or [],
+            "source_fields": implementation.get("source_fields") or [],
+        }
+        requirement_id = requirement_ids.get(implementation.get("implements", ""))
+        if requirement_id:
+            add_edge(
+                edges,
+                implementation_id,
+                requirement_id,
+                "IMPLEMENTS",
+                "implements",
+                f"{name} implements {implementation.get('implements')}.",
+            )
+
+        output_field_refs: set[str] = set()
+        for dataset in implementation.get("output_datasets") or []:
+            dataset_name = dataset.get("dataset")
+            table_id = node_id("table", dataset_name or "")
+            if table_id in nodes:
+                add_edge(
+                    edges,
+                    implementation_id,
+                    table_id,
+                    "MATERIALIZED_AS",
+                    dataset.get("role", "output"),
+                    f"{name} materializes {dataset_name} as {dataset.get('role', 'output')} dataset.",
+                    {"dataset_role": dataset.get("role")},
+                )
+            for field in dataset.get("fields") or []:
+                field_ref = f"{dataset_name}.{field.get('name')}"
+                output_field_refs.add(field_ref)
+                binding_id = node_id("implementation_field", f"{name}.{field_ref}")
+                semantic_ref = normalize_semantic_reference(field.get("semantic_reference", ""))
+                expression = field.get("expression")
+                expression = expression if expression is not None else field.get("source_field", "")
+                expression_value = expression_text(expression)
+                expression_field_refs = sorted(
+                    {
+                        f'{ref["dataset"]}.{ref["field"]}'
+                        for ref in expression_refs(expression)
+                        if ref.get("dataset") and ref.get("field")
+                    }
+                )
+                add_node(
+                    nodes,
+                    binding_id,
+                    "implementation_field_binding",
+                    field_ref,
+                    {
+                        "parent": implementation_id,
+                        "description": field.get("purpose") or f"{name} outputs {field_ref}.",
+                        "data_type": dataset.get("role", "output field"),
+                        "binding_role": dataset.get("role", "output"),
+                        "dataset": dataset_name,
+                        "field": field.get("name"),
+                        "dataset_field": field_ref,
+                        "requirement_field": field.get("requirement_field"),
+                        "semantic_reference": semantic_ref,
+                        "source_field": field.get("source_field"),
+                        "expression": expression_value,
+                        "expression_fields": expression_field_refs,
+                    },
+                )
+                catalog[binding_id] = {
+                    "id": binding_id,
+                    "type": "implementation_field_binding",
+                    "name": field_ref,
+                    "description": field.get("purpose") or "",
+                    "parent": implementation_id,
+                    "implementation_field": field,
+                }
+                add_edge(edges, implementation_id, binding_id, "CONTAINS", "outputs field", f"{name} outputs {field_ref}.")
+                column_id = column_node_id(field_ref)
+                if column_id in nodes:
+                    add_edge(edges, binding_id, column_id, "MATERIALIZES_FIELD", field_ref, f"{name} materializes field {field_ref}.")
+                read_refs = {field_ref for field_ref in expression_field_refs}
+                source_ref = field.get("source_field")
+                if source_ref:
+                    read_refs.add(source_ref)
+                for read_ref in sorted(read_refs):
+                    if read_ref and column_node_id(read_ref) in nodes:
+                        add_edge(edges, binding_id, column_node_id(read_ref), "READS_FIELD", read_ref, f"{field_ref} reads {read_ref}.")
+                implemented_requirement = requirement_field_ids.get(implementation.get("implements", ""), {}).get(field.get("requirement_field", ""))
+                if implemented_requirement:
+                    add_edge(
+                        edges,
+                        binding_id,
+                        implemented_requirement,
+                        "IMPLEMENTS_REQUIREMENT_FIELD",
+                        field.get("requirement_field", ""),
+                        f"{field_ref} implements requirement field {field.get('requirement_field')}.",
+                        {
+                            "requirement": implementation.get("implements", ""),
+                            "requirement_field": field.get("requirement_field"),
+                            "semantic_reference": semantic_ref,
+                            "expression": expression_value,
+                        },
+                    )
+        for field_ref in implementation.get("source_fields") or []:
+            dataset_name = str(field_ref).split(".", 1)[0]
+            table_id = node_id("table", dataset_name)
+            if table_id in nodes:
+                add_edge(edges, implementation_id, table_id, "READS_FROM", "reads from", f"{name} reads source dataset {dataset_name}.")
+            binding_id = node_id("implementation_field", f"{name}.source.{field_ref}")
+            add_node(
+                nodes,
+                binding_id,
+                "implementation_field_binding",
+                field_ref,
+                {
+                    "parent": implementation_id,
+                    "description": f"{name} reads source field {field_ref}.",
+                    "data_type": "source field",
+                    "binding_role": "source",
+                    "dataset": dataset_name,
+                    "field": str(field_ref).split(".", 1)[1] if "." in str(field_ref) else field_ref,
+                    "dataset_field": field_ref,
+                },
+            )
+            add_edge(edges, implementation_id, binding_id, "CONTAINS", "reads field", f"{name} reads {field_ref}.")
+            column_id = column_node_id(field_ref)
+            if column_id in nodes:
+                add_edge(edges, binding_id, column_id, "READS_FIELD", field_ref, f"{name} reads field {field_ref}.")
+
+    graph = {"nodes": list(nodes.values()), "edges": list(edges.values())}
+
+    search = []
+    for item in graph["nodes"]:
+        raw = catalog.get(item["id"], {})
+        text_parts = [
+            item["id"],
+            item["type"],
+            item["label"],
+            item["properties"].get("description", ""),
+            raw.get("description", ""),
+            raw.get("source", ""),
+            " ".join(raw.get("mapped_tables") or []),
+            " ".join(raw.get("mapped_fields") or []),
+        ]
+        search.append({"id": item["id"], "type": item["type"], "text": " ".join(str(part) for part in text_parts if part)})
+
+    summary = {
+        "ontology": data.get("name"),
+        "semantic_models": list(semantic_models),
+        "entity_type_concepts": sum(1 for entry in declared_concepts.values() if normalized_concept_type(entry["concept"]) == "EntityType"),
+        "base_entity_concepts": len(extended_concept_names),
+        "value_type_concepts": sum(1 for entry in declared_concepts.values() if normalized_concept_type(entry["concept"]) == "ValueType"),
+        "regulatory_requirements": sum(1 for n in graph["nodes"] if n["type"] == "regulatory_requirement"),
+        "report_implementations": sum(1 for n in graph["nodes"] if n["type"] == "report_implementation"),
+        "physical_tables": sum(1 for n in graph["nodes"] if n["type"] == "physical_table"),
+        "edges": len(graph["edges"]),
+    }
+
+    return graph, catalog, {"summary": summary, "search": search}
+
+
+def main() -> None:
+    global ROOT, SOURCE, INDEX_DIR, FRONTEND_DIR
+    args = parse_args()
+    ROOT = Path(args.root).resolve()
+    SOURCE = resolve_path(args.source, ROOT).resolve()
+    INDEX_DIR = resolve_path(args.index_dir, ROOT).resolve()
+    FRONTEND_DIR = resolve_path(args.frontend_dir, ROOT).resolve()
+    template_dir = resolve_path(args.template_dir, ROOT).resolve()
+
+    if not SOURCE.exists():
+        raise SystemExit(f"Input OSI YAML not found: {SOURCE}")
+
+    INDEX_DIR.mkdir(parents=True, exist_ok=True)
+    FRONTEND_DIR.mkdir(parents=True, exist_ok=True)
+    if args.copy_frontend_template:
+        copy_frontend_template(template_dir, FRONTEND_DIR, args.overwrite_template)
+
+    data = yaml.safe_load(SOURCE.read_text(encoding="utf-8"))
+    graph, catalog, meta = compile_catalog_and_graph(data)
+
+    (INDEX_DIR / "graph.json").write_text(json.dumps(graph, indent=2, ensure_ascii=False), encoding="utf-8")
+    (INDEX_DIR / "catalog.json").write_text(json.dumps(catalog, indent=2, ensure_ascii=False), encoding="utf-8")
+    (INDEX_DIR / "search.json").write_text(json.dumps(meta["search"], indent=2, ensure_ascii=False), encoding="utf-8")
+    (INDEX_DIR / "summary.json").write_text(json.dumps(meta["summary"], indent=2, ensure_ascii=False), encoding="utf-8")
+
+    graph_json = json.dumps(graph, indent=2, ensure_ascii=False)
+    catalog_json = json.dumps(catalog, indent=2, ensure_ascii=False)
+    summary_json = json.dumps(meta["summary"], indent=2, ensure_ascii=False)
+
+    (FRONTEND_DIR / "graph-data.js").write_text(
+        "window.GRAPH_DATA = " + graph_json + ";\nwindow.OSI_GRAPH_DATA = window.GRAPH_DATA;\n",
+        encoding="utf-8",
+    )
+    (FRONTEND_DIR / "catalog-data.js").write_text(
+        "window.CATALOG_DATA = " + catalog_json + ";\nwindow.OSI_CATALOG_DATA = window.CATALOG_DATA;\n",
+        encoding="utf-8",
+    )
+    (FRONTEND_DIR / "summary-data.js").write_text(
+        "window.OSI_SUMMARY = " + summary_json + ";\n",
+        encoding="utf-8",
+    )
+
+    print(f"Built {len(graph['nodes'])} nodes and {len(graph['edges'])} edges")
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
