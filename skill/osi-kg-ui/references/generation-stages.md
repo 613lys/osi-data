@@ -79,7 +79,7 @@ Constraints:
 - Relationship names must be globally unique for generated EntityType-to-EntityType business edges because the graph edge id is exactly the OSI relationship `name`.
 - The action prefix must come from the controlled action set: `own`, `hold`, `book`, `reference`, `pledge`, `value`, `price`, `classify`, `settle`, `secure`, `derive`, `post`.
 - The UI edge type and graph canvas label must be the action prefix only; keep the full `<action>_<role>` relationship name for the edge id and edge profile.
-- Do not add UI-only fields to OSI YAML objects. Keep OSI YAML strict; put non-OSI metadata in `custom_extensions` or a separate application extension section.
+- Do not add UI-only fields to OSI YAML objects. Keep OSI YAML strict; put non-OSI metadata in `custom_extensions` or the separate application metadata file. Do not put top-level `reporting_requirements` or `report_implementations` in strict OSI YAML.
 - Use `extends` only for specialization/base reuse, not ownership, grouping, lineage, or tags.
 
 Stage gate:
@@ -115,9 +115,9 @@ Stage gate:
 - Every EntityType ValueType field has an object/referent/link mapping expression to an existing `dataset.column` when the physical evidence exists.
 - Reused ValueTypes keep the same concept id so the graph can derive `SHARES_VALUE_TYPE`.
 
-## Stage 4: RegulatoryRequirement
+## Stage 4: RegulatoryRequirement Application Metadata
 
-Generate requirements after concepts exist.
+Generate requirements after concepts exist. These structures are application-layer metadata for the UI and must be written to the separate app metadata file, not to the strict OSI YAML.
 
 Required structure:
 
@@ -157,9 +157,9 @@ Stage gate:
 - Every required field resolves to an EntityType value field, semantic metric, or explicit gap.
 - Every calculation input resolves to an EntityType value field.
 
-## Stage 5: ReportImplementation
+## Stage 5: ReportImplementation Application Metadata
 
-Generate physical delivery after the requirement is stable.
+Generate physical delivery after the requirement is stable. These structures are application-layer metadata for the UI and must be written to the separate app metadata file, not to the strict OSI YAML.
 
 Required structure:
 

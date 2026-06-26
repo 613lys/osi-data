@@ -4,9 +4,10 @@ Use this reference before generating or editing OSI YAML for the regulatory repo
 
 ## Target Shape
 
-Use one YAML file per scenario unless the user asks for packages:
+Use a strict OSI YAML file for OSI-standard objects only:
 
 ```yaml
+version: 0.2.0.dev0
 name: RegulatoryReportingOntology
 description:
 ai_context:
@@ -24,18 +25,14 @@ ontology:
 
 ontology_mappings:
   - name:
-    ontology:
     semantic_model:
       name:
       datasets: []
       relationships: []
     concept_mappings: []
-
-reporting_requirements: []
-report_implementations: []
 ```
 
-The default file path for generated scenarios is `knowledge/regulatory-reporting-osi.yaml`.
+The default strict OSI file path is `knowledge/regulatory-reporting-osi.yaml`. Regulatory reporting UI metadata such as `reporting_requirements` and `report_implementations` is not OSI schema and belongs in a separate application metadata file, defaulting to `knowledge/regulatory-reporting-app.yaml`.
 
 ## Generation Order
 
@@ -48,9 +45,9 @@ For complex scenarios, generate in this order:
 5. For each dataset field, map it to an existing reusable ValueType or create one new reusable ValueType with a stable id.
 6. Generate EntityType relationships and EntityType ValueType fields from the dataset semantics and business meaning.
 7. Generate `concept_mappings[]`, `object_mappings[]`, `referent_mappings[]`, and `link_mappings[]` from the semantic model datasets and fields.
-8. Generate reporting requirements only after concepts and mappings exist.
-9. Generate report implementations last, mapping every output field to an existing requirement field and physical output column.
-10. Generate `semantic_model.metrics[]` when a required or implemented field is calculated from semantic model fields.
+8. Generate `semantic_model.metrics[]` when a required or implemented field is calculated from semantic model fields.
+9. Generate reporting requirements only after concepts and mappings exist, but place them in the separate application metadata file, not the strict OSI YAML.
+10. Generate report implementations last in the separate application metadata file, mapping every output field to an existing requirement field and physical output column.
 
 Do not start from the regulatory report layout and invent ontology concepts directly from output columns. Backfill missing concepts into the ontology stage, then map the report to them.
 
@@ -72,7 +69,7 @@ TradeIdentifier, AccountIdentifier, CurrencyCode, MonetaryAmount, CountryCode
 
 Hard rules:
 
-- OSI YAML must strictly follow the fields accepted by OSI. Do not invent fields on OSI objects for UI convenience. If metadata is needed for the KG/UI but is not accepted by the OSI object schema, put it under OSI `custom_extensions` with a stable extension namespace or in a separate application-layer YAML section.
+- OSI YAML must strictly follow the fields accepted by the OSI ontology schema. Do not put application-layer keys such as `reporting_requirements` or `report_implementations` into the strict OSI YAML. If metadata is needed for the KG/UI but is not accepted by the OSI object schema, put it under OSI `custom_extensions` with a stable extension namespace or in a separate application metadata file.
 - Do not add a separate relationship type field when the type can be derived from the OSI relationship `name`. Use short business relationship names in the exact form `<action>_<role>`, such as `own_trade`, `book_customer`, `reference_product`, `pledge_collateral`, or `value_collateral`.
 - Do not create `business_entity` or `term` nodes.
 - Do not create an EntityType for every physical table.
@@ -97,7 +94,6 @@ ontology:
         roles:
           - name: owned_trade
             concept: Trade
-            multiplicity: many
 ```
 
 For EntityType fields, use the relationship name as the field role and point to a ValueType:
@@ -109,7 +105,6 @@ For EntityType fields, use the relationship name as the field role and point to 
         roles:
           - name: value
             concept: AccountIdentifier
-            multiplicity: one
 ```
 
 Rules:
@@ -122,7 +117,7 @@ Rules:
 - EntityType-to-EntityType relationships are traversable from either endpoint in the graph, but the generated graph data should contain one business edge from the declaring EntityType to the role target. Do not create a synthetic reverse edge or add synthetic properties such as `inverse`, `inverse_of`, or `bidirectional`.
 - Controlled actions are: `own`, `hold`, `book`, `reference`, `pledge`, `value`, `price`, `classify`, `settle`, `secure`, `derive`, `post`.
 - Use `extends` only for subtype/specialization, never for ownership, grouping, lineage, or tags.
-- Use `derived_by` for derivation rules and `requires` for constraints that must hold.
+- Use `derived_by` for derivation rules and `requires` for constraints that must hold. Every OSI ontology relationship must include `verbalizes`; do not put `multiplicity` under `roles` because OSI Role only accepts `concept` and optional `name`.
 
 ## Semantic Model And Physical Tables
 

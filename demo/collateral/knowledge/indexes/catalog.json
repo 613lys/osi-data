@@ -21,8 +21,7 @@
         "roles": [
           {
             "name": "value",
-            "concept": "AccountIdentifier",
-            "multiplicity": "one"
+            "concept": "AccountIdentifier"
           }
         ]
       },
@@ -34,8 +33,7 @@
         "roles": [
           {
             "name": "value",
-            "concept": "StatusCode",
-            "multiplicity": "one"
+            "concept": "StatusCode"
           }
         ]
       }
@@ -58,8 +56,7 @@
       "roles": [
         {
           "name": "value",
-          "concept": "AccountIdentifier",
-          "multiplicity": "one"
+          "concept": "AccountIdentifier"
         }
       ]
     },
@@ -82,8 +79,7 @@
       "roles": [
         {
           "name": "value",
-          "concept": "StatusCode",
-          "multiplicity": "one"
+          "concept": "StatusCode"
         }
       ]
     },
@@ -115,8 +111,7 @@
         "roles": [
           {
             "name": "owner",
-            "concept": "Counterparty",
-            "multiplicity": "one"
+            "concept": "Counterparty"
           }
         ]
       },
@@ -128,8 +123,7 @@
         "roles": [
           {
             "name": "pledged_asset",
-            "concept": "CollateralAsset",
-            "multiplicity": "many"
+            "concept": "CollateralAsset"
           }
         ]
       },
@@ -141,8 +135,7 @@
         "roles": [
           {
             "name": "value",
-            "concept": "CurrencyCode",
-            "multiplicity": "one"
+            "concept": "CurrencyCode"
           }
         ]
       }
@@ -244,8 +237,7 @@
       "roles": [
         {
           "name": "value",
-          "concept": "CurrencyCode",
-          "multiplicity": "one"
+          "concept": "CurrencyCode"
         }
       ]
     },
@@ -271,9 +263,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "CounterpartyIdentifier",
-            "multiplicity": "one"
+            "concept": "CounterpartyIdentifier"
           }
+        ],
+        "verbalizes": [
+          "{Counterparty} has counterparty_id {CounterpartyIdentifier}"
         ]
       },
       {
@@ -281,9 +275,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "LegalName",
-            "multiplicity": "one"
+            "concept": "LegalName"
           }
+        ],
+        "verbalizes": [
+          "{Counterparty} has legal_name {LegalName}"
         ]
       },
       {
@@ -291,9 +287,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "CountryCode",
-            "multiplicity": "one"
+            "concept": "CountryCode"
           }
+        ],
+        "verbalizes": [
+          "{Counterparty} has domicile_country {CountryCode}"
         ]
       },
       {
@@ -301,9 +299,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "RegulatorySegment",
-            "multiplicity": "one"
+            "concept": "RegulatorySegment"
           }
+        ],
+        "verbalizes": [
+          "{Counterparty} has regulatory_segment {RegulatorySegment}"
         ]
       }
     ],
@@ -392,7 +392,7 @@
     "id": "value.Counterparty.counterparty_id",
     "type": "value_type_property",
     "name": "counterparty_id",
-    "description": "Counterparty.counterparty_id uses CounterpartyIdentifier.",
+    "description": "{Counterparty} has counterparty_id {CounterpartyIdentifier}",
     "parent": "concept.Counterparty",
     "data_type": "CounterpartyIdentifier",
     "value_concept": "CounterpartyIdentifier",
@@ -401,9 +401,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "CounterpartyIdentifier",
-          "multiplicity": "one"
+          "concept": "CounterpartyIdentifier"
         }
+      ],
+      "verbalizes": [
+        "{Counterparty} has counterparty_id {CounterpartyIdentifier}"
       ]
     },
     "inherited": false,
@@ -413,7 +415,7 @@
     "id": "value.Counterparty.legal_name",
     "type": "value_type_property",
     "name": "legal_name",
-    "description": "Counterparty.legal_name uses LegalName.",
+    "description": "{Counterparty} has legal_name {LegalName}",
     "parent": "concept.Counterparty",
     "data_type": "LegalName",
     "value_concept": "LegalName",
@@ -422,9 +424,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "LegalName",
-          "multiplicity": "one"
+          "concept": "LegalName"
         }
+      ],
+      "verbalizes": [
+        "{Counterparty} has legal_name {LegalName}"
       ]
     },
     "inherited": false,
@@ -434,7 +438,7 @@
     "id": "value.Counterparty.domicile_country",
     "type": "value_type_property",
     "name": "domicile_country",
-    "description": "Counterparty.domicile_country uses CountryCode.",
+    "description": "{Counterparty} has domicile_country {CountryCode}",
     "parent": "concept.Counterparty",
     "data_type": "CountryCode",
     "value_concept": "CountryCode",
@@ -443,9 +447,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "CountryCode",
-          "multiplicity": "one"
+          "concept": "CountryCode"
         }
+      ],
+      "verbalizes": [
+        "{Counterparty} has domicile_country {CountryCode}"
       ]
     },
     "inherited": false,
@@ -455,7 +461,7 @@
     "id": "value.Counterparty.regulatory_segment",
     "type": "value_type_property",
     "name": "regulatory_segment",
-    "description": "Counterparty.regulatory_segment uses RegulatorySegment.",
+    "description": "{Counterparty} has regulatory_segment {RegulatorySegment}",
     "parent": "concept.Counterparty",
     "data_type": "RegulatorySegment",
     "value_concept": "RegulatorySegment",
@@ -464,9 +470,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "RegulatorySegment",
-          "multiplicity": "one"
+          "concept": "RegulatorySegment"
         }
+      ],
+      "verbalizes": [
+        "{Counterparty} has regulatory_segment {RegulatorySegment}"
       ]
     },
     "inherited": false,
@@ -491,9 +499,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "CollateralIdentifier",
-            "multiplicity": "one"
+            "concept": "CollateralIdentifier"
           }
+        ],
+        "verbalizes": [
+          "{CollateralAsset} has collateral_id {CollateralIdentifier}"
         ]
       },
       {
@@ -501,9 +511,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "AssetType",
-            "multiplicity": "one"
+            "concept": "AssetType"
           }
+        ],
+        "verbalizes": [
+          "{CollateralAsset} has asset_type {AssetType}"
         ]
       },
       {
@@ -511,9 +523,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "CurrencyCode",
-            "multiplicity": "one"
+            "concept": "CurrencyCode"
           }
+        ],
+        "verbalizes": [
+          "{CollateralAsset} has currency {CurrencyCode}"
         ]
       },
       {
@@ -521,9 +535,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "CountryCode",
-            "multiplicity": "one"
+            "concept": "CountryCode"
           }
+        ],
+        "verbalizes": [
+          "{CollateralAsset} has issuer_country {CountryCode}"
         ]
       },
       {
@@ -531,9 +547,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "MonetaryAmount",
-            "multiplicity": "one"
+            "concept": "MonetaryAmount"
           }
+        ],
+        "verbalizes": [
+          "{CollateralAsset} has market_value_amount {MonetaryAmount}"
         ]
       }
     ],
@@ -622,7 +640,7 @@
     "id": "value.CollateralAsset.collateral_id",
     "type": "value_type_property",
     "name": "collateral_id",
-    "description": "CollateralAsset.collateral_id uses CollateralIdentifier.",
+    "description": "{CollateralAsset} has collateral_id {CollateralIdentifier}",
     "parent": "concept.CollateralAsset",
     "data_type": "CollateralIdentifier",
     "value_concept": "CollateralIdentifier",
@@ -631,9 +649,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "CollateralIdentifier",
-          "multiplicity": "one"
+          "concept": "CollateralIdentifier"
         }
+      ],
+      "verbalizes": [
+        "{CollateralAsset} has collateral_id {CollateralIdentifier}"
       ]
     },
     "inherited": false,
@@ -643,7 +663,7 @@
     "id": "value.CollateralAsset.asset_type",
     "type": "value_type_property",
     "name": "asset_type",
-    "description": "CollateralAsset.asset_type uses AssetType.",
+    "description": "{CollateralAsset} has asset_type {AssetType}",
     "parent": "concept.CollateralAsset",
     "data_type": "AssetType",
     "value_concept": "AssetType",
@@ -652,9 +672,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "AssetType",
-          "multiplicity": "one"
+          "concept": "AssetType"
         }
+      ],
+      "verbalizes": [
+        "{CollateralAsset} has asset_type {AssetType}"
       ]
     },
     "inherited": false,
@@ -664,7 +686,7 @@
     "id": "value.CollateralAsset.currency",
     "type": "value_type_property",
     "name": "currency",
-    "description": "CollateralAsset.currency uses CurrencyCode.",
+    "description": "{CollateralAsset} has currency {CurrencyCode}",
     "parent": "concept.CollateralAsset",
     "data_type": "CurrencyCode",
     "value_concept": "CurrencyCode",
@@ -673,9 +695,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "CurrencyCode",
-          "multiplicity": "one"
+          "concept": "CurrencyCode"
         }
+      ],
+      "verbalizes": [
+        "{CollateralAsset} has currency {CurrencyCode}"
       ]
     },
     "inherited": false,
@@ -685,7 +709,7 @@
     "id": "value.CollateralAsset.issuer_country",
     "type": "value_type_property",
     "name": "issuer_country",
-    "description": "CollateralAsset.issuer_country uses CountryCode.",
+    "description": "{CollateralAsset} has issuer_country {CountryCode}",
     "parent": "concept.CollateralAsset",
     "data_type": "CountryCode",
     "value_concept": "CountryCode",
@@ -694,9 +718,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "CountryCode",
-          "multiplicity": "one"
+          "concept": "CountryCode"
         }
+      ],
+      "verbalizes": [
+        "{CollateralAsset} has issuer_country {CountryCode}"
       ]
     },
     "inherited": false,
@@ -706,7 +732,7 @@
     "id": "value.CollateralAsset.market_value_amount",
     "type": "value_type_property",
     "name": "market_value_amount",
-    "description": "CollateralAsset.market_value_amount uses MonetaryAmount.",
+    "description": "{CollateralAsset} has market_value_amount {MonetaryAmount}",
     "parent": "concept.CollateralAsset",
     "data_type": "MonetaryAmount",
     "value_concept": "MonetaryAmount",
@@ -715,9 +741,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "MonetaryAmount",
-          "multiplicity": "one"
+          "concept": "MonetaryAmount"
         }
+      ],
+      "verbalizes": [
+        "{CollateralAsset} has market_value_amount {MonetaryAmount}"
       ]
     },
     "inherited": false,
@@ -742,9 +770,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "ValuationIdentifier",
-            "multiplicity": "one"
+            "concept": "ValuationIdentifier"
           }
+        ],
+        "verbalizes": [
+          "{CollateralValuation} has valuation_id {ValuationIdentifier}"
         ]
       },
       {
@@ -755,8 +785,7 @@
         "roles": [
           {
             "name": "collateral",
-            "concept": "CollateralAsset",
-            "multiplicity": "one"
+            "concept": "CollateralAsset"
           }
         ]
       },
@@ -765,9 +794,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "Date",
-            "multiplicity": "one"
+            "concept": "Date"
           }
+        ],
+        "verbalizes": [
+          "{CollateralValuation} has valuation_date {Date}"
         ]
       },
       {
@@ -775,9 +806,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "MonetaryAmount",
-            "multiplicity": "one"
+            "concept": "MonetaryAmount"
           }
+        ],
+        "verbalizes": [
+          "{CollateralValuation} has market_value_amount {MonetaryAmount}"
         ]
       },
       {
@@ -785,9 +818,11 @@
         "roles": [
           {
             "name": "value",
-            "concept": "Rate",
-            "multiplicity": "one"
+            "concept": "Rate"
           }
+        ],
+        "verbalizes": [
+          "{CollateralValuation} has haircut_rate {Rate}"
         ]
       }
     ],
@@ -889,7 +924,7 @@
     "id": "value.CollateralValuation.valuation_id",
     "type": "value_type_property",
     "name": "valuation_id",
-    "description": "CollateralValuation.valuation_id uses ValuationIdentifier.",
+    "description": "{CollateralValuation} has valuation_id {ValuationIdentifier}",
     "parent": "concept.CollateralValuation",
     "data_type": "ValuationIdentifier",
     "value_concept": "ValuationIdentifier",
@@ -898,9 +933,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "ValuationIdentifier",
-          "multiplicity": "one"
+          "concept": "ValuationIdentifier"
         }
+      ],
+      "verbalizes": [
+        "{CollateralValuation} has valuation_id {ValuationIdentifier}"
       ]
     },
     "inherited": false,
@@ -910,7 +947,7 @@
     "id": "value.CollateralValuation.valuation_date",
     "type": "value_type_property",
     "name": "valuation_date",
-    "description": "CollateralValuation.valuation_date uses Date.",
+    "description": "{CollateralValuation} has valuation_date {Date}",
     "parent": "concept.CollateralValuation",
     "data_type": "Date",
     "value_concept": "Date",
@@ -919,9 +956,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "Date",
-          "multiplicity": "one"
+          "concept": "Date"
         }
+      ],
+      "verbalizes": [
+        "{CollateralValuation} has valuation_date {Date}"
       ]
     },
     "inherited": false,
@@ -931,7 +970,7 @@
     "id": "value.CollateralValuation.market_value_amount",
     "type": "value_type_property",
     "name": "market_value_amount",
-    "description": "CollateralValuation.market_value_amount uses MonetaryAmount.",
+    "description": "{CollateralValuation} has market_value_amount {MonetaryAmount}",
     "parent": "concept.CollateralValuation",
     "data_type": "MonetaryAmount",
     "value_concept": "MonetaryAmount",
@@ -940,9 +979,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "MonetaryAmount",
-          "multiplicity": "one"
+          "concept": "MonetaryAmount"
         }
+      ],
+      "verbalizes": [
+        "{CollateralValuation} has market_value_amount {MonetaryAmount}"
       ]
     },
     "inherited": false,
@@ -952,7 +993,7 @@
     "id": "value.CollateralValuation.haircut_rate",
     "type": "value_type_property",
     "name": "haircut_rate",
-    "description": "CollateralValuation.haircut_rate uses Rate.",
+    "description": "{CollateralValuation} has haircut_rate {Rate}",
     "parent": "concept.CollateralValuation",
     "data_type": "Rate",
     "value_concept": "Rate",
@@ -961,9 +1002,11 @@
       "roles": [
         {
           "name": "value",
-          "concept": "Rate",
-          "multiplicity": "one"
+          "concept": "Rate"
         }
+      ],
+      "verbalizes": [
+        "{CollateralValuation} has haircut_rate {Rate}"
       ]
     },
     "inherited": false,
@@ -985,8 +1028,7 @@
       "roles": [
         {
           "name": "value",
-          "concept": "AccountIdentifier",
-          "multiplicity": "one"
+          "concept": "AccountIdentifier"
         }
       ]
     },
@@ -1009,8 +1051,7 @@
       "roles": [
         {
           "name": "value",
-          "concept": "StatusCode",
-          "multiplicity": "one"
+          "concept": "StatusCode"
         }
       ]
     },

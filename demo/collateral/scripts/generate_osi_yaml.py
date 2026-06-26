@@ -17,6 +17,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate the collateral demo OSI YAML from raw source metadata.")
     parser.add_argument("--raw", default="raw/collateral-margin-source.yaml", help="Raw source metadata YAML.")
     parser.add_argument("--output", default="knowledge/regulatory-reporting-osi.yaml", help="Generated OSI YAML.")
+    parser.add_argument("--app-output", default="knowledge/regulatory-reporting-app.yaml", help="Generated application metadata YAML.")
     return parser.parse_args()
 
 
@@ -35,6 +36,28 @@ def field_expression(field: dict[str, Any]) -> dict[str, Any]:
     return expression(field.get("expression") or field["name"])
 
 
+def role_without_app_fields(role: dict[str, Any]) -> dict[str, Any]:
+    return {key: value for key, value in role.items() if key in {"concept", "name"}}
+
+
+def default_verbalizes(owner: str, relationship: dict[str, Any]) -> list[str]:
+    roles = relationship.get("roles") or []
+    if not roles:
+        return [f"{{{owner}}} has relationship {relationship['name']}"]
+    target = roles[-1].get("concept", "Value")
+    if roles[-1].get("name") == "value":
+        return [f"{{{owner}}} has {relationship['name']} {{{target}}}"]
+    return [f"{{{owner}}} {relationship['name'].replace('_', ' ')} {{{target}}}"]
+
+
+def relationship(owner: str, item: dict[str, Any]) -> dict[str, Any]:
+    allowed = {"name", "description", "roles", "multiplicity", "derived_by", "requires", "verbalizes"}
+    output = {key: value for key, value in item.items() if key in allowed and value not in (None, [], "")}
+    output["roles"] = [role_without_app_fields(role) for role in item.get("roles") or []]
+    output.setdefault("verbalizes", default_verbalizes(owner, item))
+    return output
+
+
 def concept_component(item: dict[str, Any], concept_type: str) -> dict[str, Any]:
     concept = {
         "name": item["name"],
@@ -45,7 +68,7 @@ def concept_component(item: dict[str, Any], concept_type: str) -> dict[str, Any]
             concept[key] = item[key]
     component = {"concept": concept}
     if item.get("relationships"):
-        component["relationships"] = item["relationships"]
+        component["relationships"] = [relationship(item["name"], rel) for rel in item["relationships"]]
     return component
 
 
@@ -94,13 +117,13 @@ def build_model(raw: dict[str, Any]) -> dict[str, Any]:
     components.extend(concept_component(item, "ValueType") for item in ontology.get("value_types") or [])
 
     output = {
+        "version": scenario.get("version", "0.2.0.dev0"),
         "name": scenario["ontology_name"],
         "description": scenario.get("description", ""),
         "ontology": components,
         "ontology_mappings": [
             {
                 "name": scenario["mapping_name"],
-                "ontology": scenario["ontology_name"],
                 "semantic_model": {
                     "name": scenario["semantic_model_name"],
                     "description": scenario.get("semantic_model_description", ""),
@@ -111,8 +134,6 @@ def build_model(raw: dict[str, Any]) -> dict[str, Any]:
                 "concept_mappings": raw.get("concept_mappings") or [],
             }
         ],
-        "reporting_requirements": raw.get("reporting_requirements") or [],
-        "report_implementations": raw.get("report_implementations") or [],
         "ai_context": {
             "model_version": scenario.get("model_version", "1.0.0"),
             "owner": scenario.get("owner", ""),
@@ -122,15 +143,29 @@ def build_model(raw: dict[str, Any]) -> dict[str, Any]:
     return output
 
 
+def build_app_metadata(raw: dict[str, Any]) -> dict[str, Any]:
+    scenario = raw["scenario"]
+    return {
+        "name": f"{scenario['ontology_name']}ApplicationMetadata",
+        "description": "Application-layer metadata used by the demo UI; not part of the OSI ontology schema.",
+        "reporting_requirements": raw.get("reporting_requirements") or [],
+        "report_implementations": raw.get("report_implementations") or [],
+    }
+
+
 def main() -> None:
     args = parse_args()
     raw_path = resolve_path(args.raw)
     output_path = resolve_path(args.output)
+    app_output_path = resolve_path(args.app_output)
     raw = yaml.safe_load(raw_path.read_text(encoding="utf-8"))
     output = build_model(raw)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(yaml.safe_dump(output, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    app_output_path.parent.mkdir(parents=True, exist_ok=True)
+    app_output_path.write_text(yaml.safe_dump(build_app_metadata(raw), sort_keys=False, allow_unicode=True), encoding="utf-8")
     print(f"Wrote {output_path}")
+    print(f"Wrote {app_output_path}")
 
 
 if __name__ == "__main__":

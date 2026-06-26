@@ -9,7 +9,7 @@ description: Generate OSI-based regulatory reporting knowledge graph artifacts f
 
 Use this skill to turn source metadata and reporting requirements into a reusable OSI knowledge graph UI. The intended pattern is regulatory reporting: model business semantics as OSI ontology concepts, model regulatory obligations as requirement nodes, model delivery/report files as implementation nodes, compile the YAML to graph/catalog JS, and render it with the bundled UI template.
 
-Do not use the older `business_entity` or `term` model for this skill. Generate OSI-style `EntityType`, `ValueType`, `RegulatoryRequirement`, `ReportImplementation`, semantic model, ontology mapping, and physical dataset structures.
+Do not use the older `business_entity` or `term` model for this skill. Generate strict OSI `EntityType`, `ValueType`, semantic model, ontology mapping, and physical dataset structures. Generate `RegulatoryRequirement` and `ReportImplementation` only as separate application-layer metadata for the UI, not as OSI schema objects.
 
 ## Workflow
 
@@ -17,12 +17,13 @@ Do not use the older `business_entity` or `term` model for this skill. Generate 
    - Gather tables, columns, keys, nullability, comments, joins, expressions, report layouts, regulatory rule text, controls, and lineage hints.
    - Ask only for semantics that cannot be inferred safely: entity boundaries, relationship meaning, report grain, required fields, calculation formulas, and identity rules.
 
-2. Generate OSI YAML.
-   - Generate from physical metadata in this order: tables -> semantic model datasets -> semantic model relationships -> EntityType/ValueType concepts -> concept/object mappings -> regulatory requirements -> report implementations -> semantic metrics for calculated fields.
+2. Generate strict OSI YAML plus separate app metadata.
+   - Generate strict OSI YAML from physical metadata in this order: tables -> semantic model datasets -> semantic model relationships -> EntityType/ValueType concepts -> concept/object mappings -> semantic metrics for calculated fields.
+   - Generate regulatory requirements and report implementations into a separate application metadata file, not into the OSI YAML.
    - Read `references/osi-yaml-generation.md` before writing YAML.
    - If the task is a regulatory report, also read `references/regulatory-reporting-pattern.md`.
    - For complex scenarios, read `references/generation-stages.md` and generate the YAML in stages instead of trying to complete the whole model in one pass.
-   - Write one scenario YAML file by default at `knowledge/regulatory-reporting-osi.yaml`.
+   - Write strict OSI YAML by default at `knowledge/regulatory-reporting-osi.yaml` and app metadata by default at `knowledge/regulatory-reporting-app.yaml`.
    - Keep IDs stable, deterministic, and business-readable.
 
 3. Compile YAML to graph data and JS files.
@@ -30,7 +31,7 @@ Do not use the older `business_entity` or `term` model for this skill. Generate 
    - Run:
 
 ```powershell
-python <skill-dir>\scripts\build_osi_graph.py --root <scenario-root> --source knowledge\regulatory-reporting-osi.yaml --copy-frontend-template --overwrite-template
+python <skill-dir>\scripts\build_osi_graph.py --root <scenario-root> --source knowledge\regulatory-reporting-osi.yaml --app-metadata knowledge\regulatory-reporting-app.yaml --copy-frontend-template --overwrite-template
 ```
 
 The script emits:
@@ -78,15 +79,15 @@ frontend/summary-data.js
 
 ## Assets And Scripts
 
-- `scripts/build_osi_graph.py`: The skill generator. It is not part of OSI; it compiles scenario YAML into `knowledge/indexes/*.json`, copies the frontend template when requested, and emits `frontend/*-data.js` for the static UI.
+- `scripts/build_osi_graph.py`: The skill generator. It is not part of OSI; it compiles strict OSI YAML plus optional application metadata into `knowledge/indexes/*.json`, copies the frontend template when requested, and emits `frontend/*-data.js` for the static UI.
 - `assets/frontend-template/`: Static HTML/CSS/JS UI template for catalog search and graph exploration.
 
 ## Validation Checklist
 
 After generating a scenario:
 
-- YAML has ontology, semantic model datasets, semantic model relationships, ontology mappings, reporting requirements, report implementations, and metrics for calculated semantic fields when needed.
-- OSI YAML objects strictly use fields accepted by OSI. UI-only metadata must not be inserted into OSI objects; use a separate application extension section or OSI `custom_extensions` when extra metadata is unavoidable.
+- Strict OSI YAML has `version`, ontology, semantic model datasets, semantic model relationships, ontology mappings, and metrics for calculated semantic fields when needed. Reporting requirements and report implementations live in the separate app metadata file.
+- OSI YAML objects strictly use fields accepted by OSI. UI-only metadata and app-layer reporting structures must not be inserted into OSI objects; use a separate application metadata file or OSI `custom_extensions` when extra per-object metadata is unavoidable.
 - EntityType relationships use globally unique OSI relationship `name` values in `<controlled_action>_<role>` form, such as `own_trade`, `reference_product`, `pledge_collateral`, or `value_collateral`; the generated business graph edge id is exactly that relationship name, while the UI edge type and canvas label are only the controlled action prefix.
 - Controlled EntityType relationship actions are only: `own`, `hold`, `book`, `reference`, `pledge`, `value`, `price`, `classify`, `settle`, `secure`, `derive`, `post`.
 - EntityType field roles point to ValueType concepts.

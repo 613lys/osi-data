@@ -1,6 +1,6 @@
 # Regulatory Reporting Pattern
 
-Use this reference when generating OSI YAML for regulatory reports. The scenario should produce two reporting-layer structures:
+Use this reference when generating application metadata for regulatory reports. The strict OSI YAML remains schema-valid OSI; the scenario should produce two reporting-layer structures in a separate app metadata file:
 
 - `RegulatoryRequirement`: what the regulator requires semantically.
 - `ReportImplementation`: how a concrete report table/file/view is produced physically.
@@ -16,6 +16,7 @@ Hard constraints:
 - Implementation fields connect to requirement fields and physical columns.
 - Never generate `IMPLEMENTS_SEMANTIC_FIELD`.
 - `semantic_reference` on implementation fields is descriptive metadata only.
+- Do not place `reporting_requirements` or `report_implementations` in the strict OSI YAML file; place them in the app metadata file consumed by the graph generator.
 
 Correct field-level chain:
 

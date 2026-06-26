@@ -36,6 +36,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Compile OSI regulatory-reporting YAML into graph indexes and frontend JS data.")
     parser.add_argument("--root", default=".", help="Project root. Relative input/output paths resolve against this directory.")
     parser.add_argument("--source", default="knowledge/regulatory-reporting-osi.yaml", help="Input OSI YAML path.")
+    parser.add_argument("--app-metadata", default="knowledge/regulatory-reporting-app.yaml", help="Optional application-layer metadata YAML merged only for graph/UI generation.")
     parser.add_argument("--index-dir", default="knowledge/indexes", help="Output directory for graph/catalog/search/summary JSON.")
     parser.add_argument("--frontend-dir", default="frontend", help="Output directory for frontend JS data and optional UI template.")
     parser.add_argument("--template-dir", default=str(TEMPLATE_DIR), help="Frontend template directory to copy when requested.")
@@ -1206,6 +1207,12 @@ def main() -> None:
         copy_frontend_template(template_dir, FRONTEND_DIR, args.overwrite_template)
 
     data = yaml.safe_load(SOURCE.read_text(encoding="utf-8"))
+    app_metadata_path = resolve_path(args.app_metadata, ROOT).resolve()
+    if app_metadata_path.exists():
+        app_metadata = yaml.safe_load(app_metadata_path.read_text(encoding="utf-8")) or {}
+        for key in ("reporting_requirements", "report_implementations"):
+            if key in app_metadata:
+                data[key] = app_metadata[key]
     graph, catalog, meta = compile_catalog_and_graph(data)
 
     (INDEX_DIR / "graph.json").write_text(json.dumps(graph, indent=2, ensure_ascii=False), encoding="utf-8")

@@ -37,47 +37,47 @@
   {
     "id": "value.Counterparty.counterparty_id",
     "type": "value_type_property",
-    "text": "value.Counterparty.counterparty_id value_type_property counterparty_id Counterparty.counterparty_id uses CounterpartyIdentifier. Counterparty.counterparty_id uses CounterpartyIdentifier."
+    "text": "value.Counterparty.counterparty_id value_type_property counterparty_id {Counterparty} has counterparty_id {CounterpartyIdentifier} {Counterparty} has counterparty_id {CounterpartyIdentifier}"
   },
   {
     "id": "value.Counterparty.legal_name",
     "type": "value_type_property",
-    "text": "value.Counterparty.legal_name value_type_property legal_name Counterparty.legal_name uses LegalName. Counterparty.legal_name uses LegalName."
+    "text": "value.Counterparty.legal_name value_type_property legal_name {Counterparty} has legal_name {LegalName} {Counterparty} has legal_name {LegalName}"
   },
   {
     "id": "value.Counterparty.domicile_country",
     "type": "value_type_property",
-    "text": "value.Counterparty.domicile_country value_type_property domicile_country Counterparty.domicile_country uses CountryCode. Counterparty.domicile_country uses CountryCode."
+    "text": "value.Counterparty.domicile_country value_type_property domicile_country {Counterparty} has domicile_country {CountryCode} {Counterparty} has domicile_country {CountryCode}"
   },
   {
     "id": "value.Counterparty.regulatory_segment",
     "type": "value_type_property",
-    "text": "value.Counterparty.regulatory_segment value_type_property regulatory_segment Counterparty.regulatory_segment uses RegulatorySegment. Counterparty.regulatory_segment uses RegulatorySegment."
+    "text": "value.Counterparty.regulatory_segment value_type_property regulatory_segment {Counterparty} has regulatory_segment {RegulatorySegment} {Counterparty} has regulatory_segment {RegulatorySegment}"
   },
   {
     "id": "value.CollateralAsset.collateral_id",
     "type": "value_type_property",
-    "text": "value.CollateralAsset.collateral_id value_type_property collateral_id CollateralAsset.collateral_id uses CollateralIdentifier. CollateralAsset.collateral_id uses CollateralIdentifier."
+    "text": "value.CollateralAsset.collateral_id value_type_property collateral_id {CollateralAsset} has collateral_id {CollateralIdentifier} {CollateralAsset} has collateral_id {CollateralIdentifier}"
   },
   {
     "id": "value.CollateralAsset.asset_type",
     "type": "value_type_property",
-    "text": "value.CollateralAsset.asset_type value_type_property asset_type CollateralAsset.asset_type uses AssetType. CollateralAsset.asset_type uses AssetType."
+    "text": "value.CollateralAsset.asset_type value_type_property asset_type {CollateralAsset} has asset_type {AssetType} {CollateralAsset} has asset_type {AssetType}"
   },
   {
     "id": "value.CollateralAsset.currency",
     "type": "value_type_property",
-    "text": "value.CollateralAsset.currency value_type_property currency CollateralAsset.currency uses CurrencyCode. CollateralAsset.currency uses CurrencyCode."
+    "text": "value.CollateralAsset.currency value_type_property currency {CollateralAsset} has currency {CurrencyCode} {CollateralAsset} has currency {CurrencyCode}"
   },
   {
     "id": "value.CollateralAsset.issuer_country",
     "type": "value_type_property",
-    "text": "value.CollateralAsset.issuer_country value_type_property issuer_country CollateralAsset.issuer_country uses CountryCode. CollateralAsset.issuer_country uses CountryCode."
+    "text": "value.CollateralAsset.issuer_country value_type_property issuer_country {CollateralAsset} has issuer_country {CountryCode} {CollateralAsset} has issuer_country {CountryCode}"
   },
   {
     "id": "value.CollateralAsset.market_value_amount",
     "type": "value_type_property",
-    "text": "value.CollateralAsset.market_value_amount value_type_property market_value_amount CollateralAsset.market_value_amount uses MonetaryAmount. CollateralAsset.market_value_amount uses MonetaryAmount."
+    "text": "value.CollateralAsset.market_value_amount value_type_property market_value_amount {CollateralAsset} has market_value_amount {MonetaryAmount} {CollateralAsset} has market_value_amount {MonetaryAmount}"
   },
   {
     "id": "concept.CollateralValuation",
@@ -87,22 +87,22 @@
   {
     "id": "value.CollateralValuation.valuation_id",
     "type": "value_type_property",
-    "text": "value.CollateralValuation.valuation_id value_type_property valuation_id CollateralValuation.valuation_id uses ValuationIdentifier. CollateralValuation.valuation_id uses ValuationIdentifier."
+    "text": "value.CollateralValuation.valuation_id value_type_property valuation_id {CollateralValuation} has valuation_id {ValuationIdentifier} {CollateralValuation} has valuation_id {ValuationIdentifier}"
   },
   {
     "id": "value.CollateralValuation.valuation_date",
     "type": "value_type_property",
-    "text": "value.CollateralValuation.valuation_date value_type_property valuation_date CollateralValuation.valuation_date uses Date. CollateralValuation.valuation_date uses Date."
+    "text": "value.CollateralValuation.valuation_date value_type_property valuation_date {CollateralValuation} has valuation_date {Date} {CollateralValuation} has valuation_date {Date}"
   },
   {
     "id": "value.CollateralValuation.market_value_amount",
     "type": "value_type_property",
-    "text": "value.CollateralValuation.market_value_amount value_type_property market_value_amount CollateralValuation.market_value_amount uses MonetaryAmount. CollateralValuation.market_value_amount uses MonetaryAmount."
+    "text": "value.CollateralValuation.market_value_amount value_type_property market_value_amount {CollateralValuation} has market_value_amount {MonetaryAmount} {CollateralValuation} has market_value_amount {MonetaryAmount}"
   },
   {
     "id": "value.CollateralValuation.haircut_rate",
     "type": "value_type_property",
-    "text": "value.CollateralValuation.haircut_rate value_type_property haircut_rate CollateralValuation.haircut_rate uses Rate. CollateralValuation.haircut_rate uses Rate."
+    "text": "value.CollateralValuation.haircut_rate value_type_property haircut_rate {CollateralValuation} has haircut_rate {Rate} {CollateralValuation} has haircut_rate {Rate}"
   },
   {
     "id": "value.MarginAccount.account_id",

@@ -115,10 +115,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "counterparty_id",
       "properties": {
-        "description": "Counterparty.counterparty_id uses CounterpartyIdentifier.",
+        "description": "{Counterparty} has counterparty_id {CounterpartyIdentifier}",
         "parent": "concept.Counterparty",
         "data_type": "CounterpartyIdentifier",
         "value_concept": "CounterpartyIdentifier",
+        "verbalizes": [
+          "{Counterparty} has counterparty_id {CounterpartyIdentifier}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -128,10 +131,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "legal_name",
       "properties": {
-        "description": "Counterparty.legal_name uses LegalName.",
+        "description": "{Counterparty} has legal_name {LegalName}",
         "parent": "concept.Counterparty",
         "data_type": "LegalName",
         "value_concept": "LegalName",
+        "verbalizes": [
+          "{Counterparty} has legal_name {LegalName}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -141,10 +147,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "domicile_country",
       "properties": {
-        "description": "Counterparty.domicile_country uses CountryCode.",
+        "description": "{Counterparty} has domicile_country {CountryCode}",
         "parent": "concept.Counterparty",
         "data_type": "CountryCode",
         "value_concept": "CountryCode",
+        "verbalizes": [
+          "{Counterparty} has domicile_country {CountryCode}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -154,10 +163,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "regulatory_segment",
       "properties": {
-        "description": "Counterparty.regulatory_segment uses RegulatorySegment.",
+        "description": "{Counterparty} has regulatory_segment {RegulatorySegment}",
         "parent": "concept.Counterparty",
         "data_type": "RegulatorySegment",
         "value_concept": "RegulatorySegment",
+        "verbalizes": [
+          "{Counterparty} has regulatory_segment {RegulatorySegment}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -167,10 +179,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "collateral_id",
       "properties": {
-        "description": "CollateralAsset.collateral_id uses CollateralIdentifier.",
+        "description": "{CollateralAsset} has collateral_id {CollateralIdentifier}",
         "parent": "concept.CollateralAsset",
         "data_type": "CollateralIdentifier",
         "value_concept": "CollateralIdentifier",
+        "verbalizes": [
+          "{CollateralAsset} has collateral_id {CollateralIdentifier}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -180,10 +195,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "asset_type",
       "properties": {
-        "description": "CollateralAsset.asset_type uses AssetType.",
+        "description": "{CollateralAsset} has asset_type {AssetType}",
         "parent": "concept.CollateralAsset",
         "data_type": "AssetType",
         "value_concept": "AssetType",
+        "verbalizes": [
+          "{CollateralAsset} has asset_type {AssetType}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -193,10 +211,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "currency",
       "properties": {
-        "description": "CollateralAsset.currency uses CurrencyCode.",
+        "description": "{CollateralAsset} has currency {CurrencyCode}",
         "parent": "concept.CollateralAsset",
         "data_type": "CurrencyCode",
         "value_concept": "CurrencyCode",
+        "verbalizes": [
+          "{CollateralAsset} has currency {CurrencyCode}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -206,10 +227,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "issuer_country",
       "properties": {
-        "description": "CollateralAsset.issuer_country uses CountryCode.",
+        "description": "{CollateralAsset} has issuer_country {CountryCode}",
         "parent": "concept.CollateralAsset",
         "data_type": "CountryCode",
         "value_concept": "CountryCode",
+        "verbalizes": [
+          "{CollateralAsset} has issuer_country {CountryCode}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -219,10 +243,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "market_value_amount",
       "properties": {
-        "description": "CollateralAsset.market_value_amount uses MonetaryAmount.",
+        "description": "{CollateralAsset} has market_value_amount {MonetaryAmount}",
         "parent": "concept.CollateralAsset",
         "data_type": "MonetaryAmount",
         "value_concept": "MonetaryAmount",
+        "verbalizes": [
+          "{CollateralAsset} has market_value_amount {MonetaryAmount}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -247,10 +274,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "valuation_id",
       "properties": {
-        "description": "CollateralValuation.valuation_id uses ValuationIdentifier.",
+        "description": "{CollateralValuation} has valuation_id {ValuationIdentifier}",
         "parent": "concept.CollateralValuation",
         "data_type": "ValuationIdentifier",
         "value_concept": "ValuationIdentifier",
+        "verbalizes": [
+          "{CollateralValuation} has valuation_id {ValuationIdentifier}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -260,10 +290,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "valuation_date",
       "properties": {
-        "description": "CollateralValuation.valuation_date uses Date.",
+        "description": "{CollateralValuation} has valuation_date {Date}",
         "parent": "concept.CollateralValuation",
         "data_type": "Date",
         "value_concept": "Date",
+        "verbalizes": [
+          "{CollateralValuation} has valuation_date {Date}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -273,10 +306,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "market_value_amount",
       "properties": {
-        "description": "CollateralValuation.market_value_amount uses MonetaryAmount.",
+        "description": "{CollateralValuation} has market_value_amount {MonetaryAmount}",
         "parent": "concept.CollateralValuation",
         "data_type": "MonetaryAmount",
         "value_concept": "MonetaryAmount",
+        "verbalizes": [
+          "{CollateralValuation} has market_value_amount {MonetaryAmount}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -286,10 +322,13 @@ window.GRAPH_DATA = {
       "type": "value_type_property",
       "label": "haircut_rate",
       "properties": {
-        "description": "CollateralValuation.haircut_rate uses Rate.",
+        "description": "{CollateralValuation} has haircut_rate {Rate}",
         "parent": "concept.CollateralValuation",
         "data_type": "Rate",
         "value_concept": "Rate",
+        "verbalizes": [
+          "{CollateralValuation} has haircut_rate {Rate}"
+        ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
@@ -1172,8 +1211,7 @@ window.GRAPH_DATA = {
         "roles": [
           {
             "name": "owner",
-            "concept": "Counterparty",
-            "multiplicity": "one"
+            "concept": "Counterparty"
           }
         ]
       }
@@ -1190,8 +1228,7 @@ window.GRAPH_DATA = {
         "roles": [
           {
             "name": "pledged_asset",
-            "concept": "CollateralAsset",
-            "multiplicity": "many"
+            "concept": "CollateralAsset"
           }
         ]
       }
@@ -1219,6 +1256,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "Counterparty has value concept counterparty_id (CounterpartyIdentifier).",
+        "verbalizes": [
+          "{Counterparty} has counterparty_id {CounterpartyIdentifier}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "CounterpartyIdentifier",
         "inherited": false
@@ -1232,6 +1272,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "Counterparty has value concept legal_name (LegalName).",
+        "verbalizes": [
+          "{Counterparty} has legal_name {LegalName}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "LegalName",
         "inherited": false
@@ -1245,6 +1288,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "Counterparty has value concept domicile_country (CountryCode).",
+        "verbalizes": [
+          "{Counterparty} has domicile_country {CountryCode}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "CountryCode",
         "inherited": false
@@ -1258,6 +1304,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "Counterparty has value concept regulatory_segment (RegulatorySegment).",
+        "verbalizes": [
+          "{Counterparty} has regulatory_segment {RegulatorySegment}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "RegulatorySegment",
         "inherited": false
@@ -1271,6 +1320,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralAsset has value concept collateral_id (CollateralIdentifier).",
+        "verbalizes": [
+          "{CollateralAsset} has collateral_id {CollateralIdentifier}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "CollateralIdentifier",
         "inherited": false
@@ -1284,6 +1336,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralAsset has value concept asset_type (AssetType).",
+        "verbalizes": [
+          "{CollateralAsset} has asset_type {AssetType}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "AssetType",
         "inherited": false
@@ -1297,6 +1352,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralAsset has value concept currency (CurrencyCode).",
+        "verbalizes": [
+          "{CollateralAsset} has currency {CurrencyCode}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "CurrencyCode",
         "inherited": false
@@ -1310,6 +1368,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralAsset has value concept issuer_country (CountryCode).",
+        "verbalizes": [
+          "{CollateralAsset} has issuer_country {CountryCode}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "CountryCode",
         "inherited": false
@@ -1323,6 +1384,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralAsset has value concept market_value_amount (MonetaryAmount).",
+        "verbalizes": [
+          "{CollateralAsset} has market_value_amount {MonetaryAmount}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "MonetaryAmount",
         "inherited": false
@@ -1336,6 +1400,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralValuation has value concept valuation_id (ValuationIdentifier).",
+        "verbalizes": [
+          "{CollateralValuation} has valuation_id {ValuationIdentifier}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "ValuationIdentifier",
         "inherited": false
@@ -1354,8 +1421,7 @@ window.GRAPH_DATA = {
         "roles": [
           {
             "name": "collateral",
-            "concept": "CollateralAsset",
-            "multiplicity": "one"
+            "concept": "CollateralAsset"
           }
         ]
       }
@@ -1367,6 +1433,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralValuation has value concept valuation_date (Date).",
+        "verbalizes": [
+          "{CollateralValuation} has valuation_date {Date}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "Date",
         "inherited": false
@@ -1380,6 +1449,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralValuation has value concept market_value_amount (MonetaryAmount).",
+        "verbalizes": [
+          "{CollateralValuation} has market_value_amount {MonetaryAmount}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "MonetaryAmount",
         "inherited": false
@@ -1393,6 +1465,9 @@ window.GRAPH_DATA = {
       "label": "contains value",
       "properties": {
         "description": "CollateralValuation has value concept haircut_rate (Rate).",
+        "verbalizes": [
+          "{CollateralValuation} has haircut_rate {Rate}"
+        ],
         "source_field": "ontology.relationships",
         "value_concept": "Rate",
         "inherited": false

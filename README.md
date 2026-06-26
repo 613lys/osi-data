@@ -7,7 +7,8 @@ This repository contains a reusable Codex skill and a final collateral regulator
 - `skill/osi-kg-ui/` - reusable skill, frontend template, and graph generator.
 - `demo/collateral/raw/collateral-margin-source.yaml` - raw source metadata for the demo: physical tables, semantic concepts, mappings, regulatory requirements, and report implementation metadata.
 - `demo/collateral/scripts/generate_osi_yaml.py` - demo generator that converts the raw metadata into OSI YAML.
-- `demo/collateral/knowledge/regulatory-reporting-osi.yaml` - generated OSI YAML.
+- `demo/collateral/knowledge/regulatory-reporting-osi.yaml` - generated strict OSI YAML.
+- `demo/collateral/knowledge/regulatory-reporting-app.yaml` - generated application metadata for regulatory requirements and report implementations.
 - `demo/collateral/frontend/` - generated static UI, including `index.html` and graph/catalog JavaScript data.
 
 ## Build
@@ -23,7 +24,7 @@ The pipeline is:
 ```text
 raw/collateral-margin-source.yaml
   -> scripts/generate_osi_yaml.py
-  -> knowledge/regulatory-reporting-osi.yaml
+  -> knowledge/regulatory-reporting-osi.yaml + knowledge/regulatory-reporting-app.yaml
   -> skill/osi-kg-ui/scripts/build_osi_graph.py
   -> frontend/graph-data.js, catalog-data.js, summary-data.js
   -> frontend/index.html
@@ -45,7 +46,7 @@ Then open `http://127.0.0.1:8766/index.html`.
 
 ## Modeling Notes
 
-- OSI YAML is kept strict: no UI-only fields are inserted into OSI objects.
+- OSI YAML is kept strict: no UI-only fields or regulatory app metadata are inserted into OSI objects.
 - EntityType relationship names use `<action>_<role>`, for example `pledge_collateral`.
 - Business edge type and canvas label are derived from the action prefix, for example `pledge`.
 - Semantic node types render blue; physical node types render green.
