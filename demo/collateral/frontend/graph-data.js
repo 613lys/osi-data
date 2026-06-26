@@ -1846,10 +1846,10 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.margin_accounts.DATASET_JOIN.reference_counterparty.table.counterparties",
+      "id": "edge.table.margin_accounts.DATASET_JOIN.join_counterparty_id.table.counterparties",
       "source": "table.margin_accounts",
       "target": "table.counterparties",
-      "label": "reference_counterparty",
+      "label": "join counterparty_id",
       "properties": {
         "description": "margin_accounts joins counterparties on ['counterparty_id'] = ['counterparty_id'].",
         "join_name": "reference_counterparty",
@@ -1868,10 +1868,10 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.table.collateral_positions.DATASET_JOIN.pledge_collateral.table.margin_accounts",
+      "id": "edge.table.collateral_positions.DATASET_JOIN.join_account_id.table.margin_accounts",
       "source": "table.collateral_positions",
       "target": "table.margin_accounts",
-      "label": "pledge_collateral",
+      "label": "join account_id",
       "properties": {
         "description": "collateral_positions joins margin_accounts on ['account_id'] = ['account_id'].",
         "join_name": "pledge_collateral",
@@ -1890,10 +1890,10 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.table.collateral_valuations.DATASET_JOIN.value_collateral.table.collateral_positions",
+      "id": "edge.table.collateral_valuations.DATASET_JOIN.join_collateral_id.table.collateral_positions",
       "source": "table.collateral_valuations",
       "target": "table.collateral_positions",
-      "label": "value_collateral",
+      "label": "join collateral_id",
       "properties": {
         "description": "collateral_valuations joins collateral_positions on ['collateral_id'] = ['collateral_id'].",
         "join_name": "value_collateral",

@@ -118,6 +118,20 @@ def relationship_action(relationship_name: str) -> str:
     return action if action in CONTROLLED_RELATIONSHIP_ACTIONS else "relationship"
 
 
+def dataset_join_label(rel: dict[str, Any]) -> str:
+    from_columns = [str(item) for item in rel.get("from_columns") or []]
+    to_columns = [str(item) for item in rel.get("to_columns") or []]
+    if not from_columns and not to_columns:
+        return "join"
+    if from_columns == to_columns or not to_columns:
+        return "join " + ", ".join(from_columns)
+    pairs = []
+    for idx, from_col in enumerate(from_columns):
+        to_col = to_columns[idx] if idx < len(to_columns) else ""
+        pairs.append(f"{from_col} = {to_col}" if to_col else from_col)
+    return "join " + ", ".join(pairs)
+
+
 def validate_business_relationship_name(relationship_name: str, owner_concept: str, target_concept: str) -> str:
     text = slug(relationship_name).lower()
     if "_" not in text:
@@ -654,12 +668,13 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             source = node_id("table", rel.get("from", ""))
             target = node_id("table", rel.get("to", ""))
             relationship_name = rel.get("semantic_relationship") or rel.get("relationship") or rel.get("name", "join")
+            join_label = dataset_join_label(rel)
             add_edge(
                 edges,
                 source,
                 target,
                 "DATASET_JOIN",
-                relationship_name,
+                join_label,
                 f"{rel.get('from')} joins {rel.get('to')} on {rel.get('from_columns')} = {rel.get('to_columns')}.",
                 {
                     "join_name": rel.get("name", "join"),

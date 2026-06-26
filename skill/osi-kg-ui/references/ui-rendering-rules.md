@@ -93,6 +93,7 @@ On the canvas:
 
 - Node-level edges may show labels.
 - EntityType-to-EntityType business edge labels must show only the action prefix extracted from the graph edge id or relationship name, for example `pledge` from `pledge_collateral`.
+- Dataset/table join edge labels must show the physical join columns, for example `join account_id` when `from_columns` and `to_columns` are both `account_id`; keep the semantic join name such as `pledge_collateral` in the edge profile.
 - Field-level edges must not show labels.
 
 In the profile:
