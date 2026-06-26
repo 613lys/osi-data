@@ -101,6 +101,8 @@ In the profile:
 - Show `edge.type` as the graph/UI mechanism.
 - Show `edge.label` as the semantic relationship name.
 - Do not require a separate relationship type field in YAML or in generated graph data for EntityType business relationships. For these edges, the graph edge `id` must be the OSI relationship `name` itself in `<action>_<role>` form, such as `pledge_collateral`; derive the UI edge type and graph canvas label from the first underscore-delimited segment.
+- When the graph focus node is a Base Entity, select only the `EXTENDS` edge type by default so the initial graph shows inheritance only. Other edge types can still be enabled manually.
+- Hidden edge types must not contribute graph traversal. After edge filtering, remove non-focus nodes that no longer have any visible parent or field edge connected to the visible graph.
 - The `<action>` prefix must come from the controlled set: `own`, `hold`, `book`, `reference`, `pledge`, `value`, `price`, `classify`, `settle`, `secure`, `derive`, `post`.
 - Do not add synthetic EntityType relationship properties such as a separate relationship-name property, `inverse`, `inverse_of`, `bidirectional`, `relationship_path`, generated `relationship`, or null-valued `multiplicity`. Business edge profiles should only show fields with a clear YAML source, such as the relationship `name` via `edge.label`, non-empty `verbalizes`, non-empty `requires`, non-empty `derived_by`, and the source `roles` array when needed.
 

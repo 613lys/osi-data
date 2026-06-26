@@ -142,7 +142,7 @@ const graphState = {
   selectedFieldId: null,
   maxDepth: 1,
   nodeTypes: new Set(nodeTypes()),
-  edgeTypes: defaultGraphEdgeTypes(),
+  edgeTypes: defaultGraphEdgeTypesForFocus(catalogState.selectedId),
   tags: new Set(allTags()),
   expanded: new Set(),
   autoExpandSuppressed: new Set(),
@@ -193,6 +193,22 @@ function edgeTypes() {
 
 function defaultGraphEdgeTypes() {
   return new Set(edgeTypes().filter(type => !DEFAULT_UNCHECKED_GRAPH_EDGE_TYPES.has(type)));
+}
+
+function defaultGraphEdgeTypesForFocus(focusId = graphState?.focusId) {
+  return nodeType(focusId) === "base_entity_concept" && edgeTypes().includes("EXTENDS")
+    ? new Set(["EXTENDS"])
+    : defaultGraphEdgeTypes();
+}
+
+function setGraphFocus(id, options = {}) {
+  if (!node(id) || isChildNode(id)) return;
+  const changed = graphState.focusId !== id;
+  graphState.focusId = id;
+  graphState.selectedNodeId = id;
+  if (options.resetEdgeTypes || (changed && options.applyDefaultEdgeTypes !== false)) {
+    graphState.edgeTypes = defaultGraphEdgeTypesForFocus(id);
+  }
 }
 
 function allTags() {
@@ -1046,6 +1062,7 @@ function renderHiddenNodes() {
 function graphNeighborhood() {
   const traversalEdges = parentEdges().filter(edge => {
     if (!graphNodeVisible(edge.source) || !graphNodeVisible(edge.target)) return false;
+    if (!graphState.edgeTypes.has(edge.type)) return false;
     if (!graphNodeTypeAllowed(edge.source) || !graphNodeTypeAllowed(edge.target)) return false;
     if (tagFilterIsActive(graphState.tags)) {
       const tagPool = [...tagsFor(edge.source), ...tagsFor(edge.target)];
@@ -1100,12 +1117,22 @@ function graphNeighborhood() {
 
   const visibleEdges = traversalEdges.filter(edge => {
     if (!nodeSet.has(edge.source) || !nodeSet.has(edge.target)) return false;
-    if (!graphState.edgeTypes.has(edge.type)) return false;
     return true;
   });
   const visibleChildEdges = selectedChildEdges.filter(edge => {
     if (!nodeSet.has(edge.source) || !nodeSet.has(edge.target)) return false;
     return true;
+  });
+  const connectedIds = new Set([graphState.focusId]);
+  [...visibleEdges, ...visibleChildEdges].forEach(edge => {
+    connectedIds.add(edge.source);
+    connectedIds.add(edge.target);
+  });
+  [...nodeSet].forEach(id => {
+    if (id !== graphState.focusId && !connectedIds.has(id)) {
+      nodeSet.delete(id);
+      visited.delete(id);
+    }
   });
   return {
     nodes: [...nodeSet].map(id => node(id)),
@@ -1760,8 +1787,7 @@ function renderGraphDetail() {
 
 function selectGraphNode(id, options = {}) {
   if (!node(id) || isChildNode(id)) return;
-  graphState.focusId = id;
-  graphState.selectedNodeId = id;
+  setGraphFocus(id);
   graphState.selectedEdgeId = null;
   graphState.selectedFieldId = null;
   if (options.render === false) {
@@ -2072,8 +2098,7 @@ function applyUrlState() {
   if (selectedNode) {
     catalogState.selectedKind = "node";
     catalogState.selectedId = selectedNode;
-    graphState.focusId = selectedNode;
-    graphState.selectedNodeId = selectedNode;
+    setGraphFocus(selectedNode, { resetEdgeTypes: true });
   }
   if (params.get("view") === "graph") openPage("graph");
   else renderAll();
@@ -2093,8 +2118,7 @@ function openSelectionInGraph() {
       if (isChildNode(edge.target)) graphState.expanded.add(normalized.target);
     }
   } else {
-    graphState.focusId = catalogState.selectedId;
-    graphState.selectedNodeId = catalogState.selectedId;
+    setGraphFocus(catalogState.selectedId, { resetEdgeTypes: true });
     graphState.selectedEdgeId = null;
     graphState.selectedFieldId = null;
   }
@@ -2112,7 +2136,7 @@ function resetCatalogFilters() {
 
 function resetGraphFilters() {
   graphState.nodeTypes = new Set(nodeTypes());
-  graphState.edgeTypes = defaultGraphEdgeTypes();
+  graphState.edgeTypes = defaultGraphEdgeTypesForFocus();
   graphState.tags = new Set(allTags());
   graphState.maxDepth = 1;
   graphState.selectedNodeId = graphState.focusId;
