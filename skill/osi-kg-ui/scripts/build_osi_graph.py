@@ -977,22 +977,67 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
         }
 
         required_concepts = set(semantic_scope.get("concepts") or [])
+        concept_requirement_descriptions: dict[str, list[str]] = defaultdict(list)
+        concept_requirement_fields: dict[str, list[dict[str, str]]] = defaultdict(list)
+
         for rel in semantic_scope.get("relationships") or []:
             required_concepts.update([rel.get("source"), rel.get("target")])
+            rel_description = rel.get("description") or rel.get("purpose") or ""
+            for concept_name in (rel.get("source"), rel.get("target")):
+                if concept_name and rel_description:
+                    concept_requirement_descriptions[concept_name].append(rel_description)
+
         for field in semantic_scope.get("required_fields") or []:
-            required_concepts.add(field.get("concept"))
+            semantic_ref = normalize_semantic_reference(field.get("semantic_reference", ""))
+            concept_name, _relationship = semantic_reference_parts(semantic_ref)
+            concept_name = field.get("concept") or concept_name
+            if concept_name:
+                required_concepts.add(concept_name)
+                field_name = field.get("name") or semantic_ref
+                field_description = field.get("description") or ""
+                concept_requirement_fields[concept_name].append(
+                    {
+                        "name": field_name,
+                        "semantic_reference": semantic_ref,
+                        "description": field_description,
+                    }
+                )
+                if field_description:
+                    concept_requirement_descriptions[concept_name].append(f"{field_name}: {field_description}")
+
+        for calc in requirement.get("calculations") or []:
+            semantic_ref = normalize_semantic_reference(calc.get("output", ""))
+            concept_name, _relationship = semantic_reference_parts(semantic_ref)
+            if concept_name:
+                required_concepts.add(concept_name)
+                calc_name = calc.get("name") or semantic_ref
+                calc_description = calc.get("description") or ""
+                concept_requirement_fields[concept_name].append(
+                    {
+                        "name": calc_name,
+                        "semantic_reference": semantic_ref,
+                        "description": calc_description,
+                    }
+                )
+                if calc_description:
+                    concept_requirement_descriptions[concept_name].append(f"{calc_name}: {calc_description}")
 
         for concept_name in sorted(item for item in required_concepts if item):
             concept_id = ensure_concept(concept_name)
             if concept_id:
+                descriptions = list(dict.fromkeys(concept_requirement_descriptions.get(concept_name, [])))
+                fields = concept_requirement_fields.get(concept_name, [])
                 add_edge(
                     edges,
                     requirement_id,
                     concept_id,
                     "REQUIRES_CONCEPT",
                     "REQUIRES_CONCEPT",
-                    requirement.get("description", ""),
-                    {"source_field": "reporting_requirements.semantic_scope.concepts"},
+                    "; ".join(descriptions),
+                    {
+                        "source_field": "reporting_requirements.semantic_scope",
+                        "required_fields": fields,
+                    },
                 )
 
         for rel in semantic_scope.get("relationships") or []:
@@ -1319,6 +1364,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 

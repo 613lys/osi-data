@@ -2914,8 +2914,15 @@ window.GRAPH_DATA = {
       "target": "concept.CollateralAsset",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
-        "source_field": "reporting_requirements.semantic_scope.concepts"
+        "description": "抵质押品标识: 需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
+        "source_field": "reporting_requirements.semantic_scope",
+        "required_fields": [
+          {
+            "name": "抵质押品标识",
+            "semantic_reference": "CollateralAsset.has_CollateralIdentifier",
+            "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。"
+          }
+        ]
       },
       "type": "REQUIRES_CONCEPT"
     },
@@ -2925,8 +2932,30 @@ window.GRAPH_DATA = {
       "target": "concept.CollateralValuation",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
-        "source_field": "reporting_requirements.semantic_scope.concepts"
+        "description": "估值日期: 需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。; 抵质押品折扣前市场价值: 需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。; 监管折扣率: 需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。; 折扣后合格抵质押品价值: 需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。",
+        "source_field": "reporting_requirements.semantic_scope",
+        "required_fields": [
+          {
+            "name": "估值日期",
+            "semantic_reference": "CollateralValuation.has_ValuationDate",
+            "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。"
+          },
+          {
+            "name": "抵质押品折扣前市场价值",
+            "semantic_reference": "CollateralValuation.has_MarketValueAmount",
+            "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。"
+          },
+          {
+            "name": "监管折扣率",
+            "semantic_reference": "CollateralValuation.has_HaircutRate",
+            "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。"
+          },
+          {
+            "name": "折扣后合格抵质押品价值",
+            "semantic_reference": "CollateralValuation.has_EligibleCollateralValue",
+            "description": "需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。"
+          }
+        ]
       },
       "type": "REQUIRES_CONCEPT"
     },
@@ -2936,8 +2965,15 @@ window.GRAPH_DATA = {
       "target": "concept.Counterparty",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
-        "source_field": "reporting_requirements.semantic_scope.concepts"
+        "description": "交易对手标识: 需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
+        "source_field": "reporting_requirements.semantic_scope",
+        "required_fields": [
+          {
+            "name": "交易对手标识",
+            "semantic_reference": "Counterparty.has_CounterpartyIdentifier",
+            "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。"
+          }
+        ]
       },
       "type": "REQUIRES_CONCEPT"
     },
@@ -2947,8 +2983,15 @@ window.GRAPH_DATA = {
       "target": "concept.MarginAccount",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
-        "source_field": "reporting_requirements.semantic_scope.concepts"
+        "description": "保证金账户标识: 需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
+        "source_field": "reporting_requirements.semantic_scope",
+        "required_fields": [
+          {
+            "name": "保证金账户标识",
+            "semantic_reference": "MarginAccount.has_AccountIdentifier",
+            "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。"
+          }
+        ]
       },
       "type": "REQUIRES_CONCEPT"
     },
