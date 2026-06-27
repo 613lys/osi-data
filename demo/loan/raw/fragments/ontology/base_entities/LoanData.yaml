@@ -1,0 +1,19 @@
+name: LoanData
+description: Base concept for loan-like records with common identifiers and origination timing.
+identify_by:
+- has_LoanIdentifier
+relationships:
+- name: has_LoanIdentifier
+  roles:
+  - concept: LoanIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{LoanData} has loan identifier {LoanIdentifier}"
+  description: Loan identifier common to loan-like records.
+- name: has_OriginationDate
+  roles:
+  - concept: CalendarDate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{LoanData} has origination date {CalendarDate}"
+  description: Origination or booking date common to loan-like records.

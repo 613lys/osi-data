@@ -1,0 +1,71 @@
+name: loan_exposure_report_lines
+source: credit_risk_engine.loan_exposure_report_lines
+primary_key:
+- loan_id
+description: Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic.
+physical_kind: table
+fields:
+- name: loan_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: loan_id
+  description: Normalized loan or facility identifier reported on the exposure line.
+- name: borrower_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: borrower_id
+  description: Borrower identifier reported on the exposure line for reconciliation to customer master.
+- name: borrower_country
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: borrower_country
+  description: Borrower country carried on the report line to support jurisdictional aggregation and composite joins.
+- name: product_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: product_id
+  description: Product identifier reported on the exposure line for product-class aggregation.
+- name: principal_amount
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: principal_amount
+  description: Principal amount included on the report line for exposure reconciliation.
+- name: exposure_at_default_amount
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: exposure_at_default_amount
+  description: Exposure at default amount reported for regulatory credit risk measurement.
+- name: expected_loss_amount
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: expected_loss_amount
+  description: Expected loss amount reported after applying probability of default and loss given default.
+- name: report_currency
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: report_currency
+  description: Currency code in which the exposure line amounts are reported.

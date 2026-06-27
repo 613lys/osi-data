@@ -2,151 +2,167 @@ name: CollateralMarginReportingOntologyApplicationMetadata
 description: Application-layer metadata used by the demo UI; not part of the OSI ontology
   schema.
 reporting_requirements:
-- name: EligibleCollateralRequirement
-  type: RegulatoryRequirement
-  description: Regulator requires daily account-level eligible collateral details.
-  regulator: Example Prudential Authority
-  regulation: MarginRule-2026
-  reporting_frequency: daily
-  reporting_grain:
-    concept: CollateralValuation
-    description: One row per collateral valuation used for eligible collateral reporting.
+- name: 合格抵质押品报送需求
+  type: ReportRequirement
+  description: '监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。
+
+    '
+  source: Collateral Margin Reporting BRD v1.0 section 3.2
+  SLA: Daily EOD before 21:00 local time; business review and exception notes completed
+    before submission.
   semantic_scope:
     concepts:
     - MarginAccount
     - Counterparty
     - CollateralAsset
     - CollateralValuation
-    relationships:
-    - source: MarginAccount
-      relationship: reference_counterparty
-      target: Counterparty
-      mandatory: true
-      purpose: Counterparty ownership is required for supervisory aggregation.
-    - source: MarginAccount
-      relationship: pledge_collateral
-      target: CollateralAsset
-      mandatory: true
-      purpose: Pledged collateral must be linked to the account.
-    - source: CollateralValuation
-      relationship: value_collateral
-      target: CollateralAsset
-      mandatory: true
-      purpose: Valuation must identify the collateral being valued.
     required_fields:
-    - name: account_identifier
-      concept: MarginAccount
-      relationship: account_id
-      semantic_reference: MarginAccount.account_id
-      value_concept: AccountIdentifier
+    - name: 保证金账户标识
+      description: 需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。
+      semantic_reference: MarginAccount.has_AccountIdentifier
       required: true
-      purpose: Account-level reconciliation key.
-    - name: counterparty_identifier
-      concept: Counterparty
-      relationship: counterparty_id
-      semantic_reference: Counterparty.counterparty_id
-      value_concept: CounterpartyIdentifier
+    - name: 交易对手标识
+      description: 需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。
+      semantic_reference: Counterparty.has_CounterpartyIdentifier
       required: true
-      purpose: Counterparty aggregation key.
-    - name: collateral_identifier
-      concept: CollateralAsset
-      relationship: collateral_id
-      semantic_reference: CollateralAsset.collateral_id
-      value_concept: CollateralIdentifier
+    - name: 抵质押品标识
+      description: 需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。
+      semantic_reference: CollateralAsset.has_CollateralIdentifier
       required: true
-      purpose: Collateral position key.
-    - name: valuation_date
-      concept: CollateralValuation
-      relationship: valuation_date
-      semantic_reference: CollateralValuation.valuation_date
-      value_concept: Date
+    - name: 估值日期
+      description: 需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。
+      semantic_reference: CollateralValuation.has_ValuationDate
       required: true
-      purpose: Reporting valuation date.
-    - name: market_value_amount
-      concept: CollateralValuation
-      relationship: market_value_amount
-      semantic_reference: CollateralValuation.market_value_amount
-      value_concept: MonetaryAmount
+    - name: 抵质押品折扣前市场价值
+      description: 需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。
+      semantic_reference: CollateralValuation.has_MarketValueAmount
       required: true
-      purpose: Gross market value before haircut.
-    - name: haircut_rate
-      concept: CollateralValuation
-      relationship: haircut_rate
-      semantic_reference: CollateralValuation.haircut_rate
-      value_concept: Rate
+    - name: 监管折扣率
+      description: 需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。
+      semantic_reference: CollateralValuation.has_HaircutRate
       required: true
-      purpose: Supervisory haircut rate.
     controls:
     - name: valuation_date_present
-      target: CollateralValuation.valuation_date
+      target: CollateralValuation.has_ValuationDate
       rule: Valuation date must be present.
     - name: haircut_non_negative
-      target: CollateralValuation.haircut_rate
+      target: CollateralValuation.has_HaircutRate
       rule: Haircut rate must be greater than or equal to zero.
   calculations:
-  - name: eligible_collateral_value
-    output: eligible_collateral_value
+  - name: 折扣后合格抵质押品价值
+    description: 需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。
+    output: CollateralValuation.has_EligibleCollateralValue
     inputs:
-    - CollateralValuation.market_value_amount
-    - CollateralValuation.haircut_rate
-    expression: CollateralValuation.market_value_amount * (1 - CollateralValuation.haircut_rate)
-report_implementations:
-- name: DailyEligibleCollateralReport
-  type: ReportImplementation
-  description: Physical implementation of the eligible collateral regulatory report.
-  implements: EligibleCollateralRequirement
-  owner: Collateral Reporting Technology
-  schedule: Daily EOD
-  output_datasets:
-  - dataset: collateral_margin_report_lines
-    role: line
-    fields:
-    - name: account_id
-      requirement_field: account_identifier
-      semantic_reference: MarginAccount.account_id
-      source_field: margin_accounts.account_id
-      expression:
-        dialects:
-        - dialect: ANSI_SQL
-          expression: margin_accounts.account_id
-    - name: counterparty_id
-      requirement_field: counterparty_identifier
-      semantic_reference: Counterparty.counterparty_id
-      source_field: counterparties.counterparty_id
-      expression:
-        dialects:
-        - dialect: ANSI_SQL
-          expression: counterparties.counterparty_id
-    - name: collateral_id
-      requirement_field: collateral_identifier
-      semantic_reference: CollateralAsset.collateral_id
-      source_field: collateral_positions.collateral_id
-      expression:
-        dialects:
-        - dialect: ANSI_SQL
-          expression: collateral_positions.collateral_id
-    - name: valuation_date
-      requirement_field: valuation_date
-      semantic_reference: CollateralValuation.valuation_date
-      source_field: collateral_valuations.valuation_date
-      expression:
-        dialects:
-        - dialect: ANSI_SQL
-          expression: collateral_valuations.valuation_date
-    - name: eligible_collateral_value
-      requirement_field: eligible_collateral_value
-      semantic_reference: metric.eligible_collateral_value
-      expression:
-        dialects:
-        - dialect: ANSI_SQL
-          expression: collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)
+    - CollateralValuation.has_MarketValueAmount
+    - CollateralValuation.has_HaircutRate
+    expression: CollateralValuation.has_MarketValueAmount * (1 - CollateralValuation.has_HaircutRate)
+report_data_logic:
+- name: 每日合格抵质押品报表数据逻辑
+  type: ReportDataLogic
+  description: 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。
+  implements: 合格抵质押品报送需求
+  field_mappings:
+  - name: 保证金账户标识逻辑
+    dataset: collateral_margin_report_lines
+    dataset_field: account_id
+    description: 数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。
+    requirement_field: 保证金账户标识
+    source_field: margin_accounts.account_id
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: margin_accounts.account_id
+  - name: 交易对手标识逻辑
+    dataset: collateral_margin_report_lines
+    dataset_field: counterparty_id
+    description: 数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。
+    requirement_field: 交易对手标识
+    source_field: counterparties.counterparty_id
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: counterparties.counterparty_id
+  - name: 抵质押品标识逻辑
+    dataset: collateral_margin_report_lines
+    dataset_field: collateral_id
+    description: 数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。
+    requirement_field: 抵质押品标识
+    source_field: collateral_positions.collateral_id
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: collateral_positions.collateral_id
+  - name: 估值日期逻辑
+    dataset: collateral_margin_report_lines
+    dataset_field: valuation_date
+    description: 数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。
+    requirement_field: 估值日期
+    source_field: collateral_valuations.valuation_date
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: collateral_valuations.valuation_date
+  - name: 抵质押品折扣前市场价值逻辑
+    dataset: collateral_valuations
+    dataset_field: market_value_amount
+    description: 数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。
+    requirement_field: 抵质押品折扣前市场价值
+    source_field: collateral_valuations.market_value_amount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: collateral_valuations.market_value_amount
+  - name: 监管折扣率逻辑
+    dataset: collateral_valuations
+    dataset_field: haircut_rate
+    description: 数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。
+    requirement_field: 监管折扣率
+    source_field: collateral_valuations.haircut_rate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: collateral_valuations.haircut_rate
+  - name: 折扣后合格抵质押品价值逻辑
+    dataset: collateral_margin_report_lines
+    dataset_field: eligible_collateral_value
+    description: 数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。
+    requirement_field: 折扣后合格抵质押品价值
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)
   source_fields:
   - margin_accounts.account_id
-  - margin_accounts.counterparty_id
   - counterparties.counterparty_id
   - collateral_positions.collateral_id
-  - collateral_positions.account_id
-  - collateral_valuations.collateral_id
   - collateral_valuations.valuation_date
   - collateral_valuations.market_value_amount
   - collateral_valuations.haircut_rate
+mapping_edge_annotations:
+- concept: CollateralAsset
+  dataset: collateral_positions
+  description: Pledged collateral asset source population mapped as CollateralAsset
+    entity records.
+- concept: CollateralAsset
+  dataset: collateral_margin_report_lines
+  description: Collateral asset identifiers as represented in the report-line dataset
+    for requirement traceability.
+- concept: CollateralValuation
+  dataset: collateral_valuations
+  description: Collateral valuation source population mapped as CollateralValuation
+    entity records.
+- concept: Counterparty
+  dataset: counterparties
+  description: Legal counterparty reference source population mapped as Counterparty
+    entity records.
+- concept: Counterparty
+  dataset: collateral_margin_report_lines
+  description: Counterparty identifiers as represented in the report-line dataset
+    for requirement traceability.
+- concept: MarginAccount
+  dataset: margin_accounts
+  description: Margin account source population mapped as MarginAccount entity records.
+- concept: MarginAccount
+  dataset: collateral_margin_report_lines
+  description: Margin account identifiers as represented in the report-line dataset
+    for requirement traceability.

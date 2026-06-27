@@ -1,0 +1,19 @@
+name: CustomerData
+description: Base concept for customer-like records with common identifiers and segmentation fields.
+identify_by:
+- has_CustomerIdentifier
+relationships:
+- name: has_CustomerIdentifier
+  roles:
+  - concept: CustomerIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{CustomerData} has customer identifier {CustomerIdentifier}"
+  description: Customer identifier common to customer-like records.
+- name: has_CustomerSegment
+  roles:
+  - concept: CustomerSegment
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{CustomerData} has customer segment {CustomerSegment}"
+  description: Customer segment common to customer-like records.

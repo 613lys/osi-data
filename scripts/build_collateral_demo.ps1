@@ -7,16 +7,25 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $DemoRoot = Join-Path $RepoRoot "demo\collateral"
 $SkillRoot = Join-Path $RepoRoot "skill\osi-kg-ui"
+$FragmentRoot = Join-Path $DemoRoot "raw\fragments"
+$ComposedRaw = Join-Path $DemoRoot "raw\collateral-margin-source.composed.yaml"
+
+& $Python `
+  (Join-Path $SkillRoot "scripts\compose_source_fragments.py") `
+  --fragments $FragmentRoot `
+  --output $ComposedRaw
 
 & $Python `
   (Join-Path $DemoRoot "scripts\generate_osi_yaml.py") `
-  --raw (Join-Path $DemoRoot "raw\collateral-margin-source.yaml") `
-  --output (Join-Path $DemoRoot "knowledge\regulatory-reporting-osi.yaml")
+  --raw $ComposedRaw `
+  --output (Join-Path $DemoRoot "knowledge\regulatory-reporting-osi.yaml") `
+  --app-output (Join-Path $DemoRoot "knowledge\regulatory-reporting-app.yaml")
 
 & $Python `
   (Join-Path $SkillRoot "scripts\build_osi_graph.py") `
   --root $DemoRoot `
   --source "knowledge\regulatory-reporting-osi.yaml" `
+  --app-metadata "knowledge\regulatory-reporting-app.yaml" `
   --copy-frontend-template `
   --overwrite-template
 

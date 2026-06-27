@@ -10,20 +10,23 @@ window.GRAPH_DATA = {
         "base_entity": true,
         "extends": [],
         "identify_by": [
-          "account_id"
+          "has_AccountIdentifier"
         ],
         "requires": []
       }
     },
     {
-      "id": "value.AccountData.account_id",
+      "id": "value.AccountData.has_AccountIdentifier",
       "type": "value_type_property",
-      "label": "account_id",
+      "label": "AccountIdentifier",
       "properties": {
-        "description": "{AccountData} has account identifier {AccountIdentifier}",
+        "description": "Identifier common to account-like records.",
         "parent": "concept.AccountData",
         "data_type": "AccountIdentifier",
         "value_concept": "AccountIdentifier",
+        "field_name": "has_AccountIdentifier",
+        "relationship_name": "has_AccountIdentifier",
+        "multiplicity": "OneToOne",
         "verbalizes": [
           "{AccountData} has account identifier {AccountIdentifier}"
         ],
@@ -32,19 +35,274 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "value.AccountData.account_status",
+      "id": "value.AccountData.has_AccountStatus",
       "type": "value_type_property",
-      "label": "account_status",
+      "label": "StatusCode",
       "properties": {
-        "description": "{AccountData} has account status {StatusCode}",
+        "description": "Status common to account-like records.",
         "parent": "concept.AccountData",
         "data_type": "StatusCode",
         "value_concept": "StatusCode",
+        "field_name": "has_AccountStatus",
+        "relationship_name": "has_AccountStatus",
+        "multiplicity": "ManyToOne",
         "verbalizes": [
           "{AccountData} has account status {StatusCode}"
         ],
         "source_field": "ontology.relationships",
         "inherited": false
+      }
+    },
+    {
+      "id": "concept.CollateralAssetData",
+      "type": "base_entity_concept",
+      "label": "CollateralAssetData",
+      "properties": {
+        "description": "Base concept for collateral asset records with common collateral identifiers and classification fields.",
+        "concept_type": "EntityType",
+        "base_entity": true,
+        "extends": [],
+        "identify_by": [
+          "has_CollateralIdentifier"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "value.CollateralAssetData.has_CollateralIdentifier",
+      "type": "value_type_property",
+      "label": "CollateralIdentifier",
+      "properties": {
+        "description": "Identifier common to collateral asset records.",
+        "parent": "concept.CollateralAssetData",
+        "data_type": "CollateralIdentifier",
+        "value_concept": "CollateralIdentifier",
+        "field_name": "has_CollateralIdentifier",
+        "relationship_name": "has_CollateralIdentifier",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "value.CollateralAssetData.has_AssetType",
+      "type": "value_type_property",
+      "label": "AssetType",
+      "properties": {
+        "description": "Asset type common to collateral asset records.",
+        "parent": "concept.CollateralAssetData",
+        "data_type": "AssetType",
+        "value_concept": "AssetType",
+        "field_name": "has_AssetType",
+        "relationship_name": "has_AssetType",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has asset type {AssetType}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "value.CollateralAssetData.has_AssetCurrency",
+      "type": "value_type_property",
+      "label": "CurrencyCode",
+      "properties": {
+        "description": "Currency common to collateral asset records.",
+        "parent": "concept.CollateralAssetData",
+        "data_type": "CurrencyCode",
+        "value_concept": "CurrencyCode",
+        "field_name": "has_AssetCurrency",
+        "relationship_name": "has_AssetCurrency",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has currency {CurrencyCode}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "value.CollateralAssetData.has_IssuerCountry",
+      "type": "value_type_property",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Issuer country common to collateral asset records.",
+        "parent": "concept.CollateralAssetData",
+        "data_type": "CountryCode",
+        "value_concept": "CountryCode",
+        "field_name": "has_IssuerCountry",
+        "relationship_name": "has_IssuerCountry",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has issuer country {CountryCode}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "concept.CounterpartyData",
+      "type": "base_entity_concept",
+      "label": "CounterpartyData",
+      "properties": {
+        "description": "Base concept for counterparty-like records with legal identity and regulatory classification fields.",
+        "concept_type": "EntityType",
+        "base_entity": true,
+        "extends": [],
+        "identify_by": [
+          "has_CounterpartyIdentifier"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "value.CounterpartyData.has_CounterpartyIdentifier",
+      "type": "value_type_property",
+      "label": "CounterpartyIdentifier",
+      "properties": {
+        "description": "Identifier common to counterparty-like records.",
+        "parent": "concept.CounterpartyData",
+        "data_type": "CounterpartyIdentifier",
+        "value_concept": "CounterpartyIdentifier",
+        "field_name": "has_CounterpartyIdentifier",
+        "relationship_name": "has_CounterpartyIdentifier",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "value.CounterpartyData.has_LegalName",
+      "type": "value_type_property",
+      "label": "LegalName",
+      "properties": {
+        "description": "Legal name common to counterparty-like records.",
+        "parent": "concept.CounterpartyData",
+        "data_type": "LegalName",
+        "value_concept": "LegalName",
+        "field_name": "has_LegalName",
+        "relationship_name": "has_LegalName",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has legal name {LegalName}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "value.CounterpartyData.has_DomicileCountry",
+      "type": "value_type_property",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Domicile country common to counterparty-like records.",
+        "parent": "concept.CounterpartyData",
+        "data_type": "CountryCode",
+        "value_concept": "CountryCode",
+        "field_name": "has_DomicileCountry",
+        "relationship_name": "has_DomicileCountry",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has domicile country {CountryCode}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "value.CounterpartyData.has_RegulatorySegment",
+      "type": "value_type_property",
+      "label": "RegulatorySegment",
+      "properties": {
+        "description": "Regulatory segment common to counterparty-like records.",
+        "parent": "concept.CounterpartyData",
+        "data_type": "RegulatorySegment",
+        "value_concept": "RegulatorySegment",
+        "field_name": "has_RegulatorySegment",
+        "relationship_name": "has_RegulatorySegment",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has regulatory segment {RegulatorySegment}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "concept.ValuationData",
+      "type": "base_entity_concept",
+      "label": "ValuationData",
+      "properties": {
+        "description": "Base concept for valuation records with common valuation identity and date fields.",
+        "concept_type": "EntityType",
+        "base_entity": true,
+        "extends": [],
+        "identify_by": [
+          "has_ValuationIdentifier"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "value.ValuationData.has_ValuationIdentifier",
+      "type": "value_type_property",
+      "label": "ValuationIdentifier",
+      "properties": {
+        "description": "Identifier common to valuation records.",
+        "parent": "concept.ValuationData",
+        "data_type": "ValuationIdentifier",
+        "value_concept": "ValuationIdentifier",
+        "field_name": "has_ValuationIdentifier",
+        "relationship_name": "has_ValuationIdentifier",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{ValuationData} has valuation identifier {ValuationIdentifier}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "value.ValuationData.has_ValuationDate",
+      "type": "value_type_property",
+      "label": "Date",
+      "properties": {
+        "description": "Date common to valuation records.",
+        "parent": "concept.ValuationData",
+        "data_type": "Date",
+        "value_concept": "Date",
+        "field_name": "has_ValuationDate",
+        "relationship_name": "has_ValuationDate",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{ValuationData} has valuation date {Date}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "concept.CollateralAsset",
+      "type": "entity_type_concept",
+      "label": "CollateralAsset",
+      "properties": {
+        "description": "Asset pledged as collateral for margin obligations.",
+        "concept_type": "EntityType",
+        "base_entity": false,
+        "extends": [
+          "CollateralAssetData"
+        ],
+        "identify_by": [
+          "has_CollateralIdentifier"
+        ],
+        "requires": []
       }
     },
     {
@@ -59,199 +317,9 @@ window.GRAPH_DATA = {
           "AccountData"
         ],
         "identify_by": [
-          "account_id"
+          "has_AccountIdentifier"
         ],
         "requires": []
-      }
-    },
-    {
-      "id": "concept.Counterparty",
-      "type": "entity_type_concept",
-      "label": "Counterparty",
-      "properties": {
-        "description": "Legal entity that owns margin accounts and posts collateral.",
-        "concept_type": "EntityType",
-        "base_entity": false,
-        "extends": [],
-        "identify_by": [
-          "counterparty_id"
-        ],
-        "requires": []
-      }
-    },
-    {
-      "id": "concept.CollateralAsset",
-      "type": "entity_type_concept",
-      "label": "CollateralAsset",
-      "properties": {
-        "description": "Asset pledged as collateral for margin obligations.",
-        "concept_type": "EntityType",
-        "base_entity": false,
-        "extends": [],
-        "identify_by": [
-          "collateral_id"
-        ],
-        "requires": []
-      }
-    },
-    {
-      "id": "value.MarginAccount.base_currency",
-      "type": "value_type_property",
-      "label": "base_currency",
-      "properties": {
-        "description": "{MarginAccount} has base currency {CurrencyCode}",
-        "parent": "concept.MarginAccount",
-        "data_type": "CurrencyCode",
-        "value_concept": "CurrencyCode",
-        "verbalizes": [
-          "{MarginAccount} has base currency {CurrencyCode}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.Counterparty.counterparty_id",
-      "type": "value_type_property",
-      "label": "counterparty_id",
-      "properties": {
-        "description": "{Counterparty} has counterparty_id {CounterpartyIdentifier}",
-        "parent": "concept.Counterparty",
-        "data_type": "CounterpartyIdentifier",
-        "value_concept": "CounterpartyIdentifier",
-        "verbalizes": [
-          "{Counterparty} has counterparty_id {CounterpartyIdentifier}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.Counterparty.legal_name",
-      "type": "value_type_property",
-      "label": "legal_name",
-      "properties": {
-        "description": "{Counterparty} has legal_name {LegalName}",
-        "parent": "concept.Counterparty",
-        "data_type": "LegalName",
-        "value_concept": "LegalName",
-        "verbalizes": [
-          "{Counterparty} has legal_name {LegalName}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.Counterparty.domicile_country",
-      "type": "value_type_property",
-      "label": "domicile_country",
-      "properties": {
-        "description": "{Counterparty} has domicile_country {CountryCode}",
-        "parent": "concept.Counterparty",
-        "data_type": "CountryCode",
-        "value_concept": "CountryCode",
-        "verbalizes": [
-          "{Counterparty} has domicile_country {CountryCode}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.Counterparty.regulatory_segment",
-      "type": "value_type_property",
-      "label": "regulatory_segment",
-      "properties": {
-        "description": "{Counterparty} has regulatory_segment {RegulatorySegment}",
-        "parent": "concept.Counterparty",
-        "data_type": "RegulatorySegment",
-        "value_concept": "RegulatorySegment",
-        "verbalizes": [
-          "{Counterparty} has regulatory_segment {RegulatorySegment}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.CollateralAsset.collateral_id",
-      "type": "value_type_property",
-      "label": "collateral_id",
-      "properties": {
-        "description": "{CollateralAsset} has collateral_id {CollateralIdentifier}",
-        "parent": "concept.CollateralAsset",
-        "data_type": "CollateralIdentifier",
-        "value_concept": "CollateralIdentifier",
-        "verbalizes": [
-          "{CollateralAsset} has collateral_id {CollateralIdentifier}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.CollateralAsset.asset_type",
-      "type": "value_type_property",
-      "label": "asset_type",
-      "properties": {
-        "description": "{CollateralAsset} has asset_type {AssetType}",
-        "parent": "concept.CollateralAsset",
-        "data_type": "AssetType",
-        "value_concept": "AssetType",
-        "verbalizes": [
-          "{CollateralAsset} has asset_type {AssetType}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.CollateralAsset.currency",
-      "type": "value_type_property",
-      "label": "currency",
-      "properties": {
-        "description": "{CollateralAsset} has currency {CurrencyCode}",
-        "parent": "concept.CollateralAsset",
-        "data_type": "CurrencyCode",
-        "value_concept": "CurrencyCode",
-        "verbalizes": [
-          "{CollateralAsset} has currency {CurrencyCode}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.CollateralAsset.issuer_country",
-      "type": "value_type_property",
-      "label": "issuer_country",
-      "properties": {
-        "description": "{CollateralAsset} has issuer_country {CountryCode}",
-        "parent": "concept.CollateralAsset",
-        "data_type": "CountryCode",
-        "value_concept": "CountryCode",
-        "verbalizes": [
-          "{CollateralAsset} has issuer_country {CountryCode}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.CollateralAsset.market_value_amount",
-      "type": "value_type_property",
-      "label": "market_value_amount",
-      "properties": {
-        "description": "{CollateralAsset} has market_value_amount {MonetaryAmount}",
-        "parent": "concept.CollateralAsset",
-        "data_type": "MonetaryAmount",
-        "value_concept": "MonetaryAmount",
-        "verbalizes": [
-          "{CollateralAsset} has market_value_amount {MonetaryAmount}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
       }
     },
     {
@@ -262,361 +330,393 @@ window.GRAPH_DATA = {
         "description": "Daily valuation record for collateral after market close.",
         "concept_type": "EntityType",
         "base_entity": false,
-        "extends": [],
+        "extends": [
+          "ValuationData"
+        ],
         "identify_by": [
-          "valuation_id"
+          "has_ValuationIdentifier"
         ],
         "requires": []
       }
     },
     {
-      "id": "value.CollateralValuation.valuation_id",
+      "id": "value.CollateralValuation.has_MarketValueAmount",
       "type": "value_type_property",
-      "label": "valuation_id",
+      "label": "MonetaryAmount",
       "properties": {
-        "description": "{CollateralValuation} has valuation_id {ValuationIdentifier}",
-        "parent": "concept.CollateralValuation",
-        "data_type": "ValuationIdentifier",
-        "value_concept": "ValuationIdentifier",
-        "verbalizes": [
-          "{CollateralValuation} has valuation_id {ValuationIdentifier}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.CollateralValuation.valuation_date",
-      "type": "value_type_property",
-      "label": "valuation_date",
-      "properties": {
-        "description": "{CollateralValuation} has valuation_date {Date}",
-        "parent": "concept.CollateralValuation",
-        "data_type": "Date",
-        "value_concept": "Date",
-        "verbalizes": [
-          "{CollateralValuation} has valuation_date {Date}"
-        ],
-        "source_field": "ontology.relationships",
-        "inherited": false
-      }
-    },
-    {
-      "id": "value.CollateralValuation.market_value_amount",
-      "type": "value_type_property",
-      "label": "market_value_amount",
-      "properties": {
-        "description": "{CollateralValuation} has market_value_amount {MonetaryAmount}",
+        "description": "Gross market value before haircut.",
         "parent": "concept.CollateralValuation",
         "data_type": "MonetaryAmount",
         "value_concept": "MonetaryAmount",
+        "field_name": "has_MarketValueAmount",
+        "relationship_name": "has_MarketValueAmount",
+        "multiplicity": "ManyToOne",
         "verbalizes": [
-          "{CollateralValuation} has market_value_amount {MonetaryAmount}"
+          "{CollateralValuation} has market value amount {MonetaryAmount}"
         ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
     },
     {
-      "id": "value.CollateralValuation.haircut_rate",
+      "id": "value.CollateralValuation.has_HaircutRate",
       "type": "value_type_property",
-      "label": "haircut_rate",
+      "label": "Rate",
       "properties": {
-        "description": "{CollateralValuation} has haircut_rate {Rate}",
+        "description": "Haircut rate applied to the collateral valuation.",
         "parent": "concept.CollateralValuation",
         "data_type": "Rate",
         "value_concept": "Rate",
+        "field_name": "has_HaircutRate",
+        "relationship_name": "has_HaircutRate",
+        "multiplicity": "ManyToOne",
         "verbalizes": [
-          "{CollateralValuation} has haircut_rate {Rate}"
+          "{CollateralValuation} has haircut rate {Rate}"
         ],
         "source_field": "ontology.relationships",
         "inherited": false
       }
     },
     {
-      "id": "value.MarginAccount.account_id",
+      "id": "value.CollateralValuation.has_EligibleCollateralValue",
       "type": "value_type_property",
-      "label": "account_id",
+      "label": "MonetaryAmount",
       "properties": {
-        "description": "Inherited from AccountData. {AccountData} has account identifier {AccountIdentifier}",
+        "description": "Market value after haircut represented as an entity-level calculated collateral valuation amount.",
+        "parent": "concept.CollateralValuation",
+        "data_type": "MonetaryAmount",
+        "value_concept": "MonetaryAmount",
+        "field_name": "has_EligibleCollateralValue",
+        "relationship_name": "has_EligibleCollateralValue",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralValuation} has eligible collateral value {MonetaryAmount}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false,
+        "calculation_type": "metric",
+        "semantic_metric": "eligible_collateral_value",
+        "semantic_reference": "metric.eligible_collateral_value",
+        "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)",
+        "source_fields": [
+          "collateral_valuations.haircut_rate",
+          "collateral_valuations.market_value_amount"
+        ],
+        "metric": {
+          "name": "eligible_collateral_value",
+          "description": "Market value after haircut for regulatory eligible collateral reporting.",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
+              }
+            ]
+          },
+          "ai_context": {
+            "metric_type": "calculated_report_measure"
+          }
+        }
+      }
+    },
+    {
+      "id": "concept.Counterparty",
+      "type": "entity_type_concept",
+      "label": "Counterparty",
+      "properties": {
+        "description": "Legal entity that owns margin accounts and posts collateral.",
+        "concept_type": "EntityType",
+        "base_entity": false,
+        "extends": [
+          "CounterpartyData"
+        ],
+        "identify_by": [
+          "has_CounterpartyIdentifier"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "value.MarginAccount.has_BaseCurrency",
+      "type": "value_type_property",
+      "label": "CurrencyCode",
+      "properties": {
+        "description": "Currency used as the margin account base currency.",
+        "parent": "concept.MarginAccount",
+        "data_type": "CurrencyCode",
+        "value_concept": "CurrencyCode",
+        "field_name": "has_BaseCurrency",
+        "relationship_name": "has_BaseCurrency",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{MarginAccount} has base currency {CurrencyCode}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false
+      }
+    },
+    {
+      "id": "value.CollateralAsset.has_CollateralIdentifier",
+      "type": "value_type_property",
+      "label": "CollateralIdentifier",
+      "properties": {
+        "description": "Identifier common to collateral asset records.",
+        "parent": "concept.CollateralAsset",
+        "data_type": "CollateralIdentifier",
+        "value_concept": "CollateralIdentifier",
+        "field_name": "has_CollateralIdentifier",
+        "relationship_name": "has_CollateralIdentifier",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "CollateralAssetData",
+        "base_relationship_path": "CollateralAssetData.has_CollateralIdentifier",
+        "inheritance_note": "Inherited from CollateralAssetData."
+      }
+    },
+    {
+      "id": "value.CollateralAsset.has_AssetType",
+      "type": "value_type_property",
+      "label": "AssetType",
+      "properties": {
+        "description": "Asset type common to collateral asset records.",
+        "parent": "concept.CollateralAsset",
+        "data_type": "AssetType",
+        "value_concept": "AssetType",
+        "field_name": "has_AssetType",
+        "relationship_name": "has_AssetType",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has asset type {AssetType}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "CollateralAssetData",
+        "base_relationship_path": "CollateralAssetData.has_AssetType",
+        "inheritance_note": "Inherited from CollateralAssetData."
+      }
+    },
+    {
+      "id": "value.CollateralAsset.has_AssetCurrency",
+      "type": "value_type_property",
+      "label": "CurrencyCode",
+      "properties": {
+        "description": "Currency common to collateral asset records.",
+        "parent": "concept.CollateralAsset",
+        "data_type": "CurrencyCode",
+        "value_concept": "CurrencyCode",
+        "field_name": "has_AssetCurrency",
+        "relationship_name": "has_AssetCurrency",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has currency {CurrencyCode}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "CollateralAssetData",
+        "base_relationship_path": "CollateralAssetData.has_AssetCurrency",
+        "inheritance_note": "Inherited from CollateralAssetData."
+      }
+    },
+    {
+      "id": "value.CollateralAsset.has_IssuerCountry",
+      "type": "value_type_property",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Issuer country common to collateral asset records.",
+        "parent": "concept.CollateralAsset",
+        "data_type": "CountryCode",
+        "value_concept": "CountryCode",
+        "field_name": "has_IssuerCountry",
+        "relationship_name": "has_IssuerCountry",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has issuer country {CountryCode}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "CollateralAssetData",
+        "base_relationship_path": "CollateralAssetData.has_IssuerCountry",
+        "inheritance_note": "Inherited from CollateralAssetData."
+      }
+    },
+    {
+      "id": "value.CollateralValuation.has_ValuationIdentifier",
+      "type": "value_type_property",
+      "label": "ValuationIdentifier",
+      "properties": {
+        "description": "Identifier common to valuation records.",
+        "parent": "concept.CollateralValuation",
+        "data_type": "ValuationIdentifier",
+        "value_concept": "ValuationIdentifier",
+        "field_name": "has_ValuationIdentifier",
+        "relationship_name": "has_ValuationIdentifier",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{ValuationData} has valuation identifier {ValuationIdentifier}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "ValuationData",
+        "base_relationship_path": "ValuationData.has_ValuationIdentifier",
+        "inheritance_note": "Inherited from ValuationData."
+      }
+    },
+    {
+      "id": "value.CollateralValuation.has_ValuationDate",
+      "type": "value_type_property",
+      "label": "Date",
+      "properties": {
+        "description": "Date common to valuation records.",
+        "parent": "concept.CollateralValuation",
+        "data_type": "Date",
+        "value_concept": "Date",
+        "field_name": "has_ValuationDate",
+        "relationship_name": "has_ValuationDate",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{ValuationData} has valuation date {Date}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "ValuationData",
+        "base_relationship_path": "ValuationData.has_ValuationDate",
+        "inheritance_note": "Inherited from ValuationData."
+      }
+    },
+    {
+      "id": "value.Counterparty.has_CounterpartyIdentifier",
+      "type": "value_type_property",
+      "label": "CounterpartyIdentifier",
+      "properties": {
+        "description": "Identifier common to counterparty-like records.",
+        "parent": "concept.Counterparty",
+        "data_type": "CounterpartyIdentifier",
+        "value_concept": "CounterpartyIdentifier",
+        "field_name": "has_CounterpartyIdentifier",
+        "relationship_name": "has_CounterpartyIdentifier",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "CounterpartyData",
+        "base_relationship_path": "CounterpartyData.has_CounterpartyIdentifier",
+        "inheritance_note": "Inherited from CounterpartyData."
+      }
+    },
+    {
+      "id": "value.Counterparty.has_LegalName",
+      "type": "value_type_property",
+      "label": "LegalName",
+      "properties": {
+        "description": "Legal name common to counterparty-like records.",
+        "parent": "concept.Counterparty",
+        "data_type": "LegalName",
+        "value_concept": "LegalName",
+        "field_name": "has_LegalName",
+        "relationship_name": "has_LegalName",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has legal name {LegalName}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "CounterpartyData",
+        "base_relationship_path": "CounterpartyData.has_LegalName",
+        "inheritance_note": "Inherited from CounterpartyData."
+      }
+    },
+    {
+      "id": "value.Counterparty.has_DomicileCountry",
+      "type": "value_type_property",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Domicile country common to counterparty-like records.",
+        "parent": "concept.Counterparty",
+        "data_type": "CountryCode",
+        "value_concept": "CountryCode",
+        "field_name": "has_DomicileCountry",
+        "relationship_name": "has_DomicileCountry",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has domicile country {CountryCode}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "CounterpartyData",
+        "base_relationship_path": "CounterpartyData.has_DomicileCountry",
+        "inheritance_note": "Inherited from CounterpartyData."
+      }
+    },
+    {
+      "id": "value.Counterparty.has_RegulatorySegment",
+      "type": "value_type_property",
+      "label": "RegulatorySegment",
+      "properties": {
+        "description": "Regulatory segment common to counterparty-like records.",
+        "parent": "concept.Counterparty",
+        "data_type": "RegulatorySegment",
+        "value_concept": "RegulatorySegment",
+        "field_name": "has_RegulatorySegment",
+        "relationship_name": "has_RegulatorySegment",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has regulatory segment {RegulatorySegment}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "inherited": true,
+        "inherited_from": "CounterpartyData",
+        "base_relationship_path": "CounterpartyData.has_RegulatorySegment",
+        "inheritance_note": "Inherited from CounterpartyData."
+      }
+    },
+    {
+      "id": "value.MarginAccount.has_AccountIdentifier",
+      "type": "value_type_property",
+      "label": "AccountIdentifier",
+      "properties": {
+        "description": "Identifier common to account-like records.",
         "parent": "concept.MarginAccount",
         "data_type": "AccountIdentifier",
         "value_concept": "AccountIdentifier",
+        "field_name": "has_AccountIdentifier",
+        "relationship_name": "has_AccountIdentifier",
+        "multiplicity": "OneToOne",
         "verbalizes": [
           "{AccountData} has account identifier {AccountIdentifier}"
         ],
         "source_field": "ontology.extends.relationships",
         "inherited": true,
         "inherited_from": "AccountData",
-        "base_relationship_path": "AccountData.account_id"
+        "base_relationship_path": "AccountData.has_AccountIdentifier",
+        "inheritance_note": "Inherited from AccountData."
       }
     },
     {
-      "id": "value.MarginAccount.account_status",
+      "id": "value.MarginAccount.has_AccountStatus",
       "type": "value_type_property",
-      "label": "account_status",
+      "label": "StatusCode",
       "properties": {
-        "description": "Inherited from AccountData. {AccountData} has account status {StatusCode}",
+        "description": "Status common to account-like records.",
         "parent": "concept.MarginAccount",
         "data_type": "StatusCode",
         "value_concept": "StatusCode",
+        "field_name": "has_AccountStatus",
+        "relationship_name": "has_AccountStatus",
+        "multiplicity": "ManyToOne",
         "verbalizes": [
           "{AccountData} has account status {StatusCode}"
         ],
         "source_field": "ontology.extends.relationships",
         "inherited": true,
         "inherited_from": "AccountData",
-        "base_relationship_path": "AccountData.account_status"
-      }
-    },
-    {
-      "id": "table.margin_accounts",
-      "type": "physical_table",
-      "label": "margin_accounts",
-      "properties": {
-        "description": "Source table for margin accounts.",
-        "source": "margin_core.margin_accounts",
-        "primary_key": [
-          "account_id"
-        ],
-        "field_count": 4
-      }
-    },
-    {
-      "id": "column.margin_accounts.account_id",
-      "type": "column",
-      "label": "account_id",
-      "properties": {
-        "description": "",
-        "parent": "table.margin_accounts",
-        "data_type": "field",
-        "expression": "account_id"
-      }
-    },
-    {
-      "id": "column.margin_accounts.counterparty_id",
-      "type": "column",
-      "label": "counterparty_id",
-      "properties": {
-        "description": "",
-        "parent": "table.margin_accounts",
-        "data_type": "field",
-        "expression": "counterparty_id"
-      }
-    },
-    {
-      "id": "column.margin_accounts.base_currency",
-      "type": "column",
-      "label": "base_currency",
-      "properties": {
-        "description": "",
-        "parent": "table.margin_accounts",
-        "data_type": "field",
-        "expression": "base_currency"
-      }
-    },
-    {
-      "id": "column.margin_accounts.account_status",
-      "type": "column",
-      "label": "account_status",
-      "properties": {
-        "description": "",
-        "parent": "table.margin_accounts",
-        "data_type": "field",
-        "expression": "account_status"
-      }
-    },
-    {
-      "id": "table.counterparties",
-      "type": "physical_table",
-      "label": "counterparties",
-      "properties": {
-        "description": "Legal counterparty reference table.",
-        "source": "margin_core.counterparties",
-        "primary_key": [
-          "counterparty_id"
-        ],
-        "field_count": 4
-      }
-    },
-    {
-      "id": "column.counterparties.counterparty_id",
-      "type": "column",
-      "label": "counterparty_id",
-      "properties": {
-        "description": "",
-        "parent": "table.counterparties",
-        "data_type": "field",
-        "expression": "counterparty_id"
-      }
-    },
-    {
-      "id": "column.counterparties.legal_name",
-      "type": "column",
-      "label": "legal_name",
-      "properties": {
-        "description": "",
-        "parent": "table.counterparties",
-        "data_type": "field",
-        "expression": "legal_name"
-      }
-    },
-    {
-      "id": "column.counterparties.domicile_country",
-      "type": "column",
-      "label": "domicile_country",
-      "properties": {
-        "description": "",
-        "parent": "table.counterparties",
-        "data_type": "field",
-        "expression": "domicile_country"
-      }
-    },
-    {
-      "id": "column.counterparties.regulatory_segment",
-      "type": "column",
-      "label": "regulatory_segment",
-      "properties": {
-        "description": "",
-        "parent": "table.counterparties",
-        "data_type": "field",
-        "expression": "regulatory_segment"
-      }
-    },
-    {
-      "id": "table.collateral_positions",
-      "type": "physical_table",
-      "label": "collateral_positions",
-      "properties": {
-        "description": "Pledged collateral positions assigned to margin accounts.",
-        "source": "collateral_master.collateral_positions",
-        "primary_key": [
-          "collateral_id"
-        ],
-        "field_count": 5
-      }
-    },
-    {
-      "id": "column.collateral_positions.collateral_id",
-      "type": "column",
-      "label": "collateral_id",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_positions",
-        "data_type": "field",
-        "expression": "collateral_id"
-      }
-    },
-    {
-      "id": "column.collateral_positions.account_id",
-      "type": "column",
-      "label": "account_id",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_positions",
-        "data_type": "field",
-        "expression": "account_id"
-      }
-    },
-    {
-      "id": "column.collateral_positions.asset_type",
-      "type": "column",
-      "label": "asset_type",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_positions",
-        "data_type": "field",
-        "expression": "asset_type"
-      }
-    },
-    {
-      "id": "column.collateral_positions.currency",
-      "type": "column",
-      "label": "currency",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_positions",
-        "data_type": "field",
-        "expression": "currency"
-      }
-    },
-    {
-      "id": "column.collateral_positions.issuer_country",
-      "type": "column",
-      "label": "issuer_country",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_positions",
-        "data_type": "field",
-        "expression": "issuer_country"
-      }
-    },
-    {
-      "id": "table.collateral_valuations",
-      "type": "physical_table",
-      "label": "collateral_valuations",
-      "properties": {
-        "description": "Daily valuation and haircut measures for collateral.",
-        "source": "market_risk.collateral_valuations",
-        "primary_key": [
-          "valuation_id"
-        ],
-        "field_count": 5
-      }
-    },
-    {
-      "id": "column.collateral_valuations.valuation_id",
-      "type": "column",
-      "label": "valuation_id",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_valuations",
-        "data_type": "field",
-        "expression": "valuation_id"
-      }
-    },
-    {
-      "id": "column.collateral_valuations.collateral_id",
-      "type": "column",
-      "label": "collateral_id",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_valuations",
-        "data_type": "field",
-        "expression": "collateral_id"
-      }
-    },
-    {
-      "id": "column.collateral_valuations.valuation_date",
-      "type": "column",
-      "label": "valuation_date",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_valuations",
-        "data_type": "field",
-        "expression": "valuation_date"
-      }
-    },
-    {
-      "id": "column.collateral_valuations.market_value_amount",
-      "type": "column",
-      "label": "market_value_amount",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_valuations",
-        "data_type": "field",
-        "expression": "market_value_amount"
-      }
-    },
-    {
-      "id": "column.collateral_valuations.haircut_rate",
-      "type": "column",
-      "label": "haircut_rate",
-      "properties": {
-        "description": "",
-        "parent": "table.collateral_valuations",
-        "data_type": "field",
-        "expression": "haircut_rate"
+        "base_relationship_path": "AccountData.has_AccountStatus",
+        "inheritance_note": "Inherited from AccountData."
       }
     },
     {
@@ -624,7 +724,7 @@ window.GRAPH_DATA = {
       "type": "physical_table",
       "label": "collateral_margin_report_lines",
       "properties": {
-        "description": "Physical output table for the collateral margin report.",
+        "description": "Produced collateral margin report line records at report-line grain, carrying the account, counterparty, collateral, valuation date, and eligible collateral value submitted for reporting.",
         "source": "reporting.collateral_margin_report_lines",
         "primary_key": [
           "report_id",
@@ -638,7 +738,7 @@ window.GRAPH_DATA = {
       "type": "column",
       "label": "report_id",
       "properties": {
-        "description": "",
+        "description": "Identifier of the generated collateral margin report submission.",
         "parent": "table.collateral_margin_report_lines",
         "data_type": "field",
         "expression": "report_id"
@@ -649,7 +749,7 @@ window.GRAPH_DATA = {
       "type": "column",
       "label": "line_number",
       "properties": {
-        "description": "",
+        "description": "Line sequence number within a collateral margin report submission.",
         "parent": "table.collateral_margin_report_lines",
         "data_type": "field",
         "expression": "line_number"
@@ -660,7 +760,7 @@ window.GRAPH_DATA = {
       "type": "column",
       "label": "account_id",
       "properties": {
-        "description": "",
+        "description": "Margin account identifier reported on the output line.",
         "parent": "table.collateral_margin_report_lines",
         "data_type": "field",
         "expression": "account_id"
@@ -671,7 +771,7 @@ window.GRAPH_DATA = {
       "type": "column",
       "label": "counterparty_id",
       "properties": {
-        "description": "",
+        "description": "Counterparty identifier reported on the output line.",
         "parent": "table.collateral_margin_report_lines",
         "data_type": "field",
         "expression": "counterparty_id"
@@ -682,7 +782,7 @@ window.GRAPH_DATA = {
       "type": "column",
       "label": "collateral_id",
       "properties": {
-        "description": "",
+        "description": "Collateral asset identifier reported on the output line.",
         "parent": "table.collateral_margin_report_lines",
         "data_type": "field",
         "expression": "collateral_id"
@@ -693,7 +793,7 @@ window.GRAPH_DATA = {
       "type": "column",
       "label": "valuation_date",
       "properties": {
-        "description": "",
+        "description": "Valuation date used for the reported collateral amount.",
         "parent": "table.collateral_margin_report_lines",
         "data_type": "field",
         "expression": "valuation_date"
@@ -704,238 +804,406 @@ window.GRAPH_DATA = {
       "type": "column",
       "label": "eligible_collateral_value",
       "properties": {
-        "description": "",
+        "description": "Reportable collateral value after applying haircut and eligibility calculation.",
         "parent": "table.collateral_margin_report_lines",
         "data_type": "field",
         "expression": "eligible_collateral_value"
       }
     },
     {
-      "id": "metric_field.collateral_valuations.eligible_collateral_value",
-      "type": "metric_field",
-      "label": "eligible_collateral_value",
+      "id": "table.collateral_positions",
+      "type": "physical_table",
+      "label": "collateral_positions",
       "properties": {
-        "description": "Market value after haircut for regulatory eligible collateral reporting.",
-        "parent": "table.collateral_valuations",
-        "data_type": "metric",
-        "metric_name": "eligible_collateral_value",
-        "semantic_model": "CollateralMarginSemanticModel",
-        "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)",
-        "source_fields": [
-          "collateral_valuations.haircut_rate",
-          "collateral_valuations.market_value_amount"
+        "description": "Collateral position records that describe pledged collateral assets assigned to margin accounts, including asset classification, currency, and issuer jurisdiction.",
+        "source": "collateral_master.collateral_positions",
+        "primary_key": [
+          "collateral_id"
         ],
-        "ai_context": {
-          "metric_type": "calculated_report_measure"
-        }
+        "field_count": 5
       }
     },
     {
-      "id": "requirement.EligibleCollateralRequirement",
+      "id": "column.collateral_positions.collateral_id",
+      "type": "column",
+      "label": "collateral_id",
+      "properties": {
+        "description": "Stable identifier for the pledged collateral asset position.",
+        "parent": "table.collateral_positions",
+        "data_type": "field",
+        "expression": "collateral_id"
+      }
+    },
+    {
+      "id": "column.collateral_positions.account_id",
+      "type": "column",
+      "label": "account_id",
+      "properties": {
+        "description": "Margin account identifier to which the collateral position is assigned.",
+        "parent": "table.collateral_positions",
+        "data_type": "field",
+        "expression": "account_id"
+      }
+    },
+    {
+      "id": "column.collateral_positions.asset_type",
+      "type": "column",
+      "label": "asset_type",
+      "properties": {
+        "description": "Asset classification of the pledged collateral used for eligibility assessment.",
+        "parent": "table.collateral_positions",
+        "data_type": "field",
+        "expression": "asset_type"
+      }
+    },
+    {
+      "id": "column.collateral_positions.currency",
+      "type": "column",
+      "label": "currency",
+      "properties": {
+        "description": "Denomination currency of the pledged collateral position.",
+        "parent": "table.collateral_positions",
+        "data_type": "field",
+        "expression": "currency"
+      }
+    },
+    {
+      "id": "column.collateral_positions.issuer_country",
+      "type": "column",
+      "label": "issuer_country",
+      "properties": {
+        "description": "Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules.",
+        "parent": "table.collateral_positions",
+        "data_type": "field",
+        "expression": "issuer_country"
+      }
+    },
+    {
+      "id": "table.collateral_valuations",
+      "type": "physical_table",
+      "label": "collateral_valuations",
+      "properties": {
+        "description": "Daily collateral valuation records that capture market value and haircut inputs for pledged assets at valuation-date grain.",
+        "source": "market_risk.collateral_valuations",
+        "primary_key": [
+          "valuation_id"
+        ],
+        "field_count": 5
+      }
+    },
+    {
+      "id": "column.collateral_valuations.valuation_id",
+      "type": "column",
+      "label": "valuation_id",
+      "properties": {
+        "description": "Stable identifier for a collateral valuation record.",
+        "parent": "table.collateral_valuations",
+        "data_type": "field",
+        "expression": "valuation_id"
+      }
+    },
+    {
+      "id": "column.collateral_valuations.collateral_id",
+      "type": "column",
+      "label": "collateral_id",
+      "properties": {
+        "description": "Identifier of the pledged collateral asset being valued.",
+        "parent": "table.collateral_valuations",
+        "data_type": "field",
+        "expression": "collateral_id"
+      }
+    },
+    {
+      "id": "column.collateral_valuations.valuation_date",
+      "type": "column",
+      "label": "valuation_date",
+      "properties": {
+        "description": "Business date on which the collateral market value and haircut are observed.",
+        "parent": "table.collateral_valuations",
+        "data_type": "field",
+        "expression": "valuation_date"
+      }
+    },
+    {
+      "id": "column.collateral_valuations.market_value_amount",
+      "type": "column",
+      "label": "market_value_amount",
+      "properties": {
+        "description": "Observed market value amount of the collateral before haircut adjustment.",
+        "parent": "table.collateral_valuations",
+        "data_type": "field",
+        "expression": "market_value_amount"
+      }
+    },
+    {
+      "id": "column.collateral_valuations.haircut_rate",
+      "type": "column",
+      "label": "haircut_rate",
+      "properties": {
+        "description": "Haircut percentage applied to collateral market value for eligibility calculation.",
+        "parent": "table.collateral_valuations",
+        "data_type": "field",
+        "expression": "haircut_rate"
+      }
+    },
+    {
+      "id": "table.counterparties",
+      "type": "physical_table",
+      "label": "counterparties",
+      "properties": {
+        "description": "Legal counterparty reference records used to identify reporting counterparties, domicile, and regulatory segmentation for collateral margin obligations.",
+        "source": "margin_core.counterparties",
+        "primary_key": [
+          "counterparty_id"
+        ],
+        "field_count": 4
+      }
+    },
+    {
+      "id": "column.counterparties.counterparty_id",
+      "type": "column",
+      "label": "counterparty_id",
+      "properties": {
+        "description": "Stable identifier for the legal counterparty reference record.",
+        "parent": "table.counterparties",
+        "data_type": "field",
+        "expression": "counterparty_id"
+      }
+    },
+    {
+      "id": "column.counterparties.legal_name",
+      "type": "column",
+      "label": "legal_name",
+      "properties": {
+        "description": "Registered legal name of the reporting counterparty.",
+        "parent": "table.counterparties",
+        "data_type": "field",
+        "expression": "legal_name"
+      }
+    },
+    {
+      "id": "column.counterparties.domicile_country",
+      "type": "column",
+      "label": "domicile_country",
+      "properties": {
+        "description": "Country or jurisdiction where the counterparty is domiciled for regulatory classification.",
+        "parent": "table.counterparties",
+        "data_type": "field",
+        "expression": "domicile_country"
+      }
+    },
+    {
+      "id": "column.counterparties.regulatory_segment",
+      "type": "column",
+      "label": "regulatory_segment",
+      "properties": {
+        "description": "Regulatory counterparty segment used for reporting categorization and eligibility rules.",
+        "parent": "table.counterparties",
+        "data_type": "field",
+        "expression": "regulatory_segment"
+      }
+    },
+    {
+      "id": "table.margin_accounts",
+      "type": "physical_table",
+      "label": "margin_accounts",
+      "properties": {
+        "description": "Margin account records that track collateralized account obligations, account status, base currency, and the linked counterparty used for margin reporting.",
+        "source": "margin_core.margin_accounts",
+        "primary_key": [
+          "account_id"
+        ],
+        "field_count": 4
+      }
+    },
+    {
+      "id": "column.margin_accounts.account_id",
+      "type": "column",
+      "label": "account_id",
+      "properties": {
+        "description": "Stable identifier for a margin account record at account grain.",
+        "parent": "table.margin_accounts",
+        "data_type": "field",
+        "expression": "account_id"
+      }
+    },
+    {
+      "id": "column.margin_accounts.counterparty_id",
+      "type": "column",
+      "label": "counterparty_id",
+      "properties": {
+        "description": "Identifier of the legal counterparty responsible for the margin account.",
+        "parent": "table.margin_accounts",
+        "data_type": "field",
+        "expression": "counterparty_id"
+      }
+    },
+    {
+      "id": "column.margin_accounts.base_currency",
+      "type": "column",
+      "label": "base_currency",
+      "properties": {
+        "description": "Currency in which the margin account obligation is primarily managed and reported.",
+        "parent": "table.margin_accounts",
+        "data_type": "field",
+        "expression": "base_currency"
+      }
+    },
+    {
+      "id": "column.margin_accounts.account_status",
+      "type": "column",
+      "label": "account_status",
+      "properties": {
+        "description": "Operational status of the margin account used to determine reporting eligibility.",
+        "parent": "table.margin_accounts",
+        "data_type": "field",
+        "expression": "account_status"
+      }
+    },
+    {
+      "id": "requirement.item",
       "type": "regulatory_requirement",
-      "label": "EligibleCollateralRequirement",
+      "label": "合格抵质押品报送需求",
       "properties": {
-        "description": "Regulator requires daily account-level eligible collateral details.",
-        "regulator": "Example Prudential Authority",
-        "regulation": "MarginRule-2026",
-        "reporting_frequency": "daily",
-        "reporting_grain": {
-          "concept": "CollateralValuation",
-          "description": "One row per collateral valuation used for eligible collateral reporting."
-        }
+        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
+        "source": "Collateral Margin Reporting BRD v1.0 section 3.2",
+        "SLA": "Daily EOD before 21:00 local time; business review and exception notes completed before submission."
       }
     },
     {
-      "id": "requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty",
+      "id": "requirement_item..MarginAccount.has_AccountIdentifier",
       "type": "requirement_semantic_item",
-      "label": "MarginAccount.reference_counterparty",
+      "label": "保证金账户标识",
       "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Counterparty ownership is required for supervisory aggregation.",
-        "data_type": "relationship",
-        "semantic_reference": "MarginAccount.reference_counterparty",
-        "source_concept": "MarginAccount",
-        "target_concept": "Counterparty",
-        "relationship": "reference_counterparty",
-        "required": true,
-        "purpose": "Counterparty ownership is required for supervisory aggregation."
-      }
-    },
-    {
-      "id": "requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral",
-      "type": "requirement_semantic_item",
-      "label": "MarginAccount.pledge_collateral",
-      "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Pledged collateral must be linked to the account.",
-        "data_type": "relationship",
-        "semantic_reference": "MarginAccount.pledge_collateral",
-        "source_concept": "MarginAccount",
-        "target_concept": "CollateralAsset",
-        "relationship": "pledge_collateral",
-        "required": true,
-        "purpose": "Pledged collateral must be linked to the account."
-      }
-    },
-    {
-      "id": "requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral",
-      "type": "requirement_semantic_item",
-      "label": "CollateralValuation.value_collateral",
-      "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Valuation must identify the collateral being valued.",
-        "data_type": "relationship",
-        "semantic_reference": "CollateralValuation.value_collateral",
-        "source_concept": "CollateralValuation",
-        "target_concept": "CollateralAsset",
-        "relationship": "value_collateral",
-        "required": true,
-        "purpose": "Valuation must identify the collateral being valued."
-      }
-    },
-    {
-      "id": "requirement_item.EligibleCollateralRequirement.account_identifier",
-      "type": "requirement_semantic_item",
-      "label": "MarginAccount.account_id",
-      "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Account-level reconciliation key.",
+        "parent": "requirement.item",
+        "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
         "data_type": "AccountIdentifier",
-        "semantic_reference": "MarginAccount.account_id",
+        "semantic_reference": "MarginAccount.has_AccountIdentifier",
         "value_concept": "AccountIdentifier",
         "source_concept": "MarginAccount",
-        "relationship": "account_id",
+        "relationship": "has_AccountIdentifier",
         "required": true,
-        "purpose": "Account-level reconciliation key.",
         "rule": null
       }
     },
     {
-      "id": "requirement_item.EligibleCollateralRequirement.counterparty_identifier",
+      "id": "requirement_item..Counterparty.has_CounterpartyIdentifier",
       "type": "requirement_semantic_item",
-      "label": "Counterparty.counterparty_id",
+      "label": "交易对手标识",
       "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Counterparty aggregation key.",
+        "parent": "requirement.item",
+        "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
         "data_type": "CounterpartyIdentifier",
-        "semantic_reference": "Counterparty.counterparty_id",
+        "semantic_reference": "Counterparty.has_CounterpartyIdentifier",
         "value_concept": "CounterpartyIdentifier",
         "source_concept": "Counterparty",
-        "relationship": "counterparty_id",
+        "relationship": "has_CounterpartyIdentifier",
         "required": true,
-        "purpose": "Counterparty aggregation key.",
         "rule": null
       }
     },
     {
-      "id": "requirement_item.EligibleCollateralRequirement.collateral_identifier",
+      "id": "requirement_item..CollateralAsset.has_CollateralIdentifier",
       "type": "requirement_semantic_item",
-      "label": "CollateralAsset.collateral_id",
+      "label": "抵质押品标识",
       "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Collateral position key.",
+        "parent": "requirement.item",
+        "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
         "data_type": "CollateralIdentifier",
-        "semantic_reference": "CollateralAsset.collateral_id",
+        "semantic_reference": "CollateralAsset.has_CollateralIdentifier",
         "value_concept": "CollateralIdentifier",
         "source_concept": "CollateralAsset",
-        "relationship": "collateral_id",
+        "relationship": "has_CollateralIdentifier",
         "required": true,
-        "purpose": "Collateral position key.",
         "rule": null
       }
     },
     {
-      "id": "requirement_item.EligibleCollateralRequirement.valuation_date",
+      "id": "requirement_item..CollateralValuation.has_ValuationDate",
       "type": "requirement_semantic_item",
-      "label": "CollateralValuation.valuation_date",
+      "label": "估值日期",
       "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Reporting valuation date.",
+        "parent": "requirement.item",
+        "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。",
         "data_type": "Date",
-        "semantic_reference": "CollateralValuation.valuation_date",
+        "semantic_reference": "CollateralValuation.has_ValuationDate",
         "value_concept": "Date",
         "source_concept": "CollateralValuation",
-        "relationship": "valuation_date",
+        "relationship": "has_ValuationDate",
         "required": true,
-        "purpose": "Reporting valuation date.",
         "rule": null
       }
     },
     {
-      "id": "requirement_item.EligibleCollateralRequirement.market_value_amount",
+      "id": "requirement_item..CollateralValuation.has_MarketValueAmount",
       "type": "requirement_semantic_item",
-      "label": "CollateralValuation.market_value_amount",
+      "label": "抵质押品折扣前市场价值",
       "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Gross market value before haircut.",
+        "parent": "requirement.item",
+        "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。",
         "data_type": "MonetaryAmount",
-        "semantic_reference": "CollateralValuation.market_value_amount",
+        "semantic_reference": "CollateralValuation.has_MarketValueAmount",
         "value_concept": "MonetaryAmount",
         "source_concept": "CollateralValuation",
-        "relationship": "market_value_amount",
+        "relationship": "has_MarketValueAmount",
         "required": true,
-        "purpose": "Gross market value before haircut.",
         "rule": null
       }
     },
     {
-      "id": "requirement_item.EligibleCollateralRequirement.haircut_rate",
+      "id": "requirement_item..CollateralValuation.has_HaircutRate",
       "type": "requirement_semantic_item",
-      "label": "CollateralValuation.haircut_rate",
+      "label": "监管折扣率",
       "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "Supervisory haircut rate.",
+        "parent": "requirement.item",
+        "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。",
         "data_type": "Rate",
-        "semantic_reference": "CollateralValuation.haircut_rate",
+        "semantic_reference": "CollateralValuation.has_HaircutRate",
         "value_concept": "Rate",
         "source_concept": "CollateralValuation",
-        "relationship": "haircut_rate",
+        "relationship": "has_HaircutRate",
         "required": true,
-        "purpose": "Supervisory haircut rate.",
         "rule": null
       }
     },
     {
-      "id": "requirement_item.EligibleCollateralRequirement.eligible_collateral_value",
+      "id": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
       "type": "requirement_semantic_item",
-      "label": "eligible_collateral_value",
+      "label": "折扣后合格抵质押品价值",
       "properties": {
-        "parent": "requirement.EligibleCollateralRequirement",
-        "description": "",
+        "parent": "requirement.item",
+        "description": "需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。",
         "data_type": "calculation",
-        "semantic_reference": "metric.eligible_collateral_value",
-        "expression": "CollateralValuation.market_value_amount * (1 - CollateralValuation.haircut_rate)",
+        "semantic_reference": "CollateralValuation.has_EligibleCollateralValue",
+        "expression": "CollateralValuation.has_MarketValueAmount * (1 - CollateralValuation.has_HaircutRate)",
         "inputs": [
-          "CollateralValuation.market_value_amount",
-          "CollateralValuation.haircut_rate"
+          "CollateralValuation.has_MarketValueAmount",
+          "CollateralValuation.has_HaircutRate"
         ]
       }
     },
     {
-      "id": "report_impl.DailyEligibleCollateralReport",
+      "id": "report_impl.item",
       "type": "report_implementation",
-      "label": "DailyEligibleCollateralReport",
+      "label": "每日合格抵质押品报表数据逻辑",
       "properties": {
-        "description": "Physical implementation of the eligible collateral regulatory report.",
-        "owner": "Collateral Reporting Technology",
-        "schedule": "Daily EOD",
-        "implements": "EligibleCollateralRequirement"
+        "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。",
+        "implements": "合格抵质押品报送需求"
       }
     },
     {
-      "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id",
+      "id": "implementation_field.collateral_margin_report_lines.account_id",
       "type": "implementation_field_binding",
-      "label": "collateral_margin_report_lines.account_id",
+      "label": "保证金账户标识逻辑",
       "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.account_id.",
-        "data_type": "line",
-        "binding_role": "line",
+        "parent": "report_impl.item",
+        "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
+        "data_type": "logic field",
+        "binding_role": "logic field",
         "dataset": "collateral_margin_report_lines",
-        "field": "account_id",
+        "field": "保证金账户标识逻辑",
         "dataset_field": "collateral_margin_report_lines.account_id",
-        "requirement_field": "account_identifier",
-        "semantic_reference": "MarginAccount.account_id",
+        "requirement_field": "保证金账户标识",
         "source_field": "margin_accounts.account_id",
         "expression": "margin_accounts.account_id",
         "expression_fields": [
@@ -944,19 +1212,18 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id",
+      "id": "implementation_field.collateral_margin_report_lines.counterparty_id",
       "type": "implementation_field_binding",
-      "label": "collateral_margin_report_lines.counterparty_id",
+      "label": "交易对手标识逻辑",
       "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.counterparty_id.",
-        "data_type": "line",
-        "binding_role": "line",
+        "parent": "report_impl.item",
+        "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
+        "data_type": "logic field",
+        "binding_role": "logic field",
         "dataset": "collateral_margin_report_lines",
-        "field": "counterparty_id",
+        "field": "交易对手标识逻辑",
         "dataset_field": "collateral_margin_report_lines.counterparty_id",
-        "requirement_field": "counterparty_identifier",
-        "semantic_reference": "Counterparty.counterparty_id",
+        "requirement_field": "交易对手标识",
         "source_field": "counterparties.counterparty_id",
         "expression": "counterparties.counterparty_id",
         "expression_fields": [
@@ -965,19 +1232,18 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id",
+      "id": "implementation_field.collateral_margin_report_lines.collateral_id",
       "type": "implementation_field_binding",
-      "label": "collateral_margin_report_lines.collateral_id",
+      "label": "抵质押品标识逻辑",
       "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.collateral_id.",
-        "data_type": "line",
-        "binding_role": "line",
+        "parent": "report_impl.item",
+        "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
+        "data_type": "logic field",
+        "binding_role": "logic field",
         "dataset": "collateral_margin_report_lines",
-        "field": "collateral_id",
+        "field": "抵质押品标识逻辑",
         "dataset_field": "collateral_margin_report_lines.collateral_id",
-        "requirement_field": "collateral_identifier",
-        "semantic_reference": "CollateralAsset.collateral_id",
+        "requirement_field": "抵质押品标识",
         "source_field": "collateral_positions.collateral_id",
         "expression": "collateral_positions.collateral_id",
         "expression_fields": [
@@ -986,19 +1252,18 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date",
+      "id": "implementation_field.collateral_margin_report_lines.valuation_date",
       "type": "implementation_field_binding",
-      "label": "collateral_margin_report_lines.valuation_date",
+      "label": "估值日期逻辑",
       "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.valuation_date.",
-        "data_type": "line",
-        "binding_role": "line",
+        "parent": "report_impl.item",
+        "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
+        "data_type": "logic field",
+        "binding_role": "logic field",
         "dataset": "collateral_margin_report_lines",
-        "field": "valuation_date",
+        "field": "估值日期逻辑",
         "dataset_field": "collateral_margin_report_lines.valuation_date",
-        "requirement_field": "valuation_date",
-        "semantic_reference": "CollateralValuation.valuation_date",
+        "requirement_field": "估值日期",
         "source_field": "collateral_valuations.valuation_date",
         "expression": "collateral_valuations.valuation_date",
         "expression_fields": [
@@ -1007,19 +1272,58 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
+      "id": "implementation_field.collateral_valuations.market_value_amount",
       "type": "implementation_field_binding",
-      "label": "collateral_margin_report_lines.eligible_collateral_value",
+      "label": "抵质押品折扣前市场价值逻辑",
       "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.eligible_collateral_value.",
-        "data_type": "line",
-        "binding_role": "line",
+        "parent": "report_impl.item",
+        "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
+        "data_type": "logic field",
+        "binding_role": "logic field",
+        "dataset": "collateral_valuations",
+        "field": "抵质押品折扣前市场价值逻辑",
+        "dataset_field": "collateral_valuations.market_value_amount",
+        "requirement_field": "抵质押品折扣前市场价值",
+        "source_field": "collateral_valuations.market_value_amount",
+        "expression": "collateral_valuations.market_value_amount",
+        "expression_fields": [
+          "collateral_valuations.market_value_amount"
+        ]
+      }
+    },
+    {
+      "id": "implementation_field.collateral_valuations.haircut_rate",
+      "type": "implementation_field_binding",
+      "label": "监管折扣率逻辑",
+      "properties": {
+        "parent": "report_impl.item",
+        "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
+        "data_type": "logic field",
+        "binding_role": "logic field",
+        "dataset": "collateral_valuations",
+        "field": "监管折扣率逻辑",
+        "dataset_field": "collateral_valuations.haircut_rate",
+        "requirement_field": "监管折扣率",
+        "source_field": "collateral_valuations.haircut_rate",
+        "expression": "collateral_valuations.haircut_rate",
+        "expression_fields": [
+          "collateral_valuations.haircut_rate"
+        ]
+      }
+    },
+    {
+      "id": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "type": "implementation_field_binding",
+      "label": "折扣后合格抵质押品价值逻辑",
+      "properties": {
+        "parent": "report_impl.item",
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
+        "data_type": "logic field",
+        "binding_role": "logic field",
         "dataset": "collateral_margin_report_lines",
-        "field": "eligible_collateral_value",
+        "field": "折扣后合格抵质押品价值逻辑",
         "dataset_field": "collateral_margin_report_lines.eligible_collateral_value",
-        "requirement_field": "eligible_collateral_value",
-        "semantic_reference": "metric.eligible_collateral_value",
+        "requirement_field": "折扣后合格抵质押品价值",
         "source_field": null,
         "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)",
         "expression_fields": [
@@ -1027,142 +1331,17 @@ window.GRAPH_DATA = {
           "collateral_valuations.market_value_amount"
         ]
       }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.account_id",
-      "type": "implementation_field_binding",
-      "label": "margin_accounts.account_id",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field margin_accounts.account_id.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "margin_accounts",
-        "field": "account_id",
-        "dataset_field": "margin_accounts.account_id"
-      }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.counterparty_id",
-      "type": "implementation_field_binding",
-      "label": "margin_accounts.counterparty_id",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field margin_accounts.counterparty_id.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "margin_accounts",
-        "field": "counterparty_id",
-        "dataset_field": "margin_accounts.counterparty_id"
-      }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.counterparties.counterparty_id",
-      "type": "implementation_field_binding",
-      "label": "counterparties.counterparty_id",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field counterparties.counterparty_id.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "counterparties",
-        "field": "counterparty_id",
-        "dataset_field": "counterparties.counterparty_id"
-      }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.collateral_id",
-      "type": "implementation_field_binding",
-      "label": "collateral_positions.collateral_id",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field collateral_positions.collateral_id.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "collateral_positions",
-        "field": "collateral_id",
-        "dataset_field": "collateral_positions.collateral_id"
-      }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.account_id",
-      "type": "implementation_field_binding",
-      "label": "collateral_positions.account_id",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field collateral_positions.account_id.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "collateral_positions",
-        "field": "account_id",
-        "dataset_field": "collateral_positions.account_id"
-      }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.collateral_id",
-      "type": "implementation_field_binding",
-      "label": "collateral_valuations.collateral_id",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field collateral_valuations.collateral_id.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "collateral_valuations",
-        "field": "collateral_id",
-        "dataset_field": "collateral_valuations.collateral_id"
-      }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.valuation_date",
-      "type": "implementation_field_binding",
-      "label": "collateral_valuations.valuation_date",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field collateral_valuations.valuation_date.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "collateral_valuations",
-        "field": "valuation_date",
-        "dataset_field": "collateral_valuations.valuation_date"
-      }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.market_value_amount",
-      "type": "implementation_field_binding",
-      "label": "collateral_valuations.market_value_amount",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field collateral_valuations.market_value_amount.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "collateral_valuations",
-        "field": "market_value_amount",
-        "dataset_field": "collateral_valuations.market_value_amount"
-      }
-    },
-    {
-      "id": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.haircut_rate",
-      "type": "implementation_field_binding",
-      "label": "collateral_valuations.haircut_rate",
-      "properties": {
-        "parent": "report_impl.DailyEligibleCollateralReport",
-        "description": "DailyEligibleCollateralReport reads source field collateral_valuations.haircut_rate.",
-        "data_type": "source field",
-        "binding_role": "source",
-        "dataset": "collateral_valuations",
-        "field": "haircut_rate",
-        "dataset_field": "collateral_valuations.haircut_rate"
-      }
     }
   ],
   "edges": [
     {
-      "id": "edge.concept.AccountData.CONTAINS.contains_value.value.AccountData.account_id",
+      "id": "edge.concept.AccountData.CONTAINS.contains_value.value.AccountData.has_AccountIdentifier",
       "source": "concept.AccountData",
-      "target": "value.AccountData.account_id",
+      "target": "value.AccountData.has_AccountIdentifier",
       "label": "contains value",
       "properties": {
-        "description": "AccountData has value concept account_id (AccountIdentifier).",
+        "description": "AccountData has value concept has_AccountIdentifier (AccountIdentifier).",
+        "multiplicity": "OneToOne",
         "verbalizes": [
           "{AccountData} has account identifier {AccountIdentifier}"
         ],
@@ -1173,12 +1352,13 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.concept.AccountData.CONTAINS.contains_value.value.AccountData.account_status",
+      "id": "edge.concept.AccountData.CONTAINS.contains_value.value.AccountData.has_AccountStatus",
       "source": "concept.AccountData",
-      "target": "value.AccountData.account_status",
+      "target": "value.AccountData.has_AccountStatus",
       "label": "contains value",
       "properties": {
-        "description": "AccountData has value concept account_status (StatusCode).",
+        "description": "AccountData has value concept has_AccountStatus (StatusCode).",
+        "multiplicity": "ManyToOne",
         "verbalizes": [
           "{AccountData} has account status {StatusCode}"
         ],
@@ -1187,6 +1367,309 @@ window.GRAPH_DATA = {
         "inherited": false
       },
       "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralAssetData.CONTAINS.contains_value.value.CollateralAssetData.has_CollateralIdentifier",
+      "source": "concept.CollateralAssetData",
+      "target": "value.CollateralAssetData.has_CollateralIdentifier",
+      "label": "contains value",
+      "properties": {
+        "description": "CollateralAssetData has value concept has_CollateralIdentifier (CollateralIdentifier).",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "CollateralIdentifier",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralAssetData.CONTAINS.contains_value.value.CollateralAssetData.has_AssetType",
+      "source": "concept.CollateralAssetData",
+      "target": "value.CollateralAssetData.has_AssetType",
+      "label": "contains value",
+      "properties": {
+        "description": "CollateralAssetData has value concept has_AssetType (AssetType).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has asset type {AssetType}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "AssetType",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralAssetData.CONTAINS.contains_value.value.CollateralAssetData.has_AssetCurrency",
+      "source": "concept.CollateralAssetData",
+      "target": "value.CollateralAssetData.has_AssetCurrency",
+      "label": "contains value",
+      "properties": {
+        "description": "CollateralAssetData has value concept has_AssetCurrency (CurrencyCode).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has currency {CurrencyCode}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "CurrencyCode",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralAssetData.CONTAINS.contains_value.value.CollateralAssetData.has_IssuerCountry",
+      "source": "concept.CollateralAssetData",
+      "target": "value.CollateralAssetData.has_IssuerCountry",
+      "label": "contains value",
+      "properties": {
+        "description": "CollateralAssetData has value concept has_IssuerCountry (CountryCode).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has issuer country {CountryCode}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "CountryCode",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CounterpartyData.CONTAINS.contains_value.value.CounterpartyData.has_CounterpartyIdentifier",
+      "source": "concept.CounterpartyData",
+      "target": "value.CounterpartyData.has_CounterpartyIdentifier",
+      "label": "contains value",
+      "properties": {
+        "description": "CounterpartyData has value concept has_CounterpartyIdentifier (CounterpartyIdentifier).",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "CounterpartyIdentifier",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CounterpartyData.CONTAINS.contains_value.value.CounterpartyData.has_LegalName",
+      "source": "concept.CounterpartyData",
+      "target": "value.CounterpartyData.has_LegalName",
+      "label": "contains value",
+      "properties": {
+        "description": "CounterpartyData has value concept has_LegalName (LegalName).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has legal name {LegalName}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "LegalName",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CounterpartyData.CONTAINS.contains_value.value.CounterpartyData.has_DomicileCountry",
+      "source": "concept.CounterpartyData",
+      "target": "value.CounterpartyData.has_DomicileCountry",
+      "label": "contains value",
+      "properties": {
+        "description": "CounterpartyData has value concept has_DomicileCountry (CountryCode).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has domicile country {CountryCode}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "CountryCode",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CounterpartyData.CONTAINS.contains_value.value.CounterpartyData.has_RegulatorySegment",
+      "source": "concept.CounterpartyData",
+      "target": "value.CounterpartyData.has_RegulatorySegment",
+      "label": "contains value",
+      "properties": {
+        "description": "CounterpartyData has value concept has_RegulatorySegment (RegulatorySegment).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has regulatory segment {RegulatorySegment}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "RegulatorySegment",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.ValuationData.CONTAINS.contains_value.value.ValuationData.has_ValuationIdentifier",
+      "source": "concept.ValuationData",
+      "target": "value.ValuationData.has_ValuationIdentifier",
+      "label": "contains value",
+      "properties": {
+        "description": "ValuationData has value concept has_ValuationIdentifier (ValuationIdentifier).",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{ValuationData} has valuation identifier {ValuationIdentifier}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "ValuationIdentifier",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.ValuationData.CONTAINS.contains_value.value.ValuationData.has_ValuationDate",
+      "source": "concept.ValuationData",
+      "target": "value.ValuationData.has_ValuationDate",
+      "label": "contains value",
+      "properties": {
+        "description": "ValuationData has value concept has_ValuationDate (Date).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{ValuationData} has valuation date {Date}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "Date",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralAsset.EXTENDS.extends.concept.CollateralAssetData",
+      "source": "concept.CollateralAsset",
+      "target": "concept.CollateralAssetData",
+      "label": "extends",
+      "properties": {
+        "description": "CollateralAsset extends CollateralAssetData.",
+        "base_entity": "CollateralAssetData"
+      },
+      "type": "EXTENDS"
+    },
+    {
+      "id": "PART_OF_MarginAccount",
+      "source": "concept.CollateralAsset",
+      "target": "concept.MarginAccount",
+      "label": "PART_OF_MarginAccount",
+      "properties": {
+        "verbalizes": [
+          "{CollateralAsset} is part of the collateral set for {MarginAccount}"
+        ],
+        "roles": [
+          {
+            "concept": "MarginAccount"
+          }
+        ]
+      }
+    },
+    {
+      "id": "edge.concept.CollateralValuation.EXTENDS.extends.concept.ValuationData",
+      "source": "concept.CollateralValuation",
+      "target": "concept.ValuationData",
+      "label": "extends",
+      "properties": {
+        "description": "CollateralValuation extends ValuationData.",
+        "base_entity": "ValuationData"
+      },
+      "type": "EXTENDS"
+    },
+    {
+      "id": "VALUES_CollateralAsset",
+      "source": "concept.CollateralValuation",
+      "target": "concept.CollateralAsset",
+      "label": "VALUES_CollateralAsset",
+      "properties": {
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralValuation} values {CollateralAsset}"
+        ],
+        "roles": [
+          {
+            "concept": "CollateralAsset"
+          }
+        ]
+      }
+    },
+    {
+      "id": "edge.concept.CollateralValuation.CONTAINS.contains_value.value.CollateralValuation.has_MarketValueAmount",
+      "source": "concept.CollateralValuation",
+      "target": "value.CollateralValuation.has_MarketValueAmount",
+      "label": "contains value",
+      "properties": {
+        "description": "CollateralValuation has value concept has_MarketValueAmount (MonetaryAmount).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralValuation} has market value amount {MonetaryAmount}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "MonetaryAmount",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralValuation.CONTAINS.contains_value.value.CollateralValuation.has_HaircutRate",
+      "source": "concept.CollateralValuation",
+      "target": "value.CollateralValuation.has_HaircutRate",
+      "label": "contains value",
+      "properties": {
+        "description": "CollateralValuation has value concept has_HaircutRate (Rate).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralValuation} has haircut rate {Rate}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "Rate",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralValuation.CONTAINS.contains_value.value.CollateralValuation.has_EligibleCollateralValue",
+      "source": "concept.CollateralValuation",
+      "target": "value.CollateralValuation.has_EligibleCollateralValue",
+      "label": "contains value",
+      "properties": {
+        "description": "CollateralValuation has value concept has_EligibleCollateralValue (MonetaryAmount).",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralValuation} has eligible collateral value {MonetaryAmount}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "MonetaryAmount",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.Counterparty.EXTENDS.extends.concept.CounterpartyData",
+      "source": "concept.Counterparty",
+      "target": "concept.CounterpartyData",
+      "label": "extends",
+      "properties": {
+        "description": "Counterparty extends CounterpartyData.",
+        "base_entity": "CounterpartyData"
+      },
+      "type": "EXTENDS"
+    },
+    {
+      "id": "RELATED_TO_MarginAccount",
+      "source": "concept.Counterparty",
+      "target": "concept.MarginAccount",
+      "label": "RELATED_TO_MarginAccount",
+      "properties": {
+        "verbalizes": [
+          "{Counterparty} is related to {MarginAccount} through account ownership or control"
+        ],
+        "roles": [
+          {
+            "concept": "MarginAccount"
+          }
+        ]
+      }
     },
     {
       "id": "edge.concept.MarginAccount.EXTENDS.extends.concept.AccountData",
@@ -1200,46 +1683,46 @@ window.GRAPH_DATA = {
       "type": "EXTENDS"
     },
     {
-      "id": "reference_counterparty",
+      "id": "REFERENCES_Counterparty",
       "source": "concept.MarginAccount",
       "target": "concept.Counterparty",
-      "label": "reference_counterparty",
+      "label": "REFERENCES_Counterparty",
       "properties": {
+        "multiplicity": "ManyToOne",
         "verbalizes": [
           "{MarginAccount} is owned by {Counterparty}"
         ],
         "roles": [
           {
-            "name": "owner",
             "concept": "Counterparty"
           }
         ]
       }
     },
     {
-      "id": "pledge_collateral",
+      "id": "DEPENDS_ON_CollateralAsset",
       "source": "concept.MarginAccount",
       "target": "concept.CollateralAsset",
-      "label": "pledge_collateral",
+      "label": "DEPENDS_ON_CollateralAsset",
       "properties": {
         "verbalizes": [
-          "{MarginAccount} pledges {CollateralAsset}"
+          "{MarginAccount} depends on pledged {CollateralAsset} for margin coverage"
         ],
         "roles": [
           {
-            "name": "pledged_asset",
             "concept": "CollateralAsset"
           }
         ]
       }
     },
     {
-      "id": "edge.concept.MarginAccount.CONTAINS.contains_value.value.MarginAccount.base_currency",
+      "id": "edge.concept.MarginAccount.CONTAINS.contains_value.value.MarginAccount.has_BaseCurrency",
       "source": "concept.MarginAccount",
-      "target": "value.MarginAccount.base_currency",
+      "target": "value.MarginAccount.has_BaseCurrency",
       "label": "contains value",
       "properties": {
-        "description": "MarginAccount has value concept base_currency (CurrencyCode).",
+        "description": "MarginAccount has value concept has_BaseCurrency (CurrencyCode).",
+        "multiplicity": "ManyToOne",
         "verbalizes": [
           "{MarginAccount} has base currency {CurrencyCode}"
         ],
@@ -1250,237 +1733,213 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.concept.Counterparty.CONTAINS.contains_value.value.Counterparty.counterparty_id",
-      "source": "concept.Counterparty",
-      "target": "value.Counterparty.counterparty_id",
-      "label": "contains value",
-      "properties": {
-        "description": "Counterparty has value concept counterparty_id (CounterpartyIdentifier).",
-        "verbalizes": [
-          "{Counterparty} has counterparty_id {CounterpartyIdentifier}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "CounterpartyIdentifier",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.Counterparty.CONTAINS.contains_value.value.Counterparty.legal_name",
-      "source": "concept.Counterparty",
-      "target": "value.Counterparty.legal_name",
-      "label": "contains value",
-      "properties": {
-        "description": "Counterparty has value concept legal_name (LegalName).",
-        "verbalizes": [
-          "{Counterparty} has legal_name {LegalName}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "LegalName",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.Counterparty.CONTAINS.contains_value.value.Counterparty.domicile_country",
-      "source": "concept.Counterparty",
-      "target": "value.Counterparty.domicile_country",
-      "label": "contains value",
-      "properties": {
-        "description": "Counterparty has value concept domicile_country (CountryCode).",
-        "verbalizes": [
-          "{Counterparty} has domicile_country {CountryCode}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "CountryCode",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.Counterparty.CONTAINS.contains_value.value.Counterparty.regulatory_segment",
-      "source": "concept.Counterparty",
-      "target": "value.Counterparty.regulatory_segment",
-      "label": "contains value",
-      "properties": {
-        "description": "Counterparty has value concept regulatory_segment (RegulatorySegment).",
-        "verbalizes": [
-          "{Counterparty} has regulatory_segment {RegulatorySegment}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "RegulatorySegment",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.CONTAINS.contains_value.value.CollateralAsset.collateral_id",
+      "id": "edge.concept.CollateralAsset.CONTAINS.inherited_value.value.CollateralAsset.has_CollateralIdentifier",
       "source": "concept.CollateralAsset",
-      "target": "value.CollateralAsset.collateral_id",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralAsset has value concept collateral_id (CollateralIdentifier).",
-        "verbalizes": [
-          "{CollateralAsset} has collateral_id {CollateralIdentifier}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "CollateralIdentifier",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.CONTAINS.contains_value.value.CollateralAsset.asset_type",
-      "source": "concept.CollateralAsset",
-      "target": "value.CollateralAsset.asset_type",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralAsset has value concept asset_type (AssetType).",
-        "verbalizes": [
-          "{CollateralAsset} has asset_type {AssetType}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "AssetType",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.CONTAINS.contains_value.value.CollateralAsset.currency",
-      "source": "concept.CollateralAsset",
-      "target": "value.CollateralAsset.currency",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralAsset has value concept currency (CurrencyCode).",
-        "verbalizes": [
-          "{CollateralAsset} has currency {CurrencyCode}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "CurrencyCode",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.CONTAINS.contains_value.value.CollateralAsset.issuer_country",
-      "source": "concept.CollateralAsset",
-      "target": "value.CollateralAsset.issuer_country",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralAsset has value concept issuer_country (CountryCode).",
-        "verbalizes": [
-          "{CollateralAsset} has issuer_country {CountryCode}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "CountryCode",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.CONTAINS.contains_value.value.CollateralAsset.market_value_amount",
-      "source": "concept.CollateralAsset",
-      "target": "value.CollateralAsset.market_value_amount",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralAsset has value concept market_value_amount (MonetaryAmount).",
-        "verbalizes": [
-          "{CollateralAsset} has market_value_amount {MonetaryAmount}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "MonetaryAmount",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.CollateralValuation.CONTAINS.contains_value.value.CollateralValuation.valuation_id",
-      "source": "concept.CollateralValuation",
-      "target": "value.CollateralValuation.valuation_id",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralValuation has value concept valuation_id (ValuationIdentifier).",
-        "verbalizes": [
-          "{CollateralValuation} has valuation_id {ValuationIdentifier}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "ValuationIdentifier",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "value_collateral",
-      "source": "concept.CollateralValuation",
-      "target": "concept.CollateralAsset",
-      "label": "value_collateral",
-      "properties": {
-        "verbalizes": [
-          "{CollateralValuation} values {CollateralAsset}"
-        ],
-        "roles": [
-          {
-            "name": "collateral",
-            "concept": "CollateralAsset"
-          }
-        ]
-      }
-    },
-    {
-      "id": "edge.concept.CollateralValuation.CONTAINS.contains_value.value.CollateralValuation.valuation_date",
-      "source": "concept.CollateralValuation",
-      "target": "value.CollateralValuation.valuation_date",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralValuation has value concept valuation_date (Date).",
-        "verbalizes": [
-          "{CollateralValuation} has valuation_date {Date}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "Date",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.CollateralValuation.CONTAINS.contains_value.value.CollateralValuation.market_value_amount",
-      "source": "concept.CollateralValuation",
-      "target": "value.CollateralValuation.market_value_amount",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralValuation has value concept market_value_amount (MonetaryAmount).",
-        "verbalizes": [
-          "{CollateralValuation} has market_value_amount {MonetaryAmount}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "MonetaryAmount",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.CollateralValuation.CONTAINS.contains_value.value.CollateralValuation.haircut_rate",
-      "source": "concept.CollateralValuation",
-      "target": "value.CollateralValuation.haircut_rate",
-      "label": "contains value",
-      "properties": {
-        "description": "CollateralValuation has value concept haircut_rate (Rate).",
-        "verbalizes": [
-          "{CollateralValuation} has haircut_rate {Rate}"
-        ],
-        "source_field": "ontology.relationships",
-        "value_concept": "Rate",
-        "inherited": false
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.concept.MarginAccount.CONTAINS.inherited_value.value.MarginAccount.account_id",
-      "source": "concept.MarginAccount",
-      "target": "value.MarginAccount.account_id",
+      "target": "value.CollateralAsset.has_CollateralIdentifier",
       "label": "inherited value",
       "properties": {
-        "description": "MarginAccount inherits value concept account_id (AccountIdentifier) from AccountData.",
+        "description": "CollateralAsset inherits value concept has_CollateralIdentifier (CollateralIdentifier) from CollateralAssetData.",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "CollateralIdentifier",
+        "inherited": true,
+        "inherited_from": "CollateralAssetData",
+        "base_relationship_path": "CollateralAssetData.has_CollateralIdentifier",
+        "inheritance_note": "Inherited from CollateralAssetData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralAsset.CONTAINS.inherited_value.value.CollateralAsset.has_AssetType",
+      "source": "concept.CollateralAsset",
+      "target": "value.CollateralAsset.has_AssetType",
+      "label": "inherited value",
+      "properties": {
+        "description": "CollateralAsset inherits value concept has_AssetType (AssetType) from CollateralAssetData.",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has asset type {AssetType}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "AssetType",
+        "inherited": true,
+        "inherited_from": "CollateralAssetData",
+        "base_relationship_path": "CollateralAssetData.has_AssetType",
+        "inheritance_note": "Inherited from CollateralAssetData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralAsset.CONTAINS.inherited_value.value.CollateralAsset.has_AssetCurrency",
+      "source": "concept.CollateralAsset",
+      "target": "value.CollateralAsset.has_AssetCurrency",
+      "label": "inherited value",
+      "properties": {
+        "description": "CollateralAsset inherits value concept has_AssetCurrency (CurrencyCode) from CollateralAssetData.",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has currency {CurrencyCode}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "CurrencyCode",
+        "inherited": true,
+        "inherited_from": "CollateralAssetData",
+        "base_relationship_path": "CollateralAssetData.has_AssetCurrency",
+        "inheritance_note": "Inherited from CollateralAssetData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralAsset.CONTAINS.inherited_value.value.CollateralAsset.has_IssuerCountry",
+      "source": "concept.CollateralAsset",
+      "target": "value.CollateralAsset.has_IssuerCountry",
+      "label": "inherited value",
+      "properties": {
+        "description": "CollateralAsset inherits value concept has_IssuerCountry (CountryCode) from CollateralAssetData.",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CollateralAssetData} has issuer country {CountryCode}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "CountryCode",
+        "inherited": true,
+        "inherited_from": "CollateralAssetData",
+        "base_relationship_path": "CollateralAssetData.has_IssuerCountry",
+        "inheritance_note": "Inherited from CollateralAssetData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralValuation.CONTAINS.inherited_value.value.CollateralValuation.has_ValuationIdentifier",
+      "source": "concept.CollateralValuation",
+      "target": "value.CollateralValuation.has_ValuationIdentifier",
+      "label": "inherited value",
+      "properties": {
+        "description": "CollateralValuation inherits value concept has_ValuationIdentifier (ValuationIdentifier) from ValuationData.",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{ValuationData} has valuation identifier {ValuationIdentifier}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "ValuationIdentifier",
+        "inherited": true,
+        "inherited_from": "ValuationData",
+        "base_relationship_path": "ValuationData.has_ValuationIdentifier",
+        "inheritance_note": "Inherited from ValuationData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.CollateralValuation.CONTAINS.inherited_value.value.CollateralValuation.has_ValuationDate",
+      "source": "concept.CollateralValuation",
+      "target": "value.CollateralValuation.has_ValuationDate",
+      "label": "inherited value",
+      "properties": {
+        "description": "CollateralValuation inherits value concept has_ValuationDate (Date) from ValuationData.",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{ValuationData} has valuation date {Date}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "Date",
+        "inherited": true,
+        "inherited_from": "ValuationData",
+        "base_relationship_path": "ValuationData.has_ValuationDate",
+        "inheritance_note": "Inherited from ValuationData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.Counterparty.CONTAINS.inherited_value.value.Counterparty.has_CounterpartyIdentifier",
+      "source": "concept.Counterparty",
+      "target": "value.Counterparty.has_CounterpartyIdentifier",
+      "label": "inherited value",
+      "properties": {
+        "description": "Counterparty inherits value concept has_CounterpartyIdentifier (CounterpartyIdentifier) from CounterpartyData.",
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "CounterpartyIdentifier",
+        "inherited": true,
+        "inherited_from": "CounterpartyData",
+        "base_relationship_path": "CounterpartyData.has_CounterpartyIdentifier",
+        "inheritance_note": "Inherited from CounterpartyData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.Counterparty.CONTAINS.inherited_value.value.Counterparty.has_LegalName",
+      "source": "concept.Counterparty",
+      "target": "value.Counterparty.has_LegalName",
+      "label": "inherited value",
+      "properties": {
+        "description": "Counterparty inherits value concept has_LegalName (LegalName) from CounterpartyData.",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has legal name {LegalName}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "LegalName",
+        "inherited": true,
+        "inherited_from": "CounterpartyData",
+        "base_relationship_path": "CounterpartyData.has_LegalName",
+        "inheritance_note": "Inherited from CounterpartyData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.Counterparty.CONTAINS.inherited_value.value.Counterparty.has_DomicileCountry",
+      "source": "concept.Counterparty",
+      "target": "value.Counterparty.has_DomicileCountry",
+      "label": "inherited value",
+      "properties": {
+        "description": "Counterparty inherits value concept has_DomicileCountry (CountryCode) from CounterpartyData.",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has domicile country {CountryCode}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "CountryCode",
+        "inherited": true,
+        "inherited_from": "CounterpartyData",
+        "base_relationship_path": "CounterpartyData.has_DomicileCountry",
+        "inheritance_note": "Inherited from CounterpartyData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.Counterparty.CONTAINS.inherited_value.value.Counterparty.has_RegulatorySegment",
+      "source": "concept.Counterparty",
+      "target": "value.Counterparty.has_RegulatorySegment",
+      "label": "inherited value",
+      "properties": {
+        "description": "Counterparty inherits value concept has_RegulatorySegment (RegulatorySegment) from CounterpartyData.",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CounterpartyData} has regulatory segment {RegulatorySegment}"
+        ],
+        "source_field": "ontology.extends.relationships",
+        "value_concept": "RegulatorySegment",
+        "inherited": true,
+        "inherited_from": "CounterpartyData",
+        "base_relationship_path": "CounterpartyData.has_RegulatorySegment",
+        "inheritance_note": "Inherited from CounterpartyData."
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.concept.MarginAccount.CONTAINS.inherited_value.value.MarginAccount.has_AccountIdentifier",
+      "source": "concept.MarginAccount",
+      "target": "value.MarginAccount.has_AccountIdentifier",
+      "label": "inherited value",
+      "properties": {
+        "description": "MarginAccount inherits value concept has_AccountIdentifier (AccountIdentifier) from AccountData.",
+        "multiplicity": "OneToOne",
         "verbalizes": [
           "{AccountData} has account identifier {AccountIdentifier}"
         ],
@@ -1488,17 +1947,19 @@ window.GRAPH_DATA = {
         "value_concept": "AccountIdentifier",
         "inherited": true,
         "inherited_from": "AccountData",
-        "base_relationship_path": "AccountData.account_id"
+        "base_relationship_path": "AccountData.has_AccountIdentifier",
+        "inheritance_note": "Inherited from AccountData."
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.concept.MarginAccount.CONTAINS.inherited_value.value.MarginAccount.account_status",
+      "id": "edge.concept.MarginAccount.CONTAINS.inherited_value.value.MarginAccount.has_AccountStatus",
       "source": "concept.MarginAccount",
-      "target": "value.MarginAccount.account_status",
+      "target": "value.MarginAccount.has_AccountStatus",
       "label": "inherited value",
       "properties": {
-        "description": "MarginAccount inherits value concept account_status (StatusCode) from AccountData.",
+        "description": "MarginAccount inherits value concept has_AccountStatus (StatusCode) from AccountData.",
+        "multiplicity": "ManyToOne",
         "verbalizes": [
           "{AccountData} has account status {StatusCode}"
         ],
@@ -1506,14 +1967,15 @@ window.GRAPH_DATA = {
         "value_concept": "StatusCode",
         "inherited": true,
         "inherited_from": "AccountData",
-        "base_relationship_path": "AccountData.account_status"
+        "base_relationship_path": "AccountData.has_AccountStatus",
+        "inheritance_note": "Inherited from AccountData."
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.value.AccountData.account_id.SHARES_VALUE_TYPE.AccountIdentifier.value.MarginAccount.account_id",
-      "source": "value.AccountData.account_id",
-      "target": "value.MarginAccount.account_id",
+      "id": "edge.value.AccountData.has_AccountIdentifier.SHARES_VALUE_TYPE.AccountIdentifier.value.MarginAccount.has_AccountIdentifier",
+      "source": "value.AccountData.has_AccountIdentifier",
+      "target": "value.MarginAccount.has_AccountIdentifier",
       "label": "AccountIdentifier",
       "properties": {
         "description": "Both fields use ValueType concept AccountIdentifier.",
@@ -1523,9 +1985,9 @@ window.GRAPH_DATA = {
       "type": "SHARES_VALUE_TYPE"
     },
     {
-      "id": "edge.value.AccountData.account_status.SHARES_VALUE_TYPE.StatusCode.value.MarginAccount.account_status",
-      "source": "value.AccountData.account_status",
-      "target": "value.MarginAccount.account_status",
+      "id": "edge.value.AccountData.has_AccountStatus.SHARES_VALUE_TYPE.StatusCode.value.MarginAccount.has_AccountStatus",
+      "source": "value.AccountData.has_AccountStatus",
+      "target": "value.MarginAccount.has_AccountStatus",
       "label": "StatusCode",
       "properties": {
         "description": "Both fields use ValueType concept StatusCode.",
@@ -1535,9 +1997,33 @@ window.GRAPH_DATA = {
       "type": "SHARES_VALUE_TYPE"
     },
     {
-      "id": "edge.value.CollateralAsset.currency.SHARES_VALUE_TYPE.CurrencyCode.value.MarginAccount.base_currency",
-      "source": "value.CollateralAsset.currency",
-      "target": "value.MarginAccount.base_currency",
+      "id": "edge.value.CollateralAsset.has_CollateralIdentifier.SHARES_VALUE_TYPE.CollateralIdentifier.value.CollateralAssetData.has_CollateralIdentifier",
+      "source": "value.CollateralAsset.has_CollateralIdentifier",
+      "target": "value.CollateralAssetData.has_CollateralIdentifier",
+      "label": "CollateralIdentifier",
+      "properties": {
+        "description": "Both fields use ValueType concept CollateralIdentifier.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CollateralIdentifier"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralAsset.has_AssetType.SHARES_VALUE_TYPE.AssetType.value.CollateralAssetData.has_AssetType",
+      "source": "value.CollateralAsset.has_AssetType",
+      "target": "value.CollateralAssetData.has_AssetType",
+      "label": "AssetType",
+      "properties": {
+        "description": "Both fields use ValueType concept AssetType.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "AssetType"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralAsset.has_AssetCurrency.SHARES_VALUE_TYPE.CurrencyCode.value.CollateralAssetData.has_AssetCurrency",
+      "source": "value.CollateralAsset.has_AssetCurrency",
+      "target": "value.CollateralAssetData.has_AssetCurrency",
       "label": "CurrencyCode",
       "properties": {
         "description": "Both fields use ValueType concept CurrencyCode.",
@@ -1547,9 +2033,33 @@ window.GRAPH_DATA = {
       "type": "SHARES_VALUE_TYPE"
     },
     {
-      "id": "edge.value.CollateralAsset.issuer_country.SHARES_VALUE_TYPE.CountryCode.value.Counterparty.domicile_country",
-      "source": "value.CollateralAsset.issuer_country",
-      "target": "value.Counterparty.domicile_country",
+      "id": "edge.value.CollateralAsset.has_AssetCurrency.SHARES_VALUE_TYPE.CurrencyCode.value.MarginAccount.has_BaseCurrency",
+      "source": "value.CollateralAsset.has_AssetCurrency",
+      "target": "value.MarginAccount.has_BaseCurrency",
+      "label": "CurrencyCode",
+      "properties": {
+        "description": "Both fields use ValueType concept CurrencyCode.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CurrencyCode"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralAssetData.has_AssetCurrency.SHARES_VALUE_TYPE.CurrencyCode.value.MarginAccount.has_BaseCurrency",
+      "source": "value.CollateralAssetData.has_AssetCurrency",
+      "target": "value.MarginAccount.has_BaseCurrency",
+      "label": "CurrencyCode",
+      "properties": {
+        "description": "Both fields use ValueType concept CurrencyCode.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CurrencyCode"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralAsset.has_IssuerCountry.SHARES_VALUE_TYPE.CountryCode.value.CollateralAssetData.has_IssuerCountry",
+      "source": "value.CollateralAsset.has_IssuerCountry",
+      "target": "value.CollateralAssetData.has_IssuerCountry",
       "label": "CountryCode",
       "properties": {
         "description": "Both fields use ValueType concept CountryCode.",
@@ -1559,9 +2069,129 @@ window.GRAPH_DATA = {
       "type": "SHARES_VALUE_TYPE"
     },
     {
-      "id": "edge.value.CollateralAsset.market_value_amount.SHARES_VALUE_TYPE.MonetaryAmount.value.CollateralValuation.market_value_amount",
-      "source": "value.CollateralAsset.market_value_amount",
-      "target": "value.CollateralValuation.market_value_amount",
+      "id": "edge.value.CollateralAsset.has_IssuerCountry.SHARES_VALUE_TYPE.CountryCode.value.Counterparty.has_DomicileCountry",
+      "source": "value.CollateralAsset.has_IssuerCountry",
+      "target": "value.Counterparty.has_DomicileCountry",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Both fields use ValueType concept CountryCode.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CountryCode"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralAsset.has_IssuerCountry.SHARES_VALUE_TYPE.CountryCode.value.CounterpartyData.has_DomicileCountry",
+      "source": "value.CollateralAsset.has_IssuerCountry",
+      "target": "value.CounterpartyData.has_DomicileCountry",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Both fields use ValueType concept CountryCode.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CountryCode"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralAssetData.has_IssuerCountry.SHARES_VALUE_TYPE.CountryCode.value.Counterparty.has_DomicileCountry",
+      "source": "value.CollateralAssetData.has_IssuerCountry",
+      "target": "value.Counterparty.has_DomicileCountry",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Both fields use ValueType concept CountryCode.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CountryCode"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralAssetData.has_IssuerCountry.SHARES_VALUE_TYPE.CountryCode.value.CounterpartyData.has_DomicileCountry",
+      "source": "value.CollateralAssetData.has_IssuerCountry",
+      "target": "value.CounterpartyData.has_DomicileCountry",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Both fields use ValueType concept CountryCode.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CountryCode"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.Counterparty.has_DomicileCountry.SHARES_VALUE_TYPE.CountryCode.value.CounterpartyData.has_DomicileCountry",
+      "source": "value.Counterparty.has_DomicileCountry",
+      "target": "value.CounterpartyData.has_DomicileCountry",
+      "label": "CountryCode",
+      "properties": {
+        "description": "Both fields use ValueType concept CountryCode.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CountryCode"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.Counterparty.has_CounterpartyIdentifier.SHARES_VALUE_TYPE.CounterpartyIdentifier.value.CounterpartyData.has_CounterpartyIdentifier",
+      "source": "value.Counterparty.has_CounterpartyIdentifier",
+      "target": "value.CounterpartyData.has_CounterpartyIdentifier",
+      "label": "CounterpartyIdentifier",
+      "properties": {
+        "description": "Both fields use ValueType concept CounterpartyIdentifier.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "CounterpartyIdentifier"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.Counterparty.has_LegalName.SHARES_VALUE_TYPE.LegalName.value.CounterpartyData.has_LegalName",
+      "source": "value.Counterparty.has_LegalName",
+      "target": "value.CounterpartyData.has_LegalName",
+      "label": "LegalName",
+      "properties": {
+        "description": "Both fields use ValueType concept LegalName.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "LegalName"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.Counterparty.has_RegulatorySegment.SHARES_VALUE_TYPE.RegulatorySegment.value.CounterpartyData.has_RegulatorySegment",
+      "source": "value.Counterparty.has_RegulatorySegment",
+      "target": "value.CounterpartyData.has_RegulatorySegment",
+      "label": "RegulatorySegment",
+      "properties": {
+        "description": "Both fields use ValueType concept RegulatorySegment.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "RegulatorySegment"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralValuation.has_ValuationIdentifier.SHARES_VALUE_TYPE.ValuationIdentifier.value.ValuationData.has_ValuationIdentifier",
+      "source": "value.CollateralValuation.has_ValuationIdentifier",
+      "target": "value.ValuationData.has_ValuationIdentifier",
+      "label": "ValuationIdentifier",
+      "properties": {
+        "description": "Both fields use ValueType concept ValuationIdentifier.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "ValuationIdentifier"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralValuation.has_ValuationDate.SHARES_VALUE_TYPE.Date.value.ValuationData.has_ValuationDate",
+      "source": "value.CollateralValuation.has_ValuationDate",
+      "target": "value.ValuationData.has_ValuationDate",
+      "label": "Date",
+      "properties": {
+        "description": "Both fields use ValueType concept Date.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "Date"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.CollateralValuation.has_EligibleCollateralValue.SHARES_VALUE_TYPE.MonetaryAmount.value.CollateralValuation.has_MarketValueAmount",
+      "source": "value.CollateralValuation.has_EligibleCollateralValue",
+      "target": "value.CollateralValuation.has_MarketValueAmount",
       "label": "MonetaryAmount",
       "properties": {
         "description": "Both fields use ValueType concept MonetaryAmount.",
@@ -1571,89 +2201,78 @@ window.GRAPH_DATA = {
       "type": "SHARES_VALUE_TYPE"
     },
     {
-      "id": "edge.table.margin_accounts.CONTAINS.contains.column.margin_accounts.account_id",
-      "source": "table.margin_accounts",
-      "target": "column.margin_accounts.account_id",
+      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.report_id",
+      "source": "table.collateral_margin_report_lines",
+      "target": "column.collateral_margin_report_lines.report_id",
       "label": "contains",
       "properties": {
-        "description": "margin_accounts contains field account_id.",
+        "description": "collateral_margin_report_lines contains field report_id.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.margin_accounts.CONTAINS.contains.column.margin_accounts.counterparty_id",
-      "source": "table.margin_accounts",
-      "target": "column.margin_accounts.counterparty_id",
+      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.line_number",
+      "source": "table.collateral_margin_report_lines",
+      "target": "column.collateral_margin_report_lines.line_number",
       "label": "contains",
       "properties": {
-        "description": "margin_accounts contains field counterparty_id.",
+        "description": "collateral_margin_report_lines contains field line_number.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.margin_accounts.CONTAINS.contains.column.margin_accounts.base_currency",
-      "source": "table.margin_accounts",
-      "target": "column.margin_accounts.base_currency",
+      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.account_id",
+      "source": "table.collateral_margin_report_lines",
+      "target": "column.collateral_margin_report_lines.account_id",
       "label": "contains",
       "properties": {
-        "description": "margin_accounts contains field base_currency.",
+        "description": "collateral_margin_report_lines contains field account_id.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.margin_accounts.CONTAINS.contains.column.margin_accounts.account_status",
-      "source": "table.margin_accounts",
-      "target": "column.margin_accounts.account_status",
+      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.counterparty_id",
+      "source": "table.collateral_margin_report_lines",
+      "target": "column.collateral_margin_report_lines.counterparty_id",
       "label": "contains",
       "properties": {
-        "description": "margin_accounts contains field account_status.",
+        "description": "collateral_margin_report_lines contains field counterparty_id.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.counterparties.CONTAINS.contains.column.counterparties.counterparty_id",
-      "source": "table.counterparties",
-      "target": "column.counterparties.counterparty_id",
+      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.collateral_id",
+      "source": "table.collateral_margin_report_lines",
+      "target": "column.collateral_margin_report_lines.collateral_id",
       "label": "contains",
       "properties": {
-        "description": "counterparties contains field counterparty_id.",
+        "description": "collateral_margin_report_lines contains field collateral_id.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.counterparties.CONTAINS.contains.column.counterparties.legal_name",
-      "source": "table.counterparties",
-      "target": "column.counterparties.legal_name",
+      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.valuation_date",
+      "source": "table.collateral_margin_report_lines",
+      "target": "column.collateral_margin_report_lines.valuation_date",
       "label": "contains",
       "properties": {
-        "description": "counterparties contains field legal_name.",
+        "description": "collateral_margin_report_lines contains field valuation_date.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.counterparties.CONTAINS.contains.column.counterparties.domicile_country",
-      "source": "table.counterparties",
-      "target": "column.counterparties.domicile_country",
+      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.eligible_collateral_value",
+      "source": "table.collateral_margin_report_lines",
+      "target": "column.collateral_margin_report_lines.eligible_collateral_value",
       "label": "contains",
       "properties": {
-        "description": "counterparties contains field domicile_country.",
-        "source_field": "semantic_model.datasets.fields"
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.table.counterparties.CONTAINS.contains.column.counterparties.regulatory_segment",
-      "source": "table.counterparties",
-      "target": "column.counterparties.regulatory_segment",
-      "label": "contains",
-      "properties": {
-        "description": "counterparties contains field regulatory_segment.",
+        "description": "collateral_margin_report_lines contains field eligible_collateral_value.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
@@ -1769,78 +2388,89 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.report_id",
-      "source": "table.collateral_margin_report_lines",
-      "target": "column.collateral_margin_report_lines.report_id",
+      "id": "edge.table.counterparties.CONTAINS.contains.column.counterparties.counterparty_id",
+      "source": "table.counterparties",
+      "target": "column.counterparties.counterparty_id",
       "label": "contains",
       "properties": {
-        "description": "collateral_margin_report_lines contains field report_id.",
+        "description": "counterparties contains field counterparty_id.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.line_number",
-      "source": "table.collateral_margin_report_lines",
-      "target": "column.collateral_margin_report_lines.line_number",
+      "id": "edge.table.counterparties.CONTAINS.contains.column.counterparties.legal_name",
+      "source": "table.counterparties",
+      "target": "column.counterparties.legal_name",
       "label": "contains",
       "properties": {
-        "description": "collateral_margin_report_lines contains field line_number.",
+        "description": "counterparties contains field legal_name.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.account_id",
-      "source": "table.collateral_margin_report_lines",
-      "target": "column.collateral_margin_report_lines.account_id",
+      "id": "edge.table.counterparties.CONTAINS.contains.column.counterparties.domicile_country",
+      "source": "table.counterparties",
+      "target": "column.counterparties.domicile_country",
       "label": "contains",
       "properties": {
-        "description": "collateral_margin_report_lines contains field account_id.",
+        "description": "counterparties contains field domicile_country.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.counterparty_id",
-      "source": "table.collateral_margin_report_lines",
-      "target": "column.collateral_margin_report_lines.counterparty_id",
+      "id": "edge.table.counterparties.CONTAINS.contains.column.counterparties.regulatory_segment",
+      "source": "table.counterparties",
+      "target": "column.counterparties.regulatory_segment",
       "label": "contains",
       "properties": {
-        "description": "collateral_margin_report_lines contains field counterparty_id.",
+        "description": "counterparties contains field regulatory_segment.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.collateral_id",
-      "source": "table.collateral_margin_report_lines",
-      "target": "column.collateral_margin_report_lines.collateral_id",
+      "id": "edge.table.margin_accounts.CONTAINS.contains.column.margin_accounts.account_id",
+      "source": "table.margin_accounts",
+      "target": "column.margin_accounts.account_id",
       "label": "contains",
       "properties": {
-        "description": "collateral_margin_report_lines contains field collateral_id.",
+        "description": "margin_accounts contains field account_id.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.valuation_date",
-      "source": "table.collateral_margin_report_lines",
-      "target": "column.collateral_margin_report_lines.valuation_date",
+      "id": "edge.table.margin_accounts.CONTAINS.contains.column.margin_accounts.counterparty_id",
+      "source": "table.margin_accounts",
+      "target": "column.margin_accounts.counterparty_id",
       "label": "contains",
       "properties": {
-        "description": "collateral_margin_report_lines contains field valuation_date.",
+        "description": "margin_accounts contains field counterparty_id.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.collateral_margin_report_lines.CONTAINS.contains.column.collateral_margin_report_lines.eligible_collateral_value",
-      "source": "table.collateral_margin_report_lines",
-      "target": "column.collateral_margin_report_lines.eligible_collateral_value",
+      "id": "edge.table.margin_accounts.CONTAINS.contains.column.margin_accounts.base_currency",
+      "source": "table.margin_accounts",
+      "target": "column.margin_accounts.base_currency",
       "label": "contains",
       "properties": {
-        "description": "collateral_margin_report_lines contains field eligible_collateral_value.",
+        "description": "margin_accounts contains field base_currency.",
+        "source_field": "semantic_model.datasets.fields"
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.table.margin_accounts.CONTAINS.contains.column.margin_accounts.account_status",
+      "source": "table.margin_accounts",
+      "target": "column.margin_accounts.account_status",
+      "label": "contains",
+      "properties": {
+        "description": "margin_accounts contains field account_status.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
@@ -1912,250 +2542,23 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.table.collateral_valuations.CONTAINS.contains_metric.metric_field.collateral_valuations.eligible_collateral_value",
-      "source": "table.collateral_valuations",
-      "target": "metric_field.collateral_valuations.eligible_collateral_value",
-      "label": "contains metric",
-      "properties": {
-        "description": "collateral_valuations exposes semantic metric eligible_collateral_value.",
-        "source_field": "semantic_model.metrics",
-        "metric_name": "eligible_collateral_value",
-        "semantic_model": "CollateralMarginSemanticModel"
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.metric_field.collateral_valuations.eligible_collateral_value.USES_FIELD.collateral_valuations.haircut_rate.column.collateral_valuations.haircut_rate",
-      "source": "metric_field.collateral_valuations.eligible_collateral_value",
-      "target": "column.collateral_valuations.haircut_rate",
-      "label": "collateral_valuations.haircut_rate",
-      "properties": {
-        "description": "Metric eligible_collateral_value uses field collateral_valuations.haircut_rate.",
-        "source_field": "semantic_model.metrics.expression",
-        "metric_name": "eligible_collateral_value",
-        "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
-      },
-      "type": "USES_FIELD"
-    },
-    {
-      "id": "edge.metric_field.collateral_valuations.eligible_collateral_value.USES_FIELD.collateral_valuations.market_value_amount.column.collateral_valuations.market_value_amount",
-      "source": "metric_field.collateral_valuations.eligible_collateral_value",
-      "target": "column.collateral_valuations.market_value_amount",
-      "label": "collateral_valuations.market_value_amount",
-      "properties": {
-        "description": "Metric eligible_collateral_value uses field collateral_valuations.market_value_amount.",
-        "source_field": "semantic_model.metrics.expression",
-        "metric_name": "eligible_collateral_value",
-        "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
-      },
-      "type": "USES_FIELD"
-    },
-    {
-      "id": "edge.concept.MarginAccount.MAPPED_TO_TABLE.maps_to_table.table.margin_accounts",
-      "source": "concept.MarginAccount",
-      "target": "table.margin_accounts",
+      "id": "edge.concept.CollateralAsset.MAPS_TO.maps_to_table.table.collateral_margin_report_lines",
+      "source": "concept.CollateralAsset",
+      "target": "table.collateral_margin_report_lines",
       "label": "maps to table",
       "properties": {
-        "description": "MarginAccount is populated from margin_accounts.",
+        "description": "CollateralAsset is populated from collateral_margin_report_lines.",
         "fields": [
-          "margin_accounts.account_id",
-          "margin_accounts.account_status",
-          "margin_accounts.base_currency",
-          "margin_accounts.counterparty_id"
-        ]
-      },
-      "type": "MAPPED_TO_TABLE"
-    },
-    {
-      "id": "edge.concept.MarginAccount.MAPS_TO.maps_to_field.column.margin_accounts.account_id",
-      "source": "concept.MarginAccount",
-      "target": "column.margin_accounts.account_id",
-      "label": "maps to field",
-      "properties": {
-        "description": "MarginAccount mapping references margin_accounts.account_id.",
-        "source_field": "ontology_mappings.concept_mappings"
+          "collateral_margin_report_lines.collateral_id"
+        ],
+        "ai_context": {
+          "description": "Collateral asset identifiers as represented in the report-line dataset for requirement traceability."
+        }
       },
       "type": "MAPS_TO"
     },
     {
-      "id": "edge.concept.MarginAccount.MAPS_TO.maps_to_field.column.margin_accounts.account_status",
-      "source": "concept.MarginAccount",
-      "target": "column.margin_accounts.account_status",
-      "label": "maps to field",
-      "properties": {
-        "description": "MarginAccount mapping references margin_accounts.account_status.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.MarginAccount.MAPS_TO.maps_to_field.column.margin_accounts.base_currency",
-      "source": "concept.MarginAccount",
-      "target": "column.margin_accounts.base_currency",
-      "label": "maps to field",
-      "properties": {
-        "description": "MarginAccount mapping references margin_accounts.base_currency.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.MarginAccount.MAPS_TO.maps_to_field.column.margin_accounts.counterparty_id",
-      "source": "concept.MarginAccount",
-      "target": "column.margin_accounts.counterparty_id",
-      "label": "maps to field",
-      "properties": {
-        "description": "MarginAccount mapping references margin_accounts.counterparty_id.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.value.MarginAccount.account_id.MAPS_TO_FIELD.account_id.column.margin_accounts.account_id",
-      "source": "value.MarginAccount.account_id",
-      "target": "column.margin_accounts.account_id",
-      "label": "account_id",
-      "properties": {
-        "description": "MarginAccount.account_id maps to physical field margin_accounts.account_id.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "margin_accounts.account_id"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.value.MarginAccount.account_status.MAPS_TO_FIELD.account_status.column.margin_accounts.account_status",
-      "source": "value.MarginAccount.account_status",
-      "target": "column.margin_accounts.account_status",
-      "label": "account_status",
-      "properties": {
-        "description": "MarginAccount.account_status maps to physical field margin_accounts.account_status.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "margin_accounts.account_status"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.value.MarginAccount.base_currency.MAPS_TO_FIELD.base_currency.column.margin_accounts.base_currency",
-      "source": "value.MarginAccount.base_currency",
-      "target": "column.margin_accounts.base_currency",
-      "label": "base_currency",
-      "properties": {
-        "description": "MarginAccount.base_currency maps to physical field margin_accounts.base_currency.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "margin_accounts.base_currency"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.concept.Counterparty.MAPPED_TO_TABLE.maps_to_table.table.counterparties",
-      "source": "concept.Counterparty",
-      "target": "table.counterparties",
-      "label": "maps to table",
-      "properties": {
-        "description": "Counterparty is populated from counterparties.",
-        "fields": [
-          "counterparties.counterparty_id",
-          "counterparties.domicile_country",
-          "counterparties.legal_name",
-          "counterparties.regulatory_segment"
-        ]
-      },
-      "type": "MAPPED_TO_TABLE"
-    },
-    {
-      "id": "edge.concept.Counterparty.MAPS_TO.maps_to_field.column.counterparties.counterparty_id",
-      "source": "concept.Counterparty",
-      "target": "column.counterparties.counterparty_id",
-      "label": "maps to field",
-      "properties": {
-        "description": "Counterparty mapping references counterparties.counterparty_id.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.Counterparty.MAPS_TO.maps_to_field.column.counterparties.domicile_country",
-      "source": "concept.Counterparty",
-      "target": "column.counterparties.domicile_country",
-      "label": "maps to field",
-      "properties": {
-        "description": "Counterparty mapping references counterparties.domicile_country.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.Counterparty.MAPS_TO.maps_to_field.column.counterparties.legal_name",
-      "source": "concept.Counterparty",
-      "target": "column.counterparties.legal_name",
-      "label": "maps to field",
-      "properties": {
-        "description": "Counterparty mapping references counterparties.legal_name.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.Counterparty.MAPS_TO.maps_to_field.column.counterparties.regulatory_segment",
-      "source": "concept.Counterparty",
-      "target": "column.counterparties.regulatory_segment",
-      "label": "maps to field",
-      "properties": {
-        "description": "Counterparty mapping references counterparties.regulatory_segment.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.value.Counterparty.counterparty_id.MAPS_TO_FIELD.counterparty_id.column.counterparties.counterparty_id",
-      "source": "value.Counterparty.counterparty_id",
-      "target": "column.counterparties.counterparty_id",
-      "label": "counterparty_id",
-      "properties": {
-        "description": "Counterparty.counterparty_id maps to physical field counterparties.counterparty_id.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "counterparties.counterparty_id"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.value.Counterparty.domicile_country.MAPS_TO_FIELD.domicile_country.column.counterparties.domicile_country",
-      "source": "value.Counterparty.domicile_country",
-      "target": "column.counterparties.domicile_country",
-      "label": "domicile_country",
-      "properties": {
-        "description": "Counterparty.domicile_country maps to physical field counterparties.domicile_country.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "counterparties.domicile_country"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.value.Counterparty.legal_name.MAPS_TO_FIELD.legal_name.column.counterparties.legal_name",
-      "source": "value.Counterparty.legal_name",
-      "target": "column.counterparties.legal_name",
-      "label": "legal_name",
-      "properties": {
-        "description": "Counterparty.legal_name maps to physical field counterparties.legal_name.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "counterparties.legal_name"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.value.Counterparty.regulatory_segment.MAPS_TO_FIELD.regulatory_segment.column.counterparties.regulatory_segment",
-      "source": "value.Counterparty.regulatory_segment",
-      "target": "column.counterparties.regulatory_segment",
-      "label": "regulatory_segment",
-      "properties": {
-        "description": "Counterparty.regulatory_segment maps to physical field counterparties.regulatory_segment.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "counterparties.regulatory_segment"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.MAPPED_TO_TABLE.maps_to_table.table.collateral_positions",
+      "id": "edge.concept.CollateralAsset.MAPS_TO.maps_to_table.table.collateral_positions",
       "source": "concept.CollateralAsset",
       "target": "table.collateral_positions",
       "label": "maps to table",
@@ -2166,1028 +2569,929 @@ window.GRAPH_DATA = {
           "collateral_positions.collateral_id",
           "collateral_positions.currency",
           "collateral_positions.issuer_country"
-        ]
-      },
-      "type": "MAPPED_TO_TABLE"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.MAPS_TO.maps_to_field.column.collateral_positions.asset_type",
-      "source": "concept.CollateralAsset",
-      "target": "column.collateral_positions.asset_type",
-      "label": "maps to field",
-      "properties": {
-        "description": "CollateralAsset mapping references collateral_positions.asset_type.",
-        "source_field": "ontology_mappings.concept_mappings"
+        ],
+        "ai_context": {
+          "description": "Pledged collateral asset source population mapped as CollateralAsset entity records."
+        }
       },
       "type": "MAPS_TO"
     },
     {
-      "id": "edge.concept.CollateralAsset.MAPS_TO.maps_to_field.column.collateral_positions.collateral_id",
-      "source": "concept.CollateralAsset",
-      "target": "column.collateral_positions.collateral_id",
-      "label": "maps to field",
-      "properties": {
-        "description": "CollateralAsset mapping references collateral_positions.collateral_id.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.MAPS_TO.maps_to_field.column.collateral_positions.currency",
-      "source": "concept.CollateralAsset",
+      "id": "edge.value.CollateralAsset.has_AssetCurrency.MAPS_TO_FIELD.has_AssetCurrency.column.collateral_positions.currency",
+      "source": "value.CollateralAsset.has_AssetCurrency",
       "target": "column.collateral_positions.currency",
-      "label": "maps to field",
+      "label": "has_AssetCurrency",
       "properties": {
-        "description": "CollateralAsset mapping references collateral_positions.currency.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.CollateralAsset.MAPS_TO.maps_to_field.column.collateral_positions.issuer_country",
-      "source": "concept.CollateralAsset",
-      "target": "column.collateral_positions.issuer_country",
-      "label": "maps to field",
-      "properties": {
-        "description": "CollateralAsset mapping references collateral_positions.issuer_country.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.value.CollateralAsset.asset_type.MAPS_TO_FIELD.asset_type.column.collateral_positions.asset_type",
-      "source": "value.CollateralAsset.asset_type",
-      "target": "column.collateral_positions.asset_type",
-      "label": "asset_type",
-      "properties": {
-        "description": "CollateralAsset.asset_type maps to physical field collateral_positions.asset_type.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "collateral_positions.asset_type"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.value.CollateralAsset.collateral_id.MAPS_TO_FIELD.collateral_id.column.collateral_positions.collateral_id",
-      "source": "value.CollateralAsset.collateral_id",
-      "target": "column.collateral_positions.collateral_id",
-      "label": "collateral_id",
-      "properties": {
-        "description": "CollateralAsset.collateral_id maps to physical field collateral_positions.collateral_id.",
-        "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "collateral_positions.collateral_id"
-      },
-      "type": "MAPS_TO_FIELD"
-    },
-    {
-      "id": "edge.value.CollateralAsset.currency.MAPS_TO_FIELD.currency.column.collateral_positions.currency",
-      "source": "value.CollateralAsset.currency",
-      "target": "column.collateral_positions.currency",
-      "label": "currency",
-      "properties": {
-        "description": "CollateralAsset.currency maps to physical field collateral_positions.currency.",
+        "description": "CollateralAsset.has_AssetCurrency maps to physical field collateral_positions.currency.",
         "source_field": "ontology_mappings.concept_mappings",
         "physical_field": "collateral_positions.currency"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.CollateralAsset.issuer_country.MAPS_TO_FIELD.issuer_country.column.collateral_positions.issuer_country",
-      "source": "value.CollateralAsset.issuer_country",
-      "target": "column.collateral_positions.issuer_country",
-      "label": "issuer_country",
+      "id": "edge.value.CollateralAsset.has_AssetType.MAPS_TO_FIELD.has_AssetType.column.collateral_positions.asset_type",
+      "source": "value.CollateralAsset.has_AssetType",
+      "target": "column.collateral_positions.asset_type",
+      "label": "has_AssetType",
       "properties": {
-        "description": "CollateralAsset.issuer_country maps to physical field collateral_positions.issuer_country.",
+        "description": "CollateralAsset.has_AssetType maps to physical field collateral_positions.asset_type.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "collateral_positions.asset_type"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.CollateralAsset.has_CollateralIdentifier.MAPS_TO_FIELD.has_CollateralIdentifier.column.collateral_margin_report_lines.collateral_id",
+      "source": "value.CollateralAsset.has_CollateralIdentifier",
+      "target": "column.collateral_margin_report_lines.collateral_id",
+      "label": "has_CollateralIdentifier",
+      "properties": {
+        "description": "CollateralAsset.has_CollateralIdentifier maps to physical field collateral_margin_report_lines.collateral_id.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "collateral_margin_report_lines.collateral_id"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.CollateralAsset.has_CollateralIdentifier.MAPS_TO_FIELD.has_CollateralIdentifier.column.collateral_positions.collateral_id",
+      "source": "value.CollateralAsset.has_CollateralIdentifier",
+      "target": "column.collateral_positions.collateral_id",
+      "label": "has_CollateralIdentifier",
+      "properties": {
+        "description": "CollateralAsset.has_CollateralIdentifier maps to physical field collateral_positions.collateral_id.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "collateral_positions.collateral_id"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.CollateralAsset.has_IssuerCountry.MAPS_TO_FIELD.has_IssuerCountry.column.collateral_positions.issuer_country",
+      "source": "value.CollateralAsset.has_IssuerCountry",
+      "target": "column.collateral_positions.issuer_country",
+      "label": "has_IssuerCountry",
+      "properties": {
+        "description": "CollateralAsset.has_IssuerCountry maps to physical field collateral_positions.issuer_country.",
         "source_field": "ontology_mappings.concept_mappings",
         "physical_field": "collateral_positions.issuer_country"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.concept.CollateralValuation.MAPPED_TO_TABLE.maps_to_table.table.collateral_valuations",
+      "id": "edge.concept.CollateralValuation.MAPS_TO.maps_to_table.table.collateral_valuations",
       "source": "concept.CollateralValuation",
       "target": "table.collateral_valuations",
       "label": "maps to table",
       "properties": {
         "description": "CollateralValuation is populated from collateral_valuations.",
         "fields": [
-          "collateral_valuations.collateral_id",
           "collateral_valuations.haircut_rate",
           "collateral_valuations.market_value_amount",
           "collateral_valuations.valuation_date",
           "collateral_valuations.valuation_id"
-        ]
-      },
-      "type": "MAPPED_TO_TABLE"
-    },
-    {
-      "id": "edge.concept.CollateralValuation.MAPS_TO.maps_to_field.column.collateral_valuations.collateral_id",
-      "source": "concept.CollateralValuation",
-      "target": "column.collateral_valuations.collateral_id",
-      "label": "maps to field",
-      "properties": {
-        "description": "CollateralValuation mapping references collateral_valuations.collateral_id.",
-        "source_field": "ontology_mappings.concept_mappings"
+        ],
+        "ai_context": {
+          "description": "Collateral valuation source population mapped as CollateralValuation entity records."
+        }
       },
       "type": "MAPS_TO"
     },
     {
-      "id": "edge.concept.CollateralValuation.MAPS_TO.maps_to_field.column.collateral_valuations.haircut_rate",
-      "source": "concept.CollateralValuation",
+      "id": "edge.value.CollateralValuation.has_HaircutRate.MAPS_TO_FIELD.has_HaircutRate.column.collateral_valuations.haircut_rate",
+      "source": "value.CollateralValuation.has_HaircutRate",
       "target": "column.collateral_valuations.haircut_rate",
-      "label": "maps to field",
+      "label": "has_HaircutRate",
       "properties": {
-        "description": "CollateralValuation mapping references collateral_valuations.haircut_rate.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.CollateralValuation.MAPS_TO.maps_to_field.column.collateral_valuations.market_value_amount",
-      "source": "concept.CollateralValuation",
-      "target": "column.collateral_valuations.market_value_amount",
-      "label": "maps to field",
-      "properties": {
-        "description": "CollateralValuation mapping references collateral_valuations.market_value_amount.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.CollateralValuation.MAPS_TO.maps_to_field.column.collateral_valuations.valuation_date",
-      "source": "concept.CollateralValuation",
-      "target": "column.collateral_valuations.valuation_date",
-      "label": "maps to field",
-      "properties": {
-        "description": "CollateralValuation mapping references collateral_valuations.valuation_date.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.concept.CollateralValuation.MAPS_TO.maps_to_field.column.collateral_valuations.valuation_id",
-      "source": "concept.CollateralValuation",
-      "target": "column.collateral_valuations.valuation_id",
-      "label": "maps to field",
-      "properties": {
-        "description": "CollateralValuation mapping references collateral_valuations.valuation_id.",
-        "source_field": "ontology_mappings.concept_mappings"
-      },
-      "type": "MAPS_TO"
-    },
-    {
-      "id": "edge.value.CollateralValuation.haircut_rate.MAPS_TO_FIELD.haircut_rate.column.collateral_valuations.haircut_rate",
-      "source": "value.CollateralValuation.haircut_rate",
-      "target": "column.collateral_valuations.haircut_rate",
-      "label": "haircut_rate",
-      "properties": {
-        "description": "CollateralValuation.haircut_rate maps to physical field collateral_valuations.haircut_rate.",
+        "description": "CollateralValuation.has_HaircutRate maps to physical field collateral_valuations.haircut_rate.",
         "source_field": "ontology_mappings.concept_mappings",
         "physical_field": "collateral_valuations.haircut_rate"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.CollateralValuation.market_value_amount.MAPS_TO_FIELD.market_value_amount.column.collateral_valuations.market_value_amount",
-      "source": "value.CollateralValuation.market_value_amount",
+      "id": "edge.value.CollateralValuation.has_MarketValueAmount.MAPS_TO_FIELD.has_MarketValueAmount.column.collateral_valuations.market_value_amount",
+      "source": "value.CollateralValuation.has_MarketValueAmount",
       "target": "column.collateral_valuations.market_value_amount",
-      "label": "market_value_amount",
+      "label": "has_MarketValueAmount",
       "properties": {
-        "description": "CollateralValuation.market_value_amount maps to physical field collateral_valuations.market_value_amount.",
+        "description": "CollateralValuation.has_MarketValueAmount maps to physical field collateral_valuations.market_value_amount.",
         "source_field": "ontology_mappings.concept_mappings",
         "physical_field": "collateral_valuations.market_value_amount"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.CollateralValuation.valuation_date.MAPS_TO_FIELD.valuation_date.column.collateral_valuations.valuation_date",
-      "source": "value.CollateralValuation.valuation_date",
+      "id": "edge.value.CollateralValuation.has_ValuationDate.MAPS_TO_FIELD.has_ValuationDate.column.collateral_valuations.valuation_date",
+      "source": "value.CollateralValuation.has_ValuationDate",
       "target": "column.collateral_valuations.valuation_date",
-      "label": "valuation_date",
+      "label": "has_ValuationDate",
       "properties": {
-        "description": "CollateralValuation.valuation_date maps to physical field collateral_valuations.valuation_date.",
+        "description": "CollateralValuation.has_ValuationDate maps to physical field collateral_valuations.valuation_date.",
         "source_field": "ontology_mappings.concept_mappings",
         "physical_field": "collateral_valuations.valuation_date"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.CollateralValuation.valuation_id.MAPS_TO_FIELD.valuation_id.column.collateral_valuations.valuation_id",
-      "source": "value.CollateralValuation.valuation_id",
+      "id": "edge.value.CollateralValuation.has_ValuationIdentifier.MAPS_TO_FIELD.has_ValuationIdentifier.column.collateral_valuations.valuation_id",
+      "source": "value.CollateralValuation.has_ValuationIdentifier",
       "target": "column.collateral_valuations.valuation_id",
-      "label": "valuation_id",
+      "label": "has_ValuationIdentifier",
       "properties": {
-        "description": "CollateralValuation.valuation_id maps to physical field collateral_valuations.valuation_id.",
+        "description": "CollateralValuation.has_ValuationIdentifier maps to physical field collateral_valuations.valuation_id.",
         "source_field": "ontology_mappings.concept_mappings",
         "physical_field": "collateral_valuations.valuation_id"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.REQUIRES_CONCEPT.requires_concept.concept.CollateralAsset",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "concept.CollateralAsset",
-      "label": "requires concept",
+      "id": "edge.value.CollateralValuation.has_EligibleCollateralValue.DERIVED_BY.collateral_valuations.haircut_rate.column.collateral_valuations.haircut_rate",
+      "source": "value.CollateralValuation.has_EligibleCollateralValue",
+      "target": "column.collateral_valuations.haircut_rate",
+      "label": "collateral_valuations.haircut_rate",
       "properties": {
-        "description": "EligibleCollateralRequirement requires semantic concept CollateralAsset.",
+        "description": "Metric-backed field CollateralValuation.has_EligibleCollateralValue uses physical field collateral_valuations.haircut_rate.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "eligible_collateral_value",
+        "semantic_reference": "metric.eligible_collateral_value",
+        "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.value.CollateralValuation.has_EligibleCollateralValue.DERIVED_BY.collateral_valuations.market_value_amount.column.collateral_valuations.market_value_amount",
+      "source": "value.CollateralValuation.has_EligibleCollateralValue",
+      "target": "column.collateral_valuations.market_value_amount",
+      "label": "collateral_valuations.market_value_amount",
+      "properties": {
+        "description": "Metric-backed field CollateralValuation.has_EligibleCollateralValue uses physical field collateral_valuations.market_value_amount.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "eligible_collateral_value",
+        "semantic_reference": "metric.eligible_collateral_value",
+        "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.concept.Counterparty.MAPS_TO.maps_to_table.table.collateral_margin_report_lines",
+      "source": "concept.Counterparty",
+      "target": "table.collateral_margin_report_lines",
+      "label": "maps to table",
+      "properties": {
+        "description": "Counterparty is populated from collateral_margin_report_lines.",
+        "fields": [
+          "collateral_margin_report_lines.counterparty_id"
+        ],
+        "ai_context": {
+          "description": "Counterparty identifiers as represented in the report-line dataset for requirement traceability."
+        }
+      },
+      "type": "MAPS_TO"
+    },
+    {
+      "id": "edge.concept.Counterparty.MAPS_TO.maps_to_table.table.counterparties",
+      "source": "concept.Counterparty",
+      "target": "table.counterparties",
+      "label": "maps to table",
+      "properties": {
+        "description": "Counterparty is populated from counterparties.",
+        "fields": [
+          "counterparties.counterparty_id",
+          "counterparties.domicile_country",
+          "counterparties.legal_name",
+          "counterparties.regulatory_segment"
+        ],
+        "ai_context": {
+          "description": "Legal counterparty reference source population mapped as Counterparty entity records."
+        }
+      },
+      "type": "MAPS_TO"
+    },
+    {
+      "id": "edge.value.Counterparty.has_CounterpartyIdentifier.MAPS_TO_FIELD.has_CounterpartyIdentifier.column.collateral_margin_report_lines.counterparty_id",
+      "source": "value.Counterparty.has_CounterpartyIdentifier",
+      "target": "column.collateral_margin_report_lines.counterparty_id",
+      "label": "has_CounterpartyIdentifier",
+      "properties": {
+        "description": "Counterparty.has_CounterpartyIdentifier maps to physical field collateral_margin_report_lines.counterparty_id.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "collateral_margin_report_lines.counterparty_id"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.Counterparty.has_CounterpartyIdentifier.MAPS_TO_FIELD.has_CounterpartyIdentifier.column.counterparties.counterparty_id",
+      "source": "value.Counterparty.has_CounterpartyIdentifier",
+      "target": "column.counterparties.counterparty_id",
+      "label": "has_CounterpartyIdentifier",
+      "properties": {
+        "description": "Counterparty.has_CounterpartyIdentifier maps to physical field counterparties.counterparty_id.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "counterparties.counterparty_id"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.Counterparty.has_DomicileCountry.MAPS_TO_FIELD.has_DomicileCountry.column.counterparties.domicile_country",
+      "source": "value.Counterparty.has_DomicileCountry",
+      "target": "column.counterparties.domicile_country",
+      "label": "has_DomicileCountry",
+      "properties": {
+        "description": "Counterparty.has_DomicileCountry maps to physical field counterparties.domicile_country.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "counterparties.domicile_country"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.Counterparty.has_LegalName.MAPS_TO_FIELD.has_LegalName.column.counterparties.legal_name",
+      "source": "value.Counterparty.has_LegalName",
+      "target": "column.counterparties.legal_name",
+      "label": "has_LegalName",
+      "properties": {
+        "description": "Counterparty.has_LegalName maps to physical field counterparties.legal_name.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "counterparties.legal_name"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.Counterparty.has_RegulatorySegment.MAPS_TO_FIELD.has_RegulatorySegment.column.counterparties.regulatory_segment",
+      "source": "value.Counterparty.has_RegulatorySegment",
+      "target": "column.counterparties.regulatory_segment",
+      "label": "has_RegulatorySegment",
+      "properties": {
+        "description": "Counterparty.has_RegulatorySegment maps to physical field counterparties.regulatory_segment.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "counterparties.regulatory_segment"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.concept.MarginAccount.MAPS_TO.maps_to_table.table.collateral_margin_report_lines",
+      "source": "concept.MarginAccount",
+      "target": "table.collateral_margin_report_lines",
+      "label": "maps to table",
+      "properties": {
+        "description": "MarginAccount is populated from collateral_margin_report_lines.",
+        "fields": [
+          "collateral_margin_report_lines.account_id"
+        ],
+        "ai_context": {
+          "description": "Margin account identifiers as represented in the report-line dataset for requirement traceability."
+        }
+      },
+      "type": "MAPS_TO"
+    },
+    {
+      "id": "edge.concept.MarginAccount.MAPS_TO.maps_to_table.table.margin_accounts",
+      "source": "concept.MarginAccount",
+      "target": "table.margin_accounts",
+      "label": "maps to table",
+      "properties": {
+        "description": "MarginAccount is populated from margin_accounts.",
+        "fields": [
+          "margin_accounts.account_id",
+          "margin_accounts.account_status",
+          "margin_accounts.base_currency"
+        ],
+        "ai_context": {
+          "description": "Margin account source population mapped as MarginAccount entity records."
+        }
+      },
+      "type": "MAPS_TO"
+    },
+    {
+      "id": "edge.value.MarginAccount.has_AccountIdentifier.MAPS_TO_FIELD.has_AccountIdentifier.column.collateral_margin_report_lines.account_id",
+      "source": "value.MarginAccount.has_AccountIdentifier",
+      "target": "column.collateral_margin_report_lines.account_id",
+      "label": "has_AccountIdentifier",
+      "properties": {
+        "description": "MarginAccount.has_AccountIdentifier maps to physical field collateral_margin_report_lines.account_id.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "collateral_margin_report_lines.account_id"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.MarginAccount.has_AccountIdentifier.MAPS_TO_FIELD.has_AccountIdentifier.column.margin_accounts.account_id",
+      "source": "value.MarginAccount.has_AccountIdentifier",
+      "target": "column.margin_accounts.account_id",
+      "label": "has_AccountIdentifier",
+      "properties": {
+        "description": "MarginAccount.has_AccountIdentifier maps to physical field margin_accounts.account_id.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "margin_accounts.account_id"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.MarginAccount.has_AccountStatus.MAPS_TO_FIELD.has_AccountStatus.column.margin_accounts.account_status",
+      "source": "value.MarginAccount.has_AccountStatus",
+      "target": "column.margin_accounts.account_status",
+      "label": "has_AccountStatus",
+      "properties": {
+        "description": "MarginAccount.has_AccountStatus maps to physical field margin_accounts.account_status.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "margin_accounts.account_status"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.value.MarginAccount.has_BaseCurrency.MAPS_TO_FIELD.has_BaseCurrency.column.margin_accounts.base_currency",
+      "source": "value.MarginAccount.has_BaseCurrency",
+      "target": "column.margin_accounts.base_currency",
+      "label": "has_BaseCurrency",
+      "properties": {
+        "description": "MarginAccount.has_BaseCurrency maps to physical field margin_accounts.base_currency.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "physical_field": "margin_accounts.base_currency"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralAsset",
+      "source": "requirement.item",
+      "target": "concept.CollateralAsset",
+      "label": "REQUIRES_CONCEPT",
+      "properties": {
+        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
         "source_field": "reporting_requirements.semantic_scope.concepts"
       },
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.REQUIRES_CONCEPT.requires_concept.concept.CollateralValuation",
-      "source": "requirement.EligibleCollateralRequirement",
+      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralValuation",
+      "source": "requirement.item",
       "target": "concept.CollateralValuation",
-      "label": "requires concept",
+      "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "EligibleCollateralRequirement requires semantic concept CollateralValuation.",
+        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
         "source_field": "reporting_requirements.semantic_scope.concepts"
       },
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.REQUIRES_CONCEPT.requires_concept.concept.Counterparty",
-      "source": "requirement.EligibleCollateralRequirement",
+      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Counterparty",
+      "source": "requirement.item",
       "target": "concept.Counterparty",
-      "label": "requires concept",
+      "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "EligibleCollateralRequirement requires semantic concept Counterparty.",
+        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
         "source_field": "reporting_requirements.semantic_scope.concepts"
       },
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.REQUIRES_CONCEPT.requires_concept.concept.MarginAccount",
-      "source": "requirement.EligibleCollateralRequirement",
+      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.MarginAccount",
+      "source": "requirement.item",
       "target": "concept.MarginAccount",
-      "label": "requires concept",
+      "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "EligibleCollateralRequirement requires semantic concept MarginAccount.",
+        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
         "source_field": "reporting_requirements.semantic_scope.concepts"
       },
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_relationship.requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty",
-      "label": "requires relationship",
+      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..MarginAccount.has_AccountIdentifier",
+      "source": "requirement.item",
+      "target": "requirement_item..MarginAccount.has_AccountIdentifier",
+      "label": "CONTAINS",
       "properties": {
-        "description": "Counterparty ownership is required for supervisory aggregation."
+        "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty.REQUIRES_SEMANTIC_RELATIONSHIP.reference_counterparty.concept.MarginAccount",
-      "source": "requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty",
-      "target": "concept.MarginAccount",
-      "label": "reference_counterparty",
+      "id": "edge.requirement_item..MarginAccount.has_AccountIdentifier.REQUIRES_SEMANTIC_FIELD.REQUIRES_SEMANTIC_FIELD.value.MarginAccount.has_AccountIdentifier",
+      "source": "requirement_item..MarginAccount.has_AccountIdentifier",
+      "target": "value.MarginAccount.has_AccountIdentifier",
+      "label": "REQUIRES_SEMANTIC_FIELD",
       "properties": {
-        "description": "Counterparty ownership is required for supervisory aggregation."
-      },
-      "type": "REQUIRES_SEMANTIC_RELATIONSHIP"
-    },
-    {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty.REQUIRES_SEMANTIC_RELATIONSHIP.reference_counterparty.concept.Counterparty",
-      "source": "requirement_item.EligibleCollateralRequirement.MarginAccount.reference_counterparty",
-      "target": "concept.Counterparty",
-      "label": "reference_counterparty",
-      "properties": {
-        "description": "Counterparty ownership is required for supervisory aggregation."
-      },
-      "type": "REQUIRES_SEMANTIC_RELATIONSHIP"
-    },
-    {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_relationship.requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral",
-      "label": "requires relationship",
-      "properties": {
-        "description": "Pledged collateral must be linked to the account."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral.REQUIRES_SEMANTIC_RELATIONSHIP.pledge_collateral.concept.MarginAccount",
-      "source": "requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral",
-      "target": "concept.MarginAccount",
-      "label": "pledge_collateral",
-      "properties": {
-        "description": "Pledged collateral must be linked to the account."
-      },
-      "type": "REQUIRES_SEMANTIC_RELATIONSHIP"
-    },
-    {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral.REQUIRES_SEMANTIC_RELATIONSHIP.pledge_collateral.concept.CollateralAsset",
-      "source": "requirement_item.EligibleCollateralRequirement.MarginAccount.pledge_collateral",
-      "target": "concept.CollateralAsset",
-      "label": "pledge_collateral",
-      "properties": {
-        "description": "Pledged collateral must be linked to the account."
-      },
-      "type": "REQUIRES_SEMANTIC_RELATIONSHIP"
-    },
-    {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_relationship.requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral",
-      "label": "requires relationship",
-      "properties": {
-        "description": "Valuation must identify the collateral being valued."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral.REQUIRES_SEMANTIC_RELATIONSHIP.value_collateral.concept.CollateralValuation",
-      "source": "requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral",
-      "target": "concept.CollateralValuation",
-      "label": "value_collateral",
-      "properties": {
-        "description": "Valuation must identify the collateral being valued."
-      },
-      "type": "REQUIRES_SEMANTIC_RELATIONSHIP"
-    },
-    {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral.REQUIRES_SEMANTIC_RELATIONSHIP.value_collateral.concept.CollateralAsset",
-      "source": "requirement_item.EligibleCollateralRequirement.CollateralValuation.value_collateral",
-      "target": "concept.CollateralAsset",
-      "label": "value_collateral",
-      "properties": {
-        "description": "Valuation must identify the collateral being valued."
-      },
-      "type": "REQUIRES_SEMANTIC_RELATIONSHIP"
-    },
-    {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_field.requirement_item.EligibleCollateralRequirement.account_identifier",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.account_identifier",
-      "label": "requires field",
-      "properties": {
-        "description": "EligibleCollateralRequirement requires MarginAccount.account_id."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.account_identifier.REQUIRES_SEMANTIC_FIELD.MarginAccount.account_id.value.MarginAccount.account_id",
-      "source": "requirement_item.EligibleCollateralRequirement.account_identifier",
-      "target": "value.MarginAccount.account_id",
-      "label": "MarginAccount.account_id",
-      "properties": {
-        "description": "Account-level reconciliation key.",
+        "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
         "required_field": {
-          "name": "account_identifier",
-          "concept": "MarginAccount",
-          "relationship": "account_id",
-          "semantic_reference": "MarginAccount.account_id",
-          "value_concept": "AccountIdentifier",
-          "required": true,
-          "purpose": "Account-level reconciliation key."
+          "name": "保证金账户标识",
+          "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
+          "semantic_reference": "MarginAccount.has_AccountIdentifier",
+          "required": true
         }
       },
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_field.requirement_item.EligibleCollateralRequirement.counterparty_identifier",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.counterparty_identifier",
-      "label": "requires field",
+      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Counterparty.has_CounterpartyIdentifier",
+      "source": "requirement.item",
+      "target": "requirement_item..Counterparty.has_CounterpartyIdentifier",
+      "label": "CONTAINS",
       "properties": {
-        "description": "EligibleCollateralRequirement requires Counterparty.counterparty_id."
+        "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.counterparty_identifier.REQUIRES_SEMANTIC_FIELD.Counterparty.counterparty_id.value.Counterparty.counterparty_id",
-      "source": "requirement_item.EligibleCollateralRequirement.counterparty_identifier",
-      "target": "value.Counterparty.counterparty_id",
-      "label": "Counterparty.counterparty_id",
+      "id": "edge.requirement_item..Counterparty.has_CounterpartyIdentifier.REQUIRES_SEMANTIC_FIELD.REQUIRES_SEMANTIC_FIELD.value.Counterparty.has_CounterpartyIdentifier",
+      "source": "requirement_item..Counterparty.has_CounterpartyIdentifier",
+      "target": "value.Counterparty.has_CounterpartyIdentifier",
+      "label": "REQUIRES_SEMANTIC_FIELD",
       "properties": {
-        "description": "Counterparty aggregation key.",
+        "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
         "required_field": {
-          "name": "counterparty_identifier",
-          "concept": "Counterparty",
-          "relationship": "counterparty_id",
-          "semantic_reference": "Counterparty.counterparty_id",
-          "value_concept": "CounterpartyIdentifier",
-          "required": true,
-          "purpose": "Counterparty aggregation key."
+          "name": "交易对手标识",
+          "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
+          "semantic_reference": "Counterparty.has_CounterpartyIdentifier",
+          "required": true
         }
       },
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_field.requirement_item.EligibleCollateralRequirement.collateral_identifier",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.collateral_identifier",
-      "label": "requires field",
+      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralAsset.has_CollateralIdentifier",
+      "source": "requirement.item",
+      "target": "requirement_item..CollateralAsset.has_CollateralIdentifier",
+      "label": "CONTAINS",
       "properties": {
-        "description": "EligibleCollateralRequirement requires CollateralAsset.collateral_id."
+        "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.collateral_identifier.REQUIRES_SEMANTIC_FIELD.CollateralAsset.collateral_id.value.CollateralAsset.collateral_id",
-      "source": "requirement_item.EligibleCollateralRequirement.collateral_identifier",
-      "target": "value.CollateralAsset.collateral_id",
-      "label": "CollateralAsset.collateral_id",
+      "id": "edge.requirement_item..CollateralAsset.has_CollateralIdentifier.REQUIRES_SEMANTIC_FIELD.REQUIRES_SEMANTIC_FIELD.value.CollateralAsset.has_CollateralIdentifier",
+      "source": "requirement_item..CollateralAsset.has_CollateralIdentifier",
+      "target": "value.CollateralAsset.has_CollateralIdentifier",
+      "label": "REQUIRES_SEMANTIC_FIELD",
       "properties": {
-        "description": "Collateral position key.",
+        "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
         "required_field": {
-          "name": "collateral_identifier",
-          "concept": "CollateralAsset",
-          "relationship": "collateral_id",
-          "semantic_reference": "CollateralAsset.collateral_id",
-          "value_concept": "CollateralIdentifier",
-          "required": true,
-          "purpose": "Collateral position key."
+          "name": "抵质押品标识",
+          "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
+          "semantic_reference": "CollateralAsset.has_CollateralIdentifier",
+          "required": true
         }
       },
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_field.requirement_item.EligibleCollateralRequirement.valuation_date",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.valuation_date",
-      "label": "requires field",
+      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_ValuationDate",
+      "source": "requirement.item",
+      "target": "requirement_item..CollateralValuation.has_ValuationDate",
+      "label": "CONTAINS",
       "properties": {
-        "description": "EligibleCollateralRequirement requires CollateralValuation.valuation_date."
+        "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.valuation_date.REQUIRES_SEMANTIC_FIELD.CollateralValuation.valuation_date.value.CollateralValuation.valuation_date",
-      "source": "requirement_item.EligibleCollateralRequirement.valuation_date",
-      "target": "value.CollateralValuation.valuation_date",
-      "label": "CollateralValuation.valuation_date",
+      "id": "edge.requirement_item..CollateralValuation.has_ValuationDate.REQUIRES_SEMANTIC_FIELD.REQUIRES_SEMANTIC_FIELD.value.CollateralValuation.has_ValuationDate",
+      "source": "requirement_item..CollateralValuation.has_ValuationDate",
+      "target": "value.CollateralValuation.has_ValuationDate",
+      "label": "REQUIRES_SEMANTIC_FIELD",
       "properties": {
-        "description": "Reporting valuation date.",
+        "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。",
         "required_field": {
-          "name": "valuation_date",
-          "concept": "CollateralValuation",
-          "relationship": "valuation_date",
-          "semantic_reference": "CollateralValuation.valuation_date",
-          "value_concept": "Date",
-          "required": true,
-          "purpose": "Reporting valuation date."
+          "name": "估值日期",
+          "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。",
+          "semantic_reference": "CollateralValuation.has_ValuationDate",
+          "required": true
         }
       },
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_field.requirement_item.EligibleCollateralRequirement.market_value_amount",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.market_value_amount",
-      "label": "requires field",
+      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_MarketValueAmount",
+      "source": "requirement.item",
+      "target": "requirement_item..CollateralValuation.has_MarketValueAmount",
+      "label": "CONTAINS",
       "properties": {
-        "description": "EligibleCollateralRequirement requires CollateralValuation.market_value_amount."
+        "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.market_value_amount.REQUIRES_SEMANTIC_FIELD.CollateralValuation.market_value_amount.value.CollateralValuation.market_value_amount",
-      "source": "requirement_item.EligibleCollateralRequirement.market_value_amount",
-      "target": "value.CollateralValuation.market_value_amount",
-      "label": "CollateralValuation.market_value_amount",
+      "id": "edge.requirement_item..CollateralValuation.has_MarketValueAmount.REQUIRES_SEMANTIC_FIELD.REQUIRES_SEMANTIC_FIELD.value.CollateralValuation.has_MarketValueAmount",
+      "source": "requirement_item..CollateralValuation.has_MarketValueAmount",
+      "target": "value.CollateralValuation.has_MarketValueAmount",
+      "label": "REQUIRES_SEMANTIC_FIELD",
       "properties": {
-        "description": "Gross market value before haircut.",
+        "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。",
         "required_field": {
-          "name": "market_value_amount",
-          "concept": "CollateralValuation",
-          "relationship": "market_value_amount",
-          "semantic_reference": "CollateralValuation.market_value_amount",
-          "value_concept": "MonetaryAmount",
-          "required": true,
-          "purpose": "Gross market value before haircut."
+          "name": "抵质押品折扣前市场价值",
+          "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。",
+          "semantic_reference": "CollateralValuation.has_MarketValueAmount",
+          "required": true
         }
       },
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_field.requirement_item.EligibleCollateralRequirement.haircut_rate",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.haircut_rate",
-      "label": "requires field",
+      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_HaircutRate",
+      "source": "requirement.item",
+      "target": "requirement_item..CollateralValuation.has_HaircutRate",
+      "label": "CONTAINS",
       "properties": {
-        "description": "EligibleCollateralRequirement requires CollateralValuation.haircut_rate."
+        "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.haircut_rate.REQUIRES_SEMANTIC_FIELD.CollateralValuation.haircut_rate.value.CollateralValuation.haircut_rate",
-      "source": "requirement_item.EligibleCollateralRequirement.haircut_rate",
-      "target": "value.CollateralValuation.haircut_rate",
-      "label": "CollateralValuation.haircut_rate",
+      "id": "edge.requirement_item..CollateralValuation.has_HaircutRate.REQUIRES_SEMANTIC_FIELD.REQUIRES_SEMANTIC_FIELD.value.CollateralValuation.has_HaircutRate",
+      "source": "requirement_item..CollateralValuation.has_HaircutRate",
+      "target": "value.CollateralValuation.has_HaircutRate",
+      "label": "REQUIRES_SEMANTIC_FIELD",
       "properties": {
-        "description": "Supervisory haircut rate.",
+        "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。",
         "required_field": {
-          "name": "haircut_rate",
-          "concept": "CollateralValuation",
-          "relationship": "haircut_rate",
-          "semantic_reference": "CollateralValuation.haircut_rate",
-          "value_concept": "Rate",
-          "required": true,
-          "purpose": "Supervisory haircut rate."
+          "name": "监管折扣率",
+          "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。",
+          "semantic_reference": "CollateralValuation.has_HaircutRate",
+          "required": true
         }
       },
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.EligibleCollateralRequirement.CONTAINS.requires_calculation.requirement_item.EligibleCollateralRequirement.eligible_collateral_value",
-      "source": "requirement.EligibleCollateralRequirement",
-      "target": "requirement_item.EligibleCollateralRequirement.eligible_collateral_value",
-      "label": "requires calculation",
-      "properties": {},
+      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_EligibleCollateralValue",
+      "source": "requirement.item",
+      "target": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
+      "label": "CONTAINS",
+      "properties": {
+        "description": "需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。"
+      },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.eligible_collateral_value.USES_SEMANTIC_INPUT.CollateralValuation.market_value_amount.value.CollateralValuation.market_value_amount",
-      "source": "requirement_item.EligibleCollateralRequirement.eligible_collateral_value",
-      "target": "value.CollateralValuation.market_value_amount",
-      "label": "CollateralValuation.market_value_amount",
+      "id": "edge.requirement_item..CollateralValuation.has_EligibleCollateralValue.DERIVED_FROM.DERIVED_FROM.value.CollateralValuation.has_MarketValueAmount",
+      "source": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
+      "target": "value.CollateralValuation.has_MarketValueAmount",
+      "label": "DERIVED_FROM",
       "properties": {
-        "description": "eligible_collateral_value uses CollateralValuation.market_value_amount."
+        "description": "需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。"
       },
-      "type": "USES_SEMANTIC_INPUT"
+      "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.requirement_item.EligibleCollateralRequirement.eligible_collateral_value.USES_SEMANTIC_INPUT.CollateralValuation.haircut_rate.value.CollateralValuation.haircut_rate",
-      "source": "requirement_item.EligibleCollateralRequirement.eligible_collateral_value",
-      "target": "value.CollateralValuation.haircut_rate",
-      "label": "CollateralValuation.haircut_rate",
+      "id": "edge.requirement_item..CollateralValuation.has_EligibleCollateralValue.DERIVED_FROM.DERIVED_FROM.value.CollateralValuation.has_HaircutRate",
+      "source": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
+      "target": "value.CollateralValuation.has_HaircutRate",
+      "label": "DERIVED_FROM",
       "properties": {
-        "description": "eligible_collateral_value uses CollateralValuation.haircut_rate."
+        "description": "需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。"
       },
-      "type": "USES_SEMANTIC_INPUT"
+      "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.IMPLEMENTS.implements.requirement.EligibleCollateralRequirement",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "requirement.EligibleCollateralRequirement",
-      "label": "implements",
+      "id": "edge.report_impl.item.IMPLEMENTS.IMPLEMENTS.requirement.item",
+      "source": "report_impl.item",
+      "target": "requirement.item",
+      "label": "IMPLEMENTS",
       "properties": {
-        "description": "DailyEligibleCollateralReport implements EligibleCollateralRequirement."
+        "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
       },
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.MATERIALIZED_AS.line.table.collateral_margin_report_lines",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "table.collateral_margin_report_lines",
-      "label": "line",
+      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.account_id",
+      "source": "report_impl.item",
+      "target": "implementation_field.collateral_margin_report_lines.account_id",
+      "label": "CONTAINS",
       "properties": {
-        "description": "DailyEligibleCollateralReport materializes collateral_margin_report_lines as line dataset.",
-        "dataset_role": "line"
-      },
-      "type": "MATERIALIZED_AS"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.outputs_field.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id",
-      "label": "outputs field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.account_id."
+        "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id.MATERIALIZES_FIELD.collateral_margin_report_lines.account_id.column.collateral_margin_report_lines.account_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id",
+      "id": "edge.implementation_field.collateral_margin_report_lines.account_id.MAPS_TO_FIELD.MAPS_TO_FIELD.column.collateral_margin_report_lines.account_id",
+      "source": "implementation_field.collateral_margin_report_lines.account_id",
       "target": "column.collateral_margin_report_lines.account_id",
-      "label": "collateral_margin_report_lines.account_id",
+      "label": "MAPS_TO_FIELD",
       "properties": {
-        "description": "DailyEligibleCollateralReport materializes field collateral_margin_report_lines.account_id."
+        "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。"
       },
-      "type": "MATERIALIZES_FIELD"
+      "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id.READS_FIELD.margin_accounts.account_id.column.margin_accounts.account_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id",
+      "id": "edge.implementation_field.collateral_margin_report_lines.account_id.SOURCE_FIELD.SOURCE_FIELD.column.margin_accounts.account_id",
+      "source": "implementation_field.collateral_margin_report_lines.account_id",
       "target": "column.margin_accounts.account_id",
-      "label": "margin_accounts.account_id",
+      "label": "SOURCE_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.account_id reads margin_accounts.account_id."
+        "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。"
       },
-      "type": "READS_FIELD"
+      "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id.IMPLEMENTS_REQUIREMENT_FIELD.account_identifier.requirement_item.EligibleCollateralRequirement.account_identifier",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.account_id",
-      "target": "requirement_item.EligibleCollateralRequirement.account_identifier",
-      "label": "account_identifier",
+      "id": "edge.implementation_field.collateral_margin_report_lines.account_id.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..MarginAccount.has_AccountIdentifier",
+      "source": "implementation_field.collateral_margin_report_lines.account_id",
+      "target": "requirement_item..MarginAccount.has_AccountIdentifier",
+      "label": "IMPLEMENTS_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.account_id implements requirement field account_identifier.",
-        "requirement": "EligibleCollateralRequirement",
-        "requirement_field": "account_identifier",
-        "semantic_reference": "MarginAccount.account_id",
+        "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "保证金账户标识",
         "expression": "margin_accounts.account_id"
       },
-      "type": "IMPLEMENTS_REQUIREMENT_FIELD"
+      "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.outputs_field.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id",
-      "label": "outputs field",
+      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.counterparty_id",
+      "source": "report_impl.item",
+      "target": "implementation_field.collateral_margin_report_lines.counterparty_id",
+      "label": "CONTAINS",
       "properties": {
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.counterparty_id."
+        "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id.MATERIALIZES_FIELD.collateral_margin_report_lines.counterparty_id.column.collateral_margin_report_lines.counterparty_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id",
+      "id": "edge.implementation_field.collateral_margin_report_lines.counterparty_id.MAPS_TO_FIELD.MAPS_TO_FIELD.column.collateral_margin_report_lines.counterparty_id",
+      "source": "implementation_field.collateral_margin_report_lines.counterparty_id",
       "target": "column.collateral_margin_report_lines.counterparty_id",
-      "label": "collateral_margin_report_lines.counterparty_id",
+      "label": "MAPS_TO_FIELD",
       "properties": {
-        "description": "DailyEligibleCollateralReport materializes field collateral_margin_report_lines.counterparty_id."
+        "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。"
       },
-      "type": "MATERIALIZES_FIELD"
+      "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id.READS_FIELD.counterparties.counterparty_id.column.counterparties.counterparty_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id",
+      "id": "edge.implementation_field.collateral_margin_report_lines.counterparty_id.SOURCE_FIELD.SOURCE_FIELD.column.counterparties.counterparty_id",
+      "source": "implementation_field.collateral_margin_report_lines.counterparty_id",
       "target": "column.counterparties.counterparty_id",
-      "label": "counterparties.counterparty_id",
+      "label": "SOURCE_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.counterparty_id reads counterparties.counterparty_id."
+        "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。"
       },
-      "type": "READS_FIELD"
+      "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id.IMPLEMENTS_REQUIREMENT_FIELD.counterparty_identifier.requirement_item.EligibleCollateralRequirement.counterparty_identifier",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.counterparty_id",
-      "target": "requirement_item.EligibleCollateralRequirement.counterparty_identifier",
-      "label": "counterparty_identifier",
+      "id": "edge.implementation_field.collateral_margin_report_lines.counterparty_id.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..Counterparty.has_CounterpartyIdentifier",
+      "source": "implementation_field.collateral_margin_report_lines.counterparty_id",
+      "target": "requirement_item..Counterparty.has_CounterpartyIdentifier",
+      "label": "IMPLEMENTS_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.counterparty_id implements requirement field counterparty_identifier.",
-        "requirement": "EligibleCollateralRequirement",
-        "requirement_field": "counterparty_identifier",
-        "semantic_reference": "Counterparty.counterparty_id",
+        "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "交易对手标识",
         "expression": "counterparties.counterparty_id"
       },
-      "type": "IMPLEMENTS_REQUIREMENT_FIELD"
+      "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.outputs_field.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id",
-      "label": "outputs field",
+      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.collateral_id",
+      "source": "report_impl.item",
+      "target": "implementation_field.collateral_margin_report_lines.collateral_id",
+      "label": "CONTAINS",
       "properties": {
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.collateral_id."
+        "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id.MATERIALIZES_FIELD.collateral_margin_report_lines.collateral_id.column.collateral_margin_report_lines.collateral_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id",
+      "id": "edge.implementation_field.collateral_margin_report_lines.collateral_id.MAPS_TO_FIELD.MAPS_TO_FIELD.column.collateral_margin_report_lines.collateral_id",
+      "source": "implementation_field.collateral_margin_report_lines.collateral_id",
       "target": "column.collateral_margin_report_lines.collateral_id",
-      "label": "collateral_margin_report_lines.collateral_id",
+      "label": "MAPS_TO_FIELD",
       "properties": {
-        "description": "DailyEligibleCollateralReport materializes field collateral_margin_report_lines.collateral_id."
+        "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。"
       },
-      "type": "MATERIALIZES_FIELD"
+      "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id.READS_FIELD.collateral_positions.collateral_id.column.collateral_positions.collateral_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id",
+      "id": "edge.implementation_field.collateral_margin_report_lines.collateral_id.SOURCE_FIELD.SOURCE_FIELD.column.collateral_positions.collateral_id",
+      "source": "implementation_field.collateral_margin_report_lines.collateral_id",
       "target": "column.collateral_positions.collateral_id",
-      "label": "collateral_positions.collateral_id",
+      "label": "SOURCE_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.collateral_id reads collateral_positions.collateral_id."
+        "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。"
       },
-      "type": "READS_FIELD"
+      "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id.IMPLEMENTS_REQUIREMENT_FIELD.collateral_identifier.requirement_item.EligibleCollateralRequirement.collateral_identifier",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.collateral_id",
-      "target": "requirement_item.EligibleCollateralRequirement.collateral_identifier",
-      "label": "collateral_identifier",
+      "id": "edge.implementation_field.collateral_margin_report_lines.collateral_id.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..CollateralAsset.has_CollateralIdentifier",
+      "source": "implementation_field.collateral_margin_report_lines.collateral_id",
+      "target": "requirement_item..CollateralAsset.has_CollateralIdentifier",
+      "label": "IMPLEMENTS_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.collateral_id implements requirement field collateral_identifier.",
-        "requirement": "EligibleCollateralRequirement",
-        "requirement_field": "collateral_identifier",
-        "semantic_reference": "CollateralAsset.collateral_id",
+        "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "抵质押品标识",
         "expression": "collateral_positions.collateral_id"
       },
-      "type": "IMPLEMENTS_REQUIREMENT_FIELD"
+      "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.outputs_field.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date",
-      "label": "outputs field",
+      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.valuation_date",
+      "source": "report_impl.item",
+      "target": "implementation_field.collateral_margin_report_lines.valuation_date",
+      "label": "CONTAINS",
       "properties": {
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.valuation_date."
+        "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date.MATERIALIZES_FIELD.collateral_margin_report_lines.valuation_date.column.collateral_margin_report_lines.valuation_date",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date",
+      "id": "edge.implementation_field.collateral_margin_report_lines.valuation_date.MAPS_TO_FIELD.MAPS_TO_FIELD.column.collateral_margin_report_lines.valuation_date",
+      "source": "implementation_field.collateral_margin_report_lines.valuation_date",
       "target": "column.collateral_margin_report_lines.valuation_date",
-      "label": "collateral_margin_report_lines.valuation_date",
+      "label": "MAPS_TO_FIELD",
       "properties": {
-        "description": "DailyEligibleCollateralReport materializes field collateral_margin_report_lines.valuation_date."
+        "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。"
       },
-      "type": "MATERIALIZES_FIELD"
+      "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date.READS_FIELD.collateral_valuations.valuation_date.column.collateral_valuations.valuation_date",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date",
+      "id": "edge.implementation_field.collateral_margin_report_lines.valuation_date.SOURCE_FIELD.SOURCE_FIELD.column.collateral_valuations.valuation_date",
+      "source": "implementation_field.collateral_margin_report_lines.valuation_date",
       "target": "column.collateral_valuations.valuation_date",
-      "label": "collateral_valuations.valuation_date",
+      "label": "SOURCE_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.valuation_date reads collateral_valuations.valuation_date."
+        "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。"
       },
-      "type": "READS_FIELD"
+      "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date.IMPLEMENTS_REQUIREMENT_FIELD.valuation_date.requirement_item.EligibleCollateralRequirement.valuation_date",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.valuation_date",
-      "target": "requirement_item.EligibleCollateralRequirement.valuation_date",
-      "label": "valuation_date",
+      "id": "edge.implementation_field.collateral_margin_report_lines.valuation_date.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..CollateralValuation.has_ValuationDate",
+      "source": "implementation_field.collateral_margin_report_lines.valuation_date",
+      "target": "requirement_item..CollateralValuation.has_ValuationDate",
+      "label": "IMPLEMENTS_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.valuation_date implements requirement field valuation_date.",
-        "requirement": "EligibleCollateralRequirement",
-        "requirement_field": "valuation_date",
-        "semantic_reference": "CollateralValuation.valuation_date",
+        "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "估值日期",
         "expression": "collateral_valuations.valuation_date"
       },
-      "type": "IMPLEMENTS_REQUIREMENT_FIELD"
+      "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.outputs_field.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
-      "label": "outputs field",
+      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_valuations.market_value_amount",
+      "source": "report_impl.item",
+      "target": "implementation_field.collateral_valuations.market_value_amount",
+      "label": "CONTAINS",
       "properties": {
-        "description": "DailyEligibleCollateralReport outputs collateral_margin_report_lines.eligible_collateral_value."
+        "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value.MATERIALIZES_FIELD.collateral_margin_report_lines.eligible_collateral_value.column.collateral_margin_report_lines.eligible_collateral_value",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
-      "target": "column.collateral_margin_report_lines.eligible_collateral_value",
-      "label": "collateral_margin_report_lines.eligible_collateral_value",
-      "properties": {
-        "description": "DailyEligibleCollateralReport materializes field collateral_margin_report_lines.eligible_collateral_value."
-      },
-      "type": "MATERIALIZES_FIELD"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value.READS_FIELD.collateral_valuations.haircut_rate.column.collateral_valuations.haircut_rate",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
-      "target": "column.collateral_valuations.haircut_rate",
-      "label": "collateral_valuations.haircut_rate",
-      "properties": {
-        "description": "collateral_margin_report_lines.eligible_collateral_value reads collateral_valuations.haircut_rate."
-      },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value.READS_FIELD.collateral_valuations.market_value_amount.column.collateral_valuations.market_value_amount",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
+      "id": "edge.implementation_field.collateral_valuations.market_value_amount.MAPS_TO_FIELD.MAPS_TO_FIELD.column.collateral_valuations.market_value_amount",
+      "source": "implementation_field.collateral_valuations.market_value_amount",
       "target": "column.collateral_valuations.market_value_amount",
-      "label": "collateral_valuations.market_value_amount",
+      "label": "MAPS_TO_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.eligible_collateral_value reads collateral_valuations.market_value_amount."
+        "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。"
       },
-      "type": "READS_FIELD"
+      "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value.IMPLEMENTS_REQUIREMENT_FIELD.eligible_collateral_value.requirement_item.EligibleCollateralRequirement.eligible_collateral_value",
-      "source": "implementation_field.DailyEligibleCollateralReport.collateral_margin_report_lines.eligible_collateral_value",
-      "target": "requirement_item.EligibleCollateralRequirement.eligible_collateral_value",
-      "label": "eligible_collateral_value",
+      "id": "edge.implementation_field.collateral_valuations.market_value_amount.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..CollateralValuation.has_MarketValueAmount",
+      "source": "implementation_field.collateral_valuations.market_value_amount",
+      "target": "requirement_item..CollateralValuation.has_MarketValueAmount",
+      "label": "IMPLEMENTS_FIELD",
       "properties": {
-        "description": "collateral_margin_report_lines.eligible_collateral_value implements requirement field eligible_collateral_value.",
-        "requirement": "EligibleCollateralRequirement",
-        "requirement_field": "eligible_collateral_value",
-        "semantic_reference": "metric.eligible_collateral_value",
+        "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "抵质押品折扣前市场价值",
+        "expression": "collateral_valuations.market_value_amount"
+      },
+      "type": "IMPLEMENTS_FIELD"
+    },
+    {
+      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_valuations.haircut_rate",
+      "source": "report_impl.item",
+      "target": "implementation_field.collateral_valuations.haircut_rate",
+      "label": "CONTAINS",
+      "properties": {
+        "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。"
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.implementation_field.collateral_valuations.haircut_rate.MAPS_TO_FIELD.MAPS_TO_FIELD.column.collateral_valuations.haircut_rate",
+      "source": "implementation_field.collateral_valuations.haircut_rate",
+      "target": "column.collateral_valuations.haircut_rate",
+      "label": "MAPS_TO_FIELD",
+      "properties": {
+        "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.implementation_field.collateral_valuations.haircut_rate.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..CollateralValuation.has_HaircutRate",
+      "source": "implementation_field.collateral_valuations.haircut_rate",
+      "target": "requirement_item..CollateralValuation.has_HaircutRate",
+      "label": "IMPLEMENTS_FIELD",
+      "properties": {
+        "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "监管折扣率",
+        "expression": "collateral_valuations.haircut_rate"
+      },
+      "type": "IMPLEMENTS_FIELD"
+    },
+    {
+      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "source": "report_impl.item",
+      "target": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "label": "CONTAINS",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。"
+      },
+      "type": "CONTAINS"
+    },
+    {
+      "id": "edge.implementation_field.collateral_margin_report_lines.eligible_collateral_value.MAPS_TO_FIELD.MAPS_TO_FIELD.column.collateral_margin_report_lines.eligible_collateral_value",
+      "source": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "target": "column.collateral_margin_report_lines.eligible_collateral_value",
+      "label": "MAPS_TO_FIELD",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。"
+      },
+      "type": "MAPS_TO_FIELD"
+    },
+    {
+      "id": "edge.implementation_field.collateral_margin_report_lines.eligible_collateral_value.SOURCE_FIELD.SOURCE_FIELD.column.collateral_valuations.haircut_rate",
+      "source": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "target": "column.collateral_valuations.haircut_rate",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.implementation_field.collateral_margin_report_lines.eligible_collateral_value.SOURCE_FIELD.SOURCE_FIELD.column.collateral_valuations.market_value_amount",
+      "source": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "target": "column.collateral_valuations.market_value_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.implementation_field.collateral_margin_report_lines.eligible_collateral_value.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..CollateralValuation.has_EligibleCollateralValue",
+      "source": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "target": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
+      "label": "IMPLEMENTS_FIELD",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "折扣后合格抵质押品价值",
         "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
       },
-      "type": "IMPLEMENTS_REQUIREMENT_FIELD"
+      "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.READS_FROM.reads_from.table.margin_accounts",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "table.margin_accounts",
-      "label": "reads from",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads source dataset margin_accounts."
-      },
-      "type": "READS_FROM"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.margin_accounts.account_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.account_id",
-      "label": "reads field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads margin_accounts.account_id."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.margin_accounts.account_id.READS_FIELD.margin_accounts.account_id.column.margin_accounts.account_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.account_id",
-      "target": "column.margin_accounts.account_id",
-      "label": "margin_accounts.account_id",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads field margin_accounts.account_id."
-      },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.margin_accounts.counterparty_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.counterparty_id",
-      "label": "reads field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads margin_accounts.counterparty_id."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.margin_accounts.counterparty_id.READS_FIELD.margin_accounts.counterparty_id.column.margin_accounts.counterparty_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.margin_accounts.counterparty_id",
-      "target": "column.margin_accounts.counterparty_id",
-      "label": "margin_accounts.counterparty_id",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads field margin_accounts.counterparty_id."
-      },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.READS_FROM.reads_from.table.counterparties",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "table.counterparties",
-      "label": "reads from",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads source dataset counterparties."
-      },
-      "type": "READS_FROM"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.counterparties.counterparty_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.counterparties.counterparty_id",
-      "label": "reads field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads counterparties.counterparty_id."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.counterparties.counterparty_id.READS_FIELD.counterparties.counterparty_id.column.counterparties.counterparty_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.counterparties.counterparty_id",
-      "target": "column.counterparties.counterparty_id",
-      "label": "counterparties.counterparty_id",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads field counterparties.counterparty_id."
-      },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.READS_FROM.reads_from.table.collateral_positions",
-      "source": "report_impl.DailyEligibleCollateralReport",
+      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.table.collateral_positions",
+      "source": "report_impl.item",
       "target": "table.collateral_positions",
-      "label": "reads from",
+      "label": "SOURCE_TABLE",
       "properties": {
-        "description": "DailyEligibleCollateralReport reads source dataset collateral_positions."
+        "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
+        "source_fields": [
+          "collateral_positions.collateral_id"
+        ]
       },
-      "type": "READS_FROM"
+      "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.collateral_positions.collateral_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.collateral_id",
-      "label": "reads field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads collateral_positions.collateral_id."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.collateral_positions.collateral_id.READS_FIELD.collateral_positions.collateral_id.column.collateral_positions.collateral_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.collateral_id",
-      "target": "column.collateral_positions.collateral_id",
-      "label": "collateral_positions.collateral_id",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads field collateral_positions.collateral_id."
-      },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.collateral_positions.account_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.account_id",
-      "label": "reads field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads collateral_positions.account_id."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.collateral_positions.account_id.READS_FIELD.collateral_positions.account_id.column.collateral_positions.account_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.collateral_positions.account_id",
-      "target": "column.collateral_positions.account_id",
-      "label": "collateral_positions.account_id",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads field collateral_positions.account_id."
-      },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.READS_FROM.reads_from.table.collateral_valuations",
-      "source": "report_impl.DailyEligibleCollateralReport",
+      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.table.collateral_valuations",
+      "source": "report_impl.item",
       "target": "table.collateral_valuations",
-      "label": "reads from",
+      "label": "SOURCE_TABLE",
       "properties": {
-        "description": "DailyEligibleCollateralReport reads source dataset collateral_valuations."
+        "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。；数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。；数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。；数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
+        "source_fields": [
+          "collateral_valuations.haircut_rate",
+          "collateral_valuations.market_value_amount",
+          "collateral_valuations.valuation_date"
+        ]
       },
-      "type": "READS_FROM"
+      "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.collateral_id",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.collateral_id",
-      "label": "reads field",
+      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.table.counterparties",
+      "source": "report_impl.item",
+      "target": "table.counterparties",
+      "label": "SOURCE_TABLE",
       "properties": {
-        "description": "DailyEligibleCollateralReport reads collateral_valuations.collateral_id."
+        "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
+        "source_fields": [
+          "counterparties.counterparty_id"
+        ]
       },
-      "type": "CONTAINS"
+      "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.collateral_id.READS_FIELD.collateral_valuations.collateral_id.column.collateral_valuations.collateral_id",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.collateral_id",
-      "target": "column.collateral_valuations.collateral_id",
-      "label": "collateral_valuations.collateral_id",
+      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.table.margin_accounts",
+      "source": "report_impl.item",
+      "target": "table.margin_accounts",
+      "label": "SOURCE_TABLE",
       "properties": {
-        "description": "DailyEligibleCollateralReport reads field collateral_valuations.collateral_id."
+        "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
+        "source_fields": [
+          "margin_accounts.account_id"
+        ]
       },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.valuation_date",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.valuation_date",
-      "label": "reads field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads collateral_valuations.valuation_date."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.valuation_date.READS_FIELD.collateral_valuations.valuation_date.column.collateral_valuations.valuation_date",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.valuation_date",
-      "target": "column.collateral_valuations.valuation_date",
-      "label": "collateral_valuations.valuation_date",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads field collateral_valuations.valuation_date."
-      },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.market_value_amount",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.market_value_amount",
-      "label": "reads field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads collateral_valuations.market_value_amount."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.market_value_amount.READS_FIELD.collateral_valuations.market_value_amount.column.collateral_valuations.market_value_amount",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.market_value_amount",
-      "target": "column.collateral_valuations.market_value_amount",
-      "label": "collateral_valuations.market_value_amount",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads field collateral_valuations.market_value_amount."
-      },
-      "type": "READS_FIELD"
-    },
-    {
-      "id": "edge.report_impl.DailyEligibleCollateralReport.CONTAINS.reads_field.implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.haircut_rate",
-      "source": "report_impl.DailyEligibleCollateralReport",
-      "target": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.haircut_rate",
-      "label": "reads field",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads collateral_valuations.haircut_rate."
-      },
-      "type": "CONTAINS"
-    },
-    {
-      "id": "edge.implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.haircut_rate.READS_FIELD.collateral_valuations.haircut_rate.column.collateral_valuations.haircut_rate",
-      "source": "implementation_field.DailyEligibleCollateralReport.source.collateral_valuations.haircut_rate",
-      "target": "column.collateral_valuations.haircut_rate",
-      "label": "collateral_valuations.haircut_rate",
-      "properties": {
-        "description": "DailyEligibleCollateralReport reads field collateral_valuations.haircut_rate."
-      },
-      "type": "READS_FIELD"
+      "type": "SOURCE_TABLE"
     }
   ]
 };

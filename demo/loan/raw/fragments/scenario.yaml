@@ -1,0 +1,13 @@
+ontology_name: LoanExposureReportingOntology
+description: OSI scenario for loan exposure regulatory reporting built from retail and institutional loan source metadata.
+mapping_name: LoanExposureSemanticMapping
+semantic_model_name: LoanExposureSemanticModel
+semantic_model_description: Table-backed semantic model for loan exposure reporting across retail and institutional lending populations.
+model_version: 1.0.0
+owner: Credit Risk Regulatory Reporting
+source_systems:
+- retail_lending_core
+- institutional_lending_core
+- customer_master
+- product_master
+- credit_risk_engine

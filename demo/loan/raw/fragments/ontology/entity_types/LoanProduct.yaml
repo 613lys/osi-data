@@ -1,0 +1,21 @@
+name: LoanProduct
+description: Lending product definition used to classify loan exposures for credit risk reporting.
+extends:
+- ProductData
+identify_by:
+- has_ProductIdentifier
+relationships:
+- name: has_ProductType
+  roles:
+  - concept: ProductType
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{LoanProduct} has product type {ProductType}"
+  description: Product type used to group lending exposures.
+- name: has_RegulatoryProductClass
+  roles:
+  - concept: RegulatoryClass
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{LoanProduct} has regulatory product class {RegulatoryClass}"
+  description: Regulatory classification applied to the loan product.

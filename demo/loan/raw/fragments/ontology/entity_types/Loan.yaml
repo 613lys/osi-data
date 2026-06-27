@@ -1,0 +1,63 @@
+name: Loan
+description: Credit exposure contract or facility that can be reported for regulatory credit risk monitoring.
+extends:
+- LoanData
+identify_by:
+- has_LoanIdentifier
+relationships:
+- name: REFERENCES_Borrower
+  roles:
+  - concept: Borrower
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} is owed by {Borrower}"
+  description: Borrower responsible for repayment of the loan exposure.
+- name: REFERENCES_LoanProduct
+  roles:
+  - concept: LoanProduct
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} uses lending product {LoanProduct}"
+  description: Lending product classification applied to the loan exposure.
+- name: has_PrincipalAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} has principal amount {MonetaryAmount}"
+  description: Contractual principal or notional amount of the loan exposure.
+- name: has_LoanCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} has loan currency {CurrencyCode}"
+  description: Currency in which the loan exposure is booked or managed.
+- name: has_ExposureAtDefaultAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} has exposure at default amount {MonetaryAmount}"
+  description: Exposure amount used for regulatory credit risk calculations.
+- name: has_ProbabilityOfDefault
+  roles:
+  - concept: Rate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} has probability of default {Rate}"
+  description: Probability of default assigned to the loan exposure.
+- name: has_LossGivenDefault
+  roles:
+  - concept: Rate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} has loss given default {Rate}"
+  description: Loss given default rate assigned to the loan exposure.
+- name: has_ExpectedLossAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} has expected loss amount {MonetaryAmount}"
+  description: Calculated expected loss amount for the loan exposure.

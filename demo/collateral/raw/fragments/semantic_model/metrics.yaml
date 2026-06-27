@@ -1,0 +1,8 @@
+- name: eligible_collateral_value
+  description: Market value after haircut for regulatory eligible collateral reporting.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)
+  ai_context:
+    metric_type: calculated_report_measure

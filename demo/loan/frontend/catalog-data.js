@@ -1,0 +1,2935 @@
+window.CATALOG_DATA = {
+  "concept.CustomerData": {
+    "id": "concept.CustomerData",
+    "type": "base_entity_concept",
+    "name": "CustomerData",
+    "description": "Base concept for customer-like records with common identifiers and segmentation fields.",
+    "concept": {
+      "name": "CustomerData",
+      "type": "EntityType",
+      "description": "Base concept for customer-like records with common identifiers and segmentation fields.",
+      "identify_by": [
+        "has_CustomerIdentifier"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "has_CustomerIdentifier",
+        "roles": [
+          {
+            "concept": "CustomerIdentifier"
+          }
+        ],
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{CustomerData} has customer identifier {CustomerIdentifier}"
+        ],
+        "description": "Customer identifier common to customer-like records."
+      },
+      {
+        "name": "has_CustomerSegment",
+        "roles": [
+          {
+            "concept": "CustomerSegment"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{CustomerData} has customer segment {CustomerSegment}"
+        ],
+        "description": "Customer segment common to customer-like records."
+      }
+    ],
+    "mappings": []
+  },
+  "value.CustomerData.has_CustomerIdentifier": {
+    "id": "value.CustomerData.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "name": "CustomerIdentifier",
+    "description": "Customer identifier common to customer-like records.",
+    "parent": "concept.CustomerData",
+    "data_type": "CustomerIdentifier",
+    "value_concept": "CustomerIdentifier",
+    "field_name": "has_CustomerIdentifier",
+    "relationship_name": "has_CustomerIdentifier",
+    "relationship": {
+      "name": "has_CustomerIdentifier",
+      "roles": [
+        {
+          "concept": "CustomerIdentifier"
+        }
+      ],
+      "multiplicity": "OneToOne",
+      "verbalizes": [
+        "{CustomerData} has customer identifier {CustomerIdentifier}"
+      ],
+      "description": "Customer identifier common to customer-like records."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.CustomerData.has_CustomerSegment": {
+    "id": "value.CustomerData.has_CustomerSegment",
+    "type": "value_type_property",
+    "name": "CustomerSegment",
+    "description": "Customer segment common to customer-like records.",
+    "parent": "concept.CustomerData",
+    "data_type": "CustomerSegment",
+    "value_concept": "CustomerSegment",
+    "field_name": "has_CustomerSegment",
+    "relationship_name": "has_CustomerSegment",
+    "relationship": {
+      "name": "has_CustomerSegment",
+      "roles": [
+        {
+          "concept": "CustomerSegment"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{CustomerData} has customer segment {CustomerSegment}"
+      ],
+      "description": "Customer segment common to customer-like records."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "concept.LoanData": {
+    "id": "concept.LoanData",
+    "type": "base_entity_concept",
+    "name": "LoanData",
+    "description": "Base concept for loan-like records with common identifiers and origination timing.",
+    "concept": {
+      "name": "LoanData",
+      "type": "EntityType",
+      "description": "Base concept for loan-like records with common identifiers and origination timing.",
+      "identify_by": [
+        "has_LoanIdentifier"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "has_LoanIdentifier",
+        "roles": [
+          {
+            "concept": "LoanIdentifier"
+          }
+        ],
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{LoanData} has loan identifier {LoanIdentifier}"
+        ],
+        "description": "Loan identifier common to loan-like records."
+      },
+      {
+        "name": "has_OriginationDate",
+        "roles": [
+          {
+            "concept": "CalendarDate"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{LoanData} has origination date {CalendarDate}"
+        ],
+        "description": "Origination or booking date common to loan-like records."
+      }
+    ],
+    "mappings": []
+  },
+  "value.LoanData.has_LoanIdentifier": {
+    "id": "value.LoanData.has_LoanIdentifier",
+    "type": "value_type_property",
+    "name": "LoanIdentifier",
+    "description": "Loan identifier common to loan-like records.",
+    "parent": "concept.LoanData",
+    "data_type": "LoanIdentifier",
+    "value_concept": "LoanIdentifier",
+    "field_name": "has_LoanIdentifier",
+    "relationship_name": "has_LoanIdentifier",
+    "relationship": {
+      "name": "has_LoanIdentifier",
+      "roles": [
+        {
+          "concept": "LoanIdentifier"
+        }
+      ],
+      "multiplicity": "OneToOne",
+      "verbalizes": [
+        "{LoanData} has loan identifier {LoanIdentifier}"
+      ],
+      "description": "Loan identifier common to loan-like records."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.LoanData.has_OriginationDate": {
+    "id": "value.LoanData.has_OriginationDate",
+    "type": "value_type_property",
+    "name": "CalendarDate",
+    "description": "Origination or booking date common to loan-like records.",
+    "parent": "concept.LoanData",
+    "data_type": "CalendarDate",
+    "value_concept": "CalendarDate",
+    "field_name": "has_OriginationDate",
+    "relationship_name": "has_OriginationDate",
+    "relationship": {
+      "name": "has_OriginationDate",
+      "roles": [
+        {
+          "concept": "CalendarDate"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{LoanData} has origination date {CalendarDate}"
+      ],
+      "description": "Origination or booking date common to loan-like records."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "concept.ProductData": {
+    "id": "concept.ProductData",
+    "type": "base_entity_concept",
+    "name": "ProductData",
+    "description": "Base concept for product-like records with common product identifiers.",
+    "concept": {
+      "name": "ProductData",
+      "type": "EntityType",
+      "description": "Base concept for product-like records with common product identifiers.",
+      "identify_by": [
+        "has_ProductIdentifier"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "has_ProductIdentifier",
+        "roles": [
+          {
+            "concept": "ProductIdentifier"
+          }
+        ],
+        "multiplicity": "OneToOne",
+        "verbalizes": [
+          "{ProductData} has product identifier {ProductIdentifier}"
+        ],
+        "description": "Product identifier common to product-like records."
+      }
+    ],
+    "mappings": []
+  },
+  "value.ProductData.has_ProductIdentifier": {
+    "id": "value.ProductData.has_ProductIdentifier",
+    "type": "value_type_property",
+    "name": "ProductIdentifier",
+    "description": "Product identifier common to product-like records.",
+    "parent": "concept.ProductData",
+    "data_type": "ProductIdentifier",
+    "value_concept": "ProductIdentifier",
+    "field_name": "has_ProductIdentifier",
+    "relationship_name": "has_ProductIdentifier",
+    "relationship": {
+      "name": "has_ProductIdentifier",
+      "roles": [
+        {
+          "concept": "ProductIdentifier"
+        }
+      ],
+      "multiplicity": "OneToOne",
+      "verbalizes": [
+        "{ProductData} has product identifier {ProductIdentifier}"
+      ],
+      "description": "Product identifier common to product-like records."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "concept.Borrower": {
+    "id": "concept.Borrower",
+    "type": "entity_type_concept",
+    "name": "Borrower",
+    "description": "Person or legal entity that is responsible for one or more loan exposures.",
+    "concept": {
+      "name": "Borrower",
+      "type": "EntityType",
+      "description": "Person or legal entity that is responsible for one or more loan exposures.",
+      "extends": [
+        "CustomerData"
+      ],
+      "identify_by": [
+        "has_CustomerIdentifier"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "has_BorrowerName",
+        "roles": [
+          {
+            "concept": "PersonOrEntityName"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Borrower} has borrower name {PersonOrEntityName}"
+        ],
+        "description": "Display name of the borrower or legal entity."
+      },
+      {
+        "name": "has_BorrowerCountry",
+        "roles": [
+          {
+            "concept": "CountryCode"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Borrower} has borrower country {CountryCode}"
+        ],
+        "description": "Country or jurisdiction associated with the borrower."
+      }
+    ],
+    "mappings": [
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "borrowers.borrower_id"
+        ],
+        "expressions": [
+          "borrowers.borrower_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "borrowers.borrower_id"
+        ],
+        "fields": [
+          "borrowers.borrower_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_CustomerIdentifier",
+        "target_concept": "CustomerIdentifier",
+        "expressions": [
+          "borrowers.borrower_id"
+        ],
+        "fields": [
+          "borrowers.borrower_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_CustomerSegment",
+        "target_concept": "CustomerSegment",
+        "expressions": [
+          "borrowers.borrower_segment"
+        ],
+        "fields": [
+          "borrowers.borrower_segment"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_BorrowerName",
+        "target_concept": "PersonOrEntityName",
+        "expressions": [
+          "borrowers.borrower_name"
+        ],
+        "fields": [
+          "borrowers.borrower_name"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_BorrowerCountry",
+        "target_concept": "CountryCode",
+        "expressions": [
+          "borrowers.domicile_country"
+        ],
+        "fields": [
+          "borrowers.domicile_country"
+        ]
+      }
+    ],
+    "mapped_tables": [
+      "borrowers"
+    ],
+    "mapped_fields": [
+      "borrowers.borrower_id",
+      "borrowers.borrower_name",
+      "borrowers.borrower_segment",
+      "borrowers.domicile_country"
+    ],
+    "mapped_metrics": []
+  },
+  "value.Borrower.has_BorrowerName": {
+    "id": "value.Borrower.has_BorrowerName",
+    "type": "value_type_property",
+    "name": "PersonOrEntityName",
+    "description": "Display name of the borrower or legal entity.",
+    "parent": "concept.Borrower",
+    "data_type": "PersonOrEntityName",
+    "value_concept": "PersonOrEntityName",
+    "field_name": "has_BorrowerName",
+    "relationship_name": "has_BorrowerName",
+    "relationship": {
+      "name": "has_BorrowerName",
+      "roles": [
+        {
+          "concept": "PersonOrEntityName"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Borrower} has borrower name {PersonOrEntityName}"
+      ],
+      "description": "Display name of the borrower or legal entity."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Borrower.has_BorrowerCountry": {
+    "id": "value.Borrower.has_BorrowerCountry",
+    "type": "value_type_property",
+    "name": "CountryCode",
+    "description": "Country or jurisdiction associated with the borrower.",
+    "parent": "concept.Borrower",
+    "data_type": "CountryCode",
+    "value_concept": "CountryCode",
+    "field_name": "has_BorrowerCountry",
+    "relationship_name": "has_BorrowerCountry",
+    "relationship": {
+      "name": "has_BorrowerCountry",
+      "roles": [
+        {
+          "concept": "CountryCode"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Borrower} has borrower country {CountryCode}"
+      ],
+      "description": "Country or jurisdiction associated with the borrower."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "concept.Loan": {
+    "id": "concept.Loan",
+    "type": "entity_type_concept",
+    "name": "Loan",
+    "description": "Credit exposure contract or facility that can be reported for regulatory credit risk monitoring.",
+    "concept": {
+      "name": "Loan",
+      "type": "EntityType",
+      "description": "Credit exposure contract or facility that can be reported for regulatory credit risk monitoring.",
+      "extends": [
+        "LoanData"
+      ],
+      "identify_by": [
+        "has_LoanIdentifier"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "REFERENCES_Borrower",
+        "roles": [
+          {
+            "concept": "Borrower"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} is owed by {Borrower}"
+        ],
+        "description": "Borrower responsible for repayment of the loan exposure."
+      },
+      {
+        "name": "REFERENCES_LoanProduct",
+        "roles": [
+          {
+            "concept": "LoanProduct"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} uses lending product {LoanProduct}"
+        ],
+        "description": "Lending product classification applied to the loan exposure."
+      },
+      {
+        "name": "has_PrincipalAmount",
+        "roles": [
+          {
+            "concept": "MonetaryAmount"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has principal amount {MonetaryAmount}"
+        ],
+        "description": "Contractual principal or notional amount of the loan exposure."
+      },
+      {
+        "name": "has_LoanCurrency",
+        "roles": [
+          {
+            "concept": "CurrencyCode"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has loan currency {CurrencyCode}"
+        ],
+        "description": "Currency in which the loan exposure is booked or managed."
+      },
+      {
+        "name": "has_ExposureAtDefaultAmount",
+        "roles": [
+          {
+            "concept": "MonetaryAmount"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has exposure at default amount {MonetaryAmount}"
+        ],
+        "description": "Exposure amount used for regulatory credit risk calculations."
+      },
+      {
+        "name": "has_ProbabilityOfDefault",
+        "roles": [
+          {
+            "concept": "Rate"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has probability of default {Rate}"
+        ],
+        "description": "Probability of default assigned to the loan exposure."
+      },
+      {
+        "name": "has_LossGivenDefault",
+        "roles": [
+          {
+            "concept": "Rate"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has loss given default {Rate}"
+        ],
+        "description": "Loss given default rate assigned to the loan exposure."
+      },
+      {
+        "name": "has_ExpectedLossAmount",
+        "roles": [
+          {
+            "concept": "MonetaryAmount"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has expected loss amount {MonetaryAmount}"
+        ],
+        "description": "Calculated expected loss amount for the loan exposure."
+      }
+    ],
+    "mappings": [
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "retail_loans.loan_id"
+        ],
+        "expressions": [
+          "retail_loans.loan_id"
+        ]
+      },
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "institutional_loans.facility_id"
+        ],
+        "expressions": [
+          "institutional_loans.facility_id"
+        ]
+      },
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "loan_exposure_report_lines.loan_id"
+        ],
+        "expressions": [
+          "loan_exposure_report_lines.loan_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "retail_loans.loan_id"
+        ],
+        "fields": [
+          "retail_loans.loan_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_LoanIdentifier",
+        "target_concept": "LoanIdentifier",
+        "expressions": [
+          "retail_loans.loan_id"
+        ],
+        "fields": [
+          "retail_loans.loan_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_OriginationDate",
+        "target_concept": "CalendarDate",
+        "expressions": [
+          "retail_loans.origination_date"
+        ],
+        "fields": [
+          "retail_loans.origination_date"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "REFERENCES_Borrower",
+        "target_concept": "Borrower",
+        "expressions": [
+          "retail_loans.borrower_id"
+        ],
+        "fields": [
+          "retail_loans.borrower_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "REFERENCES_LoanProduct",
+        "target_concept": "LoanProduct",
+        "expressions": [
+          "retail_loans.product_id"
+        ],
+        "fields": [
+          "retail_loans.product_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_PrincipalAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "retail_loans.principal_amount"
+        ],
+        "fields": [
+          "retail_loans.principal_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_LoanCurrency",
+        "target_concept": "CurrencyCode",
+        "expressions": [
+          "retail_loans.currency"
+        ],
+        "fields": [
+          "retail_loans.currency"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ExposureAtDefaultAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "retail_loans.principal_amount"
+        ],
+        "fields": [
+          "retail_loans.principal_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ProbabilityOfDefault",
+        "target_concept": "Rate",
+        "expressions": [
+          "retail_loans.pd"
+        ],
+        "fields": [
+          "retail_loans.pd"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_LossGivenDefault",
+        "target_concept": "Rate",
+        "expressions": [
+          "retail_loans.lgd"
+        ],
+        "fields": [
+          "retail_loans.lgd"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ExpectedLossAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "metric.expected_loss_amount"
+        ],
+        "fields": [
+          "metric.expected_loss_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "institutional_loans.facility_id"
+        ],
+        "fields": [
+          "institutional_loans.facility_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_LoanIdentifier",
+        "target_concept": "LoanIdentifier",
+        "expressions": [
+          "institutional_loans.facility_id"
+        ],
+        "fields": [
+          "institutional_loans.facility_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_OriginationDate",
+        "target_concept": "CalendarDate",
+        "expressions": [
+          "institutional_loans.booking_date"
+        ],
+        "fields": [
+          "institutional_loans.booking_date"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "REFERENCES_Borrower",
+        "target_concept": "Borrower",
+        "expressions": [
+          "institutional_loans.legal_entity_id"
+        ],
+        "fields": [
+          "institutional_loans.legal_entity_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "REFERENCES_LoanProduct",
+        "target_concept": "LoanProduct",
+        "expressions": [
+          "institutional_loans.product_code"
+        ],
+        "fields": [
+          "institutional_loans.product_code"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_PrincipalAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "institutional_loans.notional_amount"
+        ],
+        "fields": [
+          "institutional_loans.notional_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_LoanCurrency",
+        "target_concept": "CurrencyCode",
+        "expressions": [
+          "institutional_loans.exposure_currency"
+        ],
+        "fields": [
+          "institutional_loans.exposure_currency"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ExposureAtDefaultAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "institutional_loans.notional_amount"
+        ],
+        "fields": [
+          "institutional_loans.notional_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ProbabilityOfDefault",
+        "target_concept": "Rate",
+        "expressions": [
+          "institutional_loans.probability_default"
+        ],
+        "fields": [
+          "institutional_loans.probability_default"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_LossGivenDefault",
+        "target_concept": "Rate",
+        "expressions": [
+          "institutional_loans.loss_given_default"
+        ],
+        "fields": [
+          "institutional_loans.loss_given_default"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ExpectedLossAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "metric.expected_loss_amount"
+        ],
+        "fields": [
+          "metric.expected_loss_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "loan_exposure_report_lines.loan_id"
+        ],
+        "fields": [
+          "loan_exposure_report_lines.loan_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_LoanIdentifier",
+        "target_concept": "LoanIdentifier",
+        "expressions": [
+          "loan_exposure_report_lines.loan_id"
+        ],
+        "fields": [
+          "loan_exposure_report_lines.loan_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "REFERENCES_Borrower",
+        "target_concept": "Borrower",
+        "expressions": [
+          "loan_exposure_report_lines.borrower_id"
+        ],
+        "fields": [
+          "loan_exposure_report_lines.borrower_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "REFERENCES_LoanProduct",
+        "target_concept": "LoanProduct",
+        "expressions": [
+          "loan_exposure_report_lines.product_id"
+        ],
+        "fields": [
+          "loan_exposure_report_lines.product_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_PrincipalAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "loan_exposure_report_lines.principal_amount"
+        ],
+        "fields": [
+          "loan_exposure_report_lines.principal_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ExposureAtDefaultAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "loan_exposure_report_lines.exposure_at_default_amount"
+        ],
+        "fields": [
+          "loan_exposure_report_lines.exposure_at_default_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ExpectedLossAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "loan_exposure_report_lines.expected_loss_amount"
+        ],
+        "fields": [
+          "loan_exposure_report_lines.expected_loss_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_LoanCurrency",
+        "target_concept": "CurrencyCode",
+        "expressions": [
+          "loan_exposure_report_lines.report_currency"
+        ],
+        "fields": [
+          "loan_exposure_report_lines.report_currency"
+        ]
+      }
+    ],
+    "mapped_tables": [
+      "institutional_loans",
+      "loan_exposure_report_lines",
+      "retail_loans"
+    ],
+    "mapped_fields": [
+      "institutional_loans.booking_date",
+      "institutional_loans.exposure_currency",
+      "institutional_loans.facility_id",
+      "institutional_loans.loss_given_default",
+      "institutional_loans.notional_amount",
+      "institutional_loans.probability_default",
+      "loan_exposure_report_lines.expected_loss_amount",
+      "loan_exposure_report_lines.exposure_at_default_amount",
+      "loan_exposure_report_lines.loan_id",
+      "loan_exposure_report_lines.principal_amount",
+      "loan_exposure_report_lines.report_currency",
+      "retail_loans.currency",
+      "retail_loans.lgd",
+      "retail_loans.loan_id",
+      "retail_loans.origination_date",
+      "retail_loans.pd",
+      "retail_loans.principal_amount"
+    ],
+    "mapped_metrics": [
+      "expected_loss_amount"
+    ]
+  },
+  "value.Loan.has_PrincipalAmount": {
+    "id": "value.Loan.has_PrincipalAmount",
+    "type": "value_type_property",
+    "name": "MonetaryAmount",
+    "description": "Contractual principal or notional amount of the loan exposure.",
+    "parent": "concept.Loan",
+    "data_type": "MonetaryAmount",
+    "value_concept": "MonetaryAmount",
+    "field_name": "has_PrincipalAmount",
+    "relationship_name": "has_PrincipalAmount",
+    "relationship": {
+      "name": "has_PrincipalAmount",
+      "roles": [
+        {
+          "concept": "MonetaryAmount"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Loan} has principal amount {MonetaryAmount}"
+      ],
+      "description": "Contractual principal or notional amount of the loan exposure."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Loan.has_LoanCurrency": {
+    "id": "value.Loan.has_LoanCurrency",
+    "type": "value_type_property",
+    "name": "CurrencyCode",
+    "description": "Currency in which the loan exposure is booked or managed.",
+    "parent": "concept.Loan",
+    "data_type": "CurrencyCode",
+    "value_concept": "CurrencyCode",
+    "field_name": "has_LoanCurrency",
+    "relationship_name": "has_LoanCurrency",
+    "relationship": {
+      "name": "has_LoanCurrency",
+      "roles": [
+        {
+          "concept": "CurrencyCode"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Loan} has loan currency {CurrencyCode}"
+      ],
+      "description": "Currency in which the loan exposure is booked or managed."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Loan.has_ExposureAtDefaultAmount": {
+    "id": "value.Loan.has_ExposureAtDefaultAmount",
+    "type": "value_type_property",
+    "name": "MonetaryAmount",
+    "description": "Exposure amount used for regulatory credit risk calculations.",
+    "parent": "concept.Loan",
+    "data_type": "MonetaryAmount",
+    "value_concept": "MonetaryAmount",
+    "field_name": "has_ExposureAtDefaultAmount",
+    "relationship_name": "has_ExposureAtDefaultAmount",
+    "relationship": {
+      "name": "has_ExposureAtDefaultAmount",
+      "roles": [
+        {
+          "concept": "MonetaryAmount"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Loan} has exposure at default amount {MonetaryAmount}"
+      ],
+      "description": "Exposure amount used for regulatory credit risk calculations."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Loan.has_ProbabilityOfDefault": {
+    "id": "value.Loan.has_ProbabilityOfDefault",
+    "type": "value_type_property",
+    "name": "Rate",
+    "description": "Probability of default assigned to the loan exposure.",
+    "parent": "concept.Loan",
+    "data_type": "Rate",
+    "value_concept": "Rate",
+    "field_name": "has_ProbabilityOfDefault",
+    "relationship_name": "has_ProbabilityOfDefault",
+    "relationship": {
+      "name": "has_ProbabilityOfDefault",
+      "roles": [
+        {
+          "concept": "Rate"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Loan} has probability of default {Rate}"
+      ],
+      "description": "Probability of default assigned to the loan exposure."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Loan.has_LossGivenDefault": {
+    "id": "value.Loan.has_LossGivenDefault",
+    "type": "value_type_property",
+    "name": "Rate",
+    "description": "Loss given default rate assigned to the loan exposure.",
+    "parent": "concept.Loan",
+    "data_type": "Rate",
+    "value_concept": "Rate",
+    "field_name": "has_LossGivenDefault",
+    "relationship_name": "has_LossGivenDefault",
+    "relationship": {
+      "name": "has_LossGivenDefault",
+      "roles": [
+        {
+          "concept": "Rate"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Loan} has loss given default {Rate}"
+      ],
+      "description": "Loss given default rate assigned to the loan exposure."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Loan.has_ExpectedLossAmount": {
+    "id": "value.Loan.has_ExpectedLossAmount",
+    "type": "value_type_property",
+    "name": "MonetaryAmount",
+    "description": "Calculated expected loss amount for the loan exposure.",
+    "parent": "concept.Loan",
+    "data_type": "MonetaryAmount",
+    "value_concept": "MonetaryAmount",
+    "field_name": "has_ExpectedLossAmount",
+    "relationship_name": "has_ExpectedLossAmount",
+    "relationship": {
+      "name": "has_ExpectedLossAmount",
+      "roles": [
+        {
+          "concept": "MonetaryAmount"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Loan} has expected loss amount {MonetaryAmount}"
+      ],
+      "description": "Calculated expected loss amount for the loan exposure."
+    },
+    "inherited": false,
+    "inherited_from": "",
+    "calculation_type": "metric",
+    "semantic_metric": "expected_loss_amount",
+    "semantic_reference": "metric.expected_loss_amount",
+    "metric": {
+      "name": "expected_loss_amount",
+      "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+          }
+        ]
+      },
+      "ai_context": {
+        "metric_type": "calculated_credit_risk_measure"
+      }
+    }
+  },
+  "concept.LoanProduct": {
+    "id": "concept.LoanProduct",
+    "type": "entity_type_concept",
+    "name": "LoanProduct",
+    "description": "Lending product definition used to classify loan exposures for credit risk reporting.",
+    "concept": {
+      "name": "LoanProduct",
+      "type": "EntityType",
+      "description": "Lending product definition used to classify loan exposures for credit risk reporting.",
+      "extends": [
+        "ProductData"
+      ],
+      "identify_by": [
+        "has_ProductIdentifier"
+      ]
+    },
+    "relationships": [
+      {
+        "name": "has_ProductType",
+        "roles": [
+          {
+            "concept": "ProductType"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{LoanProduct} has product type {ProductType}"
+        ],
+        "description": "Product type used to group lending exposures."
+      },
+      {
+        "name": "has_RegulatoryProductClass",
+        "roles": [
+          {
+            "concept": "RegulatoryClass"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{LoanProduct} has regulatory product class {RegulatoryClass}"
+        ],
+        "description": "Regulatory classification applied to the loan product."
+      }
+    ],
+    "mappings": [
+      {
+        "kind": "object_mapping",
+        "fields": [
+          "loan_products.product_id"
+        ],
+        "expressions": [
+          "loan_products.product_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 1,
+        "relationship": null,
+        "target_concept": null,
+        "expressions": [
+          "loan_products.product_id"
+        ],
+        "fields": [
+          "loan_products.product_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ProductIdentifier",
+        "target_concept": "ProductIdentifier",
+        "expressions": [
+          "loan_products.product_id"
+        ],
+        "fields": [
+          "loan_products.product_id"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_ProductType",
+        "target_concept": "ProductType",
+        "expressions": [
+          "loan_products.product_type"
+        ],
+        "fields": [
+          "loan_products.product_type"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_RegulatoryProductClass",
+        "target_concept": "RegulatoryClass",
+        "expressions": [
+          "loan_products.regulatory_product_class"
+        ],
+        "fields": [
+          "loan_products.regulatory_product_class"
+        ]
+      }
+    ],
+    "mapped_tables": [
+      "loan_products"
+    ],
+    "mapped_fields": [
+      "loan_products.product_id",
+      "loan_products.product_type",
+      "loan_products.regulatory_product_class"
+    ],
+    "mapped_metrics": []
+  },
+  "value.LoanProduct.has_ProductType": {
+    "id": "value.LoanProduct.has_ProductType",
+    "type": "value_type_property",
+    "name": "ProductType",
+    "description": "Product type used to group lending exposures.",
+    "parent": "concept.LoanProduct",
+    "data_type": "ProductType",
+    "value_concept": "ProductType",
+    "field_name": "has_ProductType",
+    "relationship_name": "has_ProductType",
+    "relationship": {
+      "name": "has_ProductType",
+      "roles": [
+        {
+          "concept": "ProductType"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{LoanProduct} has product type {ProductType}"
+      ],
+      "description": "Product type used to group lending exposures."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.LoanProduct.has_RegulatoryProductClass": {
+    "id": "value.LoanProduct.has_RegulatoryProductClass",
+    "type": "value_type_property",
+    "name": "RegulatoryClass",
+    "description": "Regulatory classification applied to the loan product.",
+    "parent": "concept.LoanProduct",
+    "data_type": "RegulatoryClass",
+    "value_concept": "RegulatoryClass",
+    "field_name": "has_RegulatoryProductClass",
+    "relationship_name": "has_RegulatoryProductClass",
+    "relationship": {
+      "name": "has_RegulatoryProductClass",
+      "roles": [
+        {
+          "concept": "RegulatoryClass"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{LoanProduct} has regulatory product class {RegulatoryClass}"
+      ],
+      "description": "Regulatory classification applied to the loan product."
+    },
+    "inherited": false,
+    "inherited_from": ""
+  },
+  "value.Borrower.has_CustomerIdentifier": {
+    "id": "value.Borrower.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "name": "CustomerIdentifier",
+    "description": "Customer identifier common to customer-like records.",
+    "parent": "concept.Borrower",
+    "data_type": "CustomerIdentifier",
+    "value_concept": "CustomerIdentifier",
+    "field_name": "has_CustomerIdentifier",
+    "relationship_name": "has_CustomerIdentifier",
+    "relationship": {
+      "name": "has_CustomerIdentifier",
+      "roles": [
+        {
+          "concept": "CustomerIdentifier"
+        }
+      ],
+      "multiplicity": "OneToOne",
+      "verbalizes": [
+        "{CustomerData} has customer identifier {CustomerIdentifier}"
+      ],
+      "description": "Customer identifier common to customer-like records."
+    },
+    "inherited": true,
+    "inherited_from": "CustomerData"
+  },
+  "value.Borrower.has_CustomerSegment": {
+    "id": "value.Borrower.has_CustomerSegment",
+    "type": "value_type_property",
+    "name": "CustomerSegment",
+    "description": "Customer segment common to customer-like records.",
+    "parent": "concept.Borrower",
+    "data_type": "CustomerSegment",
+    "value_concept": "CustomerSegment",
+    "field_name": "has_CustomerSegment",
+    "relationship_name": "has_CustomerSegment",
+    "relationship": {
+      "name": "has_CustomerSegment",
+      "roles": [
+        {
+          "concept": "CustomerSegment"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{CustomerData} has customer segment {CustomerSegment}"
+      ],
+      "description": "Customer segment common to customer-like records."
+    },
+    "inherited": true,
+    "inherited_from": "CustomerData"
+  },
+  "value.Loan.has_LoanIdentifier": {
+    "id": "value.Loan.has_LoanIdentifier",
+    "type": "value_type_property",
+    "name": "LoanIdentifier",
+    "description": "Loan identifier common to loan-like records.",
+    "parent": "concept.Loan",
+    "data_type": "LoanIdentifier",
+    "value_concept": "LoanIdentifier",
+    "field_name": "has_LoanIdentifier",
+    "relationship_name": "has_LoanIdentifier",
+    "relationship": {
+      "name": "has_LoanIdentifier",
+      "roles": [
+        {
+          "concept": "LoanIdentifier"
+        }
+      ],
+      "multiplicity": "OneToOne",
+      "verbalizes": [
+        "{LoanData} has loan identifier {LoanIdentifier}"
+      ],
+      "description": "Loan identifier common to loan-like records."
+    },
+    "inherited": true,
+    "inherited_from": "LoanData"
+  },
+  "value.Loan.has_OriginationDate": {
+    "id": "value.Loan.has_OriginationDate",
+    "type": "value_type_property",
+    "name": "CalendarDate",
+    "description": "Origination or booking date common to loan-like records.",
+    "parent": "concept.Loan",
+    "data_type": "CalendarDate",
+    "value_concept": "CalendarDate",
+    "field_name": "has_OriginationDate",
+    "relationship_name": "has_OriginationDate",
+    "relationship": {
+      "name": "has_OriginationDate",
+      "roles": [
+        {
+          "concept": "CalendarDate"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{LoanData} has origination date {CalendarDate}"
+      ],
+      "description": "Origination or booking date common to loan-like records."
+    },
+    "inherited": true,
+    "inherited_from": "LoanData"
+  },
+  "value.LoanProduct.has_ProductIdentifier": {
+    "id": "value.LoanProduct.has_ProductIdentifier",
+    "type": "value_type_property",
+    "name": "ProductIdentifier",
+    "description": "Product identifier common to product-like records.",
+    "parent": "concept.LoanProduct",
+    "data_type": "ProductIdentifier",
+    "value_concept": "ProductIdentifier",
+    "field_name": "has_ProductIdentifier",
+    "relationship_name": "has_ProductIdentifier",
+    "relationship": {
+      "name": "has_ProductIdentifier",
+      "roles": [
+        {
+          "concept": "ProductIdentifier"
+        }
+      ],
+      "multiplicity": "OneToOne",
+      "verbalizes": [
+        "{ProductData} has product identifier {ProductIdentifier}"
+      ],
+      "description": "Product identifier common to product-like records."
+    },
+    "inherited": true,
+    "inherited_from": "ProductData"
+  },
+  "table.borrowers": {
+    "id": "table.borrowers",
+    "type": "physical_table",
+    "name": "borrowers",
+    "description": "Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting.",
+    "source": "customer_master.borrowers",
+    "primary_key": [
+      "borrower_id"
+    ],
+    "fields": [
+      {
+        "name": "borrower_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Master customer identifier for a borrower or legal entity."
+      },
+      {
+        "name": "borrower_segment",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_segment"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Segment classification such as retail, SME, corporate, or financial institution."
+      },
+      {
+        "name": "borrower_name",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_name"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Human-readable borrower or legal entity name."
+      },
+      {
+        "name": "domicile_country",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "domicile_country"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins."
+      }
+    ],
+    "columns": [
+      {
+        "name": "borrower_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Master customer identifier for a borrower or legal entity."
+      },
+      {
+        "name": "borrower_segment",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_segment"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Segment classification such as retail, SME, corporate, or financial institution."
+      },
+      {
+        "name": "borrower_name",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_name"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Human-readable borrower or legal entity name."
+      },
+      {
+        "name": "domicile_country",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "domicile_country"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins."
+      }
+    ]
+  },
+  "table.institutional_loans": {
+    "id": "table.institutional_loans",
+    "type": "physical_table",
+    "name": "institutional_loans",
+    "description": "Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting.",
+    "source": "institutional_lending_core.facilities",
+    "primary_key": [
+      "facility_id"
+    ],
+    "fields": [
+      {
+        "name": "facility_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "facility_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Institutional source identifier for a committed credit facility."
+      },
+      {
+        "name": "legal_entity_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "legal_entity_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Customer identifier linking the facility to the responsible legal borrower."
+      },
+      {
+        "name": "product_code",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_code"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Product identifier classifying the institutional lending facility."
+      },
+      {
+        "name": "booking_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "booking_date"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "description": "Date on which the institutional facility was booked."
+      },
+      {
+        "name": "notional_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "notional_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Notional or committed amount recorded for the institutional facility."
+      },
+      {
+        "name": "exposure_currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "exposure_currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Currency code used for the institutional exposure amount."
+      },
+      {
+        "name": "probability_default",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "probability_default"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Probability of default assigned by the wholesale credit risk model."
+      },
+      {
+        "name": "loss_given_default",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "loss_given_default"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Loss given default rate assigned by the wholesale credit risk model."
+      }
+    ],
+    "columns": [
+      {
+        "name": "facility_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "facility_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Institutional source identifier for a committed credit facility."
+      },
+      {
+        "name": "legal_entity_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "legal_entity_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Customer identifier linking the facility to the responsible legal borrower."
+      },
+      {
+        "name": "product_code",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_code"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Product identifier classifying the institutional lending facility."
+      },
+      {
+        "name": "booking_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "booking_date"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "description": "Date on which the institutional facility was booked."
+      },
+      {
+        "name": "notional_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "notional_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Notional or committed amount recorded for the institutional facility."
+      },
+      {
+        "name": "exposure_currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "exposure_currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Currency code used for the institutional exposure amount."
+      },
+      {
+        "name": "probability_default",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "probability_default"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Probability of default assigned by the wholesale credit risk model."
+      },
+      {
+        "name": "loss_given_default",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "loss_given_default"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Loss given default rate assigned by the wholesale credit risk model."
+      }
+    ]
+  },
+  "table.loan_exposure_report_lines": {
+    "id": "table.loan_exposure_report_lines",
+    "type": "physical_table",
+    "name": "loan_exposure_report_lines",
+    "description": "Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic.",
+    "source": "credit_risk_engine.loan_exposure_report_lines",
+    "primary_key": [
+      "loan_id"
+    ],
+    "fields": [
+      {
+        "name": "loan_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "loan_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Normalized loan or facility identifier reported on the exposure line."
+      },
+      {
+        "name": "borrower_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Borrower identifier reported on the exposure line for reconciliation to customer master."
+      },
+      {
+        "name": "borrower_country",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_country"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
+      },
+      {
+        "name": "product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Product identifier reported on the exposure line for product-class aggregation."
+      },
+      {
+        "name": "principal_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "principal_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Principal amount included on the report line for exposure reconciliation."
+      },
+      {
+        "name": "exposure_at_default_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "exposure_at_default_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Exposure at default amount reported for regulatory credit risk measurement."
+      },
+      {
+        "name": "expected_loss_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "expected_loss_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Expected loss amount reported after applying probability of default and loss given default."
+      },
+      {
+        "name": "report_currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "report_currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Currency code in which the exposure line amounts are reported."
+      }
+    ],
+    "columns": [
+      {
+        "name": "loan_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "loan_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Normalized loan or facility identifier reported on the exposure line."
+      },
+      {
+        "name": "borrower_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Borrower identifier reported on the exposure line for reconciliation to customer master."
+      },
+      {
+        "name": "borrower_country",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_country"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
+      },
+      {
+        "name": "product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Product identifier reported on the exposure line for product-class aggregation."
+      },
+      {
+        "name": "principal_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "principal_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Principal amount included on the report line for exposure reconciliation."
+      },
+      {
+        "name": "exposure_at_default_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "exposure_at_default_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Exposure at default amount reported for regulatory credit risk measurement."
+      },
+      {
+        "name": "expected_loss_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "expected_loss_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Expected loss amount reported after applying probability of default and loss given default."
+      },
+      {
+        "name": "report_currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "report_currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Currency code in which the exposure line amounts are reported."
+      }
+    ]
+  },
+  "table.loan_products": {
+    "id": "table.loan_products",
+    "type": "physical_table",
+    "name": "loan_products",
+    "description": "Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures.",
+    "source": "product_master.loan_products",
+    "primary_key": [
+      "product_id"
+    ],
+    "fields": [
+      {
+        "name": "product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Master product identifier for a lending product."
+      },
+      {
+        "name": "product_type",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_type"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line."
+      },
+      {
+        "name": "regulatory_product_class",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "regulatory_product_class"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Regulatory product class used for credit exposure aggregation."
+      }
+    ],
+    "columns": [
+      {
+        "name": "product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Master product identifier for a lending product."
+      },
+      {
+        "name": "product_type",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_type"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line."
+      },
+      {
+        "name": "regulatory_product_class",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "regulatory_product_class"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Regulatory product class used for credit exposure aggregation."
+      }
+    ]
+  },
+  "table.retail_loans": {
+    "id": "table.retail_loans",
+    "type": "physical_table",
+    "name": "retail_loans",
+    "description": "Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting.",
+    "source": "retail_lending_core.retail_loans",
+    "primary_key": [
+      "loan_id"
+    ],
+    "fields": [
+      {
+        "name": "loan_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "loan_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Retail source identifier for an individual consumer loan record."
+      },
+      {
+        "name": "borrower_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Customer identifier linking the retail loan to the responsible borrower."
+      },
+      {
+        "name": "product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Product identifier classifying the retail lending product."
+      },
+      {
+        "name": "origination_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "origination_date"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "description": "Date on which the retail loan was originated or booked."
+      },
+      {
+        "name": "principal_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "principal_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Principal balance or contractual amount recorded for the retail loan."
+      },
+      {
+        "name": "currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Currency code used for the retail loan amount."
+      },
+      {
+        "name": "pd",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "pd"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Probability of default assigned by the retail credit risk model."
+      },
+      {
+        "name": "lgd",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "lgd"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Loss given default rate assigned by the retail credit risk model."
+      }
+    ],
+    "columns": [
+      {
+        "name": "loan_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "loan_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Retail source identifier for an individual consumer loan record."
+      },
+      {
+        "name": "borrower_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "borrower_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Customer identifier linking the retail loan to the responsible borrower."
+      },
+      {
+        "name": "product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "product_id"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Product identifier classifying the retail lending product."
+      },
+      {
+        "name": "origination_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "origination_date"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "description": "Date on which the retail loan was originated or booked."
+      },
+      {
+        "name": "principal_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "principal_amount"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Principal balance or contractual amount recorded for the retail loan."
+      },
+      {
+        "name": "currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "currency"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "description": "Currency code used for the retail loan amount."
+      },
+      {
+        "name": "pd",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "pd"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Probability of default assigned by the retail credit risk model."
+      },
+      {
+        "name": "lgd",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "lgd"
+            }
+          ]
+        },
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "description": "Loss given default rate assigned by the retail credit risk model."
+      }
+    ]
+  },
+  "requirement.item": {
+    "id": "requirement.item",
+    "type": "regulatory_requirement",
+    "name": "贷款风险暴露报送需求",
+    "description": "监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。",
+    "source": "Loan Credit Exposure Reporting BRD v1.0 section 5.2",
+    "SLA": "Daily EOD before 22:00 local time; credit risk review completed before regulatory submission.",
+    "semantic_scope": {
+      "concepts": [
+        "Loan",
+        "Borrower",
+        "LoanProduct"
+      ],
+      "required_fields": [
+        {
+          "name": "贷款标识",
+          "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
+          "semantic_reference": "Loan.has_LoanIdentifier",
+          "required": true
+        },
+        {
+          "name": "借款人标识",
+          "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
+          "semantic_reference": "Borrower.has_CustomerIdentifier",
+          "required": true
+        },
+        {
+          "name": "产品标识",
+          "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
+          "semantic_reference": "LoanProduct.has_ProductIdentifier",
+          "required": true
+        },
+        {
+          "name": "本金金额",
+          "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
+          "semantic_reference": "Loan.has_PrincipalAmount",
+          "required": true
+        },
+        {
+          "name": "风险暴露金额",
+          "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
+          "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
+          "required": true
+        }
+      ],
+      "controls": [
+        {
+          "name": "loan_identifier_present",
+          "target": "Loan.has_LoanIdentifier",
+          "rule": "Loan identifier must be present for every report line."
+        },
+        {
+          "name": "borrower_identifier_present",
+          "target": "Borrower.has_CustomerIdentifier",
+          "rule": "Borrower identifier must be present for every report line."
+        }
+      ]
+    },
+    "required_fields": [
+      {
+        "name": "贷款标识",
+        "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
+        "semantic_reference": "Loan.has_LoanIdentifier",
+        "required": true
+      },
+      {
+        "name": "借款人标识",
+        "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
+        "semantic_reference": "Borrower.has_CustomerIdentifier",
+        "required": true
+      },
+      {
+        "name": "产品标识",
+        "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
+        "semantic_reference": "LoanProduct.has_ProductIdentifier",
+        "required": true
+      },
+      {
+        "name": "本金金额",
+        "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
+        "semantic_reference": "Loan.has_PrincipalAmount",
+        "required": true
+      },
+      {
+        "name": "风险暴露金额",
+        "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
+        "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
+        "required": true
+      }
+    ],
+    "calculations": [
+      {
+        "name": "预期损失金额",
+        "description": "需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。",
+        "output": "Loan.has_ExpectedLossAmount",
+        "inputs": [
+          "Loan.has_ExposureAtDefaultAmount",
+          "Loan.has_ProbabilityOfDefault",
+          "Loan.has_LossGivenDefault"
+        ],
+        "expression": "Loan.has_ExposureAtDefaultAmount * Loan.has_ProbabilityOfDefault * Loan.has_LossGivenDefault"
+      }
+    ],
+    "controls": []
+  },
+  "requirement_item..Loan.has_LoanIdentifier": {
+    "id": "requirement_item..Loan.has_LoanIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "贷款标识",
+    "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
+    "parent": "requirement.item",
+    "semantic_reference": "Loan.has_LoanIdentifier",
+    "required_field": {
+      "name": "贷款标识",
+      "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
+      "semantic_reference": "Loan.has_LoanIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..Borrower.has_CustomerIdentifier": {
+    "id": "requirement_item..Borrower.has_CustomerIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "借款人标识",
+    "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
+    "parent": "requirement.item",
+    "semantic_reference": "Borrower.has_CustomerIdentifier",
+    "required_field": {
+      "name": "借款人标识",
+      "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
+      "semantic_reference": "Borrower.has_CustomerIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..LoanProduct.has_ProductIdentifier": {
+    "id": "requirement_item..LoanProduct.has_ProductIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "产品标识",
+    "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
+    "parent": "requirement.item",
+    "semantic_reference": "LoanProduct.has_ProductIdentifier",
+    "required_field": {
+      "name": "产品标识",
+      "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
+      "semantic_reference": "LoanProduct.has_ProductIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..Loan.has_PrincipalAmount": {
+    "id": "requirement_item..Loan.has_PrincipalAmount",
+    "type": "requirement_semantic_item",
+    "name": "本金金额",
+    "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
+    "parent": "requirement.item",
+    "semantic_reference": "Loan.has_PrincipalAmount",
+    "required_field": {
+      "name": "本金金额",
+      "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
+      "semantic_reference": "Loan.has_PrincipalAmount",
+      "required": true
+    }
+  },
+  "requirement_item..Loan.has_ExposureAtDefaultAmount": {
+    "id": "requirement_item..Loan.has_ExposureAtDefaultAmount",
+    "type": "requirement_semantic_item",
+    "name": "风险暴露金额",
+    "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
+    "parent": "requirement.item",
+    "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
+    "required_field": {
+      "name": "风险暴露金额",
+      "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
+      "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
+      "required": true
+    }
+  },
+  "report_impl.item": {
+    "id": "report_impl.item",
+    "type": "report_implementation",
+    "name": "每日贷款风险暴露报表数据逻辑",
+    "description": "说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。",
+    "implements": "贷款风险暴露报送需求",
+    "field_mappings": [
+      {
+        "name": "贷款标识逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "loan_id",
+        "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
+        "requirement_field": "贷款标识",
+        "source_field": "loan_exposure_report_lines.loan_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id, loan_exposure_report_lines.loan_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "借款人标识逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "borrower_id",
+        "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
+        "requirement_field": "借款人标识",
+        "source_field": "loan_exposure_report_lines.borrower_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id, loan_exposure_report_lines.borrower_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "产品标识逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "product_id",
+        "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
+        "requirement_field": "产品标识",
+        "source_field": "loan_exposure_report_lines.product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code, loan_exposure_report_lines.product_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "本金金额逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "principal_amount",
+        "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
+        "requirement_field": "本金金额",
+        "source_field": "loan_exposure_report_lines.principal_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount, loan_exposure_report_lines.principal_amount)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "风险暴露金额逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "exposure_at_default_amount",
+        "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
+        "requirement_field": "风险暴露金额",
+        "source_field": "loan_exposure_report_lines.exposure_at_default_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(loan_exposure_report_lines.exposure_at_default_amount, retail_loans.principal_amount, institutional_loans.notional_amount)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "预期损失金额逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "expected_loss_amount",
+        "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
+        "requirement_field": "预期损失金额",
+        "source_field": "loan_exposure_report_lines.expected_loss_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(loan_exposure_report_lines.expected_loss_amount, retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd, institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default)"
+            }
+          ]
+        }
+      }
+    ],
+    "source_fields": [
+      "retail_loans.loan_id",
+      "retail_loans.borrower_id",
+      "retail_loans.product_id",
+      "retail_loans.principal_amount",
+      "retail_loans.pd",
+      "retail_loans.lgd",
+      "institutional_loans.facility_id",
+      "institutional_loans.legal_entity_id",
+      "institutional_loans.product_code",
+      "institutional_loans.notional_amount",
+      "institutional_loans.probability_default",
+      "institutional_loans.loss_given_default",
+      "loan_exposure_report_lines.loan_id",
+      "loan_exposure_report_lines.borrower_id",
+      "loan_exposure_report_lines.product_id",
+      "loan_exposure_report_lines.principal_amount",
+      "loan_exposure_report_lines.exposure_at_default_amount",
+      "loan_exposure_report_lines.expected_loss_amount"
+    ]
+  },
+  "implementation_field.loan_exposure_report_lines.loan_id": {
+    "id": "implementation_field.loan_exposure_report_lines.loan_id",
+    "type": "implementation_field_binding",
+    "name": "贷款标识逻辑",
+    "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
+    "parent": "report_impl.item",
+    "implementation_field": {
+      "name": "贷款标识逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "loan_id",
+      "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
+      "requirement_field": "贷款标识",
+      "source_field": "loan_exposure_report_lines.loan_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id, loan_exposure_report_lines.loan_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.borrower_id": {
+    "id": "implementation_field.loan_exposure_report_lines.borrower_id",
+    "type": "implementation_field_binding",
+    "name": "借款人标识逻辑",
+    "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
+    "parent": "report_impl.item",
+    "implementation_field": {
+      "name": "借款人标识逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "borrower_id",
+      "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
+      "requirement_field": "借款人标识",
+      "source_field": "loan_exposure_report_lines.borrower_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id, loan_exposure_report_lines.borrower_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.product_id": {
+    "id": "implementation_field.loan_exposure_report_lines.product_id",
+    "type": "implementation_field_binding",
+    "name": "产品标识逻辑",
+    "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
+    "parent": "report_impl.item",
+    "implementation_field": {
+      "name": "产品标识逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "product_id",
+      "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
+      "requirement_field": "产品标识",
+      "source_field": "loan_exposure_report_lines.product_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code, loan_exposure_report_lines.product_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.principal_amount": {
+    "id": "implementation_field.loan_exposure_report_lines.principal_amount",
+    "type": "implementation_field_binding",
+    "name": "本金金额逻辑",
+    "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
+    "parent": "report_impl.item",
+    "implementation_field": {
+      "name": "本金金额逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "principal_amount",
+      "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
+      "requirement_field": "本金金额",
+      "source_field": "loan_exposure_report_lines.principal_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount, loan_exposure_report_lines.principal_amount)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.exposure_at_default_amount": {
+    "id": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
+    "type": "implementation_field_binding",
+    "name": "风险暴露金额逻辑",
+    "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
+    "parent": "report_impl.item",
+    "implementation_field": {
+      "name": "风险暴露金额逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "exposure_at_default_amount",
+      "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
+      "requirement_field": "风险暴露金额",
+      "source_field": "loan_exposure_report_lines.exposure_at_default_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(loan_exposure_report_lines.exposure_at_default_amount, retail_loans.principal_amount, institutional_loans.notional_amount)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.expected_loss_amount": {
+    "id": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
+    "type": "implementation_field_binding",
+    "name": "预期损失金额逻辑",
+    "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
+    "parent": "report_impl.item",
+    "implementation_field": {
+      "name": "预期损失金额逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "expected_loss_amount",
+      "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
+      "requirement_field": "预期损失金额",
+      "source_field": "loan_exposure_report_lines.expected_loss_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(loan_exposure_report_lines.expected_loss_amount, retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd, institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default)"
+          }
+        ]
+      }
+    }
+  }
+};
+window.OSI_CATALOG_DATA = window.CATALOG_DATA;

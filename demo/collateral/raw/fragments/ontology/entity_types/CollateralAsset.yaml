@@ -1,0 +1,13 @@
+name: CollateralAsset
+description: Asset pledged as collateral for margin obligations.
+extends:
+- CollateralAssetData
+identify_by:
+- has_CollateralIdentifier
+relationships:
+- name: PART_OF_MarginAccount
+  roles:
+  - concept: MarginAccount
+  verbalizes:
+  - '{CollateralAsset} is part of the collateral set for {MarginAccount}'
+  description: Margin account whose obligations are supported by this collateral asset.

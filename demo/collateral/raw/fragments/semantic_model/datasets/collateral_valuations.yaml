@@ -1,0 +1,50 @@
+name: collateral_valuations
+source: market_risk.collateral_valuations
+primary_key:
+- valuation_id
+description: Daily collateral valuation records that capture market value and haircut
+  inputs for pledged assets at valuation-date grain.
+physical_kind: table
+fields:
+- name: valuation_id
+  type: string
+  nullable: false
+  description: Stable identifier for a collateral valuation record.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: valuation_id
+- name: collateral_id
+  type: string
+  nullable: false
+  description: Identifier of the pledged collateral asset being valued.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: collateral_id
+- name: valuation_date
+  type: date
+  nullable: false
+  description: Business date on which the collateral market value and haircut are
+    observed.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: valuation_date
+- name: market_value_amount
+  type: decimal
+  nullable: false
+  description: Observed market value amount of the collateral before haircut adjustment.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: market_value_amount
+- name: haircut_rate
+  type: decimal
+  nullable: false
+  description: Haircut percentage applied to collateral market value for eligibility
+    calculation.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: haircut_rate

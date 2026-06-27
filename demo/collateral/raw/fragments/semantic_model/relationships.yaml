@@ -1,0 +1,21 @@
+- name: reference_counterparty
+  from: margin_accounts
+  to: counterparties
+  from_columns:
+  - counterparty_id
+  to_columns:
+  - counterparty_id
+- name: pledge_collateral
+  from: collateral_positions
+  to: margin_accounts
+  from_columns:
+  - account_id
+  to_columns:
+  - account_id
+- name: value_collateral
+  from: collateral_valuations
+  to: collateral_positions
+  from_columns:
+  - collateral_id
+  to_columns:
+  - collateral_id

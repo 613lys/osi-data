@@ -1,0 +1,27 @@
+concept: Borrower
+object_mappings:
+- referent_mappings:
+  - relationship: has_CustomerIdentifier
+    expression: borrowers.borrower_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CustomerIdentifier
+      expression: borrowers.borrower_id
+  children:
+  - relationship: has_CustomerIdentifier
+    object_mapping:
+      concept: CustomerIdentifier
+      expression: borrowers.borrower_id
+  - relationship: has_CustomerSegment
+    object_mapping:
+      concept: CustomerSegment
+      expression: borrowers.borrower_segment
+  - relationship: has_BorrowerName
+    object_mapping:
+      concept: PersonOrEntityName
+      expression: borrowers.borrower_name
+  - relationship: has_BorrowerCountry
+    object_mapping:
+      concept: CountryCode
+      expression: borrowers.domicile_country

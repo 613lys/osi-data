@@ -98,6 +98,18 @@ def node_id(prefix: str, name: str) -> str:
 
 
 CONTROLLED_RELATIONSHIP_ACTIONS = {
+    "creates",
+    "references",
+    "depends_on",
+    "derives_from",
+    "aggregates",
+    "reconciles_with",
+    "settles",
+    "values",
+    "part_of",
+    "child_of",
+    "related_to",
+    # Backward-compatible actions for existing demos generated before this controlled list was tightened.
     "own",
     "hold",
     "book",
@@ -113,10 +125,27 @@ CONTROLLED_RELATIONSHIP_ACTIONS = {
 }
 
 
-def relationship_action(relationship_name: str) -> str:
-    action = slug(relationship_name).split("_", 1)[0].lower()
-    return action if action in CONTROLLED_RELATIONSHIP_ACTIONS else "relationship"
+PRIMARY_RELATIONSHIP_ACTIONS = {
+    "creates",
+    "references",
+    "depends_on",
+    "derives_from",
+    "aggregates",
+    "reconciles_with",
+    "settles",
+    "values",
+    "part_of",
+    "child_of",
+    "related_to",
+}
 
+
+def relationship_action(relationship_name: str) -> str:
+    text = slug(relationship_name).lower()
+    for action in sorted(CONTROLLED_RELATIONSHIP_ACTIONS, key=len, reverse=True):
+        if text == action or text.startswith(f"{action}_"):
+            return action
+    return "relationship"
 
 def dataset_join_label(rel: dict[str, Any]) -> str:
     from_columns = [str(item) for item in rel.get("from_columns") or []]
@@ -134,16 +163,17 @@ def dataset_join_label(rel: dict[str, Any]) -> str:
 
 def validate_business_relationship_name(relationship_name: str, owner_concept: str, target_concept: str) -> str:
     text = slug(relationship_name).lower()
-    if "_" not in text:
+    action = relationship_action(text)
+    if action == "relationship":
+        allowed = ", ".join(sorted(PRIMARY_RELATIONSHIP_ACTIONS))
         raise SystemExit(
-            f"EntityType relationship '{owner_concept}.{relationship_name}' targeting '{target_concept}' must use '<action>_<role>'."
-        )
-    action = text.split("_", 1)[0]
-    if action not in CONTROLLED_RELATIONSHIP_ACTIONS:
-        allowed = ", ".join(sorted(CONTROLLED_RELATIONSHIP_ACTIONS))
-        raise SystemExit(
-            f"EntityType relationship '{owner_concept}.{relationship_name}' uses unsupported action '{action}'. "
+            f"EntityType relationship '{owner_concept}.{relationship_name}' targeting '{target_concept}' must use '<ACTION>_<EntityConceptName>'. "
             f"Allowed actions: {allowed}."
+        )
+    suffix = text[len(action):].lstrip("_")
+    if not suffix:
+        raise SystemExit(
+            f"EntityType relationship '{owner_concept}.{relationship_name}' targeting '{target_concept}' must include a target role after the action."
         )
     return action
 
@@ -276,6 +306,33 @@ def walk_link_mapping(mapping: dict[str, Any], rows: list[dict[str, Any]], depth
     return refs
 
 
+
+def source_concept_link_refs(mapping: dict[str, Any], value_relationships: set[str]) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    """Return refs that populate the source concept, excluding target EntityType referent refs."""
+    refs: list[dict[str, str]] = []
+    relationship_refs: list[dict[str, str]] = []
+    refs.extend(walk_object_mapping(mapping.get("object_mapping") or {}))
+
+    def walk_value_children(children: list[dict[str, Any]]) -> None:
+        for child in children or []:
+            relationship = child.get("relationship")
+            if relationship not in value_relationships:
+                continue
+            child_refs = walk_object_mapping(child.get("object_mapping") or {})
+            refs.extend(child_refs)
+            for ref in child_refs:
+                if ref.get("dataset") and ref.get("field"):
+                    relationship_refs.append(
+                        {
+                            "relationship": str(relationship),
+                            "field": f'{ref["dataset"]}.{ref["field"]}',
+                            "expression": ref.get("expression", ""),
+                        }
+                    )
+            walk_value_children(child.get("children") or [])
+
+    walk_value_children(mapping.get("children") or [])
+    return refs, relationship_refs
 def relationship_properties(
     owner_concept: str,
     rel_name: str,
@@ -302,6 +359,13 @@ def semantic_reference_parts(reference: str) -> tuple[str, str]:
 
 def column_node_id(field_ref: str) -> str:
     return node_id("column", field_ref)
+
+
+def metric_reference_name(field_ref: str, metric_names: set[str]) -> str:
+    owner, name = semantic_reference_parts(field_ref)
+    if owner == "metric" and name in metric_names:
+        return name
+    return ""
 
 
 def value_relationship_entries(
@@ -362,11 +426,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             continue
         declared_concepts[name] = {"component": component, "concept": concept}
 
-    extended_concept_names = {
-        parent
-        for entry in declared_concepts.values()
-        for parent in (entry["concept"].get("extends") or [])
-        if parent in declared_concepts and normalized_concept_type(declared_concepts[parent]["concept"]) == "EntityType"
+    base_entity_names = {
+        name
+        for name, entry in declared_concepts.items()
+        if normalized_concept_type(entry["concept"]) == "EntityType" and name.endswith("Data")
     }
 
     def ensure_concept(name: str) -> str:
@@ -376,7 +439,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             concept_type = normalized_concept_type(concept)
             if not is_entity_concept_type(concept_type):
                 return ""
-            graph_type = "base_entity_concept" if name in extended_concept_names else "entity_type_concept"
+            graph_type = "base_entity_concept" if name in base_entity_names else "entity_type_concept"
             add_node(
                 nodes,
                 concept_id,
@@ -385,7 +448,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 {
                     "description": concept.get("description", ""),
                     "concept_type": concept_type,
-                    "base_entity": name in extended_concept_names,
+                    "base_entity": name in base_entity_names,
                     "extends": concept.get("extends") or [],
                     "identify_by": concept.get("identify_by") or [],
                     "requires": concept.get("requires") or [],
@@ -420,9 +483,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             return ""
         value_id = node_id("value", f"{owner_name}.{rel_name}")
         verbalizes = "; ".join(rel.get("verbalizes") or [])
-        description = verbalizes or f"{owner_name}.{rel_name} uses {role_concept}."
-        if inherited_from:
-            description = f"Inherited from {inherited_from}. {description}"
+        base_owner_name = inherited_from or owner_name
+        description = rel.get("description") or verbalizes or f"{base_owner_name}.{rel_name} uses {role_concept}."
         properties = relationship_properties(
             owner_name,
             rel_name,
@@ -433,29 +495,34 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 "inherited": bool(inherited_from),
                 "inherited_from": inherited_from,
                 "base_relationship_path": f"{inherited_from}.{rel_name}" if inherited_from else "",
+                "inheritance_note": f"Inherited from {inherited_from}." if inherited_from else "",
             },
         )
         add_node(
             nodes,
             value_id,
             "value_type_property",
-            rel_name,
+            role_concept,
             {
                 "description": description,
                 "parent": owner_id,
                 "data_type": role_concept,
                 "value_concept": role_concept,
+                "field_name": rel_name,
+                "relationship_name": rel_name,
                 **properties,
             },
         )
         catalog[value_id] = {
             "id": value_id,
             "type": "value_type_property",
-            "name": rel_name,
+            "name": role_concept,
             "description": description,
             "parent": owner_id,
             "data_type": role_concept,
             "value_concept": role_concept,
+            "field_name": rel_name,
+            "relationship_name": rel_name,
             "relationship": rel,
             "inherited": bool(inherited_from),
             "inherited_from": inherited_from,
@@ -568,6 +635,16 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 inherited_from=inherited["source_concept"],
             )
 
+    value_relationship_names_by_concept: dict[str, set[str]] = defaultdict(set)
+    for name, entry in declared_concepts.items():
+        concept = entry["concept"]
+        if not is_entity_concept_type(normalized_concept_type(concept)):
+            continue
+        for item in value_relationship_entries(declared_concepts, name):
+            value_relationship_names_by_concept[name].add(item["rel_name"])
+        for item in inherited_value_entries(name):
+            value_relationship_names_by_concept[name].add(item["rel_name"])
+
     for value_concept, usage_ids in value_usages.items():
         unique_ids = sorted(set(usage_ids))
         for idx, source_id in enumerate(unique_ids):
@@ -585,10 +662,12 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
     semantic_models: dict[str, dict[str, Any]] = {}
     dataset_index: dict[str, dict[str, Any]] = {}
     field_index: dict[str, dict[str, Any]] = {}
+    metric_definitions_by_name: dict[str, dict[str, Any]] = {}
 
     for ontology_map in data.get("ontology_mappings") or []:
         sm = ontology_map.get("semantic_model") or {}
         sm_name = sm.get("name", "semantic_model")
+        semantic_metric_names = {metric.get("name") for metric in sm.get("metrics") or [] if metric.get("name")}
         semantic_models[sm_name] = sm
         sm_id = node_id("semantic_model", sm_name)
         map_id = node_id("ontology_map", ontology_map.get("name", f"{sm_name}_map"))
@@ -684,76 +763,22 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
 
         for metric in sm.get("metrics") or []:
             metric_name = metric.get("name")
-            if not metric_name:
-                continue
-            metric_expression = metric.get("expression")
-            refs = expression_refs(metric_expression)
-            source_fields = sorted({f'{ref["dataset"]}.{ref["field"]}' for ref in refs if ref.get("dataset") and ref.get("field")})
-            for dataset_name in sorted({ref["dataset"] for ref in refs if ref.get("dataset")}):
-                table_id = node_id("table", dataset_name)
-                concept_id = node_id("concept", dataset_name)
-                parent_id = table_id if table_id in nodes else concept_id if concept_id in nodes else ""
-                if not parent_id:
-                    continue
-
-                metric_id = node_id("metric_field", f"{dataset_name}.{metric_name}")
-                add_node(
-                    nodes,
-                    metric_id,
-                    "metric_field",
-                    metric_name,
-                    {
-                        "description": metric.get("description", ""),
-                        "parent": parent_id,
-                        "data_type": "metric",
-                        "metric_name": metric_name,
-                        "semantic_model": sm_name,
-                        "expression": expression_text(metric_expression),
-                        "source_fields": source_fields,
-                        "ai_context": metric.get("ai_context"),
-                    },
-                )
-                catalog[metric_id] = {
-                    "id": metric_id,
-                    "type": "metric_field",
-                    "name": metric_name,
-                    "description": metric.get("description", ""),
-                    "parent": parent_id,
-                    "metric": metric,
-                }
-                add_edge(
-                    edges,
-                    parent_id,
-                    metric_id,
-                    "CONTAINS",
-                    "contains metric",
-                    f"{dataset_name} exposes semantic metric {metric_name}.",
-                    {"source_field": "semantic_model.metrics", "metric_name": metric_name, "semantic_model": sm_name},
-                )
-                for field_ref in source_fields:
-                    field_owner, relationship_name = semantic_reference_parts(field_ref)
-                    column_id = column_node_id(field_ref)
-                    value_id = node_id("value", f"{field_owner}.{relationship_name}") if relationship_name else ""
-                    target_id = column_id if column_id in nodes else value_id
-                    if target_id in nodes:
-                        add_edge(
-                            edges,
-                            metric_id,
-                            target_id,
-                            "USES_FIELD",
-                            field_ref,
-                            f"Metric {metric_name} uses field {field_ref}.",
-                            {
-                                "source_field": "semantic_model.metrics.expression",
-                                "metric_name": metric_name,
-                                "expression": expression_text(metric_expression),
-                            },
-                        )
+            if metric_name:
+                metric_definitions_by_name[metric_name] = metric
 
         mapping_tables_by_concept: dict[str, set[str]] = defaultdict(set)
         mapping_fields_by_concept: dict[str, set[str]] = defaultdict(set)
         mapping_value_fields_by_concept: dict[str, set[tuple[str, str]]] = defaultdict(set)
+        mapping_metric_fields_by_concept: dict[str, set[tuple[str, str]]] = defaultdict(set)
+        mapping_metrics_by_concept: dict[str, set[str]] = defaultdict(set)
         mapping_rows_by_concept: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        mapping_context_by_concept_dataset: dict[str, dict[str, list[Any]]] = defaultdict(lambda: defaultdict(list))
+        for annotation in data.get("mapping_edge_annotations") or []:
+            concept_name = annotation.get("concept")
+            dataset_name = annotation.get("dataset")
+            description = annotation.get("description")
+            if concept_name and dataset_name and description:
+                mapping_context_by_concept_dataset[concept_name][dataset_name].append({"description": description})
 
         for concept_mapping in ontology_map.get("concept_mappings") or []:
             concept = concept_mapping.get("concept")
@@ -776,18 +801,38 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     }
                 )
                 for rel_ref in relationship_field_refs(object_mapping):
-                    mapping_value_fields_by_concept[concept].add((rel_ref["relationship"], rel_ref["field"]))
+                    metric_name = metric_reference_name(rel_ref["field"], semantic_metric_names)
+                    if metric_name:
+                        mapping_metric_fields_by_concept[concept].add((rel_ref["relationship"], metric_name))
+                        mapping_metrics_by_concept[concept].add(metric_name)
+                    else:
+                        mapping_value_fields_by_concept[concept].add((rel_ref["relationship"], rel_ref["field"]))
                 for ref in refs:
+                    if ref.get("dataset") == "metric" and ref.get("field") in semantic_metric_names:
+                        mapping_metrics_by_concept[concept].add(ref["field"])
+                        continue
                     mapping_tables_by_concept[concept].add(ref["dataset"])
                     mapping_fields_by_concept[concept].add(f'{ref["dataset"]}.{ref["field"]}')
 
             for link_mapping in concept_mapping.get("link_mappings") or []:
                 rows: list[dict[str, Any]] = []
-                refs = walk_link_mapping(link_mapping, rows)
+                walk_link_mapping(link_mapping, rows)
+                refs, relationship_refs = source_concept_link_refs(
+                    link_mapping,
+                    value_relationship_names_by_concept.get(concept, set()),
+                )
                 mapping_rows_by_concept[concept].extend({"kind": "link_mapping", **row} for row in rows)
-                for rel_ref in relationship_field_refs(link_mapping):
-                    mapping_value_fields_by_concept[concept].add((rel_ref["relationship"], rel_ref["field"]))
+                for rel_ref in relationship_refs:
+                    metric_name = metric_reference_name(rel_ref["field"], semantic_metric_names)
+                    if metric_name:
+                        mapping_metric_fields_by_concept[concept].add((rel_ref["relationship"], metric_name))
+                        mapping_metrics_by_concept[concept].add(metric_name)
+                    else:
+                        mapping_value_fields_by_concept[concept].add((rel_ref["relationship"], rel_ref["field"]))
                 for ref in refs:
+                    if ref.get("dataset") == "metric" and ref.get("field") in semantic_metric_names:
+                        mapping_metrics_by_concept[concept].add(ref["field"])
+                        continue
                     mapping_tables_by_concept[concept].add(ref["dataset"])
                     mapping_fields_by_concept[concept].add(f'{ref["dataset"]}.{ref["field"]}')
 
@@ -796,26 +841,20 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             for dataset_name in sorted(datasets):
                 table_id = node_id("table", dataset_name)
                 if table_id in nodes:
+                    edge_properties = {
+                        "fields": sorted(field for field in mapping_fields_by_concept[concept] if field.startswith(f"{dataset_name}.")),
+                    }
+                    contexts = mapping_context_by_concept_dataset[concept].get(dataset_name) or []
+                    if contexts:
+                        edge_properties["ai_context"] = contexts[0] if len(contexts) == 1 else contexts
                     add_edge(
                         edges,
                         concept_id,
                         table_id,
-                        "MAPPED_TO_TABLE",
+                        "MAPS_TO",
                         "maps to table",
                         f"{concept} is populated from {dataset_name}.",
-                        {"fields": sorted(field for field in mapping_fields_by_concept[concept] if field.startswith(f"{dataset_name}."))},
-                    )
-            for field_ref in sorted(mapping_fields_by_concept[concept]):
-                column_id = node_id("column", field_ref)
-                if column_id in nodes:
-                    add_edge(
-                        edges,
-                        concept_id,
-                        column_id,
-                        "MAPS_TO",
-                        "maps to field",
-                        f"{concept} mapping references {field_ref}.",
-                        {"source_field": "ontology_mappings.concept_mappings"},
+                        edge_properties,
                     )
 
             for relationship, field_ref in sorted(mapping_value_fields_by_concept[concept]):
@@ -835,6 +874,44 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         },
                     )
 
+            for relationship, metric_name in sorted(mapping_metric_fields_by_concept[concept]):
+                value_id = node_id("value", f"{concept}.{relationship}")
+                metric = metric_definitions_by_name.get(metric_name, {})
+                source_fields = sorted({
+                    f'{ref["dataset"]}.{ref["field"]}'
+                    for ref in expression_refs(metric.get("expression"))
+                    if ref.get("dataset") and ref.get("field")
+                })
+                if value_id in nodes:
+                    nodes[value_id].setdefault("properties", {})["calculation_type"] = "metric"
+                    nodes[value_id]["properties"]["semantic_metric"] = metric_name
+                    nodes[value_id]["properties"]["semantic_reference"] = f"metric.{metric_name}"
+                    nodes[value_id]["properties"]["expression"] = expression_text(metric.get("expression"))
+                    nodes[value_id]["properties"]["source_fields"] = source_fields
+                    nodes[value_id]["properties"]["metric"] = metric
+                    if value_id in catalog:
+                        catalog[value_id]["calculation_type"] = "metric"
+                        catalog[value_id]["semantic_metric"] = metric_name
+                        catalog[value_id]["semantic_reference"] = f"metric.{metric_name}"
+                        catalog[value_id]["metric"] = metric
+                    for field_ref in source_fields:
+                        column_id = column_node_id(field_ref)
+                        if column_id in nodes:
+                            add_edge(
+                                edges,
+                                value_id,
+                                column_id,
+                                "DERIVED_BY",
+                                field_ref,
+                                f"Metric-backed field {concept}.{relationship} uses physical field {field_ref}.",
+                                {
+                                    "source_field": "semantic_model.metrics.expression",
+                                    "semantic_metric": metric_name,
+                                    "semantic_reference": f"metric.{metric_name}",
+                                    "expression": expression_text(metric.get("expression")),
+                                },
+                            )
+
             catalog_entry = catalog.setdefault(
                 concept_id,
                 {"id": concept_id, "type": nodes[concept_id]["type"], "name": concept, "mappings": []},
@@ -842,6 +919,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             catalog_entry["mappings"] = mapping_rows_by_concept[concept]
             catalog_entry["mapped_tables"] = sorted(datasets)
             catalog_entry["mapped_fields"] = sorted(mapping_fields_by_concept[concept])
+            catalog_entry["mapped_metrics"] = sorted(mapping_metrics_by_concept[concept])
 
     semantic_metric_names = {
         metric.get("name")
@@ -881,10 +959,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             name,
             {
                 "description": requirement.get("description", ""),
-                "regulator": requirement.get("regulator", ""),
-                "regulation": requirement.get("regulation", ""),
-                "reporting_frequency": requirement.get("reporting_frequency", ""),
-                "reporting_grain": requirement.get("reporting_grain") or {},
+                "source": requirement.get("source") or "",
+                "SLA": requirement.get("SLA") or "",
             },
         )
         catalog[requirement_id] = {
@@ -892,10 +968,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             "type": "regulatory_requirement",
             "name": name,
             "description": requirement.get("description", ""),
-            "regulator": requirement.get("regulator"),
-            "regulation": requirement.get("regulation"),
-            "reporting_frequency": requirement.get("reporting_frequency"),
-            "reporting_grain": requirement.get("reporting_grain"),
+            "source": requirement.get("source"),
+            "SLA": requirement.get("SLA"),
             "semantic_scope": semantic_scope,
             "required_fields": semantic_scope.get("required_fields") or [],
             "calculations": requirement.get("calculations") or [],
@@ -903,9 +977,6 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
         }
 
         required_concepts = set(semantic_scope.get("concepts") or [])
-        grain_concept = (requirement.get("reporting_grain") or {}).get("concept")
-        if grain_concept:
-            required_concepts.add(grain_concept)
         for rel in semantic_scope.get("relationships") or []:
             required_concepts.update([rel.get("source"), rel.get("target")])
         for field in semantic_scope.get("required_fields") or []:
@@ -919,8 +990,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     requirement_id,
                     concept_id,
                     "REQUIRES_CONCEPT",
-                    "requires concept",
-                    f"{name} requires semantic concept {concept_name}.",
+                    "REQUIRES_CONCEPT",
+                    requirement.get("description", ""),
                     {"source_field": "reporting_requirements.semantic_scope.concepts"},
                 )
 
@@ -949,31 +1020,34 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "purpose": rel.get("purpose"),
                 },
             )
-            add_edge(edges, requirement_id, item_id, "CONTAINS", "requires relationship", rel_description)
+            add_edge(edges, requirement_id, item_id, "CONTAINS", "CONTAINS", rel_description)
             if source_id:
-                add_edge(edges, item_id, source_id, "REQUIRES_SEMANTIC_RELATIONSHIP", rel_name, rel_description)
+                add_edge(edges, item_id, source_id, "REQUIRES_SEMANTIC_RELATIONSHIP", "REQUIRES_SEMANTIC_RELATIONSHIP", rel_description)
             if target_id:
-                add_edge(edges, item_id, target_id, "REQUIRES_SEMANTIC_RELATIONSHIP", rel_name, rel_description)
+                add_edge(edges, item_id, target_id, "REQUIRES_SEMANTIC_RELATIONSHIP", "REQUIRES_SEMANTIC_RELATIONSHIP", rel_description)
 
         for field in semantic_scope.get("required_fields") or []:
-            item_name = field.get("name") or field.get("semantic_reference") or field.get("relationship")
-            item_id = node_id("requirement_item", f"{name}.{item_name}")
-            semantic_ref = normalize_semantic_reference(field.get("semantic_reference") or f"{field.get('concept')}.{field.get('relationship')}")
+            item_name = field.get("name") or field.get("semantic_reference")
+            semantic_ref = normalize_semantic_reference(field.get("semantic_reference") or "")
+            item_id = node_id("requirement_item", f"{name}.{semantic_ref or item_name}")
+            concept_name, relationship_name = semantic_reference_parts(semantic_ref)
+            semantic_node = semantic_reference_node(semantic_ref)
+            semantic_props = nodes.get(semantic_node, {}).get("properties", {}) if semantic_node else {}
+            value_concept = semantic_props.get("value_concept") or semantic_props.get("data_type")
             add_node(
                 nodes,
                 item_id,
                 "requirement_semantic_item",
-                semantic_ref,
+                item_name or semantic_ref,
                 {
                     "parent": requirement_id,
-                    "description": field.get("purpose") or field.get("rule") or f"{name} requires {semantic_ref}.",
-                    "data_type": field.get("value_concept") or "semantic field",
+                    "description": field.get("description") or field.get("rule") or f"{name} requires {semantic_ref}.",
+                    "data_type": value_concept or "semantic field",
                     "semantic_reference": semantic_ref,
-                    "value_concept": field.get("value_concept"),
-                    "source_concept": field.get("concept"),
-                    "relationship": field.get("relationship"),
+                    "value_concept": value_concept,
+                    "source_concept": concept_name,
+                    "relationship": relationship_name,
                     "required": field.get("required"),
-                    "purpose": field.get("purpose"),
                     "rule": field.get("rule"),
                 },
             )
@@ -981,27 +1055,26 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 "id": item_id,
                 "type": "requirement_semantic_item",
                 "name": item_name,
-                "description": field.get("purpose") or field.get("rule") or "",
+                "description": field.get("description") or field.get("purpose") or field.get("rule") or "",
                 "parent": requirement_id,
                 "semantic_reference": semantic_ref,
                 "required_field": field,
             }
             requirement_field_ids[name][item_name] = item_id
-            add_edge(edges, requirement_id, item_id, "CONTAINS", "requires field", f"{name} requires {semantic_ref}.")
-            semantic_node = semantic_reference_node(semantic_ref)
+            add_edge(edges, requirement_id, item_id, "CONTAINS", "CONTAINS", field.get("description") or "")
             if semantic_node:
                 add_edge(
                     edges,
                     item_id,
                     semantic_node,
                     "REQUIRES_SEMANTIC_FIELD",
-                    semantic_ref,
-                    field.get("purpose") or f"{name} requires semantic field {semantic_ref}.",
+                    "REQUIRES_SEMANTIC_FIELD",
+                    field.get("description") or "",
                     {"required_field": field},
                 )
 
         for calc in requirement.get("calculations") or []:
-            calc_id = node_id("requirement_item", f"{name}.{calc.get('name', 'calculation')}")
+            calc_id = node_id("requirement_item", f"{name}.{normalize_semantic_reference(calc.get('output') or calc.get('name', 'calculation'))}")
             add_node(
                 nodes,
                 calc_id,
@@ -1017,13 +1090,15 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 },
             )
             requirement_field_ids[name][calc.get("name", "calculation")] = calc_id
-            add_edge(edges, requirement_id, calc_id, "CONTAINS", "requires calculation", calc.get("description", ""))
+            if calc.get("output"):
+                requirement_field_ids[name][calc.get("output")] = calc_id
+            add_edge(edges, requirement_id, calc_id, "CONTAINS", "CONTAINS", calc.get("description", ""))
             for input_ref in calc.get("inputs") or []:
                 semantic_node = semantic_reference_node(input_ref)
                 if semantic_node:
-                    add_edge(edges, calc_id, semantic_node, "USES_SEMANTIC_INPUT", input_ref, f"{calc.get('name')} uses {input_ref}.")
+                    add_edge(edges, calc_id, semantic_node, "DERIVED_FROM", "DERIVED_FROM", calc.get("description", ""))
 
-    for implementation in data.get("report_implementations") or []:
+    for implementation in data.get("report_data_logic") or []:
         name = implementation.get("name")
         if not name:
             continue
@@ -1035,8 +1110,6 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             name,
             {
                 "description": implementation.get("description", ""),
-                "owner": implementation.get("owner", ""),
-                "schedule": implementation.get("schedule", ""),
                 "implements": implementation.get("implements", ""),
             },
         )
@@ -1045,10 +1118,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             "type": "report_implementation",
             "name": name,
             "description": implementation.get("description", ""),
-            "owner": implementation.get("owner"),
-            "schedule": implementation.get("schedule"),
             "implements": implementation.get("implements"),
-            "output_datasets": implementation.get("output_datasets") or [],
+            "field_mappings": implementation.get("field_mappings") or [],
             "source_fields": implementation.get("source_fields") or [],
         }
         requirement_id = requirement_ids.get(implementation.get("implements", ""))
@@ -1058,119 +1129,110 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 implementation_id,
                 requirement_id,
                 "IMPLEMENTS",
-                "implements",
-                f"{name} implements {implementation.get('implements')}.",
+                "IMPLEMENTS",
+                implementation.get("description", ""),
             )
 
-        output_field_refs: set[str] = set()
-        for dataset in implementation.get("output_datasets") or []:
-            dataset_name = dataset.get("dataset")
-            table_id = node_id("table", dataset_name or "")
+        source_table_descriptions: dict[str, list[str]] = defaultdict(list)
+        source_table_fields: dict[str, set[str]] = defaultdict(set)
+
+        def remember_source_table(field_ref: str, description: str) -> None:
+            if not field_ref or "." not in str(field_ref):
+                return
+            dataset = str(field_ref).split(".", 1)[0]
+            source_table_fields[dataset].add(str(field_ref))
+            if description and description not in source_table_descriptions[dataset]:
+                source_table_descriptions[dataset].append(description)
+
+        for field in implementation.get("field_mappings") or []:
+            field_name = field.get("name")
+            field_description = field.get("description") or ""
+            dataset_name = field.get("dataset")
+            dataset_field_name = field.get("dataset_field") or field.get("field") or field.get("name")
+            field_ref = f"{dataset_name}.{dataset_field_name}" if dataset_name and dataset_field_name else ""
+            binding_id = node_id("implementation_field", field_ref or f"{name}.{field_name}")
+            expression = field.get("expression")
+            expression = expression if expression is not None else field.get("source_field", "")
+            expression_value = expression_text(expression)
+            expression_field_refs = sorted(
+                {
+                    f'{ref["dataset"]}.{ref["field"]}'
+                    for ref in expression_refs(expression)
+                    if ref.get("dataset") and ref.get("field")
+                }
+            )
+            add_node(
+                nodes,
+                binding_id,
+                "implementation_field_binding",
+                field_name or field_ref,
+                {
+                    "parent": implementation_id,
+                    "description": field_description,
+                    "data_type": "logic field",
+                    "binding_role": "logic field",
+                    "dataset": dataset_name,
+                    "field": field_name,
+                    "dataset_field": field_ref,
+                    "requirement_field": field.get("requirement_field"),
+                    "source_field": field.get("source_field"),
+                    "expression": expression_value,
+                    "expression_fields": expression_field_refs,
+                },
+            )
+            catalog[binding_id] = {
+                "id": binding_id,
+                "type": "implementation_field_binding",
+                "name": field_name or field_ref,
+                "description": field_description,
+                "parent": implementation_id,
+                "implementation_field": field,
+            }
+            add_edge(edges, implementation_id, binding_id, "CONTAINS", "CONTAINS", field_description)
+            if field_ref and column_node_id(field_ref) in nodes:
+                add_edge(edges, binding_id, column_node_id(field_ref), "MAPS_TO_FIELD", "MAPS_TO_FIELD", field_description)
+            read_refs = {ref for ref in expression_field_refs if ref != field_ref}
+            source_ref = field.get("source_field")
+            if source_ref:
+                remember_source_table(source_ref, field_description)
+            for expr_ref in expression_field_refs:
+                remember_source_table(expr_ref, field_description)
+            if field_ref and not expression_field_refs and not source_ref:
+                remember_source_table(field_ref, field_description)
+            if source_ref and source_ref != field_ref:
+                read_refs.add(source_ref)
+            for read_ref in sorted(read_refs):
+                if read_ref and column_node_id(read_ref) in nodes:
+                    add_edge(edges, binding_id, column_node_id(read_ref), "SOURCE_FIELD", "SOURCE_FIELD", field_description)
+            implemented_requirement = requirement_field_ids.get(implementation.get("implements", ""), {}).get(field.get("requirement_field", ""))
+            if implemented_requirement:
+                add_edge(
+                    edges,
+                    binding_id,
+                    implemented_requirement,
+                    "IMPLEMENTS_FIELD",
+                    "IMPLEMENTS_FIELD",
+                    field_description,
+                    {
+                        "requirement": implementation.get("implements", ""),
+                        "requirement_field": field.get("requirement_field"),
+                        "expression": expression_value,
+                    },
+                )
+        for field_ref in implementation.get("source_fields") or []:
+            remember_source_table(str(field_ref), "")
+        for dataset_name in sorted(source_table_fields):
+            table_id = node_id("table", dataset_name)
             if table_id in nodes:
                 add_edge(
                     edges,
                     implementation_id,
                     table_id,
-                    "MATERIALIZED_AS",
-                    dataset.get("role", "output"),
-                    f"{name} materializes {dataset_name} as {dataset.get('role', 'output')} dataset.",
-                    {"dataset_role": dataset.get("role")},
+                    "SOURCE_TABLE",
+                    "SOURCE_TABLE",
+                    "；".join(source_table_descriptions.get(dataset_name) or []),
+                    {"source_fields": sorted(source_table_fields[dataset_name])},
                 )
-            for field in dataset.get("fields") or []:
-                field_ref = f"{dataset_name}.{field.get('name')}"
-                output_field_refs.add(field_ref)
-                binding_id = node_id("implementation_field", f"{name}.{field_ref}")
-                semantic_ref = normalize_semantic_reference(field.get("semantic_reference", ""))
-                expression = field.get("expression")
-                expression = expression if expression is not None else field.get("source_field", "")
-                expression_value = expression_text(expression)
-                expression_field_refs = sorted(
-                    {
-                        f'{ref["dataset"]}.{ref["field"]}'
-                        for ref in expression_refs(expression)
-                        if ref.get("dataset") and ref.get("field")
-                    }
-                )
-                add_node(
-                    nodes,
-                    binding_id,
-                    "implementation_field_binding",
-                    field_ref,
-                    {
-                        "parent": implementation_id,
-                        "description": field.get("purpose") or f"{name} outputs {field_ref}.",
-                        "data_type": dataset.get("role", "output field"),
-                        "binding_role": dataset.get("role", "output"),
-                        "dataset": dataset_name,
-                        "field": field.get("name"),
-                        "dataset_field": field_ref,
-                        "requirement_field": field.get("requirement_field"),
-                        "semantic_reference": semantic_ref,
-                        "source_field": field.get("source_field"),
-                        "expression": expression_value,
-                        "expression_fields": expression_field_refs,
-                    },
-                )
-                catalog[binding_id] = {
-                    "id": binding_id,
-                    "type": "implementation_field_binding",
-                    "name": field_ref,
-                    "description": field.get("purpose") or "",
-                    "parent": implementation_id,
-                    "implementation_field": field,
-                }
-                add_edge(edges, implementation_id, binding_id, "CONTAINS", "outputs field", f"{name} outputs {field_ref}.")
-                column_id = column_node_id(field_ref)
-                if column_id in nodes:
-                    add_edge(edges, binding_id, column_id, "MATERIALIZES_FIELD", field_ref, f"{name} materializes field {field_ref}.")
-                read_refs = {field_ref for field_ref in expression_field_refs}
-                source_ref = field.get("source_field")
-                if source_ref:
-                    read_refs.add(source_ref)
-                for read_ref in sorted(read_refs):
-                    if read_ref and column_node_id(read_ref) in nodes:
-                        add_edge(edges, binding_id, column_node_id(read_ref), "READS_FIELD", read_ref, f"{field_ref} reads {read_ref}.")
-                implemented_requirement = requirement_field_ids.get(implementation.get("implements", ""), {}).get(field.get("requirement_field", ""))
-                if implemented_requirement:
-                    add_edge(
-                        edges,
-                        binding_id,
-                        implemented_requirement,
-                        "IMPLEMENTS_REQUIREMENT_FIELD",
-                        field.get("requirement_field", ""),
-                        f"{field_ref} implements requirement field {field.get('requirement_field')}.",
-                        {
-                            "requirement": implementation.get("implements", ""),
-                            "requirement_field": field.get("requirement_field"),
-                            "semantic_reference": semantic_ref,
-                            "expression": expression_value,
-                        },
-                    )
-        for field_ref in implementation.get("source_fields") or []:
-            dataset_name = str(field_ref).split(".", 1)[0]
-            table_id = node_id("table", dataset_name)
-            if table_id in nodes:
-                add_edge(edges, implementation_id, table_id, "READS_FROM", "reads from", f"{name} reads source dataset {dataset_name}.")
-            binding_id = node_id("implementation_field", f"{name}.source.{field_ref}")
-            add_node(
-                nodes,
-                binding_id,
-                "implementation_field_binding",
-                field_ref,
-                {
-                    "parent": implementation_id,
-                    "description": f"{name} reads source field {field_ref}.",
-                    "data_type": "source field",
-                    "binding_role": "source",
-                    "dataset": dataset_name,
-                    "field": str(field_ref).split(".", 1)[1] if "." in str(field_ref) else field_ref,
-                    "dataset_field": field_ref,
-                },
-            )
-            add_edge(edges, implementation_id, binding_id, "CONTAINS", "reads field", f"{name} reads {field_ref}.")
-            column_id = column_node_id(field_ref)
-            if column_id in nodes:
-                add_edge(edges, binding_id, column_id, "READS_FIELD", field_ref, f"{name} reads field {field_ref}.")
 
     graph = {"nodes": list(nodes.values()), "edges": list(edges.values())}
 
@@ -1193,10 +1255,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
         "ontology": data.get("name"),
         "semantic_models": list(semantic_models),
         "entity_type_concepts": sum(1 for entry in declared_concepts.values() if normalized_concept_type(entry["concept"]) == "EntityType"),
-        "base_entity_concepts": len(extended_concept_names),
+        "base_entity_concepts": len(base_entity_names),
         "value_type_concepts": sum(1 for entry in declared_concepts.values() if normalized_concept_type(entry["concept"]) == "ValueType"),
         "regulatory_requirements": sum(1 for n in graph["nodes"] if n["type"] == "regulatory_requirement"),
-        "report_implementations": sum(1 for n in graph["nodes"] if n["type"] == "report_implementation"),
+        "report_data_logic": sum(1 for n in graph["nodes"] if n["type"] == "report_implementation"),
         "physical_tables": sum(1 for n in graph["nodes"] if n["type"] == "physical_table"),
         "edges": len(graph["edges"]),
     }
@@ -1225,7 +1287,7 @@ def main() -> None:
     app_metadata_path = resolve_path(args.app_metadata, ROOT).resolve()
     if app_metadata_path.exists():
         app_metadata = yaml.safe_load(app_metadata_path.read_text(encoding="utf-8")) or {}
-        for key in ("reporting_requirements", "report_implementations"):
+        for key in ("reporting_requirements", "report_data_logic", "mapping_edge_annotations"):
             if key in app_metadata:
                 data[key] = app_metadata[key]
     graph, catalog, meta = compile_catalog_and_graph(data)
@@ -1257,6 +1319,24 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,42 @@
+name: margin_accounts
+source: margin_core.margin_accounts
+primary_key:
+- account_id
+description: Margin account records that track collateralized account obligations,
+  account status, base currency, and the linked counterparty used for margin reporting.
+physical_kind: table
+fields:
+- name: account_id
+  type: string
+  nullable: false
+  description: Stable identifier for a margin account record at account grain.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: account_id
+- name: counterparty_id
+  type: string
+  nullable: false
+  description: Identifier of the legal counterparty responsible for the margin account.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: counterparty_id
+- name: base_currency
+  type: string
+  nullable: false
+  description: Currency in which the margin account obligation is primarily managed
+    and reported.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: base_currency
+- name: account_status
+  type: string
+  nullable: false
+  description: Operational status of the margin account used to determine reporting
+    eligibility.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: account_status

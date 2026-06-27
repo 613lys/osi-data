@@ -1,0 +1,16 @@
+mapping_edge_annotations:
+- concept: Loan
+  dataset: retail_loans
+  description: Retail loan source population mapped as Loan entity records for consumer lending exposures.
+- concept: Loan
+  dataset: institutional_loans
+  description: Institutional facility source population mapped as Loan entity records for wholesale lending exposures.
+- concept: Loan
+  dataset: loan_exposure_report_lines
+  description: Prepared report-line population mapped back to Loan entity records for regulatory exposure presentation.
+- concept: Borrower
+  dataset: borrowers
+  description: Borrower master population mapped as Borrower entity records used by loan exposure reporting.
+- concept: LoanProduct
+  dataset: loan_products
+  description: Product reference population mapped as LoanProduct entity records used for regulatory product classification.

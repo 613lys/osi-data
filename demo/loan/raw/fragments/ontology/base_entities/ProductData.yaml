@@ -1,0 +1,12 @@
+name: ProductData
+description: Base concept for product-like records with common product identifiers.
+identify_by:
+- has_ProductIdentifier
+relationships:
+- name: has_ProductIdentifier
+  roles:
+  - concept: ProductIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{ProductData} has product identifier {ProductIdentifier}"
+  description: Product identifier common to product-like records.

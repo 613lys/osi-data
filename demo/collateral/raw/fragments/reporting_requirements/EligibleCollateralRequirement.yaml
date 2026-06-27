@@ -1,0 +1,52 @@
+name: 合格抵质押品报送需求
+type: ReportRequirement
+description: >
+  监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。
+source: Collateral Margin Reporting BRD v1.0 section 3.2
+SLA: Daily EOD before 21:00 local time; business review and exception notes completed before submission.
+semantic_scope:
+  concepts:
+  - MarginAccount
+  - Counterparty
+  - CollateralAsset
+  - CollateralValuation
+  required_fields:
+  - name: 保证金账户标识
+    description: 需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。
+    semantic_reference: MarginAccount.has_AccountIdentifier
+    required: true
+  - name: 交易对手标识
+    description: 需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。
+    semantic_reference: Counterparty.has_CounterpartyIdentifier
+    required: true
+  - name: 抵质押品标识
+    description: 需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。
+    semantic_reference: CollateralAsset.has_CollateralIdentifier
+    required: true
+  - name: 估值日期
+    description: 需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。
+    semantic_reference: CollateralValuation.has_ValuationDate
+    required: true
+  - name: 抵质押品折扣前市场价值
+    description: 需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。
+    semantic_reference: CollateralValuation.has_MarketValueAmount
+    required: true
+  - name: 监管折扣率
+    description: 需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。
+    semantic_reference: CollateralValuation.has_HaircutRate
+    required: true
+  controls:
+  - name: valuation_date_present
+    target: CollateralValuation.has_ValuationDate
+    rule: Valuation date must be present.
+  - name: haircut_non_negative
+    target: CollateralValuation.has_HaircutRate
+    rule: Haircut rate must be greater than or equal to zero.
+calculations:
+- name: 折扣后合格抵质押品价值
+  description: 需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。
+  output: CollateralValuation.has_EligibleCollateralValue
+  inputs:
+  - CollateralValuation.has_MarketValueAmount
+  - CollateralValuation.has_HaircutRate
+  expression: CollateralValuation.has_MarketValueAmount * (1 - CollateralValuation.has_HaircutRate)

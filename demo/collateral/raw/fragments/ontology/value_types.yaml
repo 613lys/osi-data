@@ -1,0 +1,26 @@
+- name: AccountIdentifier
+  description: Identifier value assigned to an account.
+- name: CounterpartyIdentifier
+  description: Identifier value assigned to a counterparty.
+- name: CollateralIdentifier
+  description: Identifier value assigned to a collateral asset.
+- name: ValuationIdentifier
+  description: Identifier value assigned to a valuation record.
+- name: CurrencyCode
+  description: Code value that identifies a currency.
+- name: CountryCode
+  description: Code value that identifies a country or jurisdiction.
+- name: MonetaryAmount
+  description: Decimal numeric value representing an amount of money.
+- name: Rate
+  description: Decimal numeric value representing a ratio or percentage.
+- name: StatusCode
+  description: Code value representing a lifecycle or operational status.
+- name: LegalName
+  description: Text value representing a legal entity name.
+- name: RegulatorySegment
+  description: Classification value representing a regulatory segment.
+- name: AssetType
+  description: Classification value representing a collateral asset category.
+- name: Date
+  description: Calendar date value.

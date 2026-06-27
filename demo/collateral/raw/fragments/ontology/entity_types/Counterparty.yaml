@@ -1,0 +1,13 @@
+name: Counterparty
+description: Legal entity that owns margin accounts and posts collateral.
+extends:
+- CounterpartyData
+identify_by:
+- has_CounterpartyIdentifier
+relationships:
+- name: RELATED_TO_MarginAccount
+  roles:
+  - concept: MarginAccount
+  verbalizes:
+  - '{Counterparty} is related to {MarginAccount} through account ownership or control'
+  description: Margin accounts owned or controlled by the counterparty.

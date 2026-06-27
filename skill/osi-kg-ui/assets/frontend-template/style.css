@@ -811,6 +811,23 @@ p {
 .graph-node.db-node::before {
   background: #159947;
 }
+.graph-node.requirement-node {
+  border-color: #fed7aa;
+  background: linear-gradient(90deg, #fff7ed 0%, #ffffff 58%);
+}
+
+.graph-node.requirement-node::before {
+  background: #c2410c;
+}
+
+.graph-node.data-logic-node {
+  border-color: #ddd6fe;
+  background: linear-gradient(90deg, #faf5ff 0%, #ffffff 58%);
+}
+
+.graph-node.data-logic-node::before {
+  background: #9333ea;
+}
 
 .graph-node.dragging {
   cursor: grabbing;
@@ -902,6 +919,15 @@ p {
 .node-kind-badge.other {
   color: #475467;
   background: #eef2f7;
+}
+.node-kind-badge.requirement {
+  color: #c2410c;
+  background: #ffedd5;
+}
+
+.node-kind-badge.data-logic {
+  color: #7e22ce;
+  background: #f3e8ff;
 }
 
 .node-title strong {
@@ -1086,4 +1112,6 @@ p {
     display: none;
   }
 }
+
+
 

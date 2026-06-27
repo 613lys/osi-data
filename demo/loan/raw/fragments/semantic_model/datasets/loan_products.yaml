@@ -1,0 +1,31 @@
+name: loan_products
+source: product_master.loan_products
+primary_key:
+- product_id
+description: Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures.
+physical_kind: table
+fields:
+- name: product_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: product_id
+  description: Master product identifier for a lending product.
+- name: product_type
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: product_type
+  description: Lending product type such as mortgage, term loan, revolving credit, or credit line.
+- name: regulatory_product_class
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: regulatory_product_class
+  description: Regulatory product class used for credit exposure aggregation.

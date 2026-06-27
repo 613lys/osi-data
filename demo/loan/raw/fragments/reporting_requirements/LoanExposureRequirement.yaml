@@ -1,0 +1,47 @@
+name: 贷款风险暴露报送需求
+type: ReportRequirement
+description: 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。
+source: Loan Credit Exposure Reporting BRD v1.0 section 5.2
+SLA: Daily EOD before 22:00 local time; credit risk review completed before regulatory submission.
+semantic_scope:
+  concepts:
+  - Loan
+  - Borrower
+  - LoanProduct
+  required_fields:
+  - name: 贷款标识
+    description: 需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。
+    semantic_reference: Loan.has_LoanIdentifier
+    required: true
+  - name: 借款人标识
+    description: 需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。
+    semantic_reference: Borrower.has_CustomerIdentifier
+    required: true
+  - name: 产品标识
+    description: 需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。
+    semantic_reference: LoanProduct.has_ProductIdentifier
+    required: true
+  - name: 本金金额
+    description: 需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。
+    semantic_reference: Loan.has_PrincipalAmount
+    required: true
+  - name: 风险暴露金额
+    description: 需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。
+    semantic_reference: Loan.has_ExposureAtDefaultAmount
+    required: true
+  controls:
+  - name: loan_identifier_present
+    target: Loan.has_LoanIdentifier
+    rule: Loan identifier must be present for every report line.
+  - name: borrower_identifier_present
+    target: Borrower.has_CustomerIdentifier
+    rule: Borrower identifier must be present for every report line.
+calculations:
+- name: 预期损失金额
+  description: 需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。
+  output: Loan.has_ExpectedLossAmount
+  inputs:
+  - Loan.has_ExposureAtDefaultAmount
+  - Loan.has_ProbabilityOfDefault
+  - Loan.has_LossGivenDefault
+  expression: Loan.has_ExposureAtDefaultAmount * Loan.has_ProbabilityOfDefault * Loan.has_LossGivenDefault

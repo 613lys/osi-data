@@ -1,0 +1,37 @@
+concept: CollateralValuation
+object_mappings:
+- referent_mappings:
+  - relationship: has_ValuationIdentifier
+    expression: collateral_valuations.valuation_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_ValuationIdentifier
+      expression: collateral_valuations.valuation_id
+  children:
+  - relationship: has_ValuationIdentifier
+    object_mapping:
+      concept: ValuationIdentifier
+      expression: collateral_valuations.valuation_id
+  - relationship: has_ValuationDate
+    object_mapping:
+      concept: Date
+      expression: collateral_valuations.valuation_date
+  - relationship: has_MarketValueAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: collateral_valuations.market_value_amount
+  - relationship: has_HaircutRate
+    object_mapping:
+      concept: Rate
+      expression: collateral_valuations.haircut_rate
+  - relationship: has_EligibleCollateralValue
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.eligible_collateral_value
+  - relationship: VALUES_CollateralAsset
+    object_mapping:
+      concept: CollateralAsset
+      referent_mappings:
+      - relationship: has_CollateralIdentifier
+        expression: collateral_valuations.collateral_id

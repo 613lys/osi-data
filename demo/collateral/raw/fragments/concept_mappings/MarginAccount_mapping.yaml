@@ -1,0 +1,47 @@
+concept: MarginAccount
+object_mappings:
+- referent_mappings:
+  - relationship: has_AccountIdentifier
+    expression: margin_accounts.account_id
+- referent_mappings:
+  - relationship: has_AccountIdentifier
+    expression: collateral_margin_report_lines.account_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_AccountIdentifier
+      expression: margin_accounts.account_id
+  children:
+  - relationship: has_AccountIdentifier
+    object_mapping:
+      concept: AccountIdentifier
+      expression: margin_accounts.account_id
+  - relationship: REFERENCES_Counterparty
+    object_mapping:
+      concept: Counterparty
+      referent_mappings:
+      - relationship: has_CounterpartyIdentifier
+        expression: margin_accounts.counterparty_id
+  - relationship: has_BaseCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: margin_accounts.base_currency
+  - relationship: has_AccountStatus
+    object_mapping:
+      concept: StatusCode
+      expression: margin_accounts.account_status
+  - relationship: DEPENDS_ON_CollateralAsset
+    object_mapping:
+      concept: CollateralAsset
+      referent_mappings:
+      - relationship: has_CollateralIdentifier
+        expression: collateral_positions.collateral_id
+- object_mapping:
+    referent_mappings:
+    - relationship: has_AccountIdentifier
+      expression: collateral_margin_report_lines.account_id
+  children:
+  - relationship: has_AccountIdentifier
+    object_mapping:
+      concept: AccountIdentifier
+      expression: collateral_margin_report_lines.account_id

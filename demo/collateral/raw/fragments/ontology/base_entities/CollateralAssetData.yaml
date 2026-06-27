@@ -1,0 +1,34 @@
+name: CollateralAssetData
+description: Base concept for collateral asset records with common collateral identifiers
+  and classification fields.
+identify_by:
+- has_CollateralIdentifier
+relationships:
+- name: has_CollateralIdentifier
+  roles:
+  - concept: CollateralIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - '{CollateralAssetData} has collateral identifier {CollateralIdentifier}'
+  description: Identifier common to collateral asset records.
+- name: has_AssetType
+  roles:
+  - concept: AssetType
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CollateralAssetData} has asset type {AssetType}'
+  description: Asset type common to collateral asset records.
+- name: has_AssetCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CollateralAssetData} has currency {CurrencyCode}'
+  description: Currency common to collateral asset records.
+- name: has_IssuerCountry
+  roles:
+  - concept: CountryCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CollateralAssetData} has issuer country {CountryCode}'
+  description: Issuer country common to collateral asset records.

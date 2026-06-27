@@ -1,0 +1,37 @@
+name: CollateralValuation
+description: Daily valuation record for collateral after market close.
+extends:
+- ValuationData
+identify_by:
+- has_ValuationIdentifier
+relationships:
+- name: VALUES_CollateralAsset
+  roles:
+  - concept: CollateralAsset
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CollateralValuation} values {CollateralAsset}'
+  description: Collateral asset whose market value and haircut are measured by this
+    valuation.
+- name: has_MarketValueAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CollateralValuation} has market value amount {MonetaryAmount}'
+  description: Gross market value before haircut.
+- name: has_HaircutRate
+  roles:
+  - concept: Rate
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CollateralValuation} has haircut rate {Rate}'
+  description: Haircut rate applied to the collateral valuation.
+- name: has_EligibleCollateralValue
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CollateralValuation} has eligible collateral value {MonetaryAmount}'
+  description: Market value after haircut represented as an entity-level calculated
+    collateral valuation amount.

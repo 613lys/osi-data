@@ -1,0 +1,45 @@
+concept: CollateralAsset
+object_mappings:
+- referent_mappings:
+  - relationship: has_CollateralIdentifier
+    expression: collateral_positions.collateral_id
+- referent_mappings:
+  - relationship: has_CollateralIdentifier
+    expression: collateral_margin_report_lines.collateral_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CollateralIdentifier
+      expression: collateral_positions.collateral_id
+  children:
+  - relationship: has_CollateralIdentifier
+    object_mapping:
+      concept: CollateralIdentifier
+      expression: collateral_positions.collateral_id
+  - relationship: has_AssetType
+    object_mapping:
+      concept: AssetType
+      expression: collateral_positions.asset_type
+  - relationship: has_AssetCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: collateral_positions.currency
+  - relationship: has_IssuerCountry
+    object_mapping:
+      concept: CountryCode
+      expression: collateral_positions.issuer_country
+  - relationship: PART_OF_MarginAccount
+    object_mapping:
+      concept: MarginAccount
+      referent_mappings:
+      - relationship: has_AccountIdentifier
+        expression: collateral_positions.account_id
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CollateralIdentifier
+      expression: collateral_margin_report_lines.collateral_id
+  children:
+  - relationship: has_CollateralIdentifier
+    object_mapping:
+      concept: CollateralIdentifier
+      expression: collateral_margin_report_lines.collateral_id

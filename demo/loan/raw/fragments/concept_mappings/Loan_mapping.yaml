@@ -1,0 +1,147 @@
+concept: Loan
+object_mappings:
+- referent_mappings:
+  - relationship: has_LoanIdentifier
+    expression: retail_loans.loan_id
+- referent_mappings:
+  - relationship: has_LoanIdentifier
+    expression: institutional_loans.facility_id
+- referent_mappings:
+  - relationship: has_LoanIdentifier
+    expression: loan_exposure_report_lines.loan_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_LoanIdentifier
+      expression: retail_loans.loan_id
+  children:
+  - relationship: has_LoanIdentifier
+    object_mapping:
+      concept: LoanIdentifier
+      expression: retail_loans.loan_id
+  - relationship: has_OriginationDate
+    object_mapping:
+      concept: CalendarDate
+      expression: retail_loans.origination_date
+  - relationship: REFERENCES_Borrower
+    object_mapping:
+      concept: Borrower
+      referent_mappings:
+      - relationship: has_CustomerIdentifier
+        expression: retail_loans.borrower_id
+  - relationship: REFERENCES_LoanProduct
+    object_mapping:
+      concept: LoanProduct
+      referent_mappings:
+      - relationship: has_ProductIdentifier
+        expression: retail_loans.product_id
+  - relationship: has_PrincipalAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: retail_loans.principal_amount
+  - relationship: has_LoanCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: retail_loans.currency
+  - relationship: has_ExposureAtDefaultAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: retail_loans.principal_amount
+  - relationship: has_ProbabilityOfDefault
+    object_mapping:
+      concept: Rate
+      expression: retail_loans.pd
+  - relationship: has_LossGivenDefault
+    object_mapping:
+      concept: Rate
+      expression: retail_loans.lgd
+  - relationship: has_ExpectedLossAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.expected_loss_amount
+- object_mapping:
+    referent_mappings:
+    - relationship: has_LoanIdentifier
+      expression: institutional_loans.facility_id
+  children:
+  - relationship: has_LoanIdentifier
+    object_mapping:
+      concept: LoanIdentifier
+      expression: institutional_loans.facility_id
+  - relationship: has_OriginationDate
+    object_mapping:
+      concept: CalendarDate
+      expression: institutional_loans.booking_date
+  - relationship: REFERENCES_Borrower
+    object_mapping:
+      concept: Borrower
+      referent_mappings:
+      - relationship: has_CustomerIdentifier
+        expression: institutional_loans.legal_entity_id
+  - relationship: REFERENCES_LoanProduct
+    object_mapping:
+      concept: LoanProduct
+      referent_mappings:
+      - relationship: has_ProductIdentifier
+        expression: institutional_loans.product_code
+  - relationship: has_PrincipalAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: institutional_loans.notional_amount
+  - relationship: has_LoanCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: institutional_loans.exposure_currency
+  - relationship: has_ExposureAtDefaultAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: institutional_loans.notional_amount
+  - relationship: has_ProbabilityOfDefault
+    object_mapping:
+      concept: Rate
+      expression: institutional_loans.probability_default
+  - relationship: has_LossGivenDefault
+    object_mapping:
+      concept: Rate
+      expression: institutional_loans.loss_given_default
+  - relationship: has_ExpectedLossAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.expected_loss_amount
+- object_mapping:
+    referent_mappings:
+    - relationship: has_LoanIdentifier
+      expression: loan_exposure_report_lines.loan_id
+  children:
+  - relationship: has_LoanIdentifier
+    object_mapping:
+      concept: LoanIdentifier
+      expression: loan_exposure_report_lines.loan_id
+  - relationship: REFERENCES_Borrower
+    object_mapping:
+      concept: Borrower
+      referent_mappings:
+      - relationship: has_CustomerIdentifier
+        expression: loan_exposure_report_lines.borrower_id
+  - relationship: REFERENCES_LoanProduct
+    object_mapping:
+      concept: LoanProduct
+      referent_mappings:
+      - relationship: has_ProductIdentifier
+        expression: loan_exposure_report_lines.product_id
+  - relationship: has_PrincipalAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: loan_exposure_report_lines.principal_amount
+  - relationship: has_ExposureAtDefaultAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: loan_exposure_report_lines.exposure_at_default_amount
+  - relationship: has_ExpectedLossAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: loan_exposure_report_lines.expected_loss_amount
+  - relationship: has_LoanCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: loan_exposure_report_lines.report_currency

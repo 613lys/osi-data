@@ -1,0 +1,34 @@
+name: CounterpartyData
+description: Base concept for counterparty-like records with legal identity and regulatory
+  classification fields.
+identify_by:
+- has_CounterpartyIdentifier
+relationships:
+- name: has_CounterpartyIdentifier
+  roles:
+  - concept: CounterpartyIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - '{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}'
+  description: Identifier common to counterparty-like records.
+- name: has_LegalName
+  roles:
+  - concept: LegalName
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CounterpartyData} has legal name {LegalName}'
+  description: Legal name common to counterparty-like records.
+- name: has_DomicileCountry
+  roles:
+  - concept: CountryCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CounterpartyData} has domicile country {CountryCode}'
+  description: Domicile country common to counterparty-like records.
+- name: has_RegulatorySegment
+  roles:
+  - concept: RegulatorySegment
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{CounterpartyData} has regulatory segment {RegulatorySegment}'
+  description: Regulatory segment common to counterparty-like records.

@@ -1,0 +1,23 @@
+concept: LoanProduct
+object_mappings:
+- referent_mappings:
+  - relationship: has_ProductIdentifier
+    expression: loan_products.product_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_ProductIdentifier
+      expression: loan_products.product_id
+  children:
+  - relationship: has_ProductIdentifier
+    object_mapping:
+      concept: ProductIdentifier
+      expression: loan_products.product_id
+  - relationship: has_ProductType
+    object_mapping:
+      concept: ProductType
+      expression: loan_products.product_type
+  - relationship: has_RegulatoryProductClass
+    object_mapping:
+      concept: RegulatoryClass
+      expression: loan_products.regulatory_product_class

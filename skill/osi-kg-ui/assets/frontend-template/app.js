@@ -3,7 +3,19 @@ const catalog = window.CATALOG_DATA || window.OSI_CATALOG_DATA || {};
 const DEFAULT_GRAPH_SIZE = { width: 1800, height: 1300 };
 const GRAPH_PADDING = 90;
 const DEFAULT_UNCHECKED_GRAPH_EDGE_TYPES = new Set(["EXTENDS"]);
+const STRUCTURAL_EDGE_TYPES = new Set(["CONTAINS"]);
 const CONTROLLED_BUSINESS_EDGE_TYPES = new Set([
+  "CREATES",
+  "REFERENCES",
+  "DEPENDS_ON",
+  "DERIVES_FROM",
+  "AGGREGATES",
+  "RECONCILES_WITH",
+  "SETTLES",
+  "VALUES",
+  "PART_OF",
+  "CHILD_OF",
+  "RELATED_TO",
   "OWN",
   "HOLD",
   "BOOK",
@@ -36,6 +48,7 @@ const els = {
 
   catalogSearch: document.getElementById("catalogSearchInput"),
   catalogNodeTypes: document.getElementById("catalogNodeTypeFilters"),
+  catalogBusinessEdgeTypes: document.getElementById("catalogBusinessEdgeTypeFilters"),
   catalogEdgeTypes: document.getElementById("catalogEdgeTypeFilters"),
   catalogTags: document.getElementById("catalogTagFilters"),
   catalogReset: document.getElementById("catalogResetButton"),
@@ -53,6 +66,7 @@ const els = {
   hiddenNodes: document.getElementById("hiddenNodeList"),
   restoreHidden: document.getElementById("restoreHiddenButton"),
   graphNodeTypes: document.getElementById("graphNodeTypeFilters"),
+  graphBusinessEdgeTypes: document.getElementById("graphBusinessEdgeTypeFilters"),
   graphEdgeTypes: document.getElementById("graphEdgeTypeFilters"),
   graphTags: document.getElementById("graphTagFilters"),
   graphReset: document.getElementById("graphResetButton"),
@@ -94,29 +108,29 @@ const typeColors = {
   built_in_concept: "#2563eb",
   external_concept: "#2563eb",
   physical_table: "#159947",
-  regulatory_requirement: "#2563eb",
-  report_implementation: "#159947",
+  regulatory_requirement: "#c2410c",
+  report_implementation: "#9333ea",
   table: "#159947",
   view: "#159947",
   column: "#159947",
   value_type_property: "#2563eb",
   metric_field: "#2563eb",
-  requirement_semantic_item: "#2563eb",
-  implementation_field_binding: "#159947",
+  requirement_semantic_item: "#c2410c",
+  implementation_field_binding: "#9333ea",
 };
 
 const typeLabels = {
   ontology: "Ontology",
   ontology_mapping: "Mapping",
   semantic_model: "Semantic Model",
-  base_entity_concept: "Base Entity",
-  entity_type_concept: "EntityType",
+  base_entity_concept: "Base Entity Concept",
+  entity_type_concept: "Entity Concept",
   value_type_concept: "ValueType",
   built_in_concept: "Built-in Concept",
   external_concept: "External Concept",
   physical_table: "Table",
-  regulatory_requirement: "Regulatory Requirement",
-  report_implementation: "Report Implementation",
+  regulatory_requirement: "Report Requirement",
+  report_implementation: "Report Data Logic",
   table: "Table",
   view: "View",
   column: "Column",
@@ -125,10 +139,39 @@ const typeLabels = {
   requirement_semantic_item: "Requirement Item",
   implementation_field_binding: "Field Binding",
 };
+const typeOrder = [
+  "regulatory_requirement",
+  "report_implementation",
+  "entity_type_concept",
+  "base_entity_concept",
+  "physical_table",
+  "table",
+  "view",
+  "value_type_concept",
+  "built_in_concept",
+  "external_concept",
+  "semantic_model",
+  "ontology",
+  "ontology_mapping",
+  "column",
+  "value_type_property",
+  "metric_field",
+  "requirement_semantic_item",
+  "implementation_field_binding",
+];
 
+function typeRank(type) {
+  const index = typeOrder.indexOf(type);
+  return index >= 0 ? index : typeOrder.length;
+}
+
+function compareNodeType(a, b) {
+  return typeRank(a).toString().padStart(3, "0").localeCompare(typeRank(b).toString().padStart(3, "0")) || typeName(a).localeCompare(typeName(b));
+}
 const catalogState = {
   query: "",
   nodeTypes: new Set(nodeTypes()),
+  businessEdgeTypes: new Set(businessEdgeTypes()),
   edgeTypes: new Set(edgeTypes()),
   tags: new Set(allTags()),
   selectedKind: "node",
@@ -142,6 +185,7 @@ const graphState = {
   selectedFieldId: null,
   maxDepth: 1,
   nodeTypes: new Set(nodeTypes()),
+  businessEdgeTypes: new Set(businessEdgeTypes()),
   edgeTypes: defaultGraphEdgeTypesForFocus(catalogState.selectedId),
   tags: new Set(allTags()),
   expanded: new Set(),
@@ -173,10 +217,10 @@ function graphEdge(id) {
 
 function chooseInitialNode() {
   return (
-    topLevelNodes.find(item => item.type === "entity_type_concept")?.id ||
-    topLevelNodes.find(item => item.type === "base_entity_concept")?.id ||
     topLevelNodes.find(item => item.type === "regulatory_requirement")?.id ||
     topLevelNodes.find(item => item.type === "report_implementation")?.id ||
+    topLevelNodes.find(item => item.type === "entity_type_concept")?.id ||
+    topLevelNodes.find(item => item.type === "base_entity_concept")?.id ||
     topLevelNodes.find(item => item.type === "physical_table")?.id ||
     topLevelNodes[0]?.id ||
     graph.nodes[0]?.id
@@ -184,11 +228,39 @@ function chooseInitialNode() {
 }
 
 function nodeTypes() {
-  return [...new Set(topLevelNodes.map(item => item.type))].sort();
+  return [...new Set(topLevelNodes.map(item => item.type))].sort(compareNodeType);
 }
 
 function edgeTypes() {
-  return [...new Set(graph.edges.map(edge => inferredEdgeType(edge)).filter(Boolean))].sort();
+  return [...new Set(graph.edges
+    .map(edge => normalizedEdge(edge))
+    .filter(edge => edge.type && !STRUCTURAL_EDGE_TYPES.has(edge.type) && !isBusinessEntityEdge(edge))
+    .map(edge => edge.type))].sort();
+}
+
+function businessEdgeTypes() {
+  return [...new Set(graph.edges
+    .map(edge => normalizedEdge(edge))
+    .filter(isBusinessEntityEdge)
+    .map(edge => edge.type))].sort();
+}
+
+function isEntityConceptNodeType(type) {
+  return type === "entity_type_concept" || type === "base_entity_concept";
+}
+
+function isBusinessEntityEdge(edge) {
+  const normalized = edge.sourceOriginal ? edge : normalizedEdge(edge);
+  return CONTROLLED_BUSINESS_EDGE_TYPES.has(normalized.type)
+    && isEntityConceptNodeType(nodeType(normalized.source))
+    && isEntityConceptNodeType(nodeType(normalized.target));
+}
+
+function edgeTypeAllowed(edge, state) {
+  const normalized = edge.sourceOriginal ? edge : normalizedEdge(edge);
+  return isBusinessEntityEdge(normalized)
+    ? state.businessEdgeTypes.has(normalized.type)
+    : state.edgeTypes.has(normalized.type);
 }
 
 function defaultGraphEdgeTypes() {
@@ -222,7 +294,7 @@ function tagFilterIsActive(selectedTags) {
 
 function normalizeType(type) {
   const aliases = {
-    reads: "READS_FROM",
+    reads: "SOURCE_TABLE",
     derived_from: "DERIVES_FROM",
     field_lineage: "DERIVES_FROM",
     maps_to_property: "MAPS_TO",
@@ -248,7 +320,9 @@ function colorFor(type) {
 }
 
 function nodeFamily(type) {
-  if (["base_entity_concept", "entity_type_concept", "value_type_concept", "built_in_concept", "external_concept", "regulatory_requirement"].includes(type)) return "concept";
+  if (["base_entity_concept", "entity_type_concept", "value_type_concept", "built_in_concept", "external_concept"].includes(type)) return "concept";
+  if (["regulatory_requirement", "requirement_semantic_item"].includes(type)) return "requirement";
+  if (["report_implementation", "implementation_field_binding"].includes(type)) return "data-logic";
   if (["physical_table", "table", "view"].includes(type)) return "db";
   return "other";
 }
@@ -256,6 +330,8 @@ function nodeFamily(type) {
 function nodeFamilyLabel(type) {
   const family = nodeFamily(type);
   if (family === "concept") return "Concept";
+  if (family === "requirement") return "Requirement";
+  if (family === "data-logic") return "Data Logic";
   if (family === "db") return "DB";
   return "Node";
 }
@@ -281,6 +357,15 @@ function tagsFor(id) {
 function expressionText(expression) {
   const dialects = expression?.dialects || [];
   return dialects[0]?.expression || "";
+}
+
+function sourceCitationText(source) {
+  if (!source) return "";
+  if (typeof source === "string") return source;
+  if (typeof source !== "object") return String(source);
+  const parts = [source.type, source.name, source.section, source.version, source.location || source.url || source.document, source.owner]
+    .filter(Boolean);
+  return parts.join(" · ");
 }
 
 function parentOf(id) {
@@ -324,17 +409,19 @@ function normalizedEdge(edge, sourceParent = parentOf(edge.source), targetParent
     derivedBy: edge.properties?.derived_by || [],
     requires: edge.properties?.requires || [],
     constraints: edge.properties?.constraints || [],
+    aiContext: edge.properties?.ai_context || null,
     isFieldLevel: sourceParent !== edge.source || targetParent !== edge.target,
     raw: edge,
   };
 }
 
 function edgeDisplayName(edge, type, relationshipName) {
+  if (type === "DATASET_JOIN" && String(edge.label || "").trim()) return edge.label;
   const edgeIdAction = relationshipKindFromId(edge.id);
   if (edgeIdAction && CONTROLLED_BUSINESS_EDGE_TYPES.has(edgeIdAction.toUpperCase())) return edgeIdAction;
   const relationshipAction = relationshipKindFromId(relationshipName);
   if (relationshipAction && CONTROLLED_BUSINESS_EDGE_TYPES.has(relationshipAction.toUpperCase())) return relationshipAction;
-  return relationshipName || normalizeType(type);
+  return normalizeType(type);
 }
 
 function edgeRelationshipName(edge) {
@@ -374,7 +461,9 @@ function relationshipPath(edge) {
 function relationshipKindFromId(value) {
   const text = String(value || "").trim();
   if (!text) return "";
-  return text.split("_").filter(Boolean)[0] || text;
+  const upper = text.replace(/[^A-Za-z0-9_]+/g, "_").replace(/^_+|_+$/g, "").toUpperCase();
+  const actions = [...CONTROLLED_BUSINESS_EDGE_TYPES].sort((a, b) => b.length - a.length);
+  return actions.find(action => upper === action || upper.startsWith(`${action}_`)) || "";
 }
 
 function stringRelationshipValue(value) {
@@ -434,14 +523,12 @@ function searchTextForNode(id) {
     data.name,
     data.description,
     data.definition,
-    data.owner,
     ...(data.aliases || []),
     ...tagsFor(id),
     ...(data.columns || []).flatMap(col => [col.name, col.description, col.term, col.data_type]),
     ...(data.fields || []).flatMap(field => [field.name, field.description, expressionText(field.expression)]),
     ...(data.required_fields || []).flatMap(field => [field.name, field.semantic_reference, field.value_concept, field.purpose, field.rule]),
-    ...(data.output_datasets || []).flatMap(dataset => [dataset.dataset, dataset.role, ...(dataset.fields || []).flatMap(field => [field.name, field.semantic_reference, field.source_field])]),
-    ...(data.source_fields || []),
+    ...(data.field_mappings || []).flatMap(field => [field.name, field.requirement_field, field.description]),
     ...(data.mapped_tables || []),
     ...(data.mapped_fields || []),
     ...((data.relationships || []).flatMap(rel => [rel.name, ...(rel.verbalizes || [])])),
@@ -470,7 +557,7 @@ function searchTextForEdge(edge) {
 
 function edgePassesCatalogFilters(edge) {
   const normalized = normalizedEdge(edge);
-  if (!catalogState.edgeTypes.has(normalized.type)) return false;
+  if (!edgeTypeAllowed(normalized, catalogState)) return false;
   const sourceType = nodeType(normalized.source);
   const targetType = nodeType(normalized.target);
   if (!catalogState.nodeTypes.has(sourceType) && !catalogState.nodeTypes.has(targetType)) return false;
@@ -569,6 +656,7 @@ function currentScenarioView() {
     selectedNodeId: graphState.selectedNodeId,
     maxDepth: graphState.maxDepth,
     nodeTypes: [...graphState.nodeTypes],
+    businessEdgeTypes: [...graphState.businessEdgeTypes],
     edgeTypes: [...graphState.edgeTypes],
     tags: [...graphState.tags],
     expanded: [...graphState.expanded],
@@ -617,6 +705,7 @@ function applyScenario(id) {
   graphState.selectedNodeId = node(view.selectedNodeId) && !isChildNode(view.selectedNodeId) ? view.selectedNodeId : graphState.focusId;
   graphState.maxDepth = clamp(Number(view.maxDepth) || 1, Number(els.depth.min) || 1, Number(els.depth.max) || 4);
   graphState.nodeTypes = restoredSet(view.nodeTypes, nodeTypes());
+  graphState.businessEdgeTypes = restoredSet(view.businessEdgeTypes, businessEdgeTypes());
   graphState.edgeTypes = restoredSet(view.edgeTypes, [...defaultGraphEdgeTypes()]);
   graphState.tags = restoredSet(view.tags, allTags());
   graphState.expanded = new Set((view.expanded || []).filter(id => node(id)));
@@ -665,7 +754,7 @@ function renderCatalog() {
   renderCatalogFilters();
   const nodeRows = topLevelNodes
     .filter(nodePassesCatalogFilters)
-    .sort((a, b) => scoreNode(b, catalogState.query) - scoreNode(a, catalogState.query) || `${a.type}:${a.label}`.localeCompare(`${b.type}:${b.label}`));
+    .sort((a, b) => scoreNode(b, catalogState.query) - scoreNode(a, catalogState.query) || typeRank(a.type) - typeRank(b.type) || a.label.localeCompare(b.label));
   const edgeRows = graph.edges
     .filter(edgePassesCatalogFilters)
     .sort((a, b) => inferredEdgeType(a).localeCompare(inferredEdgeType(b)) || a.source.localeCompare(b.source));
@@ -684,14 +773,22 @@ function renderCatalogFilters() {
   els.catalogNodeTypes.innerHTML = nodeTypes()
     .map(type => chip(typeName(type), catalogState.nodeTypes.has(type), "catalog-node-type", type))
     .join("");
+  if (els.catalogBusinessEdgeTypes) {
+    const businessTypes = businessEdgeTypes();
+    els.catalogBusinessEdgeTypes.innerHTML = businessTypes.length
+      ? multiSelect(businessTypes, catalogState.businessEdgeTypes, "catalog-business-edge-type", "Business relationships")
+      : `<div class="empty-state">No business relationships.</div>`;
+  }
   els.catalogEdgeTypes.innerHTML = edgeTypes()
     .length
     ? multiSelect(edgeTypes(), catalogState.edgeTypes, "catalog-edge-type", "Edge types")
     : `<div class="empty-state">No edge types in current data.</div>`;
-  const tags = allTags();
-  els.catalogTags.innerHTML = tags.length
-    ? multiSelect(tags, catalogState.tags, "catalog-tag", "Data type")
-    : `<div class="empty-state">No data types in current data.</div>`;
+  if (els.catalogTags) {
+    const tags = allTags();
+    els.catalogTags.innerHTML = tags.length
+      ? multiSelect(tags, catalogState.tags, "catalog-tag", "Data type")
+      : `<div class="empty-state">No data types in current data.</div>`;
+  }
 }
 
 function renderNodeResult(item) {
@@ -786,7 +883,6 @@ function renderEdgeDetail(edge) {
       ${edge.relationshipPath && edge.relationshipPath !== edge.relationshipName ? kv("Ontology Path", edge.relationshipPath) : ""}
       ${edge.joinName && edge.joinName !== edge.relationshipName ? kv("Join Name", edge.joinName) : ""}
       ${kv("Edge Type", edge.type)}
-      ${kv("Graph Edge ID", edge.id)}
       ${kv("Source", `${label(edge.source)} (${edge.sourceOriginal})`)}
       ${kv("Target", `${label(edge.target)} (${edge.targetOriginal})`)}
       ${edge.multiplicity ? kv("Multiplicity", edge.multiplicity) : ""}
@@ -814,6 +910,12 @@ function renderEdgeDetail(edge) {
       </section>
     ` : ""}
     ${renderConstraints(edge.constraints, "Relationship Constraints")}
+    ${edge.aiContext ? `
+      <section class="detail-section">
+        <h3>AI Context</h3>
+        <pre class="raw-block">${escapeHtml(typeof edge.aiContext === "string" ? edge.aiContext : JSON.stringify(edge.aiContext, null, 2))}</pre>
+      </section>
+    ` : ""}
     <section class="detail-section">
       <h3>Raw Edge</h3>
       <pre class="raw-block">${escapeHtml(JSON.stringify(rawEdge, null, 2))}</pre>
@@ -835,7 +937,6 @@ function renderNodeDetail(item, data, includeRaw) {
       ${data.term ? kv("Term", data.term) : ""}
       ${data.definition ? kv("Definition", data.definition) : ""}
       ${data.schema ? kv("Schema", data.schema) : ""}
-      ${data.owner ? kv("Owner", data.owner) : ""}
       ${data.verified ? kv("Verified", [data.verified.status ? "true" : "false", data.verified.reason].filter(Boolean).join(" · ")) : ""}
       ${item.properties?.source_file ? kv("Source", item.properties.source_file) : ""}
       ${tagsFor(item.id).length ? `<div class="tag-list">${tagsFor(item.id).map(tag => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
@@ -864,17 +965,14 @@ function renderNodeDetail(item, data, includeRaw) {
 
 function renderRequirementSemantics(data) {
   if (data.type !== "regulatory_requirement") return "";
-  const grain = data.reporting_grain || {};
   const scope = data.semantic_scope || {};
   const requiredFields = data.required_fields || [];
   const relationships = scope.relationships || [];
   return `
     <section class="detail-section">
       <h3>Requirement Scope</h3>
-      ${data.regulator ? kv("Regulator", data.regulator) : ""}
-      ${data.regulation ? kv("Regulation", data.regulation) : ""}
-      ${data.reporting_frequency ? kv("Frequency", data.reporting_frequency) : ""}
-      ${grain.concept ? kv("Reporting Grain", grain.concept) : ""}
+      ${data.source ? kv("Source", sourceCitationText(data.source)) : ""}
+      ${data.SLA ? kv("SLA", data.SLA) : ""}
       ${scope.concepts?.length ? kv("Concepts", scope.concepts.join(", ")) : ""}
     </section>
     ${relationships.length ? `
@@ -896,7 +994,8 @@ function renderRequirementSemantics(data) {
           <div class="mini-card">
             <strong>${escapeHtml(field.semantic_reference || field.name)}</strong>
             <small>${escapeHtml([field.value_concept, field.required ? "required" : ""].filter(Boolean).join(" · "))}</small>
-            ${field.purpose || field.rule ? `<p>${escapeHtml(field.purpose || field.rule)}</p>` : ""}
+            ${field.description ? `<p>${escapeHtml(field.description)}</p>` : ""}
+            ${field.purpose && field.purpose !== field.description ? `<small>${escapeHtml(field.purpose)}</small>` : ""}
           </div>
         `).join("")}</div>
       </section>
@@ -918,34 +1017,22 @@ function renderRequirementSemantics(data) {
 
 function renderImplementationSemantics(data) {
   if (data.type !== "report_implementation") return "";
-  const outputs = data.output_datasets || [];
-  const sourceFields = data.source_fields || [];
-  const outputFields = outputs.flatMap(dataset => (dataset.fields || []).map(field => ({ dataset: dataset.dataset, role: dataset.role, ...field })));
+  const fieldMappings = data.field_mappings || [];
   return `
     <section class="detail-section">
       <h3>Implementation</h3>
       ${data.implements ? kv("Implements", data.implements) : ""}
-      ${data.owner ? kv("Owner", data.owner) : ""}
-      ${data.schedule ? kv("Schedule", data.schedule) : ""}
-      ${outputs.length ? kv("Output Datasets", outputs.map(item => `${item.dataset} (${item.role})`).join(", ")) : ""}
     </section>
-    ${outputFields.length ? `
+    ${fieldMappings.length ? `
       <section class="detail-section">
-        <h3>Output Field Bindings</h3>
-        <div class="mini-list">${outputFields.map(field => `
+        <h3>Field Mappings</h3>
+        <div class="mini-list">${fieldMappings.map(field => `
           <div class="mini-card">
-            <strong>${escapeHtml(`${field.dataset}.${field.name}`)}</strong>
-            <small>${escapeHtml([field.role, field.semantic_reference, field.source_field].filter(Boolean).join(" · "))}</small>
-            ${field.requirement_field ? `<p>${escapeHtml(`requirement: ${field.requirement_field}`)}</p>` : ""}
-            ${expressionText(field.expression) ? `<p><code>${escapeHtml(expressionText(field.expression))}</code></p>` : ""}
+            <strong>${escapeHtml(field.name || field.requirement_field || "Field mapping")}</strong>
+            ${field.requirement_field ? `<small>${escapeHtml(`requirement: ${field.requirement_field}`)}</small>` : ""}
+            ${field.description ? `<p>${escapeHtml(field.description)}</p>` : ""}
           </div>
         `).join("")}</div>
-      </section>
-    ` : ""}
-    ${sourceFields.length ? `
-      <section class="detail-section">
-        <h3>Source Fields</h3>
-        <div class="mini-list">${sourceFields.map(field => `<div class="mini-card"><strong>${escapeHtml(field)}</strong></div>`).join("")}</div>
       </section>
     ` : ""}
   `;
@@ -1019,14 +1106,22 @@ function renderGraphFilters() {
   els.graphNodeTypes.innerHTML = nodeTypes()
     .map(type => chip(typeName(type), graphState.nodeTypes.has(type), "graph-node-type", type))
     .join("");
+  if (els.graphBusinessEdgeTypes) {
+    const businessTypes = businessEdgeTypes();
+    els.graphBusinessEdgeTypes.innerHTML = businessTypes.length
+      ? multiSelect(businessTypes, graphState.businessEdgeTypes, "graph-business-edge-type", "Business relationships")
+      : `<div class="empty-state">No business relationships.</div>`;
+  }
   els.graphEdgeTypes.innerHTML = edgeTypes()
     .length
     ? multiSelect(edgeTypes(), graphState.edgeTypes, "graph-edge-type", "Edge types")
     : `<div class="empty-state">No edge types in current data.</div>`;
-  const tags = allTags();
-  els.graphTags.innerHTML = tags.length
-    ? multiSelect(tags, graphState.tags, "graph-tag", "Data type")
-    : `<div class="empty-state">No data types in current data.</div>`;
+  if (els.graphTags) {
+    const tags = allTags();
+    els.graphTags.innerHTML = tags.length
+      ? multiSelect(tags, graphState.tags, "graph-tag", "Data type")
+      : `<div class="empty-state">No data types in current data.</div>`;
+  }
 }
 
 function renderGraphFocus() {
@@ -1062,7 +1157,7 @@ function renderHiddenNodes() {
 function graphNeighborhood() {
   const traversalEdges = parentEdges().filter(edge => {
     if (!graphNodeVisible(edge.source) || !graphNodeVisible(edge.target)) return false;
-    if (!graphState.edgeTypes.has(edge.type)) return false;
+    if (!edgeTypeAllowed(edge, graphState)) return false;
     if (!graphNodeTypeAllowed(edge.source) || !graphNodeTypeAllowed(edge.target)) return false;
     if (tagFilterIsActive(graphState.tags)) {
       const tagPool = [...tagsFor(edge.source), ...tagsFor(edge.target)];
@@ -1094,25 +1189,15 @@ function graphNeighborhood() {
 
   const nodeSet = new Set([...visited.keys()].filter(id => node(id)));
   const selectedChildEdges = selectedFieldEdges().filter(edge => {
+    if (!nodeSet.has(edge.source) || !nodeSet.has(edge.target)) return false;
     if (!graphNodeVisible(edge.source) || !graphNodeVisible(edge.target)) return false;
-    if (!graphState.edgeTypes.has(edge.type)) return false;
+    if (!edgeTypeAllowed(edge, graphState)) return false;
     if (!graphNodeTypeAllowed(edge.source) || !graphNodeTypeAllowed(edge.target)) return false;
     if (tagFilterIsActive(graphState.tags)) {
       const tagPool = [...tagsFor(edge.source), ...tagsFor(edge.target)];
       if (![...graphState.tags].some(tag => tagPool.includes(tag))) return false;
     }
     return true;
-  });
-
-  selectedChildEdges.forEach(edge => {
-    [edge.source, edge.target].forEach(id => {
-      if (!node(id)) return;
-      nodeSet.add(id);
-      if (!visited.has(id)) {
-        const anchor = nodeSet.has(edge.source) ? edge.source : graphState.focusId;
-        visited.set(id, (visited.get(anchor) || 0) + 1);
-      }
-    });
   });
 
   const visibleEdges = traversalEdges.filter(edge => {
@@ -1284,7 +1369,7 @@ function layoutEdgesForElk(edges, visibleIds) {
 }
 
 function layoutEdgeDirection(edge) {
-  if (["READS_FROM", "DERIVES_FROM", "REFERENCES", "DEPENDS_ON", "HAS_TERM"].includes(edge.type)) {
+  if (["SOURCE_TABLE", "DERIVES_FROM", "REFERENCES", "DEPENDS_ON", "HAS_TERM"].includes(edge.type)) {
     return { ...edge, source: edge.target, target: edge.source };
   }
   return edge;
@@ -1317,7 +1402,7 @@ function fallbackGraphLayout(nodes, depthById) {
   [...fallbackGroups.entries()].forEach(([depth, group]) => {
     const radiusX = 420 + (depth - 1) * 250;
     const radiusY = 270 + (depth - 1) * 150;
-    group.sort((a, b) => `${a.type}:${a.label}`.localeCompare(`${b.type}:${b.label}`));
+    group.sort((a, b) => typeRank(a.type) - typeRank(b.type) || a.label.localeCompare(b.label));
     group.forEach((item, index) => {
       const angle = (-Math.PI / 2) + (Math.PI * 2 * index) / Math.max(group.length, 1);
       positions.set(item.id, {
@@ -1382,10 +1467,10 @@ function directionalLanes(nodes) {
 function directionalDelta(edge, fromId) {
   const type = edge.type;
   const fromSource = edge.source === fromId;
-  if (["READS_FROM", "DERIVES_FROM", "REFERENCES", "DEPENDS_ON"].includes(type)) {
+  if (["SOURCE_TABLE", "DERIVES_FROM", "REFERENCES", "DEPENDS_ON"].includes(type)) {
     return { score: fromSource ? -1 : 1 };
   }
-  if (["IMPLEMENTED_BY", "REPRESENTED_BY", "MAPS_TO"].includes(type)) {
+  if (["IMPLEMENTED_BY", "REPRESENTED_BY", "MAPS_TO", "IMPLEMENTS_FIELD"].includes(type)) {
     return { score: fromSource ? 1 : -1 };
   }
   if (["CREATES", "VALUES", "SETTLES", "AGGREGATES", "WRITES_TO"].includes(type)) {
@@ -1824,6 +1909,8 @@ function renderFieldProfile(field) {
       ${field.semanticRole ? kv("Semantic Role", field.semanticRole) : ""}
       ${field.term ? kv("Term", field.term) : ""}
       ${field.valueConcept ? kv("Value Concept", field.valueConcept) : ""}
+      ${field.calculationType ? kv("Calculation Type", field.calculationType) : ""}
+      ${field.semanticMetric ? kv("Semantic Metric", field.semanticMetric) : ""}
       ${field.relationship ? kv("Ontology Relationship", field.relationship) : ""}
       ${field.semanticReference ? kv("Semantic Reference", field.semanticReference) : ""}
       ${field.requirementField ? kv("Requirement Field", field.requirementField) : ""}
@@ -1975,7 +2062,8 @@ function childItems(parentId) {
       semanticRole: item.properties?.semantic_role || "",
       term: item.properties?.term || "",
       valueConcept: item.properties?.value_concept || "",
-      relationship: item.properties?.relationship || "",
+      fieldName: item.properties?.field_name || "",
+      relationship: item.properties?.relationship_name || item.properties?.relationship || "",
       semanticReference: item.properties?.semantic_reference || "",
       requirementField: item.properties?.requirement_field || "",
       sourceConcept: item.properties?.source_concept || "",
@@ -1987,6 +2075,8 @@ function childItems(parentId) {
       inputs: item.properties?.inputs || [],
       sourceFields: item.properties?.source_fields || [],
       metricName: item.properties?.metric_name || "",
+      calculationType: item.properties?.calculation_type || "",
+      semanticMetric: item.properties?.semantic_metric || "",
       semanticModel: item.properties?.semantic_model || "",
       bindingRole: item.properties?.binding_role || "",
       dataset: item.properties?.dataset || "",
@@ -1994,6 +2084,10 @@ function childItems(parentId) {
       datasetField: item.properties?.dataset_field || "",
       sourceField: item.properties?.source_field || "",
       raw: item.properties || {},
+    }))
+    .map(item => ({
+      ...item,
+      semanticRole: item.calculationType === "metric" ? `metric · ${item.dataType || item.valueConcept || "value"}` : item.semanticRole,
     }));
   const data = raw(parentId);
   const inlineColumns = (data.columns || []).map(col => ({
@@ -2028,7 +2122,7 @@ function renderFieldTable(children) {
         <div class="field-table-row">
           <div>
             <strong>${escapeHtml(item.name)}</strong>
-            <small>${escapeHtml(item.description || item.term || item.id)}</small>
+            <small>${escapeHtml(item.description || item.term || item.fieldName || item.id)}</small>
           </div>
           <span class="muted">${escapeHtml(item.semanticRole || item.dataType || typeName(item.type))}</span>
         </div>
@@ -2113,7 +2207,8 @@ function openSelectionInGraph() {
       graphState.selectedNodeId = null;
       graphState.selectedEdgeId = normalized.id;
       graphState.selectedFieldId = null;
-      graphState.edgeTypes.add(normalized.type);
+      if (isBusinessEntityEdge(normalized)) graphState.businessEdgeTypes.add(normalized.type);
+      else graphState.edgeTypes.add(normalized.type);
       if (isChildNode(edge.source)) graphState.expanded.add(normalized.source);
       if (isChildNode(edge.target)) graphState.expanded.add(normalized.target);
     }
@@ -2128,6 +2223,7 @@ function openSelectionInGraph() {
 function resetCatalogFilters() {
   catalogState.query = "";
   catalogState.nodeTypes = new Set(nodeTypes());
+  catalogState.businessEdgeTypes = new Set(businessEdgeTypes());
   catalogState.edgeTypes = new Set(edgeTypes());
   catalogState.tags = new Set(allTags());
   els.catalogSearch.value = "";
@@ -2136,6 +2232,7 @@ function resetCatalogFilters() {
 
 function resetGraphFilters() {
   graphState.nodeTypes = new Set(nodeTypes());
+  graphState.businessEdgeTypes = new Set(businessEdgeTypes());
   graphState.edgeTypes = defaultGraphEdgeTypesForFocus();
   graphState.tags = new Set(allTags());
   graphState.maxDepth = 1;
@@ -2176,8 +2273,10 @@ function applyMultiAction(kind, action) {
 
 function multiFilterConfig(kind) {
   const configs = {
+    "catalog-business-edge-type": { set: catalogState.businessEdgeTypes, values: businessEdgeTypes },
     "catalog-edge-type": { set: catalogState.edgeTypes, values: edgeTypes },
     "catalog-tag": { set: catalogState.tags, values: allTags },
+    "graph-business-edge-type": { set: graphState.businessEdgeTypes, values: businessEdgeTypes },
     "graph-edge-type": { set: graphState.edgeTypes, values: edgeTypes },
     "graph-tag": { set: graphState.tags, values: allTags },
   };
@@ -2438,9 +2537,11 @@ document.addEventListener("click", event => {
   const kind = filter.dataset.filterKind;
   const value = filter.dataset.filterValue;
   if (kind === "catalog-node-type") toggleSet(catalogState.nodeTypes, value);
+  if (kind === "catalog-business-edge-type") toggleSet(catalogState.businessEdgeTypes, value);
   if (kind === "catalog-edge-type") toggleSet(catalogState.edgeTypes, value);
   if (kind === "catalog-tag") toggleSet(catalogState.tags, value);
   if (kind === "graph-node-type") toggleSet(graphState.nodeTypes, value);
+  if (kind === "graph-business-edge-type") toggleSet(graphState.businessEdgeTypes, value);
   if (kind === "graph-edge-type") toggleSet(graphState.edgeTypes, value);
   if (kind === "graph-tag") toggleSet(graphState.tags, value);
   renderAll();
@@ -2490,5 +2591,25 @@ document.addEventListener("mousemove", dragGraphNode);
 document.addEventListener("mouseup", endGraphNodeDrag);
 
 applyUrlState();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

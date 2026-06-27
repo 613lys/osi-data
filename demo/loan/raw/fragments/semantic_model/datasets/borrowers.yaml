@@ -1,0 +1,39 @@
+name: borrowers
+source: customer_master.borrowers
+primary_key:
+- borrower_id
+description: Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting.
+physical_kind: table
+fields:
+- name: borrower_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: borrower_id
+  description: Master customer identifier for a borrower or legal entity.
+- name: borrower_segment
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: borrower_segment
+  description: Segment classification such as retail, SME, corporate, or financial institution.
+- name: borrower_name
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: borrower_name
+  description: Human-readable borrower or legal entity name.
+- name: domicile_country
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: domicile_country
+  description: Borrower domicile country used for jurisdictional reporting and composite report joins.

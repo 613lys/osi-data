@@ -1,0 +1,837 @@
+version: 0.2.0.dev0
+name: LoanExposureReportingOntology
+description: OSI scenario for loan exposure regulatory reporting built from retail
+  and institutional loan source metadata.
+ontology:
+- concept:
+    name: CustomerData
+    type: EntityType
+    description: Base concept for customer-like records with common identifiers and
+      segmentation fields.
+    identify_by:
+    - has_CustomerIdentifier
+  relationships:
+  - name: has_CustomerIdentifier
+    roles:
+    - concept: CustomerIdentifier
+    multiplicity: OneToOne
+    verbalizes:
+    - '{CustomerData} has customer identifier {CustomerIdentifier}'
+    description: Customer identifier common to customer-like records.
+  - name: has_CustomerSegment
+    roles:
+    - concept: CustomerSegment
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{CustomerData} has customer segment {CustomerSegment}'
+    description: Customer segment common to customer-like records.
+- concept:
+    name: LoanData
+    type: EntityType
+    description: Base concept for loan-like records with common identifiers and origination
+      timing.
+    identify_by:
+    - has_LoanIdentifier
+  relationships:
+  - name: has_LoanIdentifier
+    roles:
+    - concept: LoanIdentifier
+    multiplicity: OneToOne
+    verbalizes:
+    - '{LoanData} has loan identifier {LoanIdentifier}'
+    description: Loan identifier common to loan-like records.
+  - name: has_OriginationDate
+    roles:
+    - concept: CalendarDate
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{LoanData} has origination date {CalendarDate}'
+    description: Origination or booking date common to loan-like records.
+- concept:
+    name: ProductData
+    type: EntityType
+    description: Base concept for product-like records with common product identifiers.
+    identify_by:
+    - has_ProductIdentifier
+  relationships:
+  - name: has_ProductIdentifier
+    roles:
+    - concept: ProductIdentifier
+    multiplicity: OneToOne
+    verbalizes:
+    - '{ProductData} has product identifier {ProductIdentifier}'
+    description: Product identifier common to product-like records.
+- concept:
+    name: Borrower
+    type: EntityType
+    description: Person or legal entity that is responsible for one or more loan exposures.
+    extends:
+    - CustomerData
+    identify_by:
+    - has_CustomerIdentifier
+  relationships:
+  - name: has_BorrowerName
+    roles:
+    - concept: PersonOrEntityName
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Borrower} has borrower name {PersonOrEntityName}'
+    description: Display name of the borrower or legal entity.
+  - name: has_BorrowerCountry
+    roles:
+    - concept: CountryCode
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Borrower} has borrower country {CountryCode}'
+    description: Country or jurisdiction associated with the borrower.
+- concept:
+    name: Loan
+    type: EntityType
+    description: Credit exposure contract or facility that can be reported for regulatory
+      credit risk monitoring.
+    extends:
+    - LoanData
+    identify_by:
+    - has_LoanIdentifier
+  relationships:
+  - name: REFERENCES_Borrower
+    roles:
+    - concept: Borrower
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} is owed by {Borrower}'
+    description: Borrower responsible for repayment of the loan exposure.
+  - name: REFERENCES_LoanProduct
+    roles:
+    - concept: LoanProduct
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} uses lending product {LoanProduct}'
+    description: Lending product classification applied to the loan exposure.
+  - name: has_PrincipalAmount
+    roles:
+    - concept: MonetaryAmount
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} has principal amount {MonetaryAmount}'
+    description: Contractual principal or notional amount of the loan exposure.
+  - name: has_LoanCurrency
+    roles:
+    - concept: CurrencyCode
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} has loan currency {CurrencyCode}'
+    description: Currency in which the loan exposure is booked or managed.
+  - name: has_ExposureAtDefaultAmount
+    roles:
+    - concept: MonetaryAmount
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} has exposure at default amount {MonetaryAmount}'
+    description: Exposure amount used for regulatory credit risk calculations.
+  - name: has_ProbabilityOfDefault
+    roles:
+    - concept: Rate
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} has probability of default {Rate}'
+    description: Probability of default assigned to the loan exposure.
+  - name: has_LossGivenDefault
+    roles:
+    - concept: Rate
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} has loss given default {Rate}'
+    description: Loss given default rate assigned to the loan exposure.
+  - name: has_ExpectedLossAmount
+    roles:
+    - concept: MonetaryAmount
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} has expected loss amount {MonetaryAmount}'
+    description: Calculated expected loss amount for the loan exposure.
+- concept:
+    name: LoanProduct
+    type: EntityType
+    description: Lending product definition used to classify loan exposures for credit
+      risk reporting.
+    extends:
+    - ProductData
+    identify_by:
+    - has_ProductIdentifier
+  relationships:
+  - name: has_ProductType
+    roles:
+    - concept: ProductType
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{LoanProduct} has product type {ProductType}'
+    description: Product type used to group lending exposures.
+  - name: has_RegulatoryProductClass
+    roles:
+    - concept: RegulatoryClass
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{LoanProduct} has regulatory product class {RegulatoryClass}'
+    description: Regulatory classification applied to the loan product.
+- concept:
+    name: LoanIdentifier
+    type: ValueType
+    description: Identifier value assigned to a loan or credit facility.
+- concept:
+    name: CustomerIdentifier
+    type: ValueType
+    description: Identifier value assigned to a customer, borrower, or legal entity.
+- concept:
+    name: ProductIdentifier
+    type: ValueType
+    description: Identifier value assigned to a loan product or facility product definition.
+- concept:
+    name: CalendarDate
+    type: ValueType
+    description: Calendar date value used for business event timing.
+- concept:
+    name: MonetaryAmount
+    type: ValueType
+    description: Decimal numeric value representing an amount of money.
+- concept:
+    name: CurrencyCode
+    type: ValueType
+    description: Code value identifying a currency.
+- concept:
+    name: Rate
+    type: ValueType
+    description: Decimal ratio value representing a percentage or probability.
+- concept:
+    name: CustomerSegment
+    type: ValueType
+    description: Classification value identifying a customer or borrower segment.
+- concept:
+    name: PersonOrEntityName
+    type: ValueType
+    description: Name value representing a person, organization, or legal entity.
+- concept:
+    name: CountryCode
+    type: ValueType
+    description: Code value identifying a country or jurisdiction.
+- concept:
+    name: ProductType
+    type: ValueType
+    description: Classification value identifying the type of lending product.
+- concept:
+    name: RegulatoryClass
+    type: ValueType
+    description: Classification value used for regulatory reporting categories.
+ontology_mappings:
+- name: LoanExposureSemanticMapping
+  semantic_model:
+    name: LoanExposureSemanticModel
+    description: Table-backed semantic model for loan exposure reporting across retail
+      and institutional lending populations.
+    datasets:
+    - name: borrowers
+      source: customer_master.borrowers
+      primary_key:
+      - borrower_id
+      description: Borrower master records at customer or legal entity grain, providing
+        borrower names, segments, and domicile jurisdictions used by loan exposure
+        reporting.
+      fields:
+      - name: borrower_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: borrower_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Master customer identifier for a borrower or legal entity.
+      - name: borrower_segment
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: borrower_segment
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Segment classification such as retail, SME, corporate, or financial
+          institution.
+      - name: borrower_name
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: borrower_name
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Human-readable borrower or legal entity name.
+      - name: domicile_country
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: domicile_country
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Borrower domicile country used for jurisdictional reporting and
+          composite report joins.
+      ai_context:
+        physical_kind: table
+    - name: institutional_loans
+      source: institutional_lending_core.facilities
+      primary_key:
+      - facility_id
+      description: Institutional credit facility records at legal entity facility
+        grain, carrying borrower, product, booking, notional, currency, and credit
+        risk parameter fields for wholesale exposure reporting.
+      fields:
+      - name: facility_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: facility_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Institutional source identifier for a committed credit facility.
+      - name: legal_entity_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: legal_entity_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Customer identifier linking the facility to the responsible legal
+          borrower.
+      - name: product_code
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: product_code
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Product identifier classifying the institutional lending facility.
+      - name: booking_date
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: booking_date
+        ai_context:
+          physical_type: date
+          nullable: false
+        description: Date on which the institutional facility was booked.
+      - name: notional_amount
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: notional_amount
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Notional or committed amount recorded for the institutional facility.
+      - name: exposure_currency
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: exposure_currency
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Currency code used for the institutional exposure amount.
+      - name: probability_default
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: probability_default
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Probability of default assigned by the wholesale credit risk
+          model.
+      - name: loss_given_default
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: loss_given_default
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Loss given default rate assigned by the wholesale credit risk
+          model.
+      ai_context:
+        physical_kind: table
+    - name: loan_exposure_report_lines
+      source: credit_risk_engine.loan_exposure_report_lines
+      primary_key:
+      - loan_id
+      description: Prepared loan exposure report line records at reportable loan grain,
+        carrying normalized borrower, product, amount, currency, and expected loss
+        fields consumed by regulatory reporting logic.
+      fields:
+      - name: loan_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: loan_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Normalized loan or facility identifier reported on the exposure
+          line.
+      - name: borrower_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: borrower_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Borrower identifier reported on the exposure line for reconciliation
+          to customer master.
+      - name: borrower_country
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: borrower_country
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Borrower country carried on the report line to support jurisdictional
+          aggregation and composite joins.
+      - name: product_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: product_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Product identifier reported on the exposure line for product-class
+          aggregation.
+      - name: principal_amount
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: principal_amount
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Principal amount included on the report line for exposure reconciliation.
+      - name: exposure_at_default_amount
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: exposure_at_default_amount
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Exposure at default amount reported for regulatory credit risk
+          measurement.
+      - name: expected_loss_amount
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: expected_loss_amount
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Expected loss amount reported after applying probability of default
+          and loss given default.
+      - name: report_currency
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: report_currency
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Currency code in which the exposure line amounts are reported.
+      ai_context:
+        physical_kind: table
+    - name: loan_products
+      source: product_master.loan_products
+      primary_key:
+      - product_id
+      description: Loan product reference records at product definition grain, carrying
+        product type and regulatory product class used to classify loan exposures.
+      fields:
+      - name: product_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: product_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Master product identifier for a lending product.
+      - name: product_type
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: product_type
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Lending product type such as mortgage, term loan, revolving credit,
+          or credit line.
+      - name: regulatory_product_class
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: regulatory_product_class
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Regulatory product class used for credit exposure aggregation.
+      ai_context:
+        physical_kind: table
+    - name: retail_loans
+      source: retail_lending_core.retail_loans
+      primary_key:
+      - loan_id
+      description: Retail loan records at individual consumer loan grain, carrying
+        borrower, product, booking, amount, currency, and credit risk parameter fields
+        for retail exposure reporting.
+      fields:
+      - name: loan_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: loan_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Retail source identifier for an individual consumer loan record.
+      - name: borrower_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: borrower_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Customer identifier linking the retail loan to the responsible
+          borrower.
+      - name: product_id
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: product_id
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Product identifier classifying the retail lending product.
+      - name: origination_date
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: origination_date
+        ai_context:
+          physical_type: date
+          nullable: false
+        description: Date on which the retail loan was originated or booked.
+      - name: principal_amount
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: principal_amount
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Principal balance or contractual amount recorded for the retail
+          loan.
+      - name: currency
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: currency
+        ai_context:
+          physical_type: string
+          nullable: false
+        description: Currency code used for the retail loan amount.
+      - name: pd
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: pd
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Probability of default assigned by the retail credit risk model.
+      - name: lgd
+        expression:
+          dialects:
+          - dialect: ANSI_SQL
+            expression: lgd
+        ai_context:
+          physical_type: decimal
+          nullable: false
+        description: Loss given default rate assigned by the retail credit risk model.
+      ai_context:
+        physical_kind: table
+    relationships:
+    - name: retail_loan_borrower
+      from: retail_loans
+      to: borrowers
+      from_columns:
+      - borrower_id
+      to_columns:
+      - borrower_id
+    - name: institutional_loan_borrower
+      from: institutional_loans
+      to: borrowers
+      from_columns:
+      - legal_entity_id
+      to_columns:
+      - borrower_id
+    - name: retail_loan_product
+      from: retail_loans
+      to: loan_products
+      from_columns:
+      - product_id
+      to_columns:
+      - product_id
+    - name: institutional_loan_product
+      from: institutional_loans
+      to: loan_products
+      from_columns:
+      - product_code
+      to_columns:
+      - product_id
+    - name: report_line_borrower_composite
+      from: loan_exposure_report_lines
+      to: borrowers
+      from_columns:
+      - borrower_id
+      - borrower_country
+      to_columns:
+      - borrower_id
+      - domicile_country
+    - name: report_line_product
+      from: loan_exposure_report_lines
+      to: loan_products
+      from_columns:
+      - product_id
+      to_columns:
+      - product_id
+    metrics:
+    - name: expected_loss_amount
+      description: Expected credit loss calculated from exposure at default, probability
+        of default, and loss given default across loan source populations.
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd
+            + institutional_loans.notional_amount * institutional_loans.probability_default
+            * institutional_loans.loss_given_default
+      ai_context:
+        metric_type: calculated_credit_risk_measure
+  concept_mappings:
+  - concept: Borrower
+    object_mappings:
+    - referent_mappings:
+      - relationship: has_CustomerIdentifier
+        expression: borrowers.borrower_id
+    link_mappings:
+    - object_mapping:
+        referent_mappings:
+        - relationship: has_CustomerIdentifier
+          expression: borrowers.borrower_id
+      children:
+      - relationship: has_CustomerIdentifier
+        object_mapping:
+          concept: CustomerIdentifier
+          expression: borrowers.borrower_id
+      - relationship: has_CustomerSegment
+        object_mapping:
+          concept: CustomerSegment
+          expression: borrowers.borrower_segment
+      - relationship: has_BorrowerName
+        object_mapping:
+          concept: PersonOrEntityName
+          expression: borrowers.borrower_name
+      - relationship: has_BorrowerCountry
+        object_mapping:
+          concept: CountryCode
+          expression: borrowers.domicile_country
+  - concept: Loan
+    object_mappings:
+    - referent_mappings:
+      - relationship: has_LoanIdentifier
+        expression: retail_loans.loan_id
+    - referent_mappings:
+      - relationship: has_LoanIdentifier
+        expression: institutional_loans.facility_id
+    - referent_mappings:
+      - relationship: has_LoanIdentifier
+        expression: loan_exposure_report_lines.loan_id
+    link_mappings:
+    - object_mapping:
+        referent_mappings:
+        - relationship: has_LoanIdentifier
+          expression: retail_loans.loan_id
+      children:
+      - relationship: has_LoanIdentifier
+        object_mapping:
+          concept: LoanIdentifier
+          expression: retail_loans.loan_id
+      - relationship: has_OriginationDate
+        object_mapping:
+          concept: CalendarDate
+          expression: retail_loans.origination_date
+      - relationship: REFERENCES_Borrower
+        object_mapping:
+          concept: Borrower
+          referent_mappings:
+          - relationship: has_CustomerIdentifier
+            expression: retail_loans.borrower_id
+      - relationship: REFERENCES_LoanProduct
+        object_mapping:
+          concept: LoanProduct
+          referent_mappings:
+          - relationship: has_ProductIdentifier
+            expression: retail_loans.product_id
+      - relationship: has_PrincipalAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: retail_loans.principal_amount
+      - relationship: has_LoanCurrency
+        object_mapping:
+          concept: CurrencyCode
+          expression: retail_loans.currency
+      - relationship: has_ExposureAtDefaultAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: retail_loans.principal_amount
+      - relationship: has_ProbabilityOfDefault
+        object_mapping:
+          concept: Rate
+          expression: retail_loans.pd
+      - relationship: has_LossGivenDefault
+        object_mapping:
+          concept: Rate
+          expression: retail_loans.lgd
+      - relationship: has_ExpectedLossAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: metric.expected_loss_amount
+    - object_mapping:
+        referent_mappings:
+        - relationship: has_LoanIdentifier
+          expression: institutional_loans.facility_id
+      children:
+      - relationship: has_LoanIdentifier
+        object_mapping:
+          concept: LoanIdentifier
+          expression: institutional_loans.facility_id
+      - relationship: has_OriginationDate
+        object_mapping:
+          concept: CalendarDate
+          expression: institutional_loans.booking_date
+      - relationship: REFERENCES_Borrower
+        object_mapping:
+          concept: Borrower
+          referent_mappings:
+          - relationship: has_CustomerIdentifier
+            expression: institutional_loans.legal_entity_id
+      - relationship: REFERENCES_LoanProduct
+        object_mapping:
+          concept: LoanProduct
+          referent_mappings:
+          - relationship: has_ProductIdentifier
+            expression: institutional_loans.product_code
+      - relationship: has_PrincipalAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: institutional_loans.notional_amount
+      - relationship: has_LoanCurrency
+        object_mapping:
+          concept: CurrencyCode
+          expression: institutional_loans.exposure_currency
+      - relationship: has_ExposureAtDefaultAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: institutional_loans.notional_amount
+      - relationship: has_ProbabilityOfDefault
+        object_mapping:
+          concept: Rate
+          expression: institutional_loans.probability_default
+      - relationship: has_LossGivenDefault
+        object_mapping:
+          concept: Rate
+          expression: institutional_loans.loss_given_default
+      - relationship: has_ExpectedLossAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: metric.expected_loss_amount
+    - object_mapping:
+        referent_mappings:
+        - relationship: has_LoanIdentifier
+          expression: loan_exposure_report_lines.loan_id
+      children:
+      - relationship: has_LoanIdentifier
+        object_mapping:
+          concept: LoanIdentifier
+          expression: loan_exposure_report_lines.loan_id
+      - relationship: REFERENCES_Borrower
+        object_mapping:
+          concept: Borrower
+          referent_mappings:
+          - relationship: has_CustomerIdentifier
+            expression: loan_exposure_report_lines.borrower_id
+      - relationship: REFERENCES_LoanProduct
+        object_mapping:
+          concept: LoanProduct
+          referent_mappings:
+          - relationship: has_ProductIdentifier
+            expression: loan_exposure_report_lines.product_id
+      - relationship: has_PrincipalAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: loan_exposure_report_lines.principal_amount
+      - relationship: has_ExposureAtDefaultAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: loan_exposure_report_lines.exposure_at_default_amount
+      - relationship: has_ExpectedLossAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: loan_exposure_report_lines.expected_loss_amount
+      - relationship: has_LoanCurrency
+        object_mapping:
+          concept: CurrencyCode
+          expression: loan_exposure_report_lines.report_currency
+  - concept: LoanProduct
+    object_mappings:
+    - referent_mappings:
+      - relationship: has_ProductIdentifier
+        expression: loan_products.product_id
+    link_mappings:
+    - object_mapping:
+        referent_mappings:
+        - relationship: has_ProductIdentifier
+          expression: loan_products.product_id
+      children:
+      - relationship: has_ProductIdentifier
+        object_mapping:
+          concept: ProductIdentifier
+          expression: loan_products.product_id
+      - relationship: has_ProductType
+        object_mapping:
+          concept: ProductType
+          expression: loan_products.product_type
+      - relationship: has_RegulatoryProductClass
+        object_mapping:
+          concept: RegulatoryClass
+          expression: loan_products.regulatory_product_class
+ai_context:
+  model_version: 1.0.0
+  owner: Credit Risk Regulatory Reporting
+  source_systems:
+  - retail_lending_core
+  - institutional_lending_core
+  - customer_master
+  - product_master
+  - credit_risk_engine

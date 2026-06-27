@@ -1,0 +1,71 @@
+name: institutional_loans
+source: institutional_lending_core.facilities
+primary_key:
+- facility_id
+description: Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting.
+physical_kind: table
+fields:
+- name: facility_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: facility_id
+  description: Institutional source identifier for a committed credit facility.
+- name: legal_entity_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: legal_entity_id
+  description: Customer identifier linking the facility to the responsible legal borrower.
+- name: product_code
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: product_code
+  description: Product identifier classifying the institutional lending facility.
+- name: booking_date
+  type: date
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: booking_date
+  description: Date on which the institutional facility was booked.
+- name: notional_amount
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: notional_amount
+  description: Notional or committed amount recorded for the institutional facility.
+- name: exposure_currency
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: exposure_currency
+  description: Currency code used for the institutional exposure amount.
+- name: probability_default
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: probability_default
+  description: Probability of default assigned by the wholesale credit risk model.
+- name: loss_given_default
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: loss_given_default
+  description: Loss given default rate assigned by the wholesale credit risk model.

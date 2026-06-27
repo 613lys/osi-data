@@ -1,0 +1,382 @@
+[
+  {
+    "id": "concept.CustomerData",
+    "type": "base_entity_concept",
+    "text": "concept.CustomerData base_entity_concept CustomerData Base concept for customer-like records with common identifiers and segmentation fields. Base concept for customer-like records with common identifiers and segmentation fields."
+  },
+  {
+    "id": "value.CustomerData.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "text": "value.CustomerData.has_CustomerIdentifier value_type_property CustomerIdentifier Customer identifier common to customer-like records. Customer identifier common to customer-like records."
+  },
+  {
+    "id": "value.CustomerData.has_CustomerSegment",
+    "type": "value_type_property",
+    "text": "value.CustomerData.has_CustomerSegment value_type_property CustomerSegment Customer segment common to customer-like records. Customer segment common to customer-like records."
+  },
+  {
+    "id": "concept.LoanData",
+    "type": "base_entity_concept",
+    "text": "concept.LoanData base_entity_concept LoanData Base concept for loan-like records with common identifiers and origination timing. Base concept for loan-like records with common identifiers and origination timing."
+  },
+  {
+    "id": "value.LoanData.has_LoanIdentifier",
+    "type": "value_type_property",
+    "text": "value.LoanData.has_LoanIdentifier value_type_property LoanIdentifier Loan identifier common to loan-like records. Loan identifier common to loan-like records."
+  },
+  {
+    "id": "value.LoanData.has_OriginationDate",
+    "type": "value_type_property",
+    "text": "value.LoanData.has_OriginationDate value_type_property CalendarDate Origination or booking date common to loan-like records. Origination or booking date common to loan-like records."
+  },
+  {
+    "id": "concept.ProductData",
+    "type": "base_entity_concept",
+    "text": "concept.ProductData base_entity_concept ProductData Base concept for product-like records with common product identifiers. Base concept for product-like records with common product identifiers."
+  },
+  {
+    "id": "value.ProductData.has_ProductIdentifier",
+    "type": "value_type_property",
+    "text": "value.ProductData.has_ProductIdentifier value_type_property ProductIdentifier Product identifier common to product-like records. Product identifier common to product-like records."
+  },
+  {
+    "id": "concept.Borrower",
+    "type": "entity_type_concept",
+    "text": "concept.Borrower entity_type_concept Borrower Person or legal entity that is responsible for one or more loan exposures. Person or legal entity that is responsible for one or more loan exposures. borrowers borrowers.borrower_id borrowers.borrower_name borrowers.borrower_segment borrowers.domicile_country"
+  },
+  {
+    "id": "value.Borrower.has_BorrowerName",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_BorrowerName value_type_property PersonOrEntityName Display name of the borrower or legal entity. Display name of the borrower or legal entity."
+  },
+  {
+    "id": "value.Borrower.has_BorrowerCountry",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_BorrowerCountry value_type_property CountryCode Country or jurisdiction associated with the borrower. Country or jurisdiction associated with the borrower."
+  },
+  {
+    "id": "concept.Loan",
+    "type": "entity_type_concept",
+    "text": "concept.Loan entity_type_concept Loan Credit exposure contract or facility that can be reported for regulatory credit risk monitoring. Credit exposure contract or facility that can be reported for regulatory credit risk monitoring. institutional_loans loan_exposure_report_lines retail_loans institutional_loans.booking_date institutional_loans.exposure_currency institutional_loans.facility_id institutional_loans.loss_given_default institutional_loans.notional_amount institutional_loans.probability_default loan_exposure_report_lines.expected_loss_amount loan_exposure_report_lines.exposure_at_default_amount loan_exposure_report_lines.loan_id loan_exposure_report_lines.principal_amount loan_exposure_report_lines.report_currency retail_loans.currency retail_loans.lgd retail_loans.loan_id retail_loans.origination_date retail_loans.pd retail_loans.principal_amount"
+  },
+  {
+    "id": "concept.LoanProduct",
+    "type": "entity_type_concept",
+    "text": "concept.LoanProduct entity_type_concept LoanProduct Lending product definition used to classify loan exposures for credit risk reporting. Lending product definition used to classify loan exposures for credit risk reporting. loan_products loan_products.product_id loan_products.product_type loan_products.regulatory_product_class"
+  },
+  {
+    "id": "value.Loan.has_PrincipalAmount",
+    "type": "value_type_property",
+    "text": "value.Loan.has_PrincipalAmount value_type_property MonetaryAmount Contractual principal or notional amount of the loan exposure. Contractual principal or notional amount of the loan exposure."
+  },
+  {
+    "id": "value.Loan.has_LoanCurrency",
+    "type": "value_type_property",
+    "text": "value.Loan.has_LoanCurrency value_type_property CurrencyCode Currency in which the loan exposure is booked or managed. Currency in which the loan exposure is booked or managed."
+  },
+  {
+    "id": "value.Loan.has_ExposureAtDefaultAmount",
+    "type": "value_type_property",
+    "text": "value.Loan.has_ExposureAtDefaultAmount value_type_property MonetaryAmount Exposure amount used for regulatory credit risk calculations. Exposure amount used for regulatory credit risk calculations."
+  },
+  {
+    "id": "value.Loan.has_ProbabilityOfDefault",
+    "type": "value_type_property",
+    "text": "value.Loan.has_ProbabilityOfDefault value_type_property Rate Probability of default assigned to the loan exposure. Probability of default assigned to the loan exposure."
+  },
+  {
+    "id": "value.Loan.has_LossGivenDefault",
+    "type": "value_type_property",
+    "text": "value.Loan.has_LossGivenDefault value_type_property Rate Loss given default rate assigned to the loan exposure. Loss given default rate assigned to the loan exposure."
+  },
+  {
+    "id": "value.Loan.has_ExpectedLossAmount",
+    "type": "value_type_property",
+    "text": "value.Loan.has_ExpectedLossAmount value_type_property MonetaryAmount Calculated expected loss amount for the loan exposure. Calculated expected loss amount for the loan exposure."
+  },
+  {
+    "id": "value.LoanProduct.has_ProductType",
+    "type": "value_type_property",
+    "text": "value.LoanProduct.has_ProductType value_type_property ProductType Product type used to group lending exposures. Product type used to group lending exposures."
+  },
+  {
+    "id": "value.LoanProduct.has_RegulatoryProductClass",
+    "type": "value_type_property",
+    "text": "value.LoanProduct.has_RegulatoryProductClass value_type_property RegulatoryClass Regulatory classification applied to the loan product. Regulatory classification applied to the loan product."
+  },
+  {
+    "id": "value.Borrower.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_CustomerIdentifier value_type_property CustomerIdentifier Customer identifier common to customer-like records. Customer identifier common to customer-like records."
+  },
+  {
+    "id": "value.Borrower.has_CustomerSegment",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_CustomerSegment value_type_property CustomerSegment Customer segment common to customer-like records. Customer segment common to customer-like records."
+  },
+  {
+    "id": "value.Loan.has_LoanIdentifier",
+    "type": "value_type_property",
+    "text": "value.Loan.has_LoanIdentifier value_type_property LoanIdentifier Loan identifier common to loan-like records. Loan identifier common to loan-like records."
+  },
+  {
+    "id": "value.Loan.has_OriginationDate",
+    "type": "value_type_property",
+    "text": "value.Loan.has_OriginationDate value_type_property CalendarDate Origination or booking date common to loan-like records. Origination or booking date common to loan-like records."
+  },
+  {
+    "id": "value.LoanProduct.has_ProductIdentifier",
+    "type": "value_type_property",
+    "text": "value.LoanProduct.has_ProductIdentifier value_type_property ProductIdentifier Product identifier common to product-like records. Product identifier common to product-like records."
+  },
+  {
+    "id": "table.borrowers",
+    "type": "physical_table",
+    "text": "table.borrowers physical_table borrowers Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting. Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting. customer_master.borrowers"
+  },
+  {
+    "id": "column.borrowers.borrower_id",
+    "type": "column",
+    "text": "column.borrowers.borrower_id column borrower_id Master customer identifier for a borrower or legal entity."
+  },
+  {
+    "id": "column.borrowers.borrower_segment",
+    "type": "column",
+    "text": "column.borrowers.borrower_segment column borrower_segment Segment classification such as retail, SME, corporate, or financial institution."
+  },
+  {
+    "id": "column.borrowers.borrower_name",
+    "type": "column",
+    "text": "column.borrowers.borrower_name column borrower_name Human-readable borrower or legal entity name."
+  },
+  {
+    "id": "column.borrowers.domicile_country",
+    "type": "column",
+    "text": "column.borrowers.domicile_country column domicile_country Borrower domicile country used for jurisdictional reporting and composite report joins."
+  },
+  {
+    "id": "table.institutional_loans",
+    "type": "physical_table",
+    "text": "table.institutional_loans physical_table institutional_loans Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting. Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting. institutional_lending_core.facilities"
+  },
+  {
+    "id": "column.institutional_loans.facility_id",
+    "type": "column",
+    "text": "column.institutional_loans.facility_id column facility_id Institutional source identifier for a committed credit facility."
+  },
+  {
+    "id": "column.institutional_loans.legal_entity_id",
+    "type": "column",
+    "text": "column.institutional_loans.legal_entity_id column legal_entity_id Customer identifier linking the facility to the responsible legal borrower."
+  },
+  {
+    "id": "column.institutional_loans.product_code",
+    "type": "column",
+    "text": "column.institutional_loans.product_code column product_code Product identifier classifying the institutional lending facility."
+  },
+  {
+    "id": "column.institutional_loans.booking_date",
+    "type": "column",
+    "text": "column.institutional_loans.booking_date column booking_date Date on which the institutional facility was booked."
+  },
+  {
+    "id": "column.institutional_loans.notional_amount",
+    "type": "column",
+    "text": "column.institutional_loans.notional_amount column notional_amount Notional or committed amount recorded for the institutional facility."
+  },
+  {
+    "id": "column.institutional_loans.exposure_currency",
+    "type": "column",
+    "text": "column.institutional_loans.exposure_currency column exposure_currency Currency code used for the institutional exposure amount."
+  },
+  {
+    "id": "column.institutional_loans.probability_default",
+    "type": "column",
+    "text": "column.institutional_loans.probability_default column probability_default Probability of default assigned by the wholesale credit risk model."
+  },
+  {
+    "id": "column.institutional_loans.loss_given_default",
+    "type": "column",
+    "text": "column.institutional_loans.loss_given_default column loss_given_default Loss given default rate assigned by the wholesale credit risk model."
+  },
+  {
+    "id": "table.loan_exposure_report_lines",
+    "type": "physical_table",
+    "text": "table.loan_exposure_report_lines physical_table loan_exposure_report_lines Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. credit_risk_engine.loan_exposure_report_lines"
+  },
+  {
+    "id": "column.loan_exposure_report_lines.loan_id",
+    "type": "column",
+    "text": "column.loan_exposure_report_lines.loan_id column loan_id Normalized loan or facility identifier reported on the exposure line."
+  },
+  {
+    "id": "column.loan_exposure_report_lines.borrower_id",
+    "type": "column",
+    "text": "column.loan_exposure_report_lines.borrower_id column borrower_id Borrower identifier reported on the exposure line for reconciliation to customer master."
+  },
+  {
+    "id": "column.loan_exposure_report_lines.borrower_country",
+    "type": "column",
+    "text": "column.loan_exposure_report_lines.borrower_country column borrower_country Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
+  },
+  {
+    "id": "column.loan_exposure_report_lines.product_id",
+    "type": "column",
+    "text": "column.loan_exposure_report_lines.product_id column product_id Product identifier reported on the exposure line for product-class aggregation."
+  },
+  {
+    "id": "column.loan_exposure_report_lines.principal_amount",
+    "type": "column",
+    "text": "column.loan_exposure_report_lines.principal_amount column principal_amount Principal amount included on the report line for exposure reconciliation."
+  },
+  {
+    "id": "column.loan_exposure_report_lines.exposure_at_default_amount",
+    "type": "column",
+    "text": "column.loan_exposure_report_lines.exposure_at_default_amount column exposure_at_default_amount Exposure at default amount reported for regulatory credit risk measurement."
+  },
+  {
+    "id": "column.loan_exposure_report_lines.expected_loss_amount",
+    "type": "column",
+    "text": "column.loan_exposure_report_lines.expected_loss_amount column expected_loss_amount Expected loss amount reported after applying probability of default and loss given default."
+  },
+  {
+    "id": "column.loan_exposure_report_lines.report_currency",
+    "type": "column",
+    "text": "column.loan_exposure_report_lines.report_currency column report_currency Currency code in which the exposure line amounts are reported."
+  },
+  {
+    "id": "table.loan_products",
+    "type": "physical_table",
+    "text": "table.loan_products physical_table loan_products Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures. Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures. product_master.loan_products"
+  },
+  {
+    "id": "column.loan_products.product_id",
+    "type": "column",
+    "text": "column.loan_products.product_id column product_id Master product identifier for a lending product."
+  },
+  {
+    "id": "column.loan_products.product_type",
+    "type": "column",
+    "text": "column.loan_products.product_type column product_type Lending product type such as mortgage, term loan, revolving credit, or credit line."
+  },
+  {
+    "id": "column.loan_products.regulatory_product_class",
+    "type": "column",
+    "text": "column.loan_products.regulatory_product_class column regulatory_product_class Regulatory product class used for credit exposure aggregation."
+  },
+  {
+    "id": "table.retail_loans",
+    "type": "physical_table",
+    "text": "table.retail_loans physical_table retail_loans Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting. Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting. retail_lending_core.retail_loans"
+  },
+  {
+    "id": "column.retail_loans.loan_id",
+    "type": "column",
+    "text": "column.retail_loans.loan_id column loan_id Retail source identifier for an individual consumer loan record."
+  },
+  {
+    "id": "column.retail_loans.borrower_id",
+    "type": "column",
+    "text": "column.retail_loans.borrower_id column borrower_id Customer identifier linking the retail loan to the responsible borrower."
+  },
+  {
+    "id": "column.retail_loans.product_id",
+    "type": "column",
+    "text": "column.retail_loans.product_id column product_id Product identifier classifying the retail lending product."
+  },
+  {
+    "id": "column.retail_loans.origination_date",
+    "type": "column",
+    "text": "column.retail_loans.origination_date column origination_date Date on which the retail loan was originated or booked."
+  },
+  {
+    "id": "column.retail_loans.principal_amount",
+    "type": "column",
+    "text": "column.retail_loans.principal_amount column principal_amount Principal balance or contractual amount recorded for the retail loan."
+  },
+  {
+    "id": "column.retail_loans.currency",
+    "type": "column",
+    "text": "column.retail_loans.currency column currency Currency code used for the retail loan amount."
+  },
+  {
+    "id": "column.retail_loans.pd",
+    "type": "column",
+    "text": "column.retail_loans.pd column pd Probability of default assigned by the retail credit risk model."
+  },
+  {
+    "id": "column.retail_loans.lgd",
+    "type": "column",
+    "text": "column.retail_loans.lgd column lgd Loss given default rate assigned by the retail credit risk model."
+  },
+  {
+    "id": "requirement.item",
+    "type": "regulatory_requirement",
+    "text": "requirement.item regulatory_requirement 贷款风险暴露报送需求 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 Loan Credit Exposure Reporting BRD v1.0 section 5.2"
+  },
+  {
+    "id": "requirement_item..Loan.has_LoanIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Loan.has_LoanIdentifier requirement_semantic_item 贷款标识 需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。 需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。"
+  },
+  {
+    "id": "requirement_item..Borrower.has_CustomerIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Borrower.has_CustomerIdentifier requirement_semantic_item 借款人标识 需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。 需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。"
+  },
+  {
+    "id": "requirement_item..LoanProduct.has_ProductIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..LoanProduct.has_ProductIdentifier requirement_semantic_item 产品标识 需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。 需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。"
+  },
+  {
+    "id": "requirement_item..Loan.has_PrincipalAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Loan.has_PrincipalAmount requirement_semantic_item 本金金额 需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。 需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。"
+  },
+  {
+    "id": "requirement_item..Loan.has_ExposureAtDefaultAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Loan.has_ExposureAtDefaultAmount requirement_semantic_item 风险暴露金额 需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。 需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。"
+  },
+  {
+    "id": "requirement_item..Loan.has_ExpectedLossAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Loan.has_ExpectedLossAmount requirement_semantic_item 预期损失金额 需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。"
+  },
+  {
+    "id": "report_impl.item",
+    "type": "report_implementation",
+    "text": "report_impl.item report_implementation 每日贷款风险暴露报表数据逻辑 说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。 说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.loan_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.loan_id implementation_field_binding 贷款标识逻辑 数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。 数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.borrower_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.borrower_id implementation_field_binding 借款人标识逻辑 数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。 数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.product_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.product_id implementation_field_binding 产品标识逻辑 数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。 数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.principal_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.principal_amount implementation_field_binding 本金金额逻辑 数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。 数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount implementation_field_binding 风险暴露金额逻辑 数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。 数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.expected_loss_amount implementation_field_binding 预期损失金额逻辑 数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。 数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
+  }
+]

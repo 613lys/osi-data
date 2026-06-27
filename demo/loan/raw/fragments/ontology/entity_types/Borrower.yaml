@@ -1,0 +1,21 @@
+name: Borrower
+description: Person or legal entity that is responsible for one or more loan exposures.
+extends:
+- CustomerData
+identify_by:
+- has_CustomerIdentifier
+relationships:
+- name: has_BorrowerName
+  roles:
+  - concept: PersonOrEntityName
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Borrower} has borrower name {PersonOrEntityName}"
+  description: Display name of the borrower or legal entity.
+- name: has_BorrowerCountry
+  roles:
+  - concept: CountryCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Borrower} has borrower country {CountryCode}"
+  description: Country or jurisdiction associated with the borrower.

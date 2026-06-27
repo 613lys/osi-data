@@ -1,0 +1,8 @@
+- name: expected_loss_amount
+  description: Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default
+  ai_context:
+    metric_type: calculated_credit_risk_measure

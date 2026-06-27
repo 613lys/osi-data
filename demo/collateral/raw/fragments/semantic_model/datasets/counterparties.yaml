@@ -1,0 +1,42 @@
+name: counterparties
+source: margin_core.counterparties
+primary_key:
+- counterparty_id
+description: Legal counterparty reference records used to identify reporting counterparties,
+  domicile, and regulatory segmentation for collateral margin obligations.
+physical_kind: table
+fields:
+- name: counterparty_id
+  type: string
+  nullable: false
+  description: Stable identifier for the legal counterparty reference record.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: counterparty_id
+- name: legal_name
+  type: string
+  nullable: false
+  description: Registered legal name of the reporting counterparty.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: legal_name
+- name: domicile_country
+  type: string
+  nullable: false
+  description: Country or jurisdiction where the counterparty is domiciled for regulatory
+    classification.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: domicile_country
+- name: regulatory_segment
+  type: string
+  nullable: true
+  description: Regulatory counterparty segment used for reporting categorization and
+    eligibility rules.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: regulatory_segment

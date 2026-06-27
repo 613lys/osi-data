@@ -1,0 +1,45 @@
+concept: Counterparty
+object_mappings:
+- referent_mappings:
+  - relationship: has_CounterpartyIdentifier
+    expression: counterparties.counterparty_id
+- referent_mappings:
+  - relationship: has_CounterpartyIdentifier
+    expression: collateral_margin_report_lines.counterparty_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CounterpartyIdentifier
+      expression: counterparties.counterparty_id
+  children:
+  - relationship: has_CounterpartyIdentifier
+    object_mapping:
+      concept: CounterpartyIdentifier
+      expression: counterparties.counterparty_id
+  - relationship: has_LegalName
+    object_mapping:
+      concept: LegalName
+      expression: counterparties.legal_name
+  - relationship: has_DomicileCountry
+    object_mapping:
+      concept: CountryCode
+      expression: counterparties.domicile_country
+  - relationship: has_RegulatorySegment
+    object_mapping:
+      concept: RegulatorySegment
+      expression: counterparties.regulatory_segment
+  - relationship: RELATED_TO_MarginAccount
+    object_mapping:
+      concept: MarginAccount
+      referent_mappings:
+      - relationship: has_AccountIdentifier
+        expression: margin_accounts.account_id
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CounterpartyIdentifier
+      expression: collateral_margin_report_lines.counterparty_id
+  children:
+  - relationship: has_CounterpartyIdentifier
+    object_mapping:
+      concept: CounterpartyIdentifier
+      expression: collateral_margin_report_lines.counterparty_id

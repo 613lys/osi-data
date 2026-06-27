@@ -1,0 +1,20 @@
+name: ValuationData
+description: Base concept for valuation records with common valuation identity and
+  date fields.
+identify_by:
+- has_ValuationIdentifier
+relationships:
+- name: has_ValuationIdentifier
+  roles:
+  - concept: ValuationIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - '{ValuationData} has valuation identifier {ValuationIdentifier}'
+  description: Identifier common to valuation records.
+- name: has_ValuationDate
+  roles:
+  - concept: Date
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{ValuationData} has valuation date {Date}'
+  description: Date common to valuation records.

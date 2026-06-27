@@ -1,0 +1,22 @@
+mapping_edge_annotations:
+- concept: CollateralAsset
+  dataset: collateral_positions
+  description: Pledged collateral asset source population mapped as CollateralAsset entity records.
+- concept: CollateralAsset
+  dataset: collateral_margin_report_lines
+  description: Collateral asset identifiers as represented in the report-line dataset for requirement traceability.
+- concept: CollateralValuation
+  dataset: collateral_valuations
+  description: Collateral valuation source population mapped as CollateralValuation entity records.
+- concept: Counterparty
+  dataset: counterparties
+  description: Legal counterparty reference source population mapped as Counterparty entity records.
+- concept: Counterparty
+  dataset: collateral_margin_report_lines
+  description: Counterparty identifiers as represented in the report-line dataset for requirement traceability.
+- concept: MarginAccount
+  dataset: margin_accounts
+  description: Margin account source population mapped as MarginAccount entity records.
+- concept: MarginAccount
+  dataset: collateral_margin_report_lines
+  description: Margin account identifiers as represented in the report-line dataset for requirement traceability.

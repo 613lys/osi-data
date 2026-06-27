@@ -1,0 +1,71 @@
+name: retail_loans
+source: retail_lending_core.retail_loans
+primary_key:
+- loan_id
+description: Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting.
+physical_kind: table
+fields:
+- name: loan_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: loan_id
+  description: Retail source identifier for an individual consumer loan record.
+- name: borrower_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: borrower_id
+  description: Customer identifier linking the retail loan to the responsible borrower.
+- name: product_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: product_id
+  description: Product identifier classifying the retail lending product.
+- name: origination_date
+  type: date
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: origination_date
+  description: Date on which the retail loan was originated or booked.
+- name: principal_amount
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: principal_amount
+  description: Principal balance or contractual amount recorded for the retail loan.
+- name: currency
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: currency
+  description: Currency code used for the retail loan amount.
+- name: pd
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: pd
+  description: Probability of default assigned by the retail credit risk model.
+- name: lgd
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: lgd
+  description: Loss given default rate assigned by the retail credit risk model.

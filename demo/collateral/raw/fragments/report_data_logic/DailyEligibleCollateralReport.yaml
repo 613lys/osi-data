@@ -1,0 +1,81 @@
+name: 每日合格抵质押品报表数据逻辑
+type: ReportDataLogic
+description: 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。
+implements: 合格抵质押品报送需求
+field_mappings:
+- name: 保证金账户标识逻辑
+  dataset: collateral_margin_report_lines
+  dataset_field: account_id
+  description: 数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。
+  requirement_field: 保证金账户标识
+  source_field: margin_accounts.account_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: margin_accounts.account_id
+- name: 交易对手标识逻辑
+  dataset: collateral_margin_report_lines
+  dataset_field: counterparty_id
+  description: 数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。
+  requirement_field: 交易对手标识
+  source_field: counterparties.counterparty_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: counterparties.counterparty_id
+- name: 抵质押品标识逻辑
+  dataset: collateral_margin_report_lines
+  dataset_field: collateral_id
+  description: 数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。
+  requirement_field: 抵质押品标识
+  source_field: collateral_positions.collateral_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: collateral_positions.collateral_id
+- name: 估值日期逻辑
+  dataset: collateral_margin_report_lines
+  dataset_field: valuation_date
+  description: 数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。
+  requirement_field: 估值日期
+  source_field: collateral_valuations.valuation_date
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: collateral_valuations.valuation_date
+- name: 抵质押品折扣前市场价值逻辑
+  dataset: collateral_valuations
+  dataset_field: market_value_amount
+  description: 数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。
+  requirement_field: 抵质押品折扣前市场价值
+  source_field: collateral_valuations.market_value_amount
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: collateral_valuations.market_value_amount
+- name: 监管折扣率逻辑
+  dataset: collateral_valuations
+  dataset_field: haircut_rate
+  description: 数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。
+  requirement_field: 监管折扣率
+  source_field: collateral_valuations.haircut_rate
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: collateral_valuations.haircut_rate
+- name: 折扣后合格抵质押品价值逻辑
+  dataset: collateral_margin_report_lines
+  dataset_field: eligible_collateral_value
+  description: 数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。
+  requirement_field: 折扣后合格抵质押品价值
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)
+source_fields:
+- margin_accounts.account_id
+- counterparties.counterparty_id
+- collateral_positions.collateral_id
+- collateral_valuations.valuation_date
+- collateral_valuations.market_value_amount
+- collateral_valuations.haircut_rate

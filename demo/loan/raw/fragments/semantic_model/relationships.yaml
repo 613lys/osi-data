@@ -1,0 +1,44 @@
+- name: retail_loan_borrower
+  from: retail_loans
+  to: borrowers
+  from_columns:
+  - borrower_id
+  to_columns:
+  - borrower_id
+- name: institutional_loan_borrower
+  from: institutional_loans
+  to: borrowers
+  from_columns:
+  - legal_entity_id
+  to_columns:
+  - borrower_id
+- name: retail_loan_product
+  from: retail_loans
+  to: loan_products
+  from_columns:
+  - product_id
+  to_columns:
+  - product_id
+- name: institutional_loan_product
+  from: institutional_loans
+  to: loan_products
+  from_columns:
+  - product_code
+  to_columns:
+  - product_id
+- name: report_line_borrower_composite
+  from: loan_exposure_report_lines
+  to: borrowers
+  from_columns:
+  - borrower_id
+  - borrower_country
+  to_columns:
+  - borrower_id
+  - domicile_country
+- name: report_line_product
+  from: loan_exposure_report_lines
+  to: loan_products
+  from_columns:
+  - product_id
+  to_columns:
+  - product_id

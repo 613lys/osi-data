@@ -1,0 +1,67 @@
+name: collateral_margin_report_lines
+source: reporting.collateral_margin_report_lines
+primary_key:
+- report_id
+- line_number
+description: Produced collateral margin report line records at report-line grain,
+  carrying the account, counterparty, collateral, valuation date, and eligible collateral
+  value submitted for reporting.
+physical_kind: table
+fields:
+- name: report_id
+  type: string
+  nullable: false
+  description: Identifier of the generated collateral margin report submission.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: report_id
+- name: line_number
+  type: integer
+  nullable: false
+  description: Line sequence number within a collateral margin report submission.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: line_number
+- name: account_id
+  type: string
+  nullable: false
+  description: Margin account identifier reported on the output line.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: account_id
+- name: counterparty_id
+  type: string
+  nullable: false
+  description: Counterparty identifier reported on the output line.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: counterparty_id
+- name: collateral_id
+  type: string
+  nullable: false
+  description: Collateral asset identifier reported on the output line.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: collateral_id
+- name: valuation_date
+  type: date
+  nullable: false
+  description: Valuation date used for the reported collateral amount.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: valuation_date
+- name: eligible_collateral_value
+  type: decimal
+  nullable: false
+  description: Reportable collateral value after applying haircut and eligibility
+    calculation.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: eligible_collateral_value

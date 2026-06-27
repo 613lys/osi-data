@@ -1,0 +1,12 @@
+ontology_name: CollateralMarginReportingOntology
+description: OSI scenario for collateral margin regulatory reporting built from physical
+  table metadata first.
+mapping_name: CollateralMarginSemanticMapping
+semantic_model_name: CollateralMarginSemanticModel
+semantic_model_description: Table-backed semantic model for collateral margin reporting.
+model_version: 1.0.0
+owner: Collateral Regulatory Reporting
+source_systems:
+- margin_core
+- collateral_master
+- market_risk

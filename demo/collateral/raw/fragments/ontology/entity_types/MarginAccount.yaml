@@ -1,0 +1,27 @@
+name: MarginAccount
+description: Account used to hold margin obligations and pledged collateral.
+extends:
+- AccountData
+identify_by:
+- has_AccountIdentifier
+relationships:
+- name: REFERENCES_Counterparty
+  roles:
+  - concept: Counterparty
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{MarginAccount} is owned by {Counterparty}'
+  description: Counterparty that owns or controls the margin account.
+- name: DEPENDS_ON_CollateralAsset
+  roles:
+  - concept: CollateralAsset
+  verbalizes:
+  - '{MarginAccount} depends on pledged {CollateralAsset} for margin coverage'
+  description: Collateral assets pledged against this margin account.
+- name: has_BaseCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - '{MarginAccount} has base currency {CurrencyCode}'
+  description: Currency used as the margin account base currency.
