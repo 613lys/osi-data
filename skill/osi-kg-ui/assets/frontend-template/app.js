@@ -268,9 +268,11 @@ function defaultGraphEdgeTypes() {
 }
 
 function defaultGraphEdgeTypesForFocus(focusId = graphState?.focusId) {
-  return nodeType(focusId) === "base_entity_concept" && edgeTypes().includes("EXTENDS")
-    ? new Set(["EXTENDS"])
-    : defaultGraphEdgeTypes();
+  const defaults = defaultGraphEdgeTypes();
+  if (nodeType(focusId) === "base_entity_concept" && edgeTypes().includes("EXTENDS")) {
+    defaults.add("EXTENDS");
+  }
+  return defaults;
 }
 
 function setGraphFocus(id, options = {}) {
@@ -706,7 +708,7 @@ function applyScenario(id) {
   graphState.maxDepth = clamp(Number(view.maxDepth) || 1, Number(els.depth.min) || 1, Number(els.depth.max) || 4);
   graphState.nodeTypes = restoredSet(view.nodeTypes, nodeTypes());
   graphState.businessEdgeTypes = restoredSet(view.businessEdgeTypes, businessEdgeTypes());
-  graphState.edgeTypes = restoredSet(view.edgeTypes, [...defaultGraphEdgeTypes()]);
+  graphState.edgeTypes = restoredSet(view.edgeTypes, [...defaultGraphEdgeTypesForFocus(graphState.focusId)]);
   graphState.tags = restoredSet(view.tags, allTags());
   graphState.expanded = new Set((view.expanded || []).filter(id => node(id)));
   graphState.autoExpandSuppressed = new Set((view.autoExpandSuppressed || []).filter(id => node(id)));
@@ -2441,8 +2443,7 @@ document.addEventListener("click", event => {
   if (openNode) {
     catalogState.selectedKind = "node";
     catalogState.selectedId = openNode.dataset.openGraphNode;
-    graphState.focusId = catalogState.selectedId;
-    graphState.selectedNodeId = catalogState.selectedId;
+    setGraphFocus(catalogState.selectedId, { resetEdgeTypes: true });
     graphState.selectedEdgeId = null;
     graphState.selectedFieldId = null;
     openPage("graph");
