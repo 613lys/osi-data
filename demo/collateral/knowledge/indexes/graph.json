@@ -2552,7 +2552,7 @@
       "target": "table.collateral_margin_report_lines",
       "label": "maps to table",
       "properties": {
-        "description": "CollateralAsset is populated from collateral_margin_report_lines.",
+        "description": "Collateral asset identifiers as represented in the report-line dataset for requirement traceability.",
         "fields": [
           "collateral_margin_report_lines.collateral_id"
         ],
@@ -2568,7 +2568,7 @@
       "target": "table.collateral_positions",
       "label": "maps to table",
       "properties": {
-        "description": "CollateralAsset is populated from collateral_positions.",
+        "description": "Pledged collateral asset source population mapped as CollateralAsset entity records.",
         "fields": [
           "collateral_positions.asset_type",
           "collateral_positions.collateral_id",
@@ -2647,7 +2647,7 @@
       "target": "table.collateral_valuations",
       "label": "maps to table",
       "properties": {
-        "description": "CollateralValuation is populated from collateral_valuations.",
+        "description": "Collateral valuation source population mapped as CollateralValuation entity records.",
         "fields": [
           "collateral_valuations.haircut_rate",
           "collateral_valuations.market_value_amount",
@@ -2742,7 +2742,7 @@
       "target": "table.collateral_margin_report_lines",
       "label": "maps to table",
       "properties": {
-        "description": "Counterparty is populated from collateral_margin_report_lines.",
+        "description": "Counterparty identifiers as represented in the report-line dataset for requirement traceability.",
         "fields": [
           "collateral_margin_report_lines.counterparty_id"
         ],
@@ -2758,7 +2758,7 @@
       "target": "table.counterparties",
       "label": "maps to table",
       "properties": {
-        "description": "Counterparty is populated from counterparties.",
+        "description": "Legal counterparty reference source population mapped as Counterparty entity records.",
         "fields": [
           "counterparties.counterparty_id",
           "counterparties.domicile_country",
@@ -2837,7 +2837,7 @@
       "target": "table.collateral_margin_report_lines",
       "label": "maps to table",
       "properties": {
-        "description": "MarginAccount is populated from collateral_margin_report_lines.",
+        "description": "Margin account identifiers as represented in the report-line dataset for requirement traceability.",
         "fields": [
           "collateral_margin_report_lines.account_id"
         ],
@@ -2853,7 +2853,7 @@
       "target": "table.margin_accounts",
       "label": "maps to table",
       "properties": {
-        "description": "MarginAccount is populated from margin_accounts.",
+        "description": "Margin account source population mapped as MarginAccount entity records.",
         "fields": [
           "margin_accounts.account_id",
           "margin_accounts.account_status",

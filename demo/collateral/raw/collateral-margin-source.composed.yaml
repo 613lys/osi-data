@@ -730,6 +730,14 @@ mapping_edge_annotations:
   dataset: collateral_margin_report_lines
   description: Margin account identifiers as represented in the report-line dataset
     for requirement traceability.
+- concept: Counterparty
+  dataset: margin_accounts
+  description: Margin account source population provides the account-to-counterparty
+    referent used to relate Counterparty records to controlled margin accounts.
+- concept: MarginAccount
+  dataset: collateral_positions
+  description: Collateral position source population provides the account-to-collateral
+    referent used to relate MarginAccount records to pledged collateral assets.
 reporting_requirements:
 - name: 合格抵质押品报送需求
   type: ReportRequirement

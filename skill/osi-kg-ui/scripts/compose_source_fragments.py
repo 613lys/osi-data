@@ -204,6 +204,34 @@ def validate_mapping_annotations(
             errors.append(f"mapping_edge_annotations[{index}] is missing description.")
 
 
+def validate_mapping_annotation_coverage(
+    mappings: list[dict[str, Any]],
+    annotations: list[dict[str, Any]],
+    errors: list[str],
+) -> None:
+    annotated = {
+        (item.get("concept"), item.get("dataset"))
+        for item in annotations
+        if item.get("concept") and item.get("dataset") and str(item.get("description") or "").strip()
+    }
+    required: set[tuple[str, str]] = set()
+    for mapping in mappings:
+        concept = mapping.get("concept")
+        if not concept:
+            continue
+        for _expr_path, expr in walk_mapping_expressions(mapping):
+            if not isinstance(expr, str) or expr.count(".") != 1:
+                continue
+            dataset_name, _field_name = expr.split(".", 1)
+            if dataset_name != "metric":
+                required.add((concept, dataset_name))
+    missing = sorted(required - annotated)
+    for concept, dataset_name in missing:
+        errors.append(
+            f"Concept mapping {concept} -> dataset {dataset_name} is missing mapping_edge_annotations description. "
+            "Do not let the UI generate generic Concept -> Dataset descriptions."
+        )
+
 def validate_report_requirements(requirements: list[dict[str, Any]], base_entities: list[dict[str, Any]], entity_types: list[dict[str, Any]], metrics: list[dict[str, Any]], errors: list[str]) -> None:
     valid_refs = semantic_value_references(base_entities, entity_types)
     for requirement in requirements:
@@ -412,6 +440,7 @@ def validate_mapping_coverage(
     validate_ontology_relationship_descriptions(base_entities + entity_types, errors)
     validate_concept_mapping_expressions(mappings, datasets, metrics, errors)
     validate_mapping_annotations(datasets, mapping_edge_annotations or [], errors)
+    validate_mapping_annotation_coverage(mappings, mapping_edge_annotations or [], errors)
 
     for entity in entity_types:
         name = entity.get("name")

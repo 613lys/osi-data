@@ -2191,7 +2191,7 @@
       "target": "table.borrowers",
       "label": "maps to table",
       "properties": {
-        "description": "Borrower is populated from borrowers.",
+        "description": "Borrower master population mapped as Borrower entity records used by loan exposure reporting.",
         "fields": [
           "borrowers.borrower_id",
           "borrowers.borrower_name",
@@ -2258,7 +2258,7 @@
       "target": "table.institutional_loans",
       "label": "maps to table",
       "properties": {
-        "description": "Loan is populated from institutional_loans.",
+        "description": "Institutional facility source population mapped as Loan entity records for wholesale lending exposures.",
         "fields": [
           "institutional_loans.booking_date",
           "institutional_loans.exposure_currency",
@@ -2279,7 +2279,7 @@
       "target": "table.loan_exposure_report_lines",
       "label": "maps to table",
       "properties": {
-        "description": "Loan is populated from loan_exposure_report_lines.",
+        "description": "Prepared report-line population mapped back to Loan entity records for regulatory exposure presentation.",
         "fields": [
           "loan_exposure_report_lines.expected_loss_amount",
           "loan_exposure_report_lines.exposure_at_default_amount",
@@ -2299,7 +2299,7 @@
       "target": "table.retail_loans",
       "label": "maps to table",
       "properties": {
-        "description": "Loan is populated from retail_loans.",
+        "description": "Retail loan source population mapped as Loan entity records for consumer lending exposures.",
         "fields": [
           "retail_loans.currency",
           "retail_loans.lgd",
@@ -2632,7 +2632,7 @@
       "target": "table.loan_products",
       "label": "maps to table",
       "properties": {
-        "description": "LoanProduct is populated from loan_products.",
+        "description": "Product reference population mapped as LoanProduct entity records used for regulatory product classification.",
         "fields": [
           "loan_products.product_id",
           "loan_products.product_type",

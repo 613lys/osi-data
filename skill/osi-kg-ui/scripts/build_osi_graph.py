@@ -845,6 +845,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         "fields": sorted(field for field in mapping_fields_by_concept[concept] if field.startswith(f"{dataset_name}.")),
                     }
                     contexts = mapping_context_by_concept_dataset[concept].get(dataset_name) or []
+                    edge_description = "；".join(item.get("description", "") for item in contexts if item.get("description"))
                     if contexts:
                         edge_properties["ai_context"] = contexts[0] if len(contexts) == 1 else contexts
                     add_edge(
@@ -853,7 +854,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         table_id,
                         "MAPS_TO",
                         "maps to table",
-                        f"{concept} is populated from {dataset_name}.",
+                        edge_description,
                         edge_properties,
                     )
 
