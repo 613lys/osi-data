@@ -39,8 +39,10 @@ source: Daily Trade Exposure Reporting BRD v2.1 section 4.1
 SLA: Daily EOD before 21:00 local time.
 semantic_scope:
   concepts:
-  - Trade
-  - Account
+  - name: Trade
+    description: 需求需要 Trade 作为交易语义对象，用于表达每条报送交易的标识、金额和风险敞口口径。
+  - name: Account
+    description: 需求需要 Account 作为账户语义对象，用于说明交易敞口归属和账户级汇总口径。
   required_fields:
   - name: 交易标识
     description: 需求需要交易标识，用于唯一识别每条报送交易并支持报表行级对账。
@@ -67,7 +69,7 @@ Fields:
 - `description`: Required. Chinese requirement/BRD wording when the scenario is Chinese. Include non-data obligations such as timing, review, exception handling, reconciliation, evidence, retention, and submission controls here.
 - `source`: Required string. One concise raw source citation such as regulation article, BRD section, spreadsheet tab, Jira/Confluence page, email, or interview note. Do not expand into nested `regulator`, `regulation`, or `reporting_frequency` fields.
 - `SLA`: Required when the requirement has timing, review, submission, retention, or operational targets.
-- `semantic_scope.concepts`: EntityTypes in scope. Include only concepts needed by the requirement.
+- `semantic_scope.concepts`: Required objects, not plain strings. Each item has `name` and `description`; `description` explains the Requirement -> EntityType scope relationship and is shown on the `REQUIRES_CONCEPT` edge.
 - `semantic_scope.required_fields`: Data items extracted from the requirement.
 - `semantic_scope.controls`: Optional controls or validation rules over semantic fields.
 - `calculations`: Optional calculated requirement data items. `output` must be an EntityType-owned value field, not `metric.<name>`.
@@ -164,13 +166,14 @@ Do not generate these fields unless a separate app extension explicitly introduc
 ## UI Mapping
 
 - Report Requirement creates an orange top-level node.
-- Requirement required fields create child rows under the requirement node.
+- Requirement scope concepts create `REQUIRES_CONCEPT` edges to Entity Concept nodes using `semantic_scope.concepts[].description` as the edge/profile description. Requirement required fields create child rows under the requirement node.
 - Requirement field child rows connect to EntityType value fields with `REQUIRES_SEMANTIC_FIELD`.
 - Report Data Logic creates a purple top-level node.
 - Data Logic field mappings create child rows under the data logic node.
 - Data Logic field child rows connect to requirement fields with `IMPLEMENTS_FIELD`.
 - Data Logic field child rows connect to the described dataset field with `MAPS_TO_FIELD`, to source columns from `expression` and `source_field` with `SOURCE_FIELD`, and to requirement fields with `IMPLEMENTS_FIELD`.
 - Selecting a Data Logic field should not reveal a direct edge to EntityType value fields.
+
 
 
 

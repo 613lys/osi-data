@@ -54,7 +54,7 @@ Fields:
 - `description`: Required. Chinese requirement/BRD wording. Describe the requirement itself, including non-data requirements such as timing, approval, reconciliation, retention, manual review, exception handling, or submission controls. Do not reduce it to a data-field summary.
 - `source`: Required string. Raw source resource for the requirement, such as a regulation article, BRD section, spreadsheet tab, Jira/Confluence page, email, or interview note. Keep it as one concise citation string; do not expand it into nested metadata fields.
 - `SLA`: Required string when the requirement has any timeliness, review, submission, retention, or operational service target. Use it for delivery cadence/deadline expectations instead of `reporting_frequency`.
-- `semantic_scope.concepts`: EntityTypes in scope for this requirement.
+- `semantic_scope.concepts`: Required list of objects. Each item declares a Requirement -> EntityType semantic scope relationship and must include `name` and `description`. The `description` explains why this requirement needs that EntityType and is used as the `REQUIRES_CONCEPT` edge profile text.
 - `semantic_scope.relationships`: Optional. Use only when the raw requirement explicitly requires a relationship between EntityTypes, such as proving account ownership, collateral linkage, parent/child aggregation, or settlement linkage. Do not add it just to support field mapping or graph navigation.
 - `semantic_scope.required_fields`: Data items extracted from the requirement. Each item must have a Chinese `name`, Chinese `description`, and must map to an existing EntityType-owned value field.
 - `semantic_scope.controls`: Validation/control rules over semantic concepts or fields.
@@ -72,7 +72,7 @@ Required field shape:
 Relationship To Other YAML:
 
 - `source` stays in app metadata and is shown in the Report Requirement profile; it is not copied into strict OSI YAML.
-- `semantic_scope.concepts` must name EntityTypes from ontology fragments.
+- `semantic_scope.concepts[].name` must name EntityTypes from ontology fragments. `semantic_scope.concepts[].description` is required and must describe the requirement-to-entity relationship, not the EntityType definition itself.
 - If `semantic_scope.relationships[]` is used, each `relationship` must name an existing EntityType-to-EntityType relationship from ontology fragments and the requirement text must justify why that relationship itself is required.
 - Required fields must reference existing EntityType-to-ValueType relationships, or explicit gaps after user confirmation. A field without `name`, `description`, and `semantic_reference` is incomplete. Do not repeat `concept`, `relationship`, `value_concept`, or `purpose`; they are derived from `semantic_reference` and the ontology.
 - Requirement fragments do not reference physical tables directly; physical delivery logic belongs in Report Data Logic.
@@ -95,7 +95,7 @@ UI effect:
 - Creates a blue Report Requirement node.
 - Shows `source` and `SLA` in the Report Requirement profile.
 - Creates requirement child rows for required fields, calculations, controls, and only explicit relationship requirements.
-- Creates `REQUIRES_CONCEPT` and `REQUIRES_SEMANTIC_FIELD` edges; creates `REQUIRES_SEMANTIC_RELATIONSHIP` only for explicit relationship requirements.
+- Creates `REQUIRES_CONCEPT` and `REQUIRES_SEMANTIC_FIELD` edges; `REQUIRES_CONCEPT` descriptions come directly from `semantic_scope.concepts[].description`; creates `REQUIRES_SEMANTIC_RELATIONSHIP` only for explicit relationship requirements.
 - Requirement field edges appear only after selecting a concrete requirement field row.
 
 ## Report Data Logic Fragment
@@ -167,4 +167,5 @@ UI effect:
 - Creates `MAPS_TO_FIELD` from a data logic field row to the dataset field it describes.
 - Creates `SOURCE_FIELD` and `IMPLEMENTS_FIELD` field-level edges.
 - Report Data Logic field edges appear only after selecting a concrete field mapping row.
+
 

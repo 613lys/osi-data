@@ -976,7 +976,20 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             "controls": requirement.get("controls") or [],
         }
 
-        required_concepts = set(semantic_scope.get("concepts") or [])
+        required_concepts: set[str] = set()
+        concept_scope_descriptions: dict[str, str] = {}
+        for concept_entry in semantic_scope.get("concepts") or []:
+            if isinstance(concept_entry, dict):
+                concept_name = concept_entry.get("name") or concept_entry.get("concept")
+                concept_description = concept_entry.get("description") or ""
+            else:
+                concept_name = concept_entry
+                concept_description = ""
+            if concept_name:
+                required_concepts.add(concept_name)
+                if concept_description:
+                    concept_scope_descriptions[concept_name] = concept_description
+
         concept_requirement_descriptions: dict[str, list[str]] = defaultdict(list)
         concept_requirement_fields: dict[str, list[dict[str, str]]] = defaultdict(list)
 
@@ -1033,9 +1046,9 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     concept_id,
                     "REQUIRES_CONCEPT",
                     "REQUIRES_CONCEPT",
-                    "; ".join(descriptions),
+                    concept_scope_descriptions.get(concept_name) or "; ".join(descriptions),
                     {
-                        "source_field": "reporting_requirements.semantic_scope",
+                        "source_field": "reporting_requirements.semantic_scope.concepts",
                         "required_fields": fields,
                     },
                 )

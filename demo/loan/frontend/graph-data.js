@@ -2684,8 +2684,8 @@ window.GRAPH_DATA = {
       "target": "concept.Borrower",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "借款人标识: 需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
-        "source_field": "reporting_requirements.semantic_scope",
+        "description": "需求需要 Borrower 作为承担还款责任的客户或法律实体语义对象，用于说明每笔贷款暴露归属的借款人。",
+        "source_field": "reporting_requirements.semantic_scope.concepts",
         "required_fields": [
           {
             "name": "借款人标识",
@@ -2702,8 +2702,8 @@ window.GRAPH_DATA = {
       "target": "concept.Loan",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "贷款标识: 需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。; 本金金额: 需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。; 风险暴露金额: 需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。; 预期损失金额: 需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。",
-        "source_field": "reporting_requirements.semantic_scope",
+        "description": "需求需要 Loan 作为贷款风险暴露的核心语义对象，用于表达每笔零售或机构贷款的标识、本金、风险暴露和预期损失口径。",
+        "source_field": "reporting_requirements.semantic_scope.concepts",
         "required_fields": [
           {
             "name": "贷款标识",
@@ -2735,8 +2735,8 @@ window.GRAPH_DATA = {
       "target": "concept.LoanProduct",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "产品标识: 需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
-        "source_field": "reporting_requirements.semantic_scope",
+        "description": "需求需要 LoanProduct 作为贷款产品语义对象，用于按监管产品类别解释和汇总贷款风险暴露。",
+        "source_field": "reporting_requirements.semantic_scope.concepts",
         "required_fields": [
           {
             "name": "产品标识",

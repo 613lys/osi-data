@@ -2529,10 +2529,22 @@
     "SLA": "Daily EOD before 21:00 local time; business review and exception notes completed before submission.",
     "semantic_scope": {
       "concepts": [
-        "MarginAccount",
-        "Counterparty",
-        "CollateralAsset",
-        "CollateralValuation"
+        {
+          "name": "MarginAccount",
+          "description": "需求需要 MarginAccount 作为保证金账户语义对象，用于说明每条报表记录归属的账户和账户级对账口径。"
+        },
+        {
+          "name": "Counterparty",
+          "description": "需求需要 Counterparty 作为交易对手语义对象，用于按法律实体或监管对象解释抵质押品暴露归属。"
+        },
+        {
+          "name": "CollateralAsset",
+          "description": "需求需要 CollateralAsset 作为抵质押品资产语义对象，用于识别参与合格抵质押品计算的资产或头寸。"
+        },
+        {
+          "name": "CollateralValuation",
+          "description": "需求需要 CollateralValuation 作为抵质押品估值语义对象，用于表达估值日期、市场价值、监管折扣率和折扣后价值。"
+        }
       ],
       "required_fields": [
         {

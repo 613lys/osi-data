@@ -227,6 +227,23 @@ def validate_report_requirements(requirements: list[dict[str, Any]], base_entiti
         forbidden = [key for key in ("regulator", "regulation", "reporting_frequency", "reporting_grain") if key in requirement]
         if forbidden:
             errors.append(f"Report Requirement {name} uses deprecated fixed fields: {forbidden}. Use description/source/SLA instead.")
+        valid_entity_names = {item.get("name") for item in entity_types if item.get("name")}
+        semantic_scope = requirement.get("semantic_scope") or {}
+        for concept_entry in semantic_scope.get("concepts") or []:
+            if not isinstance(concept_entry, dict):
+                errors.append(f"Report Requirement {name} semantic_scope.concepts must use objects with name and description, not plain strings.")
+                continue
+            concept_name_value = str(concept_entry.get("name") or concept_entry.get("concept") or "").strip()
+            concept_description = str(concept_entry.get("description") or "").strip()
+            if not concept_name_value:
+                errors.append(f"Report Requirement {name} semantic_scope.concepts item is missing name.")
+            elif concept_name_value not in valid_entity_names:
+                errors.append(f"Report Requirement {name} semantic_scope concept {concept_name_value} must be an existing EntityType.")
+            if not concept_description:
+                display_name = concept_name_value or "<unknown>"
+                errors.append(f"Report Requirement {name} semantic_scope concept {display_name} is missing description for the Requirement -> Entity edge.")
+            elif len(concept_description) < 16:
+                errors.append(f"Report Requirement {name} semantic_scope concept {concept_name_value} description must explain why this requirement needs that EntityType.")
         for field in ((requirement.get("semantic_scope") or {}).get("required_fields") or []):
             field_name = field.get("name", "<unknown>")
             field_description = str(field.get("description") or "").strip()
@@ -486,6 +503,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 

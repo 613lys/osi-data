@@ -2502,9 +2502,18 @@
     "SLA": "Daily EOD before 22:00 local time; credit risk review completed before regulatory submission.",
     "semantic_scope": {
       "concepts": [
-        "Loan",
-        "Borrower",
-        "LoanProduct"
+        {
+          "name": "Loan",
+          "description": "需求需要 Loan 作为贷款风险暴露的核心语义对象，用于表达每笔零售或机构贷款的标识、本金、风险暴露和预期损失口径。"
+        },
+        {
+          "name": "Borrower",
+          "description": "需求需要 Borrower 作为承担还款责任的客户或法律实体语义对象，用于说明每笔贷款暴露归属的借款人。"
+        },
+        {
+          "name": "LoanProduct",
+          "description": "需求需要 LoanProduct 作为贷款产品语义对象，用于按监管产品类别解释和汇总贷款风险暴露。"
+        }
       ],
       "required_fields": [
         {

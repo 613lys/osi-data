@@ -2914,8 +2914,8 @@
       "target": "concept.CollateralAsset",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "抵质押品标识: 需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
-        "source_field": "reporting_requirements.semantic_scope",
+        "description": "需求需要 CollateralAsset 作为抵质押品资产语义对象，用于识别参与合格抵质押品计算的资产或头寸。",
+        "source_field": "reporting_requirements.semantic_scope.concepts",
         "required_fields": [
           {
             "name": "抵质押品标识",
@@ -2932,8 +2932,8 @@
       "target": "concept.CollateralValuation",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "估值日期: 需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。; 抵质押品折扣前市场价值: 需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。; 监管折扣率: 需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。; 折扣后合格抵质押品价值: 需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。",
-        "source_field": "reporting_requirements.semantic_scope",
+        "description": "需求需要 CollateralValuation 作为抵质押品估值语义对象，用于表达估值日期、市场价值、监管折扣率和折扣后价值。",
+        "source_field": "reporting_requirements.semantic_scope.concepts",
         "required_fields": [
           {
             "name": "估值日期",
@@ -2965,8 +2965,8 @@
       "target": "concept.Counterparty",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "交易对手标识: 需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
-        "source_field": "reporting_requirements.semantic_scope",
+        "description": "需求需要 Counterparty 作为交易对手语义对象，用于按法律实体或监管对象解释抵质押品暴露归属。",
+        "source_field": "reporting_requirements.semantic_scope.concepts",
         "required_fields": [
           {
             "name": "交易对手标识",
@@ -2983,8 +2983,8 @@
       "target": "concept.MarginAccount",
       "label": "REQUIRES_CONCEPT",
       "properties": {
-        "description": "保证金账户标识: 需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
-        "source_field": "reporting_requirements.semantic_scope",
+        "description": "需求需要 MarginAccount 作为保证金账户语义对象，用于说明每条报表记录归属的账户和账户级对账口径。",
+        "source_field": "reporting_requirements.semantic_scope.concepts",
         "required_fields": [
           {
             "name": "保证金账户标识",
