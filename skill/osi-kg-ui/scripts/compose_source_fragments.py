@@ -386,6 +386,17 @@ def validate_dataset_descriptions(datasets: list[dict[str, Any]], errors: list[s
                             errors.append(f"Dataset {name} field {field_name} expression dialects[{index}] is missing scalar SQL expression.")
 
 
+def validate_ontology_relationship_descriptions(concepts: list[dict[str, Any]], errors: list[str]) -> None:
+    for concept in concepts:
+        concept_name = concept.get("name", "<unknown>")
+        for relationship in concept.get("relationships") or []:
+            rel_name = relationship.get("name", "<unknown>")
+            description = str(relationship.get("description") or "").strip()
+            if not description:
+                errors.append(f"Concept {concept_name} relationship {rel_name} is missing description for the UI edge/profile.")
+            elif len(description) < 8:
+                errors.append(f"Concept {concept_name} relationship {rel_name} description is too short to explain the relationship context.")
+
 def validate_mapping_coverage(
     base_entities: list[dict[str, Any]],
     entity_types: list[dict[str, Any]],
@@ -398,6 +409,7 @@ def validate_mapping_coverage(
     mapping_by_concept = {item.get("concept"): item for item in mappings if item.get("concept")}
     errors: list[str] = []
     validate_dataset_descriptions(datasets, errors)
+    validate_ontology_relationship_descriptions(base_entities + entity_types, errors)
     validate_concept_mapping_expressions(mappings, datasets, metrics, errors)
     validate_mapping_annotations(datasets, mapping_edge_annotations or [], errors)
 

@@ -38,6 +38,7 @@ raw/fragments/ui_annotations/mapping_edge_annotations.yaml
 - Do not generate an EntityType relationship if no semantic model dataset field, expression, constant, or explicit gap can map it.
 - Base Entity relationships are abstract and do not need their own mapping file, but each concrete EntityType inheriting them must map those inherited relationships.
 - Entity Concept -> Dataset mapping is inferred from concept mapping `dataset.field` references. Optional edge-profile descriptions go in `ui_annotations/mapping_edge_annotations.yaml`, not in concept mappings.
+- Every ontology relationship under Base Entity Concept or Entity Concept must include description; the graph uses it for the business edge/profile description.
 - Mapping `expression` values must reference `semantic_model.datasets[].name.field`, not undeclared physical table names.
 
 ## UI Effect Summary
@@ -47,6 +48,7 @@ raw/fragments/ui_annotations/mapping_edge_annotations.yaml
 - EntityType-to-ValueType relationships render as child field rows under EntityType nodes.
 - Standalone concept mappings create `MAPS_TO` and `MAPS_TO_FIELD` edges.
 - Dataset `description` appears on the Table node profile; optional app metadata `mapping_edge_annotations` appears on the `MAPS_TO` edge profile.
+
 
 
 

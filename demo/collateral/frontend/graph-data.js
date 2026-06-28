@@ -1340,7 +1340,7 @@ window.GRAPH_DATA = {
       "target": "value.AccountData.has_AccountIdentifier",
       "label": "contains value",
       "properties": {
-        "description": "AccountData has value concept has_AccountIdentifier (AccountIdentifier).",
+        "description": "Identifier common to account-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{AccountData} has account identifier {AccountIdentifier}"
@@ -1357,7 +1357,7 @@ window.GRAPH_DATA = {
       "target": "value.AccountData.has_AccountStatus",
       "label": "contains value",
       "properties": {
-        "description": "AccountData has value concept has_AccountStatus (StatusCode).",
+        "description": "Status common to account-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{AccountData} has account status {StatusCode}"
@@ -1374,7 +1374,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralAssetData.has_CollateralIdentifier",
       "label": "contains value",
       "properties": {
-        "description": "CollateralAssetData has value concept has_CollateralIdentifier (CollateralIdentifier).",
+        "description": "Identifier common to collateral asset records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
@@ -1391,7 +1391,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralAssetData.has_AssetType",
       "label": "contains value",
       "properties": {
-        "description": "CollateralAssetData has value concept has_AssetType (AssetType).",
+        "description": "Asset type common to collateral asset records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralAssetData} has asset type {AssetType}"
@@ -1408,7 +1408,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralAssetData.has_AssetCurrency",
       "label": "contains value",
       "properties": {
-        "description": "CollateralAssetData has value concept has_AssetCurrency (CurrencyCode).",
+        "description": "Currency common to collateral asset records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralAssetData} has currency {CurrencyCode}"
@@ -1425,7 +1425,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralAssetData.has_IssuerCountry",
       "label": "contains value",
       "properties": {
-        "description": "CollateralAssetData has value concept has_IssuerCountry (CountryCode).",
+        "description": "Issuer country common to collateral asset records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralAssetData} has issuer country {CountryCode}"
@@ -1442,7 +1442,7 @@ window.GRAPH_DATA = {
       "target": "value.CounterpartyData.has_CounterpartyIdentifier",
       "label": "contains value",
       "properties": {
-        "description": "CounterpartyData has value concept has_CounterpartyIdentifier (CounterpartyIdentifier).",
+        "description": "Identifier common to counterparty-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
@@ -1459,7 +1459,7 @@ window.GRAPH_DATA = {
       "target": "value.CounterpartyData.has_LegalName",
       "label": "contains value",
       "properties": {
-        "description": "CounterpartyData has value concept has_LegalName (LegalName).",
+        "description": "Legal name common to counterparty-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CounterpartyData} has legal name {LegalName}"
@@ -1476,7 +1476,7 @@ window.GRAPH_DATA = {
       "target": "value.CounterpartyData.has_DomicileCountry",
       "label": "contains value",
       "properties": {
-        "description": "CounterpartyData has value concept has_DomicileCountry (CountryCode).",
+        "description": "Domicile country common to counterparty-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CounterpartyData} has domicile country {CountryCode}"
@@ -1493,7 +1493,7 @@ window.GRAPH_DATA = {
       "target": "value.CounterpartyData.has_RegulatorySegment",
       "label": "contains value",
       "properties": {
-        "description": "CounterpartyData has value concept has_RegulatorySegment (RegulatorySegment).",
+        "description": "Regulatory segment common to counterparty-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CounterpartyData} has regulatory segment {RegulatorySegment}"
@@ -1510,7 +1510,7 @@ window.GRAPH_DATA = {
       "target": "value.ValuationData.has_ValuationIdentifier",
       "label": "contains value",
       "properties": {
-        "description": "ValuationData has value concept has_ValuationIdentifier (ValuationIdentifier).",
+        "description": "Identifier common to valuation records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{ValuationData} has valuation identifier {ValuationIdentifier}"
@@ -1527,7 +1527,7 @@ window.GRAPH_DATA = {
       "target": "value.ValuationData.has_ValuationDate",
       "label": "contains value",
       "properties": {
-        "description": "ValuationData has value concept has_ValuationDate (Date).",
+        "description": "Date common to valuation records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{ValuationData} has valuation date {Date}"
@@ -1555,6 +1555,7 @@ window.GRAPH_DATA = {
       "target": "concept.MarginAccount",
       "label": "PART_OF_MarginAccount",
       "properties": {
+        "description": "Margin account whose obligations are supported by this collateral asset.",
         "verbalizes": [
           "{CollateralAsset} is part of the collateral set for {MarginAccount}"
         ],
@@ -1582,6 +1583,7 @@ window.GRAPH_DATA = {
       "target": "concept.CollateralAsset",
       "label": "VALUES_CollateralAsset",
       "properties": {
+        "description": "Collateral asset whose market value and haircut are measured by this valuation.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralValuation} values {CollateralAsset}"
@@ -1599,7 +1601,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralValuation.has_MarketValueAmount",
       "label": "contains value",
       "properties": {
-        "description": "CollateralValuation has value concept has_MarketValueAmount (MonetaryAmount).",
+        "description": "Gross market value before haircut.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralValuation} has market value amount {MonetaryAmount}"
@@ -1616,7 +1618,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralValuation.has_HaircutRate",
       "label": "contains value",
       "properties": {
-        "description": "CollateralValuation has value concept has_HaircutRate (Rate).",
+        "description": "Haircut rate applied to the collateral valuation.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralValuation} has haircut rate {Rate}"
@@ -1633,7 +1635,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralValuation.has_EligibleCollateralValue",
       "label": "contains value",
       "properties": {
-        "description": "CollateralValuation has value concept has_EligibleCollateralValue (MonetaryAmount).",
+        "description": "Market value after haircut represented as an entity-level calculated collateral valuation amount.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralValuation} has eligible collateral value {MonetaryAmount}"
@@ -1661,6 +1663,7 @@ window.GRAPH_DATA = {
       "target": "concept.MarginAccount",
       "label": "RELATED_TO_MarginAccount",
       "properties": {
+        "description": "Margin accounts owned or controlled by the counterparty.",
         "verbalizes": [
           "{Counterparty} is related to {MarginAccount} through account ownership or control"
         ],
@@ -1688,6 +1691,7 @@ window.GRAPH_DATA = {
       "target": "concept.Counterparty",
       "label": "REFERENCES_Counterparty",
       "properties": {
+        "description": "Counterparty that owns or controls the margin account.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{MarginAccount} is owned by {Counterparty}"
@@ -1705,6 +1709,7 @@ window.GRAPH_DATA = {
       "target": "concept.CollateralAsset",
       "label": "DEPENDS_ON_CollateralAsset",
       "properties": {
+        "description": "Collateral assets pledged against this margin account.",
         "verbalizes": [
           "{MarginAccount} depends on pledged {CollateralAsset} for margin coverage"
         ],
@@ -1721,7 +1726,7 @@ window.GRAPH_DATA = {
       "target": "value.MarginAccount.has_BaseCurrency",
       "label": "contains value",
       "properties": {
-        "description": "MarginAccount has value concept has_BaseCurrency (CurrencyCode).",
+        "description": "Currency used as the margin account base currency.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{MarginAccount} has base currency {CurrencyCode}"
@@ -1738,7 +1743,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralAsset.has_CollateralIdentifier",
       "label": "inherited value",
       "properties": {
-        "description": "CollateralAsset inherits value concept has_CollateralIdentifier (CollateralIdentifier) from CollateralAssetData.",
+        "description": "Identifier common to collateral asset records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
@@ -1758,7 +1763,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralAsset.has_AssetType",
       "label": "inherited value",
       "properties": {
-        "description": "CollateralAsset inherits value concept has_AssetType (AssetType) from CollateralAssetData.",
+        "description": "Asset type common to collateral asset records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralAssetData} has asset type {AssetType}"
@@ -1778,7 +1783,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralAsset.has_AssetCurrency",
       "label": "inherited value",
       "properties": {
-        "description": "CollateralAsset inherits value concept has_AssetCurrency (CurrencyCode) from CollateralAssetData.",
+        "description": "Currency common to collateral asset records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralAssetData} has currency {CurrencyCode}"
@@ -1798,7 +1803,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralAsset.has_IssuerCountry",
       "label": "inherited value",
       "properties": {
-        "description": "CollateralAsset inherits value concept has_IssuerCountry (CountryCode) from CollateralAssetData.",
+        "description": "Issuer country common to collateral asset records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CollateralAssetData} has issuer country {CountryCode}"
@@ -1818,7 +1823,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralValuation.has_ValuationIdentifier",
       "label": "inherited value",
       "properties": {
-        "description": "CollateralValuation inherits value concept has_ValuationIdentifier (ValuationIdentifier) from ValuationData.",
+        "description": "Identifier common to valuation records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{ValuationData} has valuation identifier {ValuationIdentifier}"
@@ -1838,7 +1843,7 @@ window.GRAPH_DATA = {
       "target": "value.CollateralValuation.has_ValuationDate",
       "label": "inherited value",
       "properties": {
-        "description": "CollateralValuation inherits value concept has_ValuationDate (Date) from ValuationData.",
+        "description": "Date common to valuation records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{ValuationData} has valuation date {Date}"
@@ -1858,7 +1863,7 @@ window.GRAPH_DATA = {
       "target": "value.Counterparty.has_CounterpartyIdentifier",
       "label": "inherited value",
       "properties": {
-        "description": "Counterparty inherits value concept has_CounterpartyIdentifier (CounterpartyIdentifier) from CounterpartyData.",
+        "description": "Identifier common to counterparty-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
@@ -1878,7 +1883,7 @@ window.GRAPH_DATA = {
       "target": "value.Counterparty.has_LegalName",
       "label": "inherited value",
       "properties": {
-        "description": "Counterparty inherits value concept has_LegalName (LegalName) from CounterpartyData.",
+        "description": "Legal name common to counterparty-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CounterpartyData} has legal name {LegalName}"
@@ -1898,7 +1903,7 @@ window.GRAPH_DATA = {
       "target": "value.Counterparty.has_DomicileCountry",
       "label": "inherited value",
       "properties": {
-        "description": "Counterparty inherits value concept has_DomicileCountry (CountryCode) from CounterpartyData.",
+        "description": "Domicile country common to counterparty-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CounterpartyData} has domicile country {CountryCode}"
@@ -1918,7 +1923,7 @@ window.GRAPH_DATA = {
       "target": "value.Counterparty.has_RegulatorySegment",
       "label": "inherited value",
       "properties": {
-        "description": "Counterparty inherits value concept has_RegulatorySegment (RegulatorySegment) from CounterpartyData.",
+        "description": "Regulatory segment common to counterparty-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CounterpartyData} has regulatory segment {RegulatorySegment}"
@@ -1938,7 +1943,7 @@ window.GRAPH_DATA = {
       "target": "value.MarginAccount.has_AccountIdentifier",
       "label": "inherited value",
       "properties": {
-        "description": "MarginAccount inherits value concept has_AccountIdentifier (AccountIdentifier) from AccountData.",
+        "description": "Identifier common to account-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{AccountData} has account identifier {AccountIdentifier}"
@@ -1958,7 +1963,7 @@ window.GRAPH_DATA = {
       "target": "value.MarginAccount.has_AccountStatus",
       "label": "inherited value",
       "properties": {
-        "description": "MarginAccount inherits value concept has_AccountStatus (StatusCode) from AccountData.",
+        "description": "Status common to account-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{AccountData} has account status {StatusCode}"

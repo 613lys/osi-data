@@ -1184,7 +1184,7 @@ window.GRAPH_DATA = {
       "target": "value.CustomerData.has_CustomerIdentifier",
       "label": "contains value",
       "properties": {
-        "description": "CustomerData has value concept has_CustomerIdentifier (CustomerIdentifier).",
+        "description": "Customer identifier common to customer-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{CustomerData} has customer identifier {CustomerIdentifier}"
@@ -1201,7 +1201,7 @@ window.GRAPH_DATA = {
       "target": "value.CustomerData.has_CustomerSegment",
       "label": "contains value",
       "properties": {
-        "description": "CustomerData has value concept has_CustomerSegment (CustomerSegment).",
+        "description": "Customer segment common to customer-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CustomerData} has customer segment {CustomerSegment}"
@@ -1218,7 +1218,7 @@ window.GRAPH_DATA = {
       "target": "value.LoanData.has_LoanIdentifier",
       "label": "contains value",
       "properties": {
-        "description": "LoanData has value concept has_LoanIdentifier (LoanIdentifier).",
+        "description": "Loan identifier common to loan-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{LoanData} has loan identifier {LoanIdentifier}"
@@ -1235,7 +1235,7 @@ window.GRAPH_DATA = {
       "target": "value.LoanData.has_OriginationDate",
       "label": "contains value",
       "properties": {
-        "description": "LoanData has value concept has_OriginationDate (CalendarDate).",
+        "description": "Origination or booking date common to loan-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{LoanData} has origination date {CalendarDate}"
@@ -1252,7 +1252,7 @@ window.GRAPH_DATA = {
       "target": "value.ProductData.has_ProductIdentifier",
       "label": "contains value",
       "properties": {
-        "description": "ProductData has value concept has_ProductIdentifier (ProductIdentifier).",
+        "description": "Product identifier common to product-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{ProductData} has product identifier {ProductIdentifier}"
@@ -1280,7 +1280,7 @@ window.GRAPH_DATA = {
       "target": "value.Borrower.has_BorrowerName",
       "label": "contains value",
       "properties": {
-        "description": "Borrower has value concept has_BorrowerName (PersonOrEntityName).",
+        "description": "Display name of the borrower or legal entity.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Borrower} has borrower name {PersonOrEntityName}"
@@ -1297,7 +1297,7 @@ window.GRAPH_DATA = {
       "target": "value.Borrower.has_BorrowerCountry",
       "label": "contains value",
       "properties": {
-        "description": "Borrower has value concept has_BorrowerCountry (CountryCode).",
+        "description": "Country or jurisdiction associated with the borrower.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Borrower} has borrower country {CountryCode}"
@@ -1325,6 +1325,7 @@ window.GRAPH_DATA = {
       "target": "concept.Borrower",
       "label": "REFERENCES_Borrower",
       "properties": {
+        "description": "Borrower responsible for repayment of the loan exposure.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Loan} is owed by {Borrower}"
@@ -1342,6 +1343,7 @@ window.GRAPH_DATA = {
       "target": "concept.LoanProduct",
       "label": "REFERENCES_LoanProduct",
       "properties": {
+        "description": "Lending product classification applied to the loan exposure.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Loan} uses lending product {LoanProduct}"
@@ -1359,7 +1361,7 @@ window.GRAPH_DATA = {
       "target": "value.Loan.has_PrincipalAmount",
       "label": "contains value",
       "properties": {
-        "description": "Loan has value concept has_PrincipalAmount (MonetaryAmount).",
+        "description": "Contractual principal or notional amount of the loan exposure.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Loan} has principal amount {MonetaryAmount}"
@@ -1376,7 +1378,7 @@ window.GRAPH_DATA = {
       "target": "value.Loan.has_LoanCurrency",
       "label": "contains value",
       "properties": {
-        "description": "Loan has value concept has_LoanCurrency (CurrencyCode).",
+        "description": "Currency in which the loan exposure is booked or managed.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Loan} has loan currency {CurrencyCode}"
@@ -1393,7 +1395,7 @@ window.GRAPH_DATA = {
       "target": "value.Loan.has_ExposureAtDefaultAmount",
       "label": "contains value",
       "properties": {
-        "description": "Loan has value concept has_ExposureAtDefaultAmount (MonetaryAmount).",
+        "description": "Exposure amount used for regulatory credit risk calculations.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Loan} has exposure at default amount {MonetaryAmount}"
@@ -1410,7 +1412,7 @@ window.GRAPH_DATA = {
       "target": "value.Loan.has_ProbabilityOfDefault",
       "label": "contains value",
       "properties": {
-        "description": "Loan has value concept has_ProbabilityOfDefault (Rate).",
+        "description": "Probability of default assigned to the loan exposure.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Loan} has probability of default {Rate}"
@@ -1427,7 +1429,7 @@ window.GRAPH_DATA = {
       "target": "value.Loan.has_LossGivenDefault",
       "label": "contains value",
       "properties": {
-        "description": "Loan has value concept has_LossGivenDefault (Rate).",
+        "description": "Loss given default rate assigned to the loan exposure.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Loan} has loss given default {Rate}"
@@ -1444,7 +1446,7 @@ window.GRAPH_DATA = {
       "target": "value.Loan.has_ExpectedLossAmount",
       "label": "contains value",
       "properties": {
-        "description": "Loan has value concept has_ExpectedLossAmount (MonetaryAmount).",
+        "description": "Calculated expected loss amount for the loan exposure.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{Loan} has expected loss amount {MonetaryAmount}"
@@ -1472,7 +1474,7 @@ window.GRAPH_DATA = {
       "target": "value.LoanProduct.has_ProductType",
       "label": "contains value",
       "properties": {
-        "description": "LoanProduct has value concept has_ProductType (ProductType).",
+        "description": "Product type used to group lending exposures.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{LoanProduct} has product type {ProductType}"
@@ -1489,7 +1491,7 @@ window.GRAPH_DATA = {
       "target": "value.LoanProduct.has_RegulatoryProductClass",
       "label": "contains value",
       "properties": {
-        "description": "LoanProduct has value concept has_RegulatoryProductClass (RegulatoryClass).",
+        "description": "Regulatory classification applied to the loan product.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{LoanProduct} has regulatory product class {RegulatoryClass}"
@@ -1506,7 +1508,7 @@ window.GRAPH_DATA = {
       "target": "value.Borrower.has_CustomerIdentifier",
       "label": "inherited value",
       "properties": {
-        "description": "Borrower inherits value concept has_CustomerIdentifier (CustomerIdentifier) from CustomerData.",
+        "description": "Customer identifier common to customer-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{CustomerData} has customer identifier {CustomerIdentifier}"
@@ -1526,7 +1528,7 @@ window.GRAPH_DATA = {
       "target": "value.Borrower.has_CustomerSegment",
       "label": "inherited value",
       "properties": {
-        "description": "Borrower inherits value concept has_CustomerSegment (CustomerSegment) from CustomerData.",
+        "description": "Customer segment common to customer-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{CustomerData} has customer segment {CustomerSegment}"
@@ -1546,7 +1548,7 @@ window.GRAPH_DATA = {
       "target": "value.Loan.has_LoanIdentifier",
       "label": "inherited value",
       "properties": {
-        "description": "Loan inherits value concept has_LoanIdentifier (LoanIdentifier) from LoanData.",
+        "description": "Loan identifier common to loan-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{LoanData} has loan identifier {LoanIdentifier}"
@@ -1566,7 +1568,7 @@ window.GRAPH_DATA = {
       "target": "value.Loan.has_OriginationDate",
       "label": "inherited value",
       "properties": {
-        "description": "Loan inherits value concept has_OriginationDate (CalendarDate) from LoanData.",
+        "description": "Origination or booking date common to loan-like records.",
         "multiplicity": "ManyToOne",
         "verbalizes": [
           "{LoanData} has origination date {CalendarDate}"
@@ -1586,7 +1588,7 @@ window.GRAPH_DATA = {
       "target": "value.LoanProduct.has_ProductIdentifier",
       "label": "inherited value",
       "properties": {
-        "description": "LoanProduct inherits value concept has_ProductIdentifier (ProductIdentifier) from ProductData.",
+        "description": "Product identifier common to product-like records.",
         "multiplicity": "OneToOne",
         "verbalizes": [
           "{ProductData} has product identifier {ProductIdentifier}"

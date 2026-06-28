@@ -340,7 +340,7 @@ def relationship_properties(
     extra: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     properties: dict[str, Any] = {}
-    for key in ("multiplicity", "verbalizes", "requires", "derived_by"):
+    for key in ("description", "multiplicity", "verbalizes", "requires", "derived_by"):
         value = rel.get(key)
         if value not in (None, "", [], {}):
             properties[key] = value
@@ -598,7 +598,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         target_id,
                         action,
                         rel_name,
-                        "",
+                        rel.get("description") or "",
                         relationship_properties(name, rel_name, rel, {"roles": [role]}),
                         emit_type=False,
                         edge_id=rel_name,
@@ -1377,6 +1377,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 

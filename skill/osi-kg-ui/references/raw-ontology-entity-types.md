@@ -41,7 +41,7 @@ Additional fields:
 - `extends`: Required. Must name an existing Base Entity such as `AccountData`, `TransactionData`, or `PositionData`.
 - EntityType-to-EntityType relationships point to another EntityType in `roles[].concept`.
 - EntityType-to-ValueType relationships point to a ValueType in `roles[].concept` and render as fields/properties in the UI.
-- `description` on a relationship is optional. Use it to capture context that is not obvious from `name` and `verbalizes`.
+- `description` on every relationship is required. It is the UI edge/profile description and should capture context that is not obvious from `name` and `verbalizes`. Do not rely on `verbalizes` alone; `verbalizes` is a sentence template, while `description` explains the relationship meaning.
 - Do not redeclare fields already declared by the Base Entity. The UI will show inherited Base Entity fields inside the concrete EntityType node.
 - Do not put `concept_mapping` in EntityType YAML. Put mappings in standalone `concept_mappings/*.yaml` files.
 - Every EntityType should have at least one ValueType field of its own or inherited from its Base Entity, and at least one relationship to another EntityType. If the relationship is unknown, ask the user rather than inventing one.
@@ -99,6 +99,7 @@ Rules:
 - The relationship name should follow the same ValueType field naming style as direct fields, for example `has_EligibleCollateralValue`, `has_ExposureAmount`, or `has_RiskWeightedAmount`.
 - The role `concept` should be the metric value domain, such as `MonetaryAmount`, `Rate`, `Decimal`, or `Quantity`.
 - The relationship mapping must use `expression: metric.<metric_name>` in `raw/fragments/concept_mappings/*.yaml`.
+
 
 
 
