@@ -777,6 +777,44 @@ p {
   pointer-events: none;
 }
 
+.graph-band {
+  position: absolute;
+  border: 1px solid #cfd8e6;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .64);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .72);
+  z-index: 0;
+  pointer-events: none;
+  padding: 14px 16px;
+  color: #344054;
+}
+
+.graph-band strong,
+.graph-band small {
+  display: block;
+}
+
+.graph-band strong {
+  font-size: 13px;
+  font-weight: 780;
+  text-transform: uppercase;
+}
+
+.graph-band small {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.graph-band.ontology {
+  border-color: #b9d2ff;
+  background: rgba(244, 248, 255, .68);
+}
+
+.graph-band.semantic {
+  border-color: #a9d9b8;
+  background: rgba(243, 251, 245, .68);
+}
 .graph-node {
   position: absolute;
   width: 230px;

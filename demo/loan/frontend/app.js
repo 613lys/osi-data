@@ -73,6 +73,10 @@ const els = {
   graphViewSelectorTitle: document.getElementById("graphViewSelectorTitle"),
   graphViewSelector: document.getElementById("graphViewSelector"),
   graphDepthSection: document.getElementById("graphDepthSection"),
+  graphHiddenSection: document.getElementById("graphHiddenSection"),
+  graphNodeTypeSection: document.getElementById("graphNodeTypeSection"),
+  graphEdgeTypeSection: document.getElementById("graphEdgeTypeSection"),
+  graphScenarioSection: document.getElementById("graphScenarioSection"),
   hiddenNodes: document.getElementById("hiddenNodeList"),
   restoreHidden: document.getElementById("restoreHiddenButton"),
   graphNodeTypes: document.getElementById("graphNodeTypeFilters"),
@@ -354,6 +358,15 @@ const PAGE_VIEW_MODE = {
   dataLogic: "data_logic",
 };
 
+const GRAPH_CONTROL_SECTIONS = {
+  traceability: ["focus", "hidden", "depth", "nodeTypes", "edgeTypes", "scenario"],
+  ontology: ["hidden", "nodeTypes", "businessEdges", "edgeTypes"],
+  semantic: ["hidden", "nodeTypes", "edgeTypes"],
+  mapping: ["hidden", "nodeTypes", "edgeTypes"],
+  requirement: ["selector", "hidden", "edgeTypes"],
+  data_logic: ["selector", "hidden", "edgeTypes"],
+};
+
 function availableSet(values, availableValues) {
   const available = new Set(availableValues);
   return new Set((values || []).filter(value => available.has(value)));
@@ -361,6 +374,26 @@ function availableSet(values, availableValues) {
 
 function graphViewConfig(mode = graphState?.viewMode || "traceability") {
   return GRAPH_VIEW_CONFIG[mode] || GRAPH_VIEW_CONFIG.traceability;
+}
+
+function graphControlSet(mode = graphState?.viewMode || "traceability") {
+  return new Set(GRAPH_CONTROL_SECTIONS[mode] || GRAPH_CONTROL_SECTIONS.traceability);
+}
+
+function graphNodeTypeOptions(mode = graphState?.viewMode || "traceability") {
+  return [...nodeTypesForMode(mode)].sort(compareNodeType);
+}
+
+function graphEdgeTypeOptions(mode = graphState?.viewMode || "traceability") {
+  const configured = graphViewConfig(mode).edgeTypes;
+  return configured ? [...availableSet(configured, edgeTypes())].sort() : edgeTypes();
+}
+
+function graphBusinessEdgeTypeOptions(mode = graphState?.viewMode || "traceability") {
+  const configured = graphViewConfig(mode).businessEdgeTypes;
+  if (configured === "all" || configured === null || configured === undefined) return businessEdgeTypes();
+  if (Array.isArray(configured)) return [...availableSet(configured, businessEdgeTypes())].sort();
+  return [];
 }
 function graphViewUsesFocus(mode = graphState?.viewMode || "traceability") {
   return graphViewConfig(mode).usesFocus !== false;
@@ -1320,29 +1353,34 @@ function renderGraphPage(options = {}) {
 
 function expandVisibleViewNodes() {
   graphState.visible.nodes.forEach(item => {
-    if (childItems(item.id).length) graphState.expanded.add(item.id);
+    if (childItems(item.id).length && !graphState.autoExpandSuppressed.has(item.id)) graphState.expanded.add(item.id);
   });
 }
 function renderGraphFilters() {
-  const usesFocus = graphViewUsesFocus();
-  if (els.graphFocusSection) els.graphFocusSection.classList.toggle("hidden", !usesFocus);
-  if (els.graphDepthSection) els.graphDepthSection.classList.toggle("hidden", !usesFocus);
+  const controls = graphControlSet();
+  if (els.graphFocusSection) els.graphFocusSection.classList.toggle("hidden", !controls.has("focus"));
+  if (els.graphDepthSection) els.graphDepthSection.classList.toggle("hidden", !controls.has("depth"));
+  if (els.graphHiddenSection) els.graphHiddenSection.classList.toggle("hidden", !controls.has("hidden"));
+  if (els.graphNodeTypeSection) els.graphNodeTypeSection.classList.toggle("hidden", !controls.has("nodeTypes"));
+  if (els.graphEdgeTypeSection) els.graphEdgeTypeSection.classList.toggle("hidden", !controls.has("edgeTypes") && !controls.has("businessEdges"));
+  if (els.graphScenarioSection) els.graphScenarioSection.classList.toggle("hidden", !controls.has("scenario"));
   renderGraphViewSelector();
   els.depth.value = String(graphState.maxDepth);
   els.depthValue.textContent = String(graphState.maxDepth);
-  els.graphNodeTypes.innerHTML = nodeTypes()
-    .map(type => chip(typeName(type), graphState.nodeTypes.has(type), "graph-node-type", type))
-    .join("");
+  const nodeOptions = graphNodeTypeOptions();
+  els.graphNodeTypes.innerHTML = nodeOptions.length
+    ? nodeOptions.map(type => chip(typeName(type), graphState.nodeTypes.has(type), "graph-node-type", type)).join("")
+    : `<div class="empty-state">No node type filter for this view.</div>`;
   if (els.graphBusinessEdgeTypes) {
-    const businessTypes = businessEdgeTypes();
+    const businessTypes = controls.has("businessEdges") ? graphBusinessEdgeTypeOptions() : [];
     els.graphBusinessEdgeTypes.innerHTML = businessTypes.length
       ? multiSelect(businessTypes, graphState.businessEdgeTypes, "graph-business-edge-type", "Business relationships")
-      : `<div class="empty-state">No business relationships.</div>`;
+      : "";
   }
-  els.graphEdgeTypes.innerHTML = edgeTypes()
-    .length
-    ? multiSelect(edgeTypes(), graphState.edgeTypes, "graph-edge-type", "Edge types")
-    : `<div class="empty-state">No edge types in current data.</div>`;
+  const mechanismTypes = controls.has("edgeTypes") ? graphEdgeTypeOptions() : [];
+  els.graphEdgeTypes.innerHTML = mechanismTypes.length
+    ? multiSelect(mechanismTypes, graphState.edgeTypes, "graph-edge-type", "Edge types")
+    : `<div class="empty-state">No mechanism edge filters for this view.</div>`;
   if (els.graphTags) {
     const tags = allTags();
     els.graphTags.innerHTML = tags.length
@@ -1355,7 +1393,7 @@ function renderGraphViewSelector() {
   if (!els.graphViewSelectorSection || !els.graphViewSelector) return;
   const selectorType = graphViewSelectorType();
   const options = graphViewSelectorOptions();
-  const visible = Boolean(selectorType && options.length);
+  const visible = graphControlSet().has("selector") && Boolean(selectorType && options.length);
   els.graphViewSelectorSection.classList.toggle("hidden", !visible);
   if (!visible) {
     els.graphViewSelector.innerHTML = "";
@@ -1640,6 +1678,7 @@ function expandNodeSetFromChildEdges(nodeSet, childEdgeCandidates) {
   }
 }
 async function graphLayout(nodes, depthById, edges = [], childEdgesForLayout = []) {
+  if (graphState.viewMode === "mapping") return mappingGraphLayout(nodes);
   if (elkLayoutEngine) {
     try {
       return await elkGraphLayout(nodes, edges, childEdgesForLayout);
@@ -1711,6 +1750,51 @@ function layoutEdgeDirection(edge) {
   return edge;
 }
 
+function mappingGraphLayout(nodes) {
+  const positions = new Map();
+  const ontologyTypes = new Set(["entity_type_concept", "base_entity_concept"]);
+  const semanticTypes = new Set(["physical_table", "table", "view", "semantic_model"]);
+  const sortNodes = group => group.slice().sort((a, b) => typeRank(a.type) - typeRank(b.type) || label(a.id).localeCompare(label(b.id)));
+  const ontologyNodes = sortNodes(nodes.filter(item => ontologyTypes.has(item.type)));
+  const semanticNodes = sortNodes(nodes.filter(item => semanticTypes.has(item.type)));
+  const otherNodes = sortNodes(nodes.filter(item => !ontologyTypes.has(item.type) && !semanticTypes.has(item.type)));
+  const expanded = hasExpandedFieldNodes();
+  const panelTop = 56;
+  const panelX = { ontology: 64, semantic: 1060 };
+  const panelWidth = 860;
+  const titleHeight = 54;
+  const rowGap = expanded ? 265 : 168;
+  const columnGap = expanded ? 330 : 300;
+  const columnsFor = group => group.length > 7 ? 2 : 1;
+  function place(group, x, y, columns) {
+    group.forEach((item, index) => {
+      const column = index % columns;
+      const row = Math.floor(index / columns);
+      positions.set(item.id, {
+        x: x + 44 + column * columnGap,
+        y: y + titleHeight + 28 + row * rowGap,
+      });
+    });
+    return Math.ceil(group.length / columns) * rowGap + titleHeight + 72;
+  }
+  const leftHeight = place(ontologyNodes, panelX.ontology, panelTop, columnsFor(ontologyNodes));
+  const rightHeight = place(semanticNodes, panelX.semantic, panelTop, columnsFor(semanticNodes));
+  otherNodes.forEach((item, index) => {
+    positions.set(item.id, { x: 880, y: panelTop + titleHeight + 28 + index * rowGap });
+  });
+  const contentHeight = Math.max(leftHeight, rightHeight, otherNodes.length ? titleHeight + 72 + otherNodes.length * rowGap : 0);
+  const width = Math.max(DEFAULT_GRAPH_SIZE.width, panelX.semantic + panelWidth + 96);
+  const height = Math.max(DEFAULT_GRAPH_SIZE.height, panelTop + contentHeight + 96);
+  applyManualPositions(positions, width, height);
+  return {
+    positions,
+    size: { width, height },
+    bands: [
+      { title: "Ontology", subtitle: "Entity and Base Entity concepts", kind: "ontology", x: panelX.ontology, y: panelTop, width: panelWidth, height: contentHeight },
+      { title: "Semantic Model", subtitle: "Datasets, tables, fields, and metrics", kind: "semantic", x: panelX.semantic, y: panelTop, width: panelWidth, height: contentHeight },
+    ],
+  };
+}
 function fallbackGraphLayout(nodes, depthById) {
   if (!graphViewUsesFocus()) return fallbackModelGraphLayout(nodes);
   const positions = new Map();
@@ -1881,12 +1965,14 @@ async function renderGraph(options = {}) {
   const positions = layout.positions || new Map();
   model.positions = positions;
   model.size = layout.size || { ...DEFAULT_GRAPH_SIZE };
+  model.bands = layout.bands || [];
   setGraphCanvasSize(model.size);
   els.board.innerHTML = "";
   els.edgeLayer.innerHTML = "";
   els.fieldEdgeLayer.innerHTML = "";
   ensureArrowDefs(els.edgeLayer, "node");
   ensureArrowDefs(els.fieldEdgeLayer, "field");
+  renderGraphBands(model.bands);
 
   model.nodes.forEach(item => {
     const p = positions.get(item.id);
@@ -1974,6 +2060,21 @@ async function renderGraph(options = {}) {
   });
 }
 
+function renderGraphBands(bands = []) {
+  bands.forEach(band => {
+    const div = document.createElement("div");
+    div.className = `graph-band ${band.kind || ""}`;
+    div.style.left = `${band.x}px`;
+    div.style.top = `${band.y}px`;
+    div.style.width = `${band.width}px`;
+    div.style.height = `${band.height}px`;
+    div.innerHTML = `
+      <strong>${escapeHtml(band.title)}</strong>
+      ${band.subtitle ? `<small>${escapeHtml(band.subtitle)}</small>` : ""}
+    `;
+    els.board.appendChild(div);
+  });
+}
 function restoreGraphScroll(scroll) {
   els.viewport.scrollTo({
     left: Math.max(0, Number(scroll?.left) || 0),
@@ -2686,8 +2787,8 @@ function multiFilterConfig(kind) {
     "catalog-business-edge-type": { set: catalogState.businessEdgeTypes, values: businessEdgeTypes },
     "catalog-edge-type": { set: catalogState.edgeTypes, values: edgeTypes },
     "catalog-tag": { set: catalogState.tags, values: allTags },
-    "graph-business-edge-type": { set: graphState.businessEdgeTypes, values: businessEdgeTypes },
-    "graph-edge-type": { set: graphState.edgeTypes, values: edgeTypes },
+    "graph-business-edge-type": { set: graphState.businessEdgeTypes, values: graphBusinessEdgeTypeOptions },
+    "graph-edge-type": { set: graphState.edgeTypes, values: graphEdgeTypeOptions },
     "graph-tag": { set: graphState.tags, values: allTags },
   };
   return configs[kind];

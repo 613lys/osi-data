@@ -93,7 +93,7 @@
           <select id="graphViewSelector" aria-label="View object selector"></select>
         </section>
 
-        <section class="filter-section">
+        <section id="graphHiddenSection" class="filter-section">
           <div class="section-title">Hidden Nodes</div>
           <div id="hiddenNodeList" class="hidden-node-list"></div>
           <button id="restoreHiddenButton" class="secondary" type="button">Restore hidden nodes</button>
@@ -107,12 +107,12 @@
           </div>
         </section>
 
-        <section class="filter-section">
+        <section id="graphNodeTypeSection" class="filter-section">
           <div class="section-title">Node Type</div>
           <div id="graphNodeTypeFilters" class="chip-list"></div>
         </section>
 
-        <section class="filter-section">
+        <section id="graphEdgeTypeSection" class="filter-section">
           <div class="section-title">Edge Type</div>
           <div id="graphBusinessEdgeTypeFilters" class="chip-list"></div>
           <div id="graphEdgeTypeFilters" class="chip-list"></div>
@@ -121,7 +121,7 @@
 
         <button id="graphResetButton" class="secondary" type="button">Reset graph filters</button>
 
-        <section class="filter-section scenario-section">
+        <section id="graphScenarioSection" class="filter-section scenario-section">
           <div class="section-title">Scenario</div>
           <div class="scenario-controls">
             <select id="scenarioSelect" aria-label="Saved scenario"></select>

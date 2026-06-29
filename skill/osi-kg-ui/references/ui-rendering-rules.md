@@ -155,15 +155,24 @@ Use separate graph views instead of one all-purpose graph when the user needs ex
 
 - Traceability View: cross-layer exploration. Keep focus/depth controls and allow all relevant edge types.
 - Ontology View: render a full filtered ontology canvas, not a focus-neighborhood. Show Base Entity Concept, Entity Concept, inherited ValueType fields, identify-by fields, and Entity-to-Entity business relationships. Do not show Dataset, Table, Report Data Logic, or physical source nodes.
-- Mapping View: show Entity/Base Entity nodes, Dataset nodes, Value field rows, Dataset field rows, metric-backed value fields, and mapping edges (`MAPS_TO`, `MAPS_TO_FIELD`, `DERIVED_BY`). Field-level mapping edges are visible by default in this view. Support hiding nodes so the user can isolate one concept-to-dataset slice.
+- Mapping View: show Entity/Base Entity nodes, Dataset nodes, Value field rows, Dataset field rows, metric-backed value fields, and mapping edges (`MAPS_TO`, `MAPS_TO_FIELD`, `DERIVED_BY`). Render it as two explicit canvas regions: a left `Ontology` container for Entity/Base Entity concepts and a right `Semantic Model` container for dataset/table nodes. Mapping edges cross between the two regions. Field-level mapping edges are visible by default in this view. Support hiding nodes so the user can isolate one concept-to-dataset slice.
 - Semantic Model View: render a full filtered semantic-model canvas, not a focus-neighborhood. Show Dataset nodes, physical source/query/table context from `custom_extensions`, Dataset fields, Dataset joins, and selected Metric Overlay nodes. Do not show ontology concepts unless the user switches to Mapping View.
 - Requirement View: keep a selected Report Requirement as the center object and provide a selector for switching requirement. Show requirement data items and ontology targets only.
 - Report Data Logic View: keep a selected Report Data Logic as the center object and provide a selector for switching data logic. Show logic fields, Dataset fields, and physical source fields only.
 
 Layout guidance:
 
-- Keep the focused node or selected slice near the center-left; mapping targets should flow left-to-right from ontology to dataset fields.
-- Keep fields inside their parent node unless a view specifically needs field-level lineage; Mapping and Report Data Logic views may auto-expand visible nodes.
+- Keep the focused node or selected slice near the center-left. In Mapping View, do not use a generic force/layer layout: place ontology nodes inside the left `Ontology` region, semantic/table nodes inside the right `Semantic Model` region, and draw mapping edges across the middle.
+- Keep fields inside their parent node unless a view specifically needs field-level lineage; Mapping and Report Data Logic views may auto-expand visible nodes. User field hide/show must override auto-expand until the view is reset or the user explicitly shows fields again.
 - Do not show disconnected nodes after filters remove their connecting edge.
 - Avoid generic fallback edge text. Edge descriptions must come from YAML/app metadata or be empty with a validation error during generation.
 - Metrics are overlays: hidden by default, multi-selectable, and allowed to show several metric nodes at once.
+
+Left sidebar controls must be view-specific:
+
+- Graph Explorer: Focus, Hidden Nodes, Max Depth, Node Type, Edge Type, Scenario.
+- Ontology View: Hidden Nodes, Node Type, Business Relationship, mechanism Edge Type.
+- Semantic Model View: Hidden Nodes, Node Type, mechanism Edge Type.
+- Mapping View: Hidden Nodes, Node Type, mechanism Edge Type; no Focus or Max Depth.
+- Requirement View: Report Requirement selector, Hidden Nodes, mechanism Edge Type; no duplicate Focus card.
+- Report Data Logic View: Report Data Logic selector, Hidden Nodes, mechanism Edge Type; no duplicate Focus card.
