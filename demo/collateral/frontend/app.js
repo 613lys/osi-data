@@ -67,7 +67,12 @@ const els = {
   openGraph: document.getElementById("openGraphButton"),
 
   backToCatalog: document.getElementById("backToCatalogButton"),
+  graphFocusSection: document.getElementById("graphFocusSection"),
   graphFocusCard: document.getElementById("graphFocusCard"),
+  graphViewSelectorSection: document.getElementById("graphViewSelectorSection"),
+  graphViewSelectorTitle: document.getElementById("graphViewSelectorTitle"),
+  graphViewSelector: document.getElementById("graphViewSelector"),
+  graphDepthSection: document.getElementById("graphDepthSection"),
   hiddenNodes: document.getElementById("hiddenNodeList"),
   restoreHidden: document.getElementById("restoreHiddenButton"),
   graphNodeTypes: document.getElementById("graphNodeTypeFilters"),
@@ -279,6 +284,7 @@ const GRAPH_VIEW_CONFIG = {
     childEdgeTypes: [],
     minDepth: 1,
     autoExpandFields: false,
+    usesFocus: true,
   },
   ontology: {
     title: "Ontology View",
@@ -289,9 +295,10 @@ const GRAPH_VIEW_CONFIG = {
     childEdgeTypes: [],
     minDepth: 2,
     autoExpandFields: true,
+    usesFocus: false,
   },
   semantic: {
-    title: "Semantic View",
+    title: "Semantic Model View",
     description: "Semantic-model view: datasets/tables, dataset fields, joins, and source/query extensions from OSI custom_extensions.",
     nodeTypes: ["physical_table", "table", "view", "semantic_model"],
     edgeTypes: ["DATASET_JOIN", "CONTAINS_TABLE"],
@@ -299,6 +306,7 @@ const GRAPH_VIEW_CONFIG = {
     childEdgeTypes: [],
     minDepth: 2,
     autoExpandFields: true,
+    usesFocus: false,
   },
   mapping: {
     title: "Mapping View",
@@ -309,6 +317,7 @@ const GRAPH_VIEW_CONFIG = {
     childEdgeTypes: ["MAPS_TO_FIELD", "DERIVED_BY"],
     minDepth: 2,
     autoExpandFields: true,
+    usesFocus: false,
   },
   requirement: {
     title: "Requirement View",
@@ -319,6 +328,8 @@ const GRAPH_VIEW_CONFIG = {
     childEdgeTypes: ["REQUIRES_SEMANTIC_FIELD", "DERIVED_FROM"],
     minDepth: 2,
     autoExpandFields: true,
+    usesFocus: true,
+    selectorNodeType: "regulatory_requirement",
   },
   data_logic: {
     title: "Data Logic View",
@@ -329,6 +340,8 @@ const GRAPH_VIEW_CONFIG = {
     childEdgeTypes: ["SOURCE_FIELD", "MAPS_TO_FIELD", "IMPLEMENTS_FIELD"],
     minDepth: 2,
     autoExpandFields: true,
+    usesFocus: true,
+    selectorNodeType: "report_implementation",
   },
 };
 
@@ -348,6 +361,29 @@ function availableSet(values, availableValues) {
 
 function graphViewConfig(mode = graphState?.viewMode || "traceability") {
   return GRAPH_VIEW_CONFIG[mode] || GRAPH_VIEW_CONFIG.traceability;
+}
+function graphViewUsesFocus(mode = graphState?.viewMode || "traceability") {
+  return graphViewConfig(mode).usesFocus !== false;
+}
+
+function graphViewSelectorType(mode = graphState?.viewMode || "traceability") {
+  return graphViewConfig(mode).selectorNodeType || "";
+}
+
+function graphViewSelectorOptions(mode = graphState?.viewMode || "traceability") {
+  const selectorType = graphViewSelectorType(mode);
+  if (!selectorType) return [];
+  return topLevelNodes
+    .filter(item => item.type === selectorType && !graphState.hiddenNodes.has(item.id))
+    .sort((a, b) => label(a.id).localeCompare(label(b.id)));
+}
+
+function selectGraphViewObject(id) {
+  if (!id || !node(id) || isChildNode(id)) return;
+  setGraphFocus(id, { resetEdgeTypes: false, applyDefaultEdgeTypes: false });
+  graphState.selectedEdgeId = null;
+  graphState.selectedFieldId = null;
+  renderGraphPage({ fitAfter: true });
 }
 
 function nodeTypesForMode(mode) {
@@ -407,8 +443,12 @@ function applyGraphViewMode(mode, options = {}) {
     graphState.edgeTypes = defaultEdgeTypesForMode(normalizedMode);
     graphState.maxDepth = Math.max(graphViewConfig(normalizedMode).minDepth || 1, normalizedMode === "traceability" ? 1 : graphState.maxDepth);
   }
-  if (!nodeAllowedForMode(graphState.focusId, normalizedMode) || (previousMode !== normalizedMode && !preferredFocusPredicate(normalizedMode)(node(graphState.focusId)))) {
-    setGraphFocus(focusCandidateForMode(normalizedMode), { resetEdgeTypes: false, applyDefaultEdgeTypes: false });
+  if (graphViewUsesFocus(normalizedMode)) {
+    if (!nodeAllowedForMode(graphState.focusId, normalizedMode) || (previousMode !== normalizedMode && !preferredFocusPredicate(normalizedMode)(node(graphState.focusId)))) {
+      setGraphFocus(focusCandidateForMode(normalizedMode), { resetEdgeTypes: false, applyDefaultEdgeTypes: false });
+    }
+  } else {
+    graphState.selectedNodeId = null;
   }
   graphState.selectedEdgeId = null;
   graphState.selectedFieldId = null;
@@ -1260,9 +1300,13 @@ function renderMiniEdgeCard(edge, baseId = graphState.focusId) {
 }
 
 function renderGraphPage(options = {}) {
-  if (!graphState.focusId || !node(graphState.focusId)) graphState.focusId = chooseInitialNode();
-  if (graphState.selectedNodeId && (!node(graphState.selectedNodeId) || isChildNode(graphState.selectedNodeId))) graphState.selectedNodeId = graphState.focusId;
-  ensureVisibleFocus();
+  if (graphViewUsesFocus()) {
+    if (!graphState.focusId || !node(graphState.focusId)) graphState.focusId = focusCandidateForMode(graphState.viewMode);
+    if (graphState.selectedNodeId && (!node(graphState.selectedNodeId) || isChildNode(graphState.selectedNodeId))) graphState.selectedNodeId = graphViewUsesFocus() ? graphState.focusId : null;
+    ensureVisibleFocus();
+  } else if (graphState.selectedNodeId && (!node(graphState.selectedNodeId) || isChildNode(graphState.selectedNodeId))) {
+    graphState.selectedNodeId = null;
+  }
   clearHiddenSelections();
   graphState.visible = graphNeighborhood();
   if (graphViewConfig().autoExpandFields) expandVisibleViewNodes();
@@ -1280,6 +1324,10 @@ function expandVisibleViewNodes() {
   });
 }
 function renderGraphFilters() {
+  const usesFocus = graphViewUsesFocus();
+  if (els.graphFocusSection) els.graphFocusSection.classList.toggle("hidden", !usesFocus);
+  if (els.graphDepthSection) els.graphDepthSection.classList.toggle("hidden", !usesFocus);
+  renderGraphViewSelector();
   els.depth.value = String(graphState.maxDepth);
   els.depthValue.textContent = String(graphState.maxDepth);
   els.graphNodeTypes.innerHTML = nodeTypes()
@@ -1303,7 +1351,31 @@ function renderGraphFilters() {
   }
 }
 
+function renderGraphViewSelector() {
+  if (!els.graphViewSelectorSection || !els.graphViewSelector) return;
+  const selectorType = graphViewSelectorType();
+  const options = graphViewSelectorOptions();
+  const visible = Boolean(selectorType && options.length);
+  els.graphViewSelectorSection.classList.toggle("hidden", !visible);
+  if (!visible) {
+    els.graphViewSelector.innerHTML = "";
+    return;
+  }
+  els.graphViewSelectorTitle.textContent = graphState.viewMode === "data_logic" ? "Report Data Logic" : "Report Requirement";
+  els.graphViewSelector.innerHTML = options
+    .map(item => `<option value="${escapeAttr(item.id)}" ${item.id === graphState.focusId ? "selected" : ""}>${escapeHtml(label(item.id))}</option>`)
+    .join("");
+}
 function renderGraphFocus() {
+  if (!graphViewUsesFocus()) {
+    els.focusType.textContent = graphViewTitle();
+    els.focusType.style.background = "#eef2f7";
+    els.focusType.style.color = "#475467";
+    els.focusTitle.textContent = graphViewTitle();
+    els.focusDescription.textContent = graphViewDescription();
+    els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
+    return;
+  }
   const focus = node(graphState.focusId);
   els.graphFocusCard.innerHTML = `
     <strong>${escapeHtml(label(graphState.focusId))}</strong>
@@ -1312,8 +1384,9 @@ function renderGraphFocus() {
   els.focusType.textContent = typeName(focus?.type);
   els.focusType.style.background = `${colorFor(focus?.type)}18`;
   els.focusType.style.color = colorFor(focus?.type);
-  els.focusTitle.textContent = graphState.viewMode === "mapping" ? `${graphViewTitle()}: ${label(graphState.focusId)}` : label(graphState.focusId);
-  els.focusDescription.textContent = graphState.viewMode === "mapping" ? graphViewDescription() : (description(graphState.focusId) || "No description.");
+  const selectorType = graphViewSelectorType();
+  els.focusTitle.textContent = selectorType ? `${graphViewTitle()}: ${label(graphState.focusId)}` : graphState.viewMode === "mapping" ? `${graphViewTitle()}: ${label(graphState.focusId)}` : label(graphState.focusId);
+  els.focusDescription.textContent = selectorType || graphState.viewMode === "mapping" ? graphViewDescription() : (description(graphState.focusId) || "No description.");
   els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
 }
 
@@ -1344,6 +1417,10 @@ function graphNeighborhood() {
     }
     return true;
   });
+
+  if (!graphViewUsesFocus()) {
+    return graphModelView(traversalEdges);
+  }
   const adjacency = new Map();
   traversalEdges.forEach(edge => {
     if (!adjacency.has(edge.source)) adjacency.set(edge.source, []);
@@ -1410,8 +1487,48 @@ function graphNeighborhood() {
   };
 }
 
+function graphModelView(traversalEdges) {
+  const nodeSet = new Set();
+  traversalEdges.forEach(edge => {
+    nodeSet.add(edge.source);
+    nodeSet.add(edge.target);
+  });
+  topLevelNodes.forEach(item => {
+    if (graphNodeVisible(item.id) && graphNodeTypeAllowed(item.id)) {
+      const hasVisibleChild = childItems(item.id).length > 0 && graphViewConfig().autoExpandFields;
+      if (!traversalEdges.length || hasVisibleChild) nodeSet.add(item.id);
+    }
+  });
+  const childEdgeCandidates = childEdgesForCurrentView();
+  expandNodeSetFromChildEdges(nodeSet, childEdgeCandidates);
+  const selectedChildEdges = childEdgeCandidates.filter(edge => {
+    if (!nodeSet.has(edge.source) || !nodeSet.has(edge.target)) return false;
+    if (!childEdgeCanParticipate(edge)) return false;
+    return true;
+  });
+  const visibleEdges = traversalEdges.filter(edge => nodeSet.has(edge.source) && nodeSet.has(edge.target));
+  const connectedIds = new Set();
+  [...visibleEdges, ...selectedChildEdges].forEach(edge => {
+    connectedIds.add(edge.source);
+    connectedIds.add(edge.target);
+  });
+  if (connectedIds.size) {
+    [...nodeSet].forEach(id => {
+      if (!connectedIds.has(id)) nodeSet.delete(id);
+    });
+  }
+  const depthById = new Map([...nodeSet].map(id => [id, 0]));
+  return {
+    nodes: [...nodeSet].map(id => node(id)).filter(Boolean),
+    edges: visibleEdges,
+    childEdges: selectedChildEdges,
+    depthById,
+    positions: new Map(),
+    size: { ...DEFAULT_GRAPH_SIZE },
+  };
+}
 function graphNodeTypeAllowed(id) {
-  return id === graphState.focusId || graphState.nodeTypes.has(nodeType(id));
+  return (graphViewUsesFocus() && id === graphState.focusId) || graphState.nodeTypes.has(nodeType(id));
 }
 
 function graphNodeVisible(id) {
@@ -1419,6 +1536,7 @@ function graphNodeVisible(id) {
 }
 
 function ensureVisibleFocus() {
+  if (!graphViewUsesFocus()) return;
   if (!graphState.hiddenNodes.has(graphState.focusId)) return;
   const replacement = chooseReplacementFocus(graphState.focusId);
   if (replacement) {
@@ -1456,7 +1574,7 @@ function hideGraphNode(id) {
   if (graphState.selectedNodeId === id) graphState.selectedNodeId = null;
   const selectedEdge = selectedGraphEdge();
   if (selectedEdge && (selectedEdge.source === id || selectedEdge.target === id)) graphState.selectedEdgeId = null;
-  if (graphState.focusId === id) {
+  if (graphViewUsesFocus() && graphState.focusId === id) {
     const replacement = chooseReplacementFocus(id);
     if (!replacement) {
       graphState.hiddenNodes.delete(id);
@@ -1594,6 +1712,7 @@ function layoutEdgeDirection(edge) {
 }
 
 function fallbackGraphLayout(nodes, depthById) {
+  if (!graphViewUsesFocus()) return fallbackModelGraphLayout(nodes);
   const positions = new Map();
   const width = DEFAULT_GRAPH_SIZE.width;
   const height = DEFAULT_GRAPH_SIZE.height;
@@ -1629,6 +1748,38 @@ function fallbackGraphLayout(nodes, depthById) {
       });
     });
   });
+  applyManualPositions(positions, width, height);
+  return { positions, size: { width, height } };
+}
+
+function fallbackModelGraphLayout(nodes) {
+  const positions = new Map();
+  const groups = new Map();
+  nodes
+    .slice()
+    .sort((a, b) => typeRank(a.type) - typeRank(b.type) || label(a.id).localeCompare(label(b.id)))
+    .forEach(item => {
+      const family = nodeFamily(item.type);
+      if (!groups.has(family)) groups.set(family, []);
+      groups.get(family).push(item);
+    });
+  const groupEntries = [...groups.entries()];
+  const columnGap = 380;
+  const rowGap = hasExpandedFieldNodes() ? 250 : 170;
+  const startX = 120;
+  const startY = 120;
+  let maxRows = 1;
+  groupEntries.forEach(([family, group], columnIndex) => {
+    maxRows = Math.max(maxRows, group.length);
+    group.forEach((item, rowIndex) => {
+      positions.set(item.id, {
+        x: startX + columnIndex * columnGap,
+        y: startY + rowIndex * rowGap,
+      });
+    });
+  });
+  const width = Math.max(DEFAULT_GRAPH_SIZE.width, startX * 2 + Math.max(groupEntries.length, 1) * columnGap + 320);
+  const height = Math.max(DEFAULT_GRAPH_SIZE.height, startY * 2 + maxRows * rowGap + 220);
   applyManualPositions(positions, width, height);
   return { positions, size: { width, height } };
 }
@@ -1742,7 +1893,7 @@ async function renderGraph(options = {}) {
     if (!p) return;
     const isExpanded = isExpandedNode(item.id);
     const children = isExpanded ? childItems(item.id).slice(0, 18) : [];
-    const isFocus = item.id === graphState.focusId;
+    const isFocus = graphViewUsesFocus() && item.id === graphState.focusId;
     const isSelected = graphState.selectedNodeId ? item.id === graphState.selectedNodeId : isFocus && !graphState.selectedEdgeId && !graphState.selectedFieldId;
     const div = document.createElement("div");
     div.className = `graph-node ${nodeFamily(item.type)}-node ${isExpanded ? "expanded" : ""} ${isFocus ? "center" : ""} ${isSelected ? "selected" : ""}`;
@@ -2077,6 +2228,10 @@ function renderGraphDetail() {
     return;
   }
 
+  if (!graphViewUsesFocus() && !graphState.selectedNodeId) {
+    renderViewProfile();
+    return;
+  }
   const selectedNodeId = graphState.selectedNodeId && node(graphState.selectedNodeId) ? graphState.selectedNodeId : graphState.focusId;
   const focus = node(selectedNodeId);
   const data = raw(selectedNodeId);
@@ -2088,8 +2243,37 @@ function renderGraphDetail() {
   els.graphDetailBody.innerHTML = renderNodeDetail(focus, data, false);
 }
 
+function renderViewProfile() {
+  const visibleNodes = graphState.visible?.nodes || [];
+  const visibleEdges = graphState.visible?.edges || [];
+  const visibleChildEdges = graphState.visible?.childEdges || [];
+  els.graphDetailBadge.textContent = graphViewTitle();
+  els.graphDetailBadge.style.background = "#eef2f7";
+  els.graphDetailBadge.style.color = "#475467";
+  els.graphDetailTitle.textContent = graphViewTitle();
+  els.graphDetailDescription.textContent = graphViewDescription();
+  els.graphDetailBody.innerHTML = `
+    <section class="detail-section">
+      <h3>View Summary</h3>
+      ${kv("Visible Nodes", visibleNodes.length)}
+      ${kv("Node Edges", visibleEdges.length)}
+      ${kv("Field Edges", visibleChildEdges.length)}
+    </section>
+    <section class="detail-section">
+      <h3>Visible Node Types</h3>
+      <div class="tag-list">${[...new Set(visibleNodes.map(item => item.type))].sort(compareNodeType).map(type => `<span class="tag-pill">${escapeHtml(typeName(type))}</span>`).join("")}</div>
+    </section>
+  `;
+}
 function selectGraphNode(id, options = {}) {
   if (!node(id) || isChildNode(id)) return;
+  if (!graphViewUsesFocus()) {
+    graphState.selectedNodeId = id;
+    graphState.selectedEdgeId = null;
+    graphState.selectedFieldId = null;
+    renderGraphPage(options);
+    return;
+  }
   setGraphFocus(id);
   graphState.selectedEdgeId = null;
   graphState.selectedFieldId = null;
@@ -2462,7 +2646,7 @@ function resetGraphFilters() {
   graphState.edgeTypes = defaultEdgeTypesForMode(graphState.viewMode);
   graphState.tags = new Set(allTags());
   graphState.maxDepth = graphViewConfig().minDepth || 1;
-  graphState.selectedNodeId = graphState.focusId;
+  graphState.selectedNodeId = graphViewUsesFocus() ? graphState.focusId : null;
   graphState.selectedEdgeId = null;
   graphState.selectedFieldId = null;
   graphState.expanded.clear();
@@ -2792,6 +2976,7 @@ if (els.semanticTab) els.semanticTab.addEventListener("click", () => openPage("s
 if (els.mappingTab) els.mappingTab.addEventListener("click", () => openPage("mapping"));
 if (els.requirementTab) els.requirementTab.addEventListener("click", () => openPage("requirement"));
 if (els.dataLogicTab) els.dataLogicTab.addEventListener("click", () => openPage("dataLogic"));
+if (els.graphViewSelector) els.graphViewSelector.addEventListener("change", event => selectGraphViewObject(event.target.value));
 els.backToCatalog.addEventListener("click", () => openPage("catalog"));
 els.scenarioSelect.addEventListener("change", event => applyScenario(event.target.value));
 els.saveScenario.addEventListener("click", saveCurrentScenario);

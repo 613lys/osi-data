@@ -154,11 +154,11 @@ hide/show works for nodes and properties
 Use separate graph views instead of one all-purpose graph when the user needs explanation rather than raw traceability.
 
 - Traceability View: cross-layer exploration. Keep focus/depth controls and allow all relevant edge types.
-- Ontology View: show Base Entity Concept, Entity Concept, inherited ValueType fields, identify-by fields, and Entity-to-Entity business relationships. Do not show Dataset, Table, Report Data Logic, or physical source nodes.
+- Ontology View: render a full filtered ontology canvas, not a focus-neighborhood. Show Base Entity Concept, Entity Concept, inherited ValueType fields, identify-by fields, and Entity-to-Entity business relationships. Do not show Dataset, Table, Report Data Logic, or physical source nodes.
 - Mapping View: show Entity/Base Entity nodes, Dataset nodes, Value field rows, Dataset field rows, metric-backed value fields, and mapping edges (`MAPS_TO`, `MAPS_TO_FIELD`, `DERIVED_BY`). Field-level mapping edges are visible by default in this view. Support hiding nodes so the user can isolate one concept-to-dataset slice.
-- Semantic Model View: show Dataset nodes, physical source/query/table context from `custom_extensions`, Dataset fields, Dataset joins, and selected Metric Overlay nodes. Do not show ontology concepts unless the user switches to Mapping View.
-- Requirement View: show Report Requirement nodes, requirement data items, and ontology targets only.
-- Report Data Logic View: show Report Data Logic nodes, logic fields, Dataset fields, and physical source fields only.
+- Semantic Model View: render a full filtered semantic-model canvas, not a focus-neighborhood. Show Dataset nodes, physical source/query/table context from `custom_extensions`, Dataset fields, Dataset joins, and selected Metric Overlay nodes. Do not show ontology concepts unless the user switches to Mapping View.
+- Requirement View: keep a selected Report Requirement as the center object and provide a selector for switching requirement. Show requirement data items and ontology targets only.
+- Report Data Logic View: keep a selected Report Data Logic as the center object and provide a selector for switching data logic. Show logic fields, Dataset fields, and physical source fields only.
 
 Layout guidance:
 

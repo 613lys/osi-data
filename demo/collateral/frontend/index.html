@@ -19,7 +19,7 @@
         <button id="catalogTab" class="tab-button active" type="button">Catalog Search</button>
         <button id="graphTab" class="tab-button" type="button">Graph Explorer</button>
         <button id="ontologyTab" class="tab-button" type="button">Ontology View</button>
-        <button id="semanticTab" class="tab-button" type="button">Semantic View</button>
+        <button id="semanticTab" class="tab-button" type="button">Semantic Model View</button>
         <button id="mappingTab" class="tab-button" type="button">Mapping View</button>
         <button id="requirementTab" class="tab-button" type="button">Requirement View</button>
         <button id="dataLogicTab" class="tab-button" type="button">Data Logic View</button>
@@ -83,9 +83,14 @@
       <aside class="graph-controls">
         <button id="backToCatalogButton" class="secondary" type="button">Back to catalog</button>
 
-        <section class="filter-section">
+        <section id="graphFocusSection" class="filter-section">
           <div class="section-title">Focus</div>
           <div id="graphFocusCard" class="focus-card"></div>
+        </section>
+
+        <section id="graphViewSelectorSection" class="filter-section hidden">
+          <div id="graphViewSelectorTitle" class="section-title">View Object</div>
+          <select id="graphViewSelector" aria-label="View object selector"></select>
         </section>
 
         <section class="filter-section">
@@ -94,7 +99,7 @@
           <button id="restoreHiddenButton" class="secondary" type="button">Restore hidden nodes</button>
         </section>
 
-        <section class="filter-section">
+        <section id="graphDepthSection" class="filter-section">
           <div class="section-title">Max Depth</div>
           <div class="depth-row">
             <input id="depthInput" type="range" min="1" max="4" value="1" />

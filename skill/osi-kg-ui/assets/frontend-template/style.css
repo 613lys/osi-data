@@ -1116,3 +1116,9 @@ p {
     display: none;
   }
 }
+
+.graph-controls select {
+  width: 100%;
+  min-height: 32px;
+  font-size: 12px;
+}
