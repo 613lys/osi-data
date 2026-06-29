@@ -704,6 +704,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "source": dataset.get("source"),
                     "primary_key": dataset.get("primary_key") or [],
                     "field_count": len(dataset.get("fields") or []),
+                    "custom_extensions": dataset.get("custom_extensions") or [],
                 },
             )
             catalog[table_id] = {
@@ -715,6 +716,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 "primary_key": dataset.get("primary_key") or [],
                 "fields": dataset.get("fields") or [],
                 "columns": dataset.get("fields") or [],
+                "custom_extensions": dataset.get("custom_extensions") or [],
             }
             if SHOW_CONTAINER_NODES:
                 add_edge(edges, sm_id, table_id, "CONTAINS_TABLE", "dataset", f"{sm_name} contains physical table {dataset['name']}.")

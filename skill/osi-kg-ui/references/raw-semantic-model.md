@@ -53,10 +53,11 @@ fields:
 Fields:
 
 - `name`: Required. Stable dataset name used in mapping expressions.
-- `source`: Required. Physical or logical source identifier, usually `schema.table` or a system-qualified table/view/query name. Do not list several unrelated tables here unless this dataset is a real materialized view, curated query, or documented logical dataset.
+- `source`: Required. Physical or logical source identifier, usually `schema.table`, `query.<name>`, or another system-qualified table/view/query name. Keep it scalar for OSI compatibility. Do not replace it with a nested object.
 - `primary_key`: Optional list of dataset fields that identify rows.
 - `description`: Required for generated demos. Describe the dataset as a business-meaningful row population and grain, not merely as a physical object. Include what kind of records it contains, what business process or reporting use they support, and source-population context such as retail loans versus institutional loans when that distinction is source-level context rather than an EntityType field. Do not use descriptions like `Source table for margin accounts.` or `Physical table for reports.` Optional EntityType-to-dataset edge-profile explanation belongs in `ui_annotations/mapping_edge_annotations.yaml`, not in the dataset and not in concept mappings.
-- `physical_kind`: Optional. Usually `table`; do not create a separate `physical_view` concept.
+- `physical_kind`: Optional helper for raw authoring. Usually `table`; use `query` for curated SQL-backed datasets. The generator records this in OSI `ai_context.physical_kind`.
+- `custom_extensions`: Optional OSI extension list. Use it for complex source metadata that does not fit scalar `source`, such as query SQL and table dependencies. Prefer `custom_extensions` over inventing unsupported dataset fields.
 - `fields`: Required list of dataset fields.
 - `fields[].name`: Required. Column/field name.
 - `fields[].type`: Optional physical/logical type such as `string`, `decimal`, `date`, `integer`.
@@ -64,6 +65,28 @@ Fields:
 - `fields[].expression`: Required OSI expression object with `dialects[]`. Defines how the semantic dataset field maps to the physical source field. For a direct physical column mapping, use scalar SQL in the expression object, for example `expression.dialects[0].expression: account_id`. For a computed semantic field, use scalar SQL such as `first_name || ' ' || last_name`. Do not rely on implicit same-name mapping; the UI and lineage builder need explicit evidence.
 - `fields[].description`: Required. Describe the field's dataset-level business meaning, row-level role, and source-specific interpretation. This is especially important when several fields share the same ValueType but differ by business role, such as base currency, settlement currency, reporting currency, valuation currency, or fallback currency. Do not merely restate the column name.
 
+Complex source metadata example:
+
+```yaml
+name: loan_exposure_report_lines
+source: query.loan_exposure_report_lines
+physical_kind: query
+custom_extensions:
+- name: physical_source
+  value:
+    kind: query
+    sql: |
+      select ...
+    depends_on:
+    - retail_lending_core.retail_loans
+    - institutional_lending_core.facilities
+```
+
+Rules:
+
+- Keep `source` scalar.
+- Put SQL, query kind, and multiple physical dependencies under `custom_extensions[].value`.
+- UI may render these dependencies as physical source context in Semantic Model View; concept mappings must still point to dataset fields, not directly to physical tables.
 Field expression rules:
 
 - Direct physical mapping still uses an OSI expression object:
@@ -216,17 +239,7 @@ ontology_mappings:
 
 UI effect:
 
-- Metrics do not render as top-level nodes by default.
+- Metrics do not render as top-level nodes by default in Traceability View. In Semantic Model or Mapping views they can be shown through a Metric Overlay: a multi-select control that displays selected Metric nodes and their `DERIVED_BY` links to dataset fields.
 - Metrics do not render as child rows under Table nodes.
 - If an EntityType relationship maps to `metric.<metric_name>`, the EntityType shows that relationship as a metric-backed value field.
 - Selecting the EntityType metric-backed field draws one field-level `DERIVED_BY` edge for every `dataset.field` referenced by the metric expression, directly to those Table fields.
-
-
-
-
-
-
-
-
-
-

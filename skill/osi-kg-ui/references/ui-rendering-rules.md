@@ -149,16 +149,21 @@ graph index contains no IMPLEMENTS_SEMANTIC_FIELD
 hide/show works for nodes and properties
 ```
 
+## View Layout Rules
 
+Use separate graph views instead of one all-purpose graph when the user needs explanation rather than raw traceability.
 
+- Traceability View: cross-layer exploration. Keep focus/depth controls and allow all relevant edge types.
+- Ontology View: show Base Entity Concept, Entity Concept, inherited ValueType fields, identify-by fields, and Entity-to-Entity business relationships. Do not show Dataset, Table, Report Data Logic, or physical source nodes.
+- Mapping View: show Entity/Base Entity nodes, Dataset nodes, Value field rows, Dataset field rows, metric-backed value fields, and mapping edges (`MAPS_TO`, `MAPS_TO_FIELD`, `DERIVED_BY`). Field-level mapping edges are visible by default in this view. Support hiding nodes so the user can isolate one concept-to-dataset slice.
+- Semantic Model View: show Dataset nodes, physical source/query/table context from `custom_extensions`, Dataset fields, Dataset joins, and selected Metric Overlay nodes. Do not show ontology concepts unless the user switches to Mapping View.
+- Requirement View: show Report Requirement nodes, requirement data items, and ontology targets only.
+- Report Data Logic View: show Report Data Logic nodes, logic fields, Dataset fields, and physical source fields only.
 
+Layout guidance:
 
-
-
-
-
-
-
-
-
-
+- Keep the focused node or selected slice near the center-left; mapping targets should flow left-to-right from ontology to dataset fields.
+- Keep fields inside their parent node unless a view specifically needs field-level lineage; Mapping and Report Data Logic views may auto-expand visible nodes.
+- Do not show disconnected nodes after filters remove their connecting edge.
+- Avoid generic fallback edge text. Edge descriptions must come from YAML/app metadata or be empty with a validation error during generation.
+- Metrics are overlays: hidden by default, multi-selectable, and allowed to show several metric nodes at once.

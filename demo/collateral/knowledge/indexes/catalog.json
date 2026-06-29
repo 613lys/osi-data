@@ -1886,7 +1886,8 @@
         },
         "description": "Reportable collateral value after applying haircut and eligibility calculation."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "table.collateral_positions": {
     "id": "table.collateral_positions",
@@ -2060,7 +2061,8 @@
         },
         "description": "Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "table.collateral_valuations": {
     "id": "table.collateral_valuations",
@@ -2234,7 +2236,8 @@
         },
         "description": "Haircut percentage applied to collateral market value for eligibility calculation."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "table.counterparties": {
     "id": "table.counterparties",
@@ -2376,7 +2379,8 @@
         },
         "description": "Regulatory counterparty segment used for reporting categorization and eligibility rules."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "table.margin_accounts": {
     "id": "table.margin_accounts",
@@ -2518,7 +2522,8 @@
         },
         "description": "Operational status of the margin account used to determine reporting eligibility."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "requirement.item": {
     "id": "requirement.item",

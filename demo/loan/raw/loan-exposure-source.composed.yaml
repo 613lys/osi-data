@@ -320,13 +320,30 @@ semantic_model:
           expression: loss_given_default
       description: Loss given default rate assigned by the wholesale credit risk model.
   - name: loan_exposure_report_lines
-    source: credit_risk_engine.loan_exposure_report_lines
+    source: query.loan_exposure_report_lines
     primary_key:
     - loan_id
     description: Prepared loan exposure report line records at reportable loan grain,
       carrying normalized borrower, product, amount, currency, and expected loss fields
       consumed by regulatory reporting logic.
-    physical_kind: table
+    physical_kind: query
+    custom_extensions:
+    - name: physical_source
+      value:
+        kind: query
+        sql: 'select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount,
+          expected_loss_amount, report_currency
+
+          from credit_risk_engine.loan_exposure_report_lines
+
+          where report_date = :report_date
+
+          '
+        depends_on:
+        - retail_lending_core.retail_loans
+        - institutional_lending_core.facilities
+        - customer_master.borrowers
+        - product_master.loan_products
     fields:
     - name: loan_id
       type: string

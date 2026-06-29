@@ -1571,7 +1571,8 @@ window.CATALOG_DATA = {
         },
         "description": "Borrower domicile country used for jurisdictional reporting and composite report joins."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "table.institutional_loans": {
     "id": "table.institutional_loans",
@@ -1841,14 +1842,15 @@ window.CATALOG_DATA = {
         },
         "description": "Loss given default rate assigned by the wholesale credit risk model."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "table.loan_exposure_report_lines": {
     "id": "table.loan_exposure_report_lines",
     "type": "physical_table",
     "name": "loan_exposure_report_lines",
     "description": "Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic.",
-    "source": "credit_risk_engine.loan_exposure_report_lines",
+    "source": "query.loan_exposure_report_lines",
     "primary_key": [
       "loan_id"
     ],
@@ -2111,6 +2113,21 @@ window.CATALOG_DATA = {
         },
         "description": "Currency code in which the exposure line amounts are reported."
       }
+    ],
+    "custom_extensions": [
+      {
+        "name": "physical_source",
+        "value": {
+          "kind": "query",
+          "sql": "select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency\nfrom credit_risk_engine.loan_exposure_report_lines\nwhere report_date = :report_date\n",
+          "depends_on": [
+            "retail_lending_core.retail_loans",
+            "institutional_lending_core.facilities",
+            "customer_master.borrowers",
+            "product_master.loan_products"
+          ]
+        }
+      }
     ]
   },
   "table.loan_products": {
@@ -2221,7 +2238,8 @@ window.CATALOG_DATA = {
         },
         "description": "Regulatory product class used for credit exposure aggregation."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "table.retail_loans": {
     "id": "table.retail_loans",
@@ -2491,7 +2509,8 @@ window.CATALOG_DATA = {
         },
         "description": "Loss given default rate assigned by the retail credit risk model."
       }
-    ]
+    ],
+    "custom_extensions": []
   },
   "requirement.item": {
     "id": "requirement.item",

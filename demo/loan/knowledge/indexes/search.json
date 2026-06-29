@@ -202,7 +202,7 @@
   {
     "id": "table.loan_exposure_report_lines",
     "type": "physical_table",
-    "text": "table.loan_exposure_report_lines physical_table loan_exposure_report_lines Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. credit_risk_engine.loan_exposure_report_lines"
+    "text": "table.loan_exposure_report_lines physical_table loan_exposure_report_lines Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. query.loan_exposure_report_lines"
   },
   {
     "id": "column.loan_exposure_report_lines.loan_id",

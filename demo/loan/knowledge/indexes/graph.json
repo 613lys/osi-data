@@ -528,7 +528,8 @@
         "primary_key": [
           "borrower_id"
         ],
-        "field_count": 4
+        "field_count": 4,
+        "custom_extensions": []
       }
     },
     {
@@ -585,7 +586,8 @@
         "primary_key": [
           "facility_id"
         ],
-        "field_count": 8
+        "field_count": 8,
+        "custom_extensions": []
       }
     },
     {
@@ -682,11 +684,26 @@
       "label": "loan_exposure_report_lines",
       "properties": {
         "description": "Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic.",
-        "source": "credit_risk_engine.loan_exposure_report_lines",
+        "source": "query.loan_exposure_report_lines",
         "primary_key": [
           "loan_id"
         ],
-        "field_count": 8
+        "field_count": 8,
+        "custom_extensions": [
+          {
+            "name": "physical_source",
+            "value": {
+              "kind": "query",
+              "sql": "select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency\nfrom credit_risk_engine.loan_exposure_report_lines\nwhere report_date = :report_date\n",
+              "depends_on": [
+                "retail_lending_core.retail_loans",
+                "institutional_lending_core.facilities",
+                "customer_master.borrowers",
+                "product_master.loan_products"
+              ]
+            }
+          }
+        ]
       }
     },
     {
@@ -787,7 +804,8 @@
         "primary_key": [
           "product_id"
         ],
-        "field_count": 3
+        "field_count": 3,
+        "custom_extensions": []
       }
     },
     {
@@ -833,7 +851,8 @@
         "primary_key": [
           "loan_id"
         ],
-        "field_count": 8
+        "field_count": 8,
+        "custom_extensions": []
       }
     },
     {

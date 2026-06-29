@@ -94,6 +94,8 @@ def dataset(item: dict[str, Any]) -> dict[str, Any]:
         if field.get("description"):
             field_output["description"] = field["description"]
         output["fields"].append(field_output)
+    if item.get("custom_extensions"):
+        output["custom_extensions"] = item["custom_extensions"]
     return output
 
 
@@ -103,6 +105,8 @@ def metric(item: dict[str, Any]) -> dict[str, Any]:
         "description": item.get("description", ""),
         "expression": expression(item["expression"]),
     }
+    if item.get("custom_extensions"):
+        output["custom_extensions"] = item["custom_extensions"]
     if item.get("ai_context"):
         output["ai_context"] = item["ai_context"]
     return output
@@ -186,4 +190,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

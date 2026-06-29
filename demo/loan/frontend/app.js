@@ -38,6 +38,11 @@ const els = {
   stats: document.getElementById("stats"),
   catalogTab: document.getElementById("catalogTab"),
   graphTab: document.getElementById("graphTab"),
+  ontologyTab: document.getElementById("ontologyTab"),
+  semanticTab: document.getElementById("semanticTab"),
+  mappingTab: document.getElementById("mappingTab"),
+  requirementTab: document.getElementById("requirementTab"),
+  dataLogicTab: document.getElementById("dataLogicTab"),
   catalogPage: document.getElementById("catalogPage"),
   graphPage: document.getElementById("graphPage"),
   scenarioSelect: document.getElementById("scenarioSelect"),
@@ -180,6 +185,7 @@ const catalogState = {
 
 const graphState = {
   focusId: catalogState.selectedId,
+  viewMode: "traceability",
   selectedNodeId: catalogState.selectedId,
   selectedEdgeId: null,
   selectedFieldId: null,
@@ -263,6 +269,158 @@ function edgeTypeAllowed(edge, state) {
     : state.edgeTypes.has(normalized.type);
 }
 
+const GRAPH_VIEW_CONFIG = {
+  traceability: {
+    title: "Graph Explorer",
+    description: "Choose max depth and filters to decide which nodes and edges are visible.",
+    nodeTypes: null,
+    edgeTypes: null,
+    businessEdgeTypes: null,
+    childEdgeTypes: [],
+    minDepth: 1,
+    autoExpandFields: false,
+  },
+  ontology: {
+    title: "Ontology View",
+    description: "Ontology-only view: Entity concepts, Base Entity concepts, inherited fields, and business relationships.",
+    nodeTypes: ["entity_type_concept", "base_entity_concept"],
+    edgeTypes: ["EXTENDS"],
+    businessEdgeTypes: "all",
+    childEdgeTypes: [],
+    minDepth: 2,
+    autoExpandFields: true,
+  },
+  semantic: {
+    title: "Semantic View",
+    description: "Semantic-model view: datasets/tables, dataset fields, joins, and source/query extensions from OSI custom_extensions.",
+    nodeTypes: ["physical_table", "table", "view", "semantic_model"],
+    edgeTypes: ["DATASET_JOIN", "CONTAINS_TABLE"],
+    businessEdgeTypes: [],
+    childEdgeTypes: [],
+    minDepth: 2,
+    autoExpandFields: true,
+  },
+  mapping: {
+    title: "Mapping View",
+    description: "Ontology-to-semantic-model mappings: Entity fields connect to dataset fields and metric-backed fields. Hide nodes to keep the mapping slice focused.",
+    nodeTypes: ["entity_type_concept", "base_entity_concept", "physical_table", "table", "view"],
+    edgeTypes: ["MAPS_TO", "MAPS_TO_FIELD", "DERIVED_BY"],
+    businessEdgeTypes: [],
+    childEdgeTypes: ["MAPS_TO_FIELD", "DERIVED_BY"],
+    minDepth: 2,
+    autoExpandFields: true,
+  },
+  requirement: {
+    title: "Requirement View",
+    description: "Requirement-to-ontology view: reporting requirement items point to the Entity/value fields they require.",
+    nodeTypes: ["regulatory_requirement", "entity_type_concept", "base_entity_concept"],
+    edgeTypes: ["REQUIRES_CONCEPT", "REQUIRES_SEMANTIC_FIELD", "DERIVED_FROM"],
+    businessEdgeTypes: [],
+    childEdgeTypes: ["REQUIRES_SEMANTIC_FIELD", "DERIVED_FROM"],
+    minDepth: 2,
+    autoExpandFields: true,
+  },
+  data_logic: {
+    title: "Data Logic View",
+    description: "Report data logic view: logic fields connect to requirement fields and the dataset/table fields they read.",
+    nodeTypes: ["report_implementation", "regulatory_requirement", "physical_table", "table", "view"],
+    edgeTypes: ["IMPLEMENTS", "SOURCE_TABLE", "SOURCE_FIELD", "MAPS_TO_FIELD", "IMPLEMENTS_FIELD"],
+    businessEdgeTypes: [],
+    childEdgeTypes: ["SOURCE_FIELD", "MAPS_TO_FIELD", "IMPLEMENTS_FIELD"],
+    minDepth: 2,
+    autoExpandFields: true,
+  },
+};
+
+const PAGE_VIEW_MODE = {
+  graph: "traceability",
+  ontology: "ontology",
+  semantic: "semantic",
+  mapping: "mapping",
+  requirement: "requirement",
+  dataLogic: "data_logic",
+};
+
+function availableSet(values, availableValues) {
+  const available = new Set(availableValues);
+  return new Set((values || []).filter(value => available.has(value)));
+}
+
+function graphViewConfig(mode = graphState?.viewMode || "traceability") {
+  return GRAPH_VIEW_CONFIG[mode] || GRAPH_VIEW_CONFIG.traceability;
+}
+
+function nodeTypesForMode(mode) {
+  const configured = graphViewConfig(mode).nodeTypes;
+  return configured ? availableSet(configured, nodeTypes()) : new Set(nodeTypes());
+}
+
+function defaultEdgeTypesForMode(mode = graphState?.viewMode || "traceability", focusId = graphState?.focusId) {
+  const configured = graphViewConfig(mode).edgeTypes;
+  if (configured) return availableSet(configured, edgeTypes());
+  return defaultGraphEdgeTypesForFocus(focusId);
+}
+
+function defaultBusinessEdgeTypesForMode(mode = graphState?.viewMode || "traceability") {
+  const configured = graphViewConfig(mode).businessEdgeTypes;
+  if (configured === "all") return new Set(businessEdgeTypes());
+  if (Array.isArray(configured)) return availableSet(configured, businessEdgeTypes());
+  return new Set(businessEdgeTypes());
+}
+
+function childEdgeTypesForMode(mode = graphState?.viewMode || "traceability") {
+  return availableSet(graphViewConfig(mode).childEdgeTypes || [], edgeTypes());
+}
+
+function nodeAllowedForMode(id, mode = graphState?.viewMode || "traceability") {
+  return nodeTypesForMode(mode).has(nodeType(id));
+}
+
+function preferredFocusPredicate(mode = graphState?.viewMode || "traceability") {
+  const preferredByMode = {
+    ontology: item => isEntityConceptNodeType(item.type),
+    semantic: item => ["physical_table", "table", "view", "semantic_model"].includes(item.type),
+    mapping: item => parentEdges().some(edge => edge.type === "MAPS_TO" && (edge.source === item.id || edge.target === item.id)),
+    requirement: item => item.type === "regulatory_requirement",
+    data_logic: item => item.type === "report_implementation",
+  };
+  return preferredByMode[mode] || (() => true);
+}
+
+function focusCandidateForMode(mode = graphState?.viewMode || "traceability") {
+  const allowed = nodeTypesForMode(mode);
+  const preferred = preferredFocusPredicate(mode);
+  return topLevelNodes.find(item => allowed.has(item.type) && preferred(item))?.id ||
+    (allowed.has(nodeType(graphState.focusId)) ? graphState.focusId : "") ||
+    topLevelNodes.find(item => allowed.has(item.type))?.id ||
+    chooseInitialNode();
+}
+
+function applyGraphViewMode(mode, options = {}) {
+  const normalizedMode = GRAPH_VIEW_CONFIG[mode] ? mode : "traceability";
+  const previousMode = graphState.viewMode;
+  graphState.viewMode = normalizedMode;
+  const shouldReset = options.resetFilters || previousMode !== normalizedMode;
+  if (shouldReset) {
+    graphState.nodeTypes = nodeTypesForMode(normalizedMode);
+    graphState.businessEdgeTypes = defaultBusinessEdgeTypesForMode(normalizedMode);
+    graphState.edgeTypes = defaultEdgeTypesForMode(normalizedMode);
+    graphState.maxDepth = Math.max(graphViewConfig(normalizedMode).minDepth || 1, normalizedMode === "traceability" ? 1 : graphState.maxDepth);
+  }
+  if (!nodeAllowedForMode(graphState.focusId, normalizedMode) || (previousMode !== normalizedMode && !preferredFocusPredicate(normalizedMode)(node(graphState.focusId)))) {
+    setGraphFocus(focusCandidateForMode(normalizedMode), { resetEdgeTypes: false, applyDefaultEdgeTypes: false });
+  }
+  graphState.selectedEdgeId = null;
+  graphState.selectedFieldId = null;
+}
+
+function graphViewTitle() {
+  return graphViewConfig().title;
+}
+
+function graphViewDescription() {
+  return graphViewConfig().description;
+}
 function defaultGraphEdgeTypes() {
   return new Set(edgeTypes().filter(type => !DEFAULT_UNCHECKED_GRAPH_EDGE_TYPES.has(type)));
 }
@@ -281,7 +439,8 @@ function setGraphFocus(id, options = {}) {
   graphState.focusId = id;
   graphState.selectedNodeId = id;
   if (options.resetEdgeTypes || (changed && options.applyDefaultEdgeTypes !== false)) {
-    graphState.edgeTypes = defaultGraphEdgeTypesForFocus(id);
+    graphState.edgeTypes = defaultEdgeTypesForMode(graphState.viewMode, id);
+    graphState.businessEdgeTypes = defaultBusinessEdgeTypesForMode(graphState.viewMode);
   }
 }
 
@@ -939,12 +1098,14 @@ function renderNodeDetail(item, data, includeRaw) {
       ${data.term ? kv("Term", data.term) : ""}
       ${data.definition ? kv("Definition", data.definition) : ""}
       ${data.schema ? kv("Schema", data.schema) : ""}
+      ${data.source ? kv("Source", data.source) : ""}
       ${data.verified ? kv("Verified", [data.verified.status ? "true" : "false", data.verified.reason].filter(Boolean).join(" · ")) : ""}
       ${item.properties?.source_file ? kv("Source", item.properties.source_file) : ""}
       ${tagsFor(item.id).length ? `<div class="tag-list">${tagsFor(item.id).map(tag => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
     </section>
     ${renderConceptSemantics(item, data)}
     ${renderMappingSemantics(data)}
+    ${renderSourceExtensions(data)}
     ${renderRequirementSemantics(data)}
     ${renderImplementationSemantics(data)}
     ${renderConstraints(data.constraints || item.properties?.constraints, "Entity Constraints")}
@@ -965,6 +1126,16 @@ function renderNodeDetail(item, data, includeRaw) {
   `;
 }
 
+function renderSourceExtensions(data) {
+  const extensions = data.custom_extensions || [];
+  if (!extensions.length) return "";
+  return `
+    <section class="detail-section">
+      <h3>Source Extensions</h3>
+      <pre class="raw-block">${escapeHtml(JSON.stringify(extensions, null, 2))}</pre>
+    </section>
+  `;
+}
 function renderRequirementSemantics(data) {
   if (data.type !== "regulatory_requirement") return "";
   const scope = data.semantic_scope || {};
@@ -1094,6 +1265,7 @@ function renderGraphPage(options = {}) {
   ensureVisibleFocus();
   clearHiddenSelections();
   graphState.visible = graphNeighborhood();
+  if (graphViewConfig().autoExpandFields) expandVisibleViewNodes();
   renderScenarioControls();
   renderGraphFilters();
   renderGraphFocus();
@@ -1102,6 +1274,11 @@ function renderGraphPage(options = {}) {
   renderGraphDetail();
 }
 
+function expandVisibleViewNodes() {
+  graphState.visible.nodes.forEach(item => {
+    if (childItems(item.id).length) graphState.expanded.add(item.id);
+  });
+}
 function renderGraphFilters() {
   els.depth.value = String(graphState.maxDepth);
   els.depthValue.textContent = String(graphState.maxDepth);
@@ -1135,8 +1312,8 @@ function renderGraphFocus() {
   els.focusType.textContent = typeName(focus?.type);
   els.focusType.style.background = `${colorFor(focus?.type)}18`;
   els.focusType.style.color = colorFor(focus?.type);
-  els.focusTitle.textContent = label(graphState.focusId);
-  els.focusDescription.textContent = description(graphState.focusId) || "No description.";
+  els.focusTitle.textContent = graphState.viewMode === "mapping" ? `${graphViewTitle()}: ${label(graphState.focusId)}` : label(graphState.focusId);
+  els.focusDescription.textContent = graphState.viewMode === "mapping" ? graphViewDescription() : (description(graphState.focusId) || "No description.");
   els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
 }
 
@@ -1190,11 +1367,13 @@ function graphNeighborhood() {
   }
 
   const nodeSet = new Set([...visited.keys()].filter(id => node(id)));
-  const selectedChildEdges = selectedFieldEdges().filter(edge => {
+  const childEdgeCandidates = childEdgesForCurrentView();
+  if (graphState.viewMode !== "traceability") {
+    expandNodeSetFromChildEdges(nodeSet, childEdgeCandidates);
+  }
+  const selectedChildEdges = childEdgeCandidates.filter(edge => {
     if (!nodeSet.has(edge.source) || !nodeSet.has(edge.target)) return false;
-    if (!graphNodeVisible(edge.source) || !graphNodeVisible(edge.target)) return false;
-    if (!edgeTypeAllowed(edge, graphState)) return false;
-    if (!graphNodeTypeAllowed(edge.source) || !graphNodeTypeAllowed(edge.target)) return false;
+    if (!childEdgeCanParticipate(edge)) return false;
     if (tagFilterIsActive(graphState.tags)) {
       const tagPool = [...tagsFor(edge.source), ...tagsFor(edge.target)];
       if (![...graphState.tags].some(tag => tagPool.includes(tag))) return false;
@@ -1305,6 +1484,43 @@ function selectedFieldEdges() {
   return childEdges().filter(edge => edge.sourceOriginal === graphState.selectedFieldId || edge.targetOriginal === graphState.selectedFieldId);
 }
 
+function childEdgesForCurrentView() {
+  if (graphState.viewMode === "traceability") return selectedFieldEdges();
+  const allowedChildTypes = childEdgeTypesForMode();
+  if (!allowedChildTypes.size) return [];
+  return childEdges().filter(edge => allowedChildTypes.has(edge.type));
+}
+
+function childEdgeCanParticipate(edge) {
+  if (!graphNodeVisible(edge.source) || !graphNodeVisible(edge.target)) return false;
+  if (!edgeTypeAllowed(edge, graphState)) return false;
+  if (!graphNodeTypeAllowed(edge.source) || !graphNodeTypeAllowed(edge.target)) return false;
+  if (tagFilterIsActive(graphState.tags)) {
+    const tagPool = [...tagsFor(edge.source), ...tagsFor(edge.target)];
+    if (![...graphState.tags].some(tag => tagPool.includes(tag))) return false;
+  }
+  return true;
+}
+
+function expandNodeSetFromChildEdges(nodeSet, childEdgeCandidates) {
+  let changed = true;
+  while (changed) {
+    changed = false;
+    childEdgeCandidates.forEach(edge => {
+      if (!childEdgeCanParticipate(edge)) return;
+      const sourceVisible = nodeSet.has(edge.source);
+      const targetVisible = nodeSet.has(edge.target);
+      if (sourceVisible && !targetVisible) {
+        nodeSet.add(edge.target);
+        changed = true;
+      }
+      if (targetVisible && !sourceVisible) {
+        nodeSet.add(edge.source);
+        changed = true;
+      }
+    });
+  }
+}
 async function graphLayout(nodes, depthById, edges = [], childEdgesForLayout = []) {
   if (elkLayoutEngine) {
     try {
@@ -2175,11 +2391,18 @@ function kv(key, value) {
 }
 
 function openPage(page) {
-  const showGraph = page === "graph";
+  const viewMode = PAGE_VIEW_MODE[page];
+  const showGraph = Boolean(viewMode);
+  if (showGraph) applyGraphViewMode(viewMode, { resetFilters: page === "graph" && graphState.viewMode !== "traceability" });
   els.catalogPage.classList.toggle("hidden", showGraph);
   els.graphPage.classList.toggle("hidden", !showGraph);
   els.catalogTab.classList.toggle("active", !showGraph);
-  els.graphTab.classList.toggle("active", showGraph);
+  els.graphTab.classList.toggle("active", page === "graph");
+  if (els.ontologyTab) els.ontologyTab.classList.toggle("active", page === "ontology");
+  if (els.semanticTab) els.semanticTab.classList.toggle("active", page === "semantic");
+  if (els.mappingTab) els.mappingTab.classList.toggle("active", page === "mapping");
+  if (els.requirementTab) els.requirementTab.classList.toggle("active", page === "requirement");
+  if (els.dataLogicTab) els.dataLogicTab.classList.toggle("active", page === "dataLogic");
   if (showGraph) {
     renderGraphPage({ fitAfter: true });
   } else {
@@ -2196,7 +2419,8 @@ function applyUrlState() {
     catalogState.selectedId = selectedNode;
     setGraphFocus(selectedNode, { resetEdgeTypes: true });
   }
-  if (params.get("view") === "graph") openPage("graph");
+  const view = params.get("view");
+  if (["graph", "ontology", "semantic", "mapping", "requirement", "dataLogic"].includes(view)) openPage(view);
   else renderAll();
 }
 
@@ -2233,11 +2457,11 @@ function resetCatalogFilters() {
 }
 
 function resetGraphFilters() {
-  graphState.nodeTypes = new Set(nodeTypes());
-  graphState.businessEdgeTypes = new Set(businessEdgeTypes());
-  graphState.edgeTypes = defaultGraphEdgeTypesForFocus();
+  graphState.nodeTypes = nodeTypesForMode(graphState.viewMode);
+  graphState.businessEdgeTypes = defaultBusinessEdgeTypesForMode(graphState.viewMode);
+  graphState.edgeTypes = defaultEdgeTypesForMode(graphState.viewMode);
   graphState.tags = new Set(allTags());
-  graphState.maxDepth = 1;
+  graphState.maxDepth = graphViewConfig().minDepth || 1;
   graphState.selectedNodeId = graphState.focusId;
   graphState.selectedEdgeId = null;
   graphState.selectedFieldId = null;
@@ -2563,6 +2787,11 @@ els.catalogReset.addEventListener("click", resetCatalogFilters);
 els.openGraph.addEventListener("click", openSelectionInGraph);
 els.catalogTab.addEventListener("click", () => openPage("catalog"));
 els.graphTab.addEventListener("click", () => openPage("graph"));
+if (els.ontologyTab) els.ontologyTab.addEventListener("click", () => openPage("ontology"));
+if (els.semanticTab) els.semanticTab.addEventListener("click", () => openPage("semantic"));
+if (els.mappingTab) els.mappingTab.addEventListener("click", () => openPage("mapping"));
+if (els.requirementTab) els.requirementTab.addEventListener("click", () => openPage("requirement"));
+if (els.dataLogicTab) els.dataLogicTab.addEventListener("click", () => openPage("dataLogic"));
 els.backToCatalog.addEventListener("click", () => openPage("catalog"));
 els.scenarioSelect.addEventListener("change", event => applyScenario(event.target.value));
 els.saveScenario.addEventListener("click", saveCurrentScenario);
@@ -2592,25 +2821,3 @@ document.addEventListener("mousemove", dragGraphNode);
 document.addEventListener("mouseup", endGraphNodeDrag);
 
 applyUrlState();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

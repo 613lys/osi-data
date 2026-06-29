@@ -363,7 +363,7 @@ ontology_mappings:
       ai_context:
         physical_kind: table
     - name: loan_exposure_report_lines
-      source: credit_risk_engine.loan_exposure_report_lines
+      source: query.loan_exposure_report_lines
       primary_key:
       - loan_id
       description: Prepared loan exposure report line records at reportable loan grain,
@@ -449,7 +449,24 @@ ontology_mappings:
           nullable: false
         description: Currency code in which the exposure line amounts are reported.
       ai_context:
-        physical_kind: table
+        physical_kind: query
+      custom_extensions:
+      - name: physical_source
+        value:
+          kind: query
+          sql: 'select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount,
+            expected_loss_amount, report_currency
+
+            from credit_risk_engine.loan_exposure_report_lines
+
+            where report_date = :report_date
+
+            '
+          depends_on:
+          - retail_lending_core.retail_loans
+          - institutional_lending_core.facilities
+          - customer_master.borrowers
+          - product_master.loan_products
     - name: loan_products
       source: product_master.loan_products
       primary_key:

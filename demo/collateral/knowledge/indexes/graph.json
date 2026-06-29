@@ -730,7 +730,8 @@
           "report_id",
           "line_number"
         ],
-        "field_count": 7
+        "field_count": 7,
+        "custom_extensions": []
       }
     },
     {
@@ -820,7 +821,8 @@
         "primary_key": [
           "collateral_id"
         ],
-        "field_count": 5
+        "field_count": 5,
+        "custom_extensions": []
       }
     },
     {
@@ -888,7 +890,8 @@
         "primary_key": [
           "valuation_id"
         ],
-        "field_count": 5
+        "field_count": 5,
+        "custom_extensions": []
       }
     },
     {
@@ -956,7 +959,8 @@
         "primary_key": [
           "counterparty_id"
         ],
-        "field_count": 4
+        "field_count": 4,
+        "custom_extensions": []
       }
     },
     {
@@ -1013,7 +1017,8 @@
         "primary_key": [
           "account_id"
         ],
-        "field_count": 4
+        "field_count": 4,
+        "custom_extensions": []
       }
     },
     {
