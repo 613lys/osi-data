@@ -59,6 +59,10 @@ link_mappings:
     object_mapping:
       concept: MonetaryAmount
       expression: metric.expected_loss_amount
+  - relationship: has_RiskWeightedExposureAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.risk_weighted_exposure_amount
 - object_mapping:
     referent_mappings:
     - relationship: has_LoanIdentifier
@@ -108,6 +112,10 @@ link_mappings:
     object_mapping:
       concept: MonetaryAmount
       expression: metric.expected_loss_amount
+  - relationship: has_RiskWeightedExposureAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.risk_weighted_exposure_amount
 - object_mapping:
     referent_mappings:
     - relationship: has_LoanIdentifier
@@ -141,6 +149,10 @@ link_mappings:
     object_mapping:
       concept: MonetaryAmount
       expression: loan_exposure_report_lines.expected_loss_amount
+  - relationship: has_RiskWeightedExposureAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.risk_weighted_exposure_amount
   - relationship: has_LoanCurrency
     object_mapping:
       concept: CurrencyCode

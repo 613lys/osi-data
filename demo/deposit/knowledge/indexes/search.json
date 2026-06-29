@@ -1,0 +1,512 @@
+[
+  {
+    "id": "concept.AccountData",
+    "type": "base_entity_concept",
+    "text": "concept.AccountData base_entity_concept AccountData Base concept for account-like records with common account identifiers and reporting dates. Base concept for account-like records with common account identifiers and reporting dates."
+  },
+  {
+    "id": "value.AccountData.has_AccountIdentifier",
+    "type": "value_type_property",
+    "text": "value.AccountData.has_AccountIdentifier value_type_property AccountIdentifier Stable account identifier common to account-like records. Stable account identifier common to account-like records."
+  },
+  {
+    "id": "value.AccountData.has_AsOfDate",
+    "type": "value_type_property",
+    "text": "value.AccountData.has_AsOfDate value_type_property CalendarDate Reporting or snapshot date common to account-like records. Reporting or snapshot date common to account-like records."
+  },
+  {
+    "id": "concept.CustomerData",
+    "type": "base_entity_concept",
+    "text": "concept.CustomerData base_entity_concept CustomerData Base concept for customer-like records with common identifiers and domicile attributes. Base concept for customer-like records with common identifiers and domicile attributes."
+  },
+  {
+    "id": "value.CustomerData.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "text": "value.CustomerData.has_CustomerIdentifier value_type_property CustomerIdentifier Stable customer identifier common to customer-like records. Stable customer identifier common to customer-like records."
+  },
+  {
+    "id": "value.CustomerData.has_DomicileCountry",
+    "type": "value_type_property",
+    "text": "value.CustomerData.has_DomicileCountry value_type_property CountryCode Country or jurisdiction associated with a customer record. Country or jurisdiction associated with a customer record."
+  },
+  {
+    "id": "concept.ProductData",
+    "type": "base_entity_concept",
+    "text": "concept.ProductData base_entity_concept ProductData Base concept for product-like records with common product identifiers and classifications. Base concept for product-like records with common product identifiers and classifications."
+  },
+  {
+    "id": "value.ProductData.has_ProductIdentifier",
+    "type": "value_type_property",
+    "text": "value.ProductData.has_ProductIdentifier value_type_property ProductIdentifier Stable product identifier common to product-like records. Stable product identifier common to product-like records."
+  },
+  {
+    "id": "value.ProductData.has_ProductType",
+    "type": "value_type_property",
+    "text": "value.ProductData.has_ProductType value_type_property ProductType Classification value identifying the product family or instrument type. Classification value identifying the product family or instrument type."
+  },
+  {
+    "id": "concept.DepositAccount",
+    "type": "entity_type_concept",
+    "text": "concept.DepositAccount entity_type_concept DepositAccount Deposit account balance position that can be assessed for liquidity reporting and stable funding treatment. Deposit account balance position that can be assessed for liquidity reporting and stable funding treatment. deposit_accounts deposit_liquidity_report_lines deposit_accounts.account_id deposit_accounts.as_of_date deposit_accounts.balance_amount deposit_accounts.currency deposit_accounts.liquidity_bucket deposit_accounts.rate_override deposit_liquidity_report_lines.account_id deposit_liquidity_report_lines.as_of_date deposit_liquidity_report_lines.balance_amount deposit_liquidity_report_lines.currency deposit_liquidity_report_lines.liquidity_bucket deposit_liquidity_report_lines.runoff_rate"
+  },
+  {
+    "id": "concept.Depositor",
+    "type": "entity_type_concept",
+    "text": "concept.Depositor entity_type_concept Depositor Customer or legal entity that owns deposit account balances included in liquidity reporting. Customer or legal entity that owns deposit account balances included in liquidity reporting. deposit_customers deposit_liquidity_report_lines deposit_customers.customer_id deposit_customers.customer_name deposit_customers.domicile_country deposit_customers.segment deposit_liquidity_report_lines.customer_id"
+  },
+  {
+    "id": "concept.DepositProduct",
+    "type": "entity_type_concept",
+    "text": "concept.DepositProduct entity_type_concept DepositProduct Product definition that classifies deposit balances for liquidity runoff and insurance treatment. Product definition that classifies deposit balances for liquidity runoff and insurance treatment. deposit_liquidity_report_lines deposit_products deposit_liquidity_report_lines.product_id deposit_products.insurance_limit_amount deposit_products.product_id deposit_products.product_type deposit_products.regulatory_class deposit_products.standard_runoff_rate"
+  },
+  {
+    "id": "value.DepositAccount.has_DepositBalanceAmount",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_DepositBalanceAmount value_type_property MonetaryAmount Booked deposit balance amount measured for liquidity reporting. Booked deposit balance amount measured for liquidity reporting."
+  },
+  {
+    "id": "value.DepositAccount.has_DepositCurrency",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_DepositCurrency value_type_property CurrencyCode Currency in which the deposit account balance is maintained. Currency in which the deposit account balance is maintained."
+  },
+  {
+    "id": "value.DepositAccount.has_LiquidityBucket",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_LiquidityBucket value_type_property LiquidityBucket Liquidity classification bucket applied to the deposit account balance. Liquidity classification bucket applied to the deposit account balance."
+  },
+  {
+    "id": "value.DepositAccount.has_RunoffRate",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_RunoffRate value_type_property Rate Liquidity runoff rate applied to the deposit balance for stable funding analysis. Liquidity runoff rate applied to the deposit balance for stable funding analysis."
+  },
+  {
+    "id": "value.DepositAccount.has_StableFundingAmount",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_StableFundingAmount value_type_property MonetaryAmount Calculated stable funding contribution after applying the applicable runoff or stability rate. Calculated stable funding contribution after applying the applicable runoff or stability rate."
+  },
+  {
+    "id": "value.DepositAccount.has_InsuredBalanceAmount",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_InsuredBalanceAmount value_type_property MonetaryAmount Portion of the deposit balance covered by product-level deposit insurance limits. Portion of the deposit balance covered by product-level deposit insurance limits."
+  },
+  {
+    "id": "value.Depositor.has_CustomerName",
+    "type": "value_type_property",
+    "text": "value.Depositor.has_CustomerName value_type_property PersonOrEntityName Display name of the customer or legal entity holding deposit accounts. Display name of the customer or legal entity holding deposit accounts."
+  },
+  {
+    "id": "value.Depositor.has_CustomerSegment",
+    "type": "value_type_property",
+    "text": "value.Depositor.has_CustomerSegment value_type_property CustomerSegment Customer segment used for liquidity reporting and runoff classification. Customer segment used for liquidity reporting and runoff classification."
+  },
+  {
+    "id": "value.DepositProduct.has_RegulatoryClass",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_RegulatoryClass value_type_property RegulatoryClass Regulatory product class used for liquidity reporting aggregation. Regulatory product class used for liquidity reporting aggregation."
+  },
+  {
+    "id": "value.DepositProduct.has_InsuranceLimitAmount",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_InsuranceLimitAmount value_type_property MonetaryAmount Product-level insured balance limit applied to eligible customer deposits. Product-level insured balance limit applied to eligible customer deposits."
+  },
+  {
+    "id": "value.DepositProduct.has_StandardRunoffRate",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_StandardRunoffRate value_type_property Rate Standard runoff or stability rate assigned to the deposit product class. Standard runoff or stability rate assigned to the deposit product class."
+  },
+  {
+    "id": "value.DepositAccount.has_AccountIdentifier",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_AccountIdentifier value_type_property AccountIdentifier Stable account identifier common to account-like records. Stable account identifier common to account-like records."
+  },
+  {
+    "id": "value.DepositAccount.has_AsOfDate",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_AsOfDate value_type_property CalendarDate Reporting or snapshot date common to account-like records. Reporting or snapshot date common to account-like records."
+  },
+  {
+    "id": "value.Depositor.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "text": "value.Depositor.has_CustomerIdentifier value_type_property CustomerIdentifier Stable customer identifier common to customer-like records. Stable customer identifier common to customer-like records."
+  },
+  {
+    "id": "value.Depositor.has_DomicileCountry",
+    "type": "value_type_property",
+    "text": "value.Depositor.has_DomicileCountry value_type_property CountryCode Country or jurisdiction associated with a customer record. Country or jurisdiction associated with a customer record."
+  },
+  {
+    "id": "value.DepositProduct.has_ProductIdentifier",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_ProductIdentifier value_type_property ProductIdentifier Stable product identifier common to product-like records. Stable product identifier common to product-like records."
+  },
+  {
+    "id": "value.DepositProduct.has_ProductType",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_ProductType value_type_property ProductType Classification value identifying the product family or instrument type. Classification value identifying the product family or instrument type."
+  },
+  {
+    "id": "dataset.deposit_accounts",
+    "type": "semantic_dataset",
+    "text": "dataset.deposit_accounts semantic_dataset deposit_accounts Deposit account balance records at account and reporting-date grain, carrying customer, product, amount, currency, liquidity bucket, and optional runoff override fields for liquidity reporting. Deposit account balance records at account and reporting-date grain, carrying customer, product, amount, currency, liquidity bucket, and optional runoff override fields for liquidity reporting. core_deposit.deposit_accounts"
+  },
+  {
+    "id": "table.core_deposit.deposit_accounts",
+    "type": "physical_table",
+    "text": "table.core_deposit.deposit_accounts physical_table deposit_accounts core_deposit.deposit_accounts"
+  },
+  {
+    "id": "field.deposit_accounts.account_id",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.account_id dataset_field account_id Source account identifier for a deposit account balance record. Source account identifier for a deposit account balance record."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.account_id",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.account_id column account_id Source account identifier for a deposit account balance record. Source account identifier for a deposit account balance record."
+  },
+  {
+    "id": "field.deposit_accounts.customer_id",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.customer_id dataset_field customer_id Customer identifier linking the deposit account to the depositor master record. Customer identifier linking the deposit account to the depositor master record."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.customer_id",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.customer_id column customer_id Customer identifier linking the deposit account to the depositor master record. Customer identifier linking the deposit account to the depositor master record."
+  },
+  {
+    "id": "field.deposit_accounts.product_id",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.product_id dataset_field product_id Product identifier linking the deposit account to the deposit product definition. Product identifier linking the deposit account to the deposit product definition."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.product_id",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.product_id column product_id Product identifier linking the deposit account to the deposit product definition. Product identifier linking the deposit account to the deposit product definition."
+  },
+  {
+    "id": "field.deposit_accounts.as_of_date",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.as_of_date dataset_field as_of_date Reporting date for the account balance snapshot. Reporting date for the account balance snapshot."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.as_of_date",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.as_of_date column as_of_date Reporting date for the account balance snapshot. Reporting date for the account balance snapshot."
+  },
+  {
+    "id": "field.deposit_accounts.balance_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.balance_amount dataset_field balance_amount Deposit balance amount measured on the reporting date. Deposit balance amount measured on the reporting date."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.balance_amount",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.balance_amount column balance_amount Deposit balance amount measured on the reporting date. Deposit balance amount measured on the reporting date."
+  },
+  {
+    "id": "field.deposit_accounts.currency",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.currency dataset_field currency Currency code for the deposit balance amount. Currency code for the deposit balance amount."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.currency",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.currency column currency Currency code for the deposit balance amount. Currency code for the deposit balance amount."
+  },
+  {
+    "id": "field.deposit_accounts.liquidity_bucket",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.liquidity_bucket dataset_field liquidity_bucket Liquidity bucket assigned to the account for reporting classification. Liquidity bucket assigned to the account for reporting classification."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.liquidity_bucket",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.liquidity_bucket column liquidity_bucket Liquidity bucket assigned to the account for reporting classification. Liquidity bucket assigned to the account for reporting classification."
+  },
+  {
+    "id": "field.deposit_accounts.rate_override",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.rate_override dataset_field rate_override Account-level runoff rate override when treasury has approved an account-specific rate. Account-level runoff rate override when treasury has approved an account-specific rate."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.rate_override",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.rate_override column rate_override Account-level runoff rate override when treasury has approved an account-specific rate. Account-level runoff rate override when treasury has approved an account-specific rate."
+  },
+  {
+    "id": "dataset.deposit_customers",
+    "type": "semantic_dataset",
+    "text": "dataset.deposit_customers semantic_dataset deposit_customers Depositor master records carrying names, customer segments, and domicile countries used to classify deposit liquidity reporting populations. Depositor master records carrying names, customer segments, and domicile countries used to classify deposit liquidity reporting populations. customer_master.deposit_customers"
+  },
+  {
+    "id": "table.customer_master.deposit_customers",
+    "type": "physical_table",
+    "text": "table.customer_master.deposit_customers physical_table deposit_customers customer_master.deposit_customers"
+  },
+  {
+    "id": "field.deposit_customers.customer_id",
+    "type": "dataset_field",
+    "text": "field.deposit_customers.customer_id dataset_field customer_id Master customer identifier for a depositor or legal entity. Master customer identifier for a depositor or legal entity."
+  },
+  {
+    "id": "column.customer_master.deposit_customers.customer_id",
+    "type": "column",
+    "text": "column.customer_master.deposit_customers.customer_id column customer_id Master customer identifier for a depositor or legal entity. Master customer identifier for a depositor or legal entity."
+  },
+  {
+    "id": "field.deposit_customers.customer_name",
+    "type": "dataset_field",
+    "text": "field.deposit_customers.customer_name dataset_field customer_name Human-readable depositor or legal entity name. Human-readable depositor or legal entity name."
+  },
+  {
+    "id": "column.customer_master.deposit_customers.customer_name",
+    "type": "column",
+    "text": "column.customer_master.deposit_customers.customer_name column customer_name Human-readable depositor or legal entity name. Human-readable depositor or legal entity name."
+  },
+  {
+    "id": "field.deposit_customers.segment",
+    "type": "dataset_field",
+    "text": "field.deposit_customers.segment dataset_field segment Customer segment used for liquidity classification and management reporting. Customer segment used for liquidity classification and management reporting."
+  },
+  {
+    "id": "column.customer_master.deposit_customers.segment",
+    "type": "column",
+    "text": "column.customer_master.deposit_customers.segment column segment Customer segment used for liquidity classification and management reporting. Customer segment used for liquidity classification and management reporting."
+  },
+  {
+    "id": "field.deposit_customers.domicile_country",
+    "type": "dataset_field",
+    "text": "field.deposit_customers.domicile_country dataset_field domicile_country Country or jurisdiction associated with the depositor. Country or jurisdiction associated with the depositor."
+  },
+  {
+    "id": "column.customer_master.deposit_customers.domicile_country",
+    "type": "column",
+    "text": "column.customer_master.deposit_customers.domicile_country column domicile_country Country or jurisdiction associated with the depositor. Country or jurisdiction associated with the depositor."
+  },
+  {
+    "id": "dataset.deposit_liquidity_report_lines",
+    "type": "semantic_dataset",
+    "text": "dataset.deposit_liquidity_report_lines semantic_dataset deposit_liquidity_report_lines Prepared deposit liquidity report line records at account and reporting-date grain, carrying normalized depositor, product, balance, runoff, insured amount, and stable funding fields consumed by reporting logic. Prepared deposit liquidity report line records at account and reporting-date grain, carrying normalized depositor, product, balance, runoff, insured amount, and stable funding fields consumed by reporting logic. query.deposit_liquidity_report_lines"
+  },
+  {
+    "id": "table.product_master.deposit_products",
+    "type": "physical_table",
+    "text": "table.product_master.deposit_products physical_table deposit_products product_master.deposit_products"
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.account_id",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.account_id dataset_field account_id Account identifier reported on the deposit liquidity line. Account identifier reported on the deposit liquidity line."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.as_of_date",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.as_of_date dataset_field as_of_date Reporting date carried on the deposit liquidity line. Reporting date carried on the deposit liquidity line."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.customer_id",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.customer_id dataset_field customer_id Depositor identifier reported for account ownership and aggregation. Depositor identifier reported for account ownership and aggregation."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.product_id",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.product_id dataset_field product_id Deposit product identifier reported for product-class aggregation. Deposit product identifier reported for product-class aggregation."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.balance_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.balance_amount dataset_field balance_amount Deposit balance amount reported for liquidity measurement. Deposit balance amount reported for liquidity measurement."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.currency",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.currency dataset_field currency Currency code reported for the deposit balance amount. Currency code reported for the deposit balance amount."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.liquidity_bucket",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.liquidity_bucket dataset_field liquidity_bucket Liquidity bucket reported for regulatory classification. Liquidity bucket reported for regulatory classification."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.runoff_rate",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.runoff_rate dataset_field runoff_rate Runoff rate reported after applying account override or product standard rate. Runoff rate reported after applying account override or product standard rate."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.stable_funding_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.stable_funding_amount dataset_field stable_funding_amount Calculated stable funding amount reported after applying the runoff or stability rate. Calculated stable funding amount reported after applying the runoff or stability rate."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.insured_balance_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.insured_balance_amount dataset_field insured_balance_amount Insured portion of the deposit balance reported under the product insurance limit. Insured portion of the deposit balance reported under the product insurance limit."
+  },
+  {
+    "id": "dataset.deposit_products",
+    "type": "semantic_dataset",
+    "text": "dataset.deposit_products semantic_dataset deposit_products Deposit product reference records defining product type, regulatory class, standard runoff rate, and insurance limit used in liquidity calculations. Deposit product reference records defining product type, regulatory class, standard runoff rate, and insurance limit used in liquidity calculations. product_master.deposit_products"
+  },
+  {
+    "id": "field.deposit_products.product_id",
+    "type": "dataset_field",
+    "text": "field.deposit_products.product_id dataset_field product_id Product identifier for the deposit product definition. Product identifier for the deposit product definition."
+  },
+  {
+    "id": "column.product_master.deposit_products.product_id",
+    "type": "column",
+    "text": "column.product_master.deposit_products.product_id column product_id Product identifier for the deposit product definition. Product identifier for the deposit product definition."
+  },
+  {
+    "id": "field.deposit_products.product_type",
+    "type": "dataset_field",
+    "text": "field.deposit_products.product_type dataset_field product_type Deposit product type such as current account, savings, term deposit, or brokered deposit. Deposit product type such as current account, savings, term deposit, or brokered deposit."
+  },
+  {
+    "id": "column.product_master.deposit_products.product_type",
+    "type": "column",
+    "text": "column.product_master.deposit_products.product_type column product_type Deposit product type such as current account, savings, term deposit, or brokered deposit. Deposit product type such as current account, savings, term deposit, or brokered deposit."
+  },
+  {
+    "id": "field.deposit_products.regulatory_class",
+    "type": "dataset_field",
+    "text": "field.deposit_products.regulatory_class dataset_field regulatory_class Regulatory liquidity class assigned to the deposit product. Regulatory liquidity class assigned to the deposit product."
+  },
+  {
+    "id": "column.product_master.deposit_products.regulatory_class",
+    "type": "column",
+    "text": "column.product_master.deposit_products.regulatory_class column regulatory_class Regulatory liquidity class assigned to the deposit product. Regulatory liquidity class assigned to the deposit product."
+  },
+  {
+    "id": "field.deposit_products.standard_runoff_rate",
+    "type": "dataset_field",
+    "text": "field.deposit_products.standard_runoff_rate dataset_field standard_runoff_rate Standard runoff or stability rate assigned by product policy. Standard runoff or stability rate assigned by product policy."
+  },
+  {
+    "id": "column.product_master.deposit_products.standard_runoff_rate",
+    "type": "column",
+    "text": "column.product_master.deposit_products.standard_runoff_rate column standard_runoff_rate Standard runoff or stability rate assigned by product policy. Standard runoff or stability rate assigned by product policy."
+  },
+  {
+    "id": "field.deposit_products.insurance_limit_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_products.insurance_limit_amount dataset_field insurance_limit_amount Maximum insured balance amount applicable to the deposit product. Maximum insured balance amount applicable to the deposit product."
+  },
+  {
+    "id": "column.product_master.deposit_products.insurance_limit_amount",
+    "type": "column",
+    "text": "column.product_master.deposit_products.insurance_limit_amount column insurance_limit_amount Maximum insured balance amount applicable to the deposit product. Maximum insured balance amount applicable to the deposit product."
+  },
+  {
+    "id": "metric.stable_funding_amount",
+    "type": "semantic_metric",
+    "text": "metric.stable_funding_amount semantic_metric stable_funding_amount Stable funding amount calculated from deposit balance and the account override or product standard runoff rate. Stable funding amount calculated from deposit balance and the account override or product standard runoff rate."
+  },
+  {
+    "id": "metric.insured_balance_amount",
+    "type": "semantic_metric",
+    "text": "metric.insured_balance_amount semantic_metric insured_balance_amount Insured balance amount calculated as the lower of account balance and product insurance limit. Insured balance amount calculated as the lower of account balance and product insurance limit."
+  },
+  {
+    "id": "requirement.item",
+    "type": "regulatory_requirement",
+    "text": "requirement.item regulatory_requirement 存款流动性稳定资金报送需求 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 Deposit Liquidity Reporting BRD v1.0 section 4.1"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_AccountIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_AccountIdentifier requirement_semantic_item 账户标识 需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。 需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_AsOfDate",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_AsOfDate requirement_semantic_item 报告日期 需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。 需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。"
+  },
+  {
+    "id": "requirement_item..Depositor.has_CustomerIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Depositor.has_CustomerIdentifier requirement_semantic_item 客户标识 需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。 需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。"
+  },
+  {
+    "id": "requirement_item..DepositProduct.has_ProductIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositProduct.has_ProductIdentifier requirement_semantic_item 产品标识 需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。 需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_DepositBalanceAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_DepositBalanceAmount requirement_semantic_item 存款余额 需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。 需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_DepositCurrency",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_DepositCurrency requirement_semantic_item 存款币种 需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。 需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_LiquidityBucket",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_LiquidityBucket requirement_semantic_item 流动性分组 需求需要流动性分组，用于按监管流动性桶分类展示存款余额。 需求需要流动性分组，用于按监管流动性桶分类展示存款余额。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_StableFundingAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_StableFundingAmount requirement_semantic_item 稳定资金金额 需求需要稳定资金金额，用于根据存款余额和适用流失率计算可计入稳定资金的金额。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_InsuredBalanceAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_InsuredBalanceAmount requirement_semantic_item 受保存款金额 需求需要受保存款金额，用于展示存款余额中受产品保险限额覆盖的部分。"
+  },
+  {
+    "id": "report_impl.item",
+    "type": "report_implementation",
+    "text": "report_impl.item report_implementation 每日存款流动性报表数据逻辑 说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。 说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.account_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.account_id implementation_field_binding 账户标识逻辑 数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。 数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.as_of_date",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.as_of_date implementation_field_binding 报告日期逻辑 数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。 数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.customer_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.customer_id implementation_field_binding 客户标识逻辑 数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。 数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.product_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.product_id implementation_field_binding 产品标识逻辑 数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。 数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.balance_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.balance_amount implementation_field_binding 存款余额逻辑 数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。 数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.currency",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.currency implementation_field_binding 存款币种逻辑 数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。 数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket implementation_field_binding 流动性分组逻辑 数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。 数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount implementation_field_binding 稳定资金金额逻辑 数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。 数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount implementation_field_binding 受保存款金额逻辑 数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。 数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。"
+  }
+]

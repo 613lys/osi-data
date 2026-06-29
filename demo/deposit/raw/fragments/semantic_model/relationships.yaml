@@ -1,0 +1,28 @@
+- name: deposit_account_customer
+  from: deposit_accounts
+  to: deposit_customers
+  from_columns:
+  - customer_id
+  to_columns:
+  - customer_id
+- name: deposit_account_product
+  from: deposit_accounts
+  to: deposit_products
+  from_columns:
+  - product_id
+  to_columns:
+  - product_id
+- name: report_line_customer
+  from: deposit_liquidity_report_lines
+  to: deposit_customers
+  from_columns:
+  - customer_id
+  to_columns:
+  - customer_id
+- name: report_line_product
+  from: deposit_liquidity_report_lines
+  to: deposit_products
+  from_columns:
+  - product_id
+  to_columns:
+  - product_id

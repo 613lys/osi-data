@@ -1,0 +1,47 @@
+name: deposit_products
+source: product_master.deposit_products
+primary_key:
+- product_id
+description: Deposit product reference records defining product type, regulatory class, standard runoff rate, and insurance limit used in liquidity calculations.
+physical_kind: table
+fields:
+- name: product_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: product_id
+  description: Product identifier for the deposit product definition.
+- name: product_type
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: product_type
+  description: Deposit product type such as current account, savings, term deposit, or brokered deposit.
+- name: regulatory_class
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: regulatory_class
+  description: Regulatory liquidity class assigned to the deposit product.
+- name: standard_runoff_rate
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: standard_runoff_rate
+  description: Standard runoff or stability rate assigned by product policy.
+- name: insurance_limit_amount
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: insurance_limit_amount
+  description: Maximum insured balance amount applicable to the deposit product.

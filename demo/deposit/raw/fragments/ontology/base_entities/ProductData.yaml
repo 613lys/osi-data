@@ -1,0 +1,19 @@
+name: ProductData
+description: Base concept for product-like records with common product identifiers and classifications.
+identify_by:
+- has_ProductIdentifier
+relationships:
+- name: has_ProductIdentifier
+  roles:
+  - concept: ProductIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{ProductData} has product identifier {ProductIdentifier}"
+  description: Stable product identifier common to product-like records.
+- name: has_ProductType
+  roles:
+  - concept: ProductType
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{ProductData} has product type {ProductType}"
+  description: Classification value identifying the product family or instrument type.

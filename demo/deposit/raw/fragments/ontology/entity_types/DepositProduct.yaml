@@ -1,0 +1,28 @@
+name: DepositProduct
+description: Product definition that classifies deposit balances for liquidity runoff and insurance treatment.
+extends:
+- ProductData
+identify_by:
+- has_ProductIdentifier
+relationships:
+- name: has_RegulatoryClass
+  roles:
+  - concept: RegulatoryClass
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositProduct} has regulatory class {RegulatoryClass}"
+  description: Regulatory product class used for liquidity reporting aggregation.
+- name: has_InsuranceLimitAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositProduct} has insurance limit amount {MonetaryAmount}"
+  description: Product-level insured balance limit applied to eligible customer deposits.
+- name: has_StandardRunoffRate
+  roles:
+  - concept: Rate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositProduct} has standard runoff rate {Rate}"
+  description: Standard runoff or stability rate assigned to the deposit product class.

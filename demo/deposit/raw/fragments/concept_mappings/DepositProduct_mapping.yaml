@@ -1,0 +1,43 @@
+concept: DepositProduct
+object_mappings:
+- referent_mappings:
+  - relationship: has_ProductIdentifier
+    expression: deposit_products.product_id
+- referent_mappings:
+  - relationship: has_ProductIdentifier
+    expression: deposit_liquidity_report_lines.product_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_ProductIdentifier
+      expression: deposit_products.product_id
+  children:
+  - relationship: has_ProductIdentifier
+    object_mapping:
+      concept: ProductIdentifier
+      expression: deposit_products.product_id
+  - relationship: has_ProductType
+    object_mapping:
+      concept: ProductType
+      expression: deposit_products.product_type
+  - relationship: has_RegulatoryClass
+    object_mapping:
+      concept: RegulatoryClass
+      expression: deposit_products.regulatory_class
+  - relationship: has_InsuranceLimitAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: deposit_products.insurance_limit_amount
+  - relationship: has_StandardRunoffRate
+    object_mapping:
+      concept: Rate
+      expression: deposit_products.standard_runoff_rate
+- object_mapping:
+    referent_mappings:
+    - relationship: has_ProductIdentifier
+      expression: deposit_liquidity_report_lines.product_id
+  children:
+  - relationship: has_ProductIdentifier
+    object_mapping:
+      concept: ProductIdentifier
+      expression: deposit_liquidity_report_lines.product_id

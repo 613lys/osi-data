@@ -360,6 +360,9 @@
         ]
       }
     ],
+    "mapped_datasets": [
+      "borrowers"
+    ],
     "mapped_tables": [
       "borrowers"
     ],
@@ -543,6 +546,19 @@
           "{Loan} has expected loss amount {MonetaryAmount}"
         ],
         "description": "Calculated expected loss amount for the loan exposure."
+      },
+      {
+        "name": "has_RiskWeightedExposureAmount",
+        "roles": [
+          {
+            "concept": "MonetaryAmount"
+          }
+        ],
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has risk weighted exposure amount {MonetaryAmount}"
+        ],
+        "description": "Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring."
       }
     ],
     "mappings": [
@@ -707,6 +723,18 @@
       },
       {
         "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_RiskWeightedExposureAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "metric.risk_weighted_exposure_amount"
+        ],
+        "fields": [
+          "metric.risk_weighted_exposure_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
         "level": 1,
         "relationship": null,
         "target_concept": null,
@@ -839,6 +867,18 @@
       },
       {
         "kind": "link_mapping",
+        "level": 2,
+        "relationship": "has_RiskWeightedExposureAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "metric.risk_weighted_exposure_amount"
+        ],
+        "fields": [
+          "metric.risk_weighted_exposure_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
         "level": 1,
         "relationship": null,
         "target_concept": null,
@@ -924,6 +964,18 @@
       {
         "kind": "link_mapping",
         "level": 2,
+        "relationship": "has_RiskWeightedExposureAmount",
+        "target_concept": "MonetaryAmount",
+        "expressions": [
+          "metric.risk_weighted_exposure_amount"
+        ],
+        "fields": [
+          "metric.risk_weighted_exposure_amount"
+        ]
+      },
+      {
+        "kind": "link_mapping",
+        "level": 2,
         "relationship": "has_LoanCurrency",
         "target_concept": "CurrencyCode",
         "expressions": [
@@ -933,6 +985,11 @@
           "loan_exposure_report_lines.report_currency"
         ]
       }
+    ],
+    "mapped_datasets": [
+      "institutional_loans",
+      "loan_exposure_report_lines",
+      "retail_loans"
     ],
     "mapped_tables": [
       "institutional_loans",
@@ -959,7 +1016,8 @@
       "retail_loans.principal_amount"
     ],
     "mapped_metrics": [
-      "expected_loss_amount"
+      "expected_loss_amount",
+      "risk_weighted_exposure_amount"
     ]
   },
   "value.Loan.has_PrincipalAmount": {
@@ -1136,6 +1194,50 @@
       }
     }
   },
+  "value.Loan.has_RiskWeightedExposureAmount": {
+    "id": "value.Loan.has_RiskWeightedExposureAmount",
+    "type": "value_type_property",
+    "name": "MonetaryAmount",
+    "description": "Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring.",
+    "parent": "concept.Loan",
+    "data_type": "MonetaryAmount",
+    "value_concept": "MonetaryAmount",
+    "field_name": "has_RiskWeightedExposureAmount",
+    "relationship_name": "has_RiskWeightedExposureAmount",
+    "relationship": {
+      "name": "has_RiskWeightedExposureAmount",
+      "roles": [
+        {
+          "concept": "MonetaryAmount"
+        }
+      ],
+      "multiplicity": "ManyToOne",
+      "verbalizes": [
+        "{Loan} has risk weighted exposure amount {MonetaryAmount}"
+      ],
+      "description": "Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring."
+    },
+    "inherited": false,
+    "inherited_from": "",
+    "calculation_type": "metric",
+    "semantic_metric": "risk_weighted_exposure_amount",
+    "semantic_reference": "metric.risk_weighted_exposure_amount",
+    "metric": {
+      "name": "risk_weighted_exposure_amount",
+      "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default"
+          }
+        ]
+      },
+      "ai_context": {
+        "metric_type": "calculated_credit_risk_measure"
+      }
+    }
+  },
   "concept.LoanProduct": {
     "id": "concept.LoanProduct",
     "type": "entity_type_concept",
@@ -1238,6 +1340,9 @@
           "loan_products.regulatory_product_class"
         ]
       }
+    ],
+    "mapped_datasets": [
+      "loan_products"
     ],
     "mapped_tables": [
       "loan_products"
@@ -1431,9 +1536,9 @@
     "inherited": true,
     "inherited_from": "ProductData"
   },
-  "table.borrowers": {
-    "id": "table.borrowers",
-    "type": "physical_table",
+  "dataset.borrowers": {
+    "id": "dataset.borrowers",
+    "type": "semantic_dataset",
     "name": "borrowers",
     "description": "Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting.",
     "source": "customer_master.borrowers",
@@ -1506,77 +1611,194 @@
         "description": "Borrower domicile country used for jurisdictional reporting and composite report joins."
       }
     ],
+    "source_tables": [
+      "customer_master.borrowers"
+    ],
+    "physical_kind": "",
+    "custom_extensions": [],
+    "semantic_model": "LoanExposureSemanticModel"
+  },
+  "table.customer_master.borrowers": {
+    "id": "table.customer_master.borrowers",
+    "type": "physical_table",
+    "name": "borrowers",
+    "description": "",
+    "source": "customer_master.borrowers",
     "columns": [
       {
         "name": "borrower_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "borrower_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Master customer identifier for a borrower or legal entity."
+        "description": "Master customer identifier for a borrower or legal entity.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "borrower_segment",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "borrower_segment"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Segment classification such as retail, SME, corporate, or financial institution."
+        "description": "Segment classification such as retail, SME, corporate, or financial institution.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "borrower_name",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "borrower_name"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Human-readable borrower or legal entity name."
+        "description": "Human-readable borrower or legal entity name.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "domicile_country",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "domicile_country"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins."
+        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
+        "data_type": "",
+        "nullable": ""
       }
     ],
-    "custom_extensions": []
+    "source_datasets": [
+      "borrowers",
+      "loan_exposure_report_lines"
+    ],
+    "semantic_model": "LoanExposureSemanticModel"
   },
-  "table.institutional_loans": {
-    "id": "table.institutional_loans",
-    "type": "physical_table",
+  "field.borrowers.borrower_id": {
+    "id": "field.borrowers.borrower_id",
+    "type": "dataset_field",
+    "name": "borrower_id",
+    "description": "Master customer identifier for a borrower or legal entity.",
+    "parent": "dataset.borrowers",
+    "dataset": "borrowers",
+    "field": "borrower_id",
+    "expression": "borrower_id",
+    "field_definition": {
+      "name": "borrower_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "borrower_id"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Master customer identifier for a borrower or legal entity."
+    }
+  },
+  "column.customer_master.borrowers.borrower_id": {
+    "id": "column.customer_master.borrowers.borrower_id",
+    "type": "column",
+    "name": "borrower_id",
+    "description": "Master customer identifier for a borrower or legal entity.",
+    "parent": "table.customer_master.borrowers",
+    "physical_field": "customer_master.borrowers.borrower_id",
+    "dataset_field": "borrowers.borrower_id"
+  },
+  "field.borrowers.borrower_segment": {
+    "id": "field.borrowers.borrower_segment",
+    "type": "dataset_field",
+    "name": "borrower_segment",
+    "description": "Segment classification such as retail, SME, corporate, or financial institution.",
+    "parent": "dataset.borrowers",
+    "dataset": "borrowers",
+    "field": "borrower_segment",
+    "expression": "borrower_segment",
+    "field_definition": {
+      "name": "borrower_segment",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "borrower_segment"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Segment classification such as retail, SME, corporate, or financial institution."
+    }
+  },
+  "column.customer_master.borrowers.borrower_segment": {
+    "id": "column.customer_master.borrowers.borrower_segment",
+    "type": "column",
+    "name": "borrower_segment",
+    "description": "Segment classification such as retail, SME, corporate, or financial institution.",
+    "parent": "table.customer_master.borrowers",
+    "physical_field": "customer_master.borrowers.borrower_segment",
+    "dataset_field": "borrowers.borrower_segment"
+  },
+  "field.borrowers.borrower_name": {
+    "id": "field.borrowers.borrower_name",
+    "type": "dataset_field",
+    "name": "borrower_name",
+    "description": "Human-readable borrower or legal entity name.",
+    "parent": "dataset.borrowers",
+    "dataset": "borrowers",
+    "field": "borrower_name",
+    "expression": "borrower_name",
+    "field_definition": {
+      "name": "borrower_name",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "borrower_name"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Human-readable borrower or legal entity name."
+    }
+  },
+  "column.customer_master.borrowers.borrower_name": {
+    "id": "column.customer_master.borrowers.borrower_name",
+    "type": "column",
+    "name": "borrower_name",
+    "description": "Human-readable borrower or legal entity name.",
+    "parent": "table.customer_master.borrowers",
+    "physical_field": "customer_master.borrowers.borrower_name",
+    "dataset_field": "borrowers.borrower_name"
+  },
+  "field.borrowers.domicile_country": {
+    "id": "field.borrowers.domicile_country",
+    "type": "dataset_field",
+    "name": "domicile_country",
+    "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
+    "parent": "dataset.borrowers",
+    "dataset": "borrowers",
+    "field": "domicile_country",
+    "expression": "domicile_country",
+    "field_definition": {
+      "name": "domicile_country",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "domicile_country"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Borrower domicile country used for jurisdictional reporting and composite report joins."
+    }
+  },
+  "column.customer_master.borrowers.domicile_country": {
+    "id": "column.customer_master.borrowers.domicile_country",
+    "type": "column",
+    "name": "domicile_country",
+    "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
+    "parent": "table.customer_master.borrowers",
+    "physical_field": "customer_master.borrowers.domicile_country",
+    "dataset_field": "borrowers.domicile_country"
+  },
+  "dataset.institutional_loans": {
+    "id": "dataset.institutional_loans",
+    "type": "semantic_dataset",
     "name": "institutional_loans",
     "description": "Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting.",
     "source": "institutional_lending_core.facilities",
@@ -1713,141 +1935,358 @@
         "description": "Loss given default rate assigned by the wholesale credit risk model."
       }
     ],
+    "source_tables": [
+      "institutional_lending_core.facilities"
+    ],
+    "physical_kind": "",
+    "custom_extensions": [],
+    "semantic_model": "LoanExposureSemanticModel"
+  },
+  "table.institutional_lending_core.facilities": {
+    "id": "table.institutional_lending_core.facilities",
+    "type": "physical_table",
+    "name": "facilities",
+    "description": "",
+    "source": "institutional_lending_core.facilities",
     "columns": [
       {
         "name": "facility_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "facility_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Institutional source identifier for a committed credit facility."
+        "description": "Institutional source identifier for a committed credit facility.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "legal_entity_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "legal_entity_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Customer identifier linking the facility to the responsible legal borrower."
+        "description": "Customer identifier linking the facility to the responsible legal borrower.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "product_code",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "product_code"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Product identifier classifying the institutional lending facility."
+        "description": "Product identifier classifying the institutional lending facility.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "booking_date",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "booking_date"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "date",
-          "nullable": false
-        },
-        "description": "Date on which the institutional facility was booked."
+        "description": "Date on which the institutional facility was booked.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "notional_amount",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "notional_amount"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Notional or committed amount recorded for the institutional facility."
+        "description": "Notional or committed amount recorded for the institutional facility.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "exposure_currency",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "exposure_currency"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Currency code used for the institutional exposure amount."
+        "description": "Currency code used for the institutional exposure amount.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "probability_default",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "probability_default"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Probability of default assigned by the wholesale credit risk model."
+        "description": "Probability of default assigned by the wholesale credit risk model.",
+        "data_type": "",
+        "nullable": ""
       },
       {
         "name": "loss_given_default",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "loss_given_default"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Loss given default rate assigned by the wholesale credit risk model."
+        "description": "Loss given default rate assigned by the wholesale credit risk model.",
+        "data_type": "",
+        "nullable": ""
       }
     ],
-    "custom_extensions": []
+    "source_datasets": [
+      "institutional_loans",
+      "loan_exposure_report_lines"
+    ],
+    "semantic_model": "LoanExposureSemanticModel"
   },
-  "table.loan_exposure_report_lines": {
-    "id": "table.loan_exposure_report_lines",
-    "type": "physical_table",
+  "field.institutional_loans.facility_id": {
+    "id": "field.institutional_loans.facility_id",
+    "type": "dataset_field",
+    "name": "facility_id",
+    "description": "Institutional source identifier for a committed credit facility.",
+    "parent": "dataset.institutional_loans",
+    "dataset": "institutional_loans",
+    "field": "facility_id",
+    "expression": "facility_id",
+    "field_definition": {
+      "name": "facility_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "facility_id"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Institutional source identifier for a committed credit facility."
+    }
+  },
+  "column.institutional_lending_core.facilities.facility_id": {
+    "id": "column.institutional_lending_core.facilities.facility_id",
+    "type": "column",
+    "name": "facility_id",
+    "description": "Institutional source identifier for a committed credit facility.",
+    "parent": "table.institutional_lending_core.facilities",
+    "physical_field": "institutional_lending_core.facilities.facility_id",
+    "dataset_field": "institutional_loans.facility_id"
+  },
+  "field.institutional_loans.legal_entity_id": {
+    "id": "field.institutional_loans.legal_entity_id",
+    "type": "dataset_field",
+    "name": "legal_entity_id",
+    "description": "Customer identifier linking the facility to the responsible legal borrower.",
+    "parent": "dataset.institutional_loans",
+    "dataset": "institutional_loans",
+    "field": "legal_entity_id",
+    "expression": "legal_entity_id",
+    "field_definition": {
+      "name": "legal_entity_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "legal_entity_id"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Customer identifier linking the facility to the responsible legal borrower."
+    }
+  },
+  "column.institutional_lending_core.facilities.legal_entity_id": {
+    "id": "column.institutional_lending_core.facilities.legal_entity_id",
+    "type": "column",
+    "name": "legal_entity_id",
+    "description": "Customer identifier linking the facility to the responsible legal borrower.",
+    "parent": "table.institutional_lending_core.facilities",
+    "physical_field": "institutional_lending_core.facilities.legal_entity_id",
+    "dataset_field": "institutional_loans.legal_entity_id"
+  },
+  "field.institutional_loans.product_code": {
+    "id": "field.institutional_loans.product_code",
+    "type": "dataset_field",
+    "name": "product_code",
+    "description": "Product identifier classifying the institutional lending facility.",
+    "parent": "dataset.institutional_loans",
+    "dataset": "institutional_loans",
+    "field": "product_code",
+    "expression": "product_code",
+    "field_definition": {
+      "name": "product_code",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "product_code"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Product identifier classifying the institutional lending facility."
+    }
+  },
+  "column.institutional_lending_core.facilities.product_code": {
+    "id": "column.institutional_lending_core.facilities.product_code",
+    "type": "column",
+    "name": "product_code",
+    "description": "Product identifier classifying the institutional lending facility.",
+    "parent": "table.institutional_lending_core.facilities",
+    "physical_field": "institutional_lending_core.facilities.product_code",
+    "dataset_field": "institutional_loans.product_code"
+  },
+  "field.institutional_loans.booking_date": {
+    "id": "field.institutional_loans.booking_date",
+    "type": "dataset_field",
+    "name": "booking_date",
+    "description": "Date on which the institutional facility was booked.",
+    "parent": "dataset.institutional_loans",
+    "dataset": "institutional_loans",
+    "field": "booking_date",
+    "expression": "booking_date",
+    "field_definition": {
+      "name": "booking_date",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "booking_date"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "date",
+        "nullable": false
+      },
+      "description": "Date on which the institutional facility was booked."
+    }
+  },
+  "column.institutional_lending_core.facilities.booking_date": {
+    "id": "column.institutional_lending_core.facilities.booking_date",
+    "type": "column",
+    "name": "booking_date",
+    "description": "Date on which the institutional facility was booked.",
+    "parent": "table.institutional_lending_core.facilities",
+    "physical_field": "institutional_lending_core.facilities.booking_date",
+    "dataset_field": "institutional_loans.booking_date"
+  },
+  "field.institutional_loans.notional_amount": {
+    "id": "field.institutional_loans.notional_amount",
+    "type": "dataset_field",
+    "name": "notional_amount",
+    "description": "Notional or committed amount recorded for the institutional facility.",
+    "parent": "dataset.institutional_loans",
+    "dataset": "institutional_loans",
+    "field": "notional_amount",
+    "expression": "notional_amount",
+    "field_definition": {
+      "name": "notional_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "notional_amount"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Notional or committed amount recorded for the institutional facility."
+    }
+  },
+  "column.institutional_lending_core.facilities.notional_amount": {
+    "id": "column.institutional_lending_core.facilities.notional_amount",
+    "type": "column",
+    "name": "notional_amount",
+    "description": "Notional or committed amount recorded for the institutional facility.",
+    "parent": "table.institutional_lending_core.facilities",
+    "physical_field": "institutional_lending_core.facilities.notional_amount",
+    "dataset_field": "institutional_loans.notional_amount"
+  },
+  "field.institutional_loans.exposure_currency": {
+    "id": "field.institutional_loans.exposure_currency",
+    "type": "dataset_field",
+    "name": "exposure_currency",
+    "description": "Currency code used for the institutional exposure amount.",
+    "parent": "dataset.institutional_loans",
+    "dataset": "institutional_loans",
+    "field": "exposure_currency",
+    "expression": "exposure_currency",
+    "field_definition": {
+      "name": "exposure_currency",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "exposure_currency"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Currency code used for the institutional exposure amount."
+    }
+  },
+  "column.institutional_lending_core.facilities.exposure_currency": {
+    "id": "column.institutional_lending_core.facilities.exposure_currency",
+    "type": "column",
+    "name": "exposure_currency",
+    "description": "Currency code used for the institutional exposure amount.",
+    "parent": "table.institutional_lending_core.facilities",
+    "physical_field": "institutional_lending_core.facilities.exposure_currency",
+    "dataset_field": "institutional_loans.exposure_currency"
+  },
+  "field.institutional_loans.probability_default": {
+    "id": "field.institutional_loans.probability_default",
+    "type": "dataset_field",
+    "name": "probability_default",
+    "description": "Probability of default assigned by the wholesale credit risk model.",
+    "parent": "dataset.institutional_loans",
+    "dataset": "institutional_loans",
+    "field": "probability_default",
+    "expression": "probability_default",
+    "field_definition": {
+      "name": "probability_default",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "probability_default"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Probability of default assigned by the wholesale credit risk model."
+    }
+  },
+  "column.institutional_lending_core.facilities.probability_default": {
+    "id": "column.institutional_lending_core.facilities.probability_default",
+    "type": "column",
+    "name": "probability_default",
+    "description": "Probability of default assigned by the wholesale credit risk model.",
+    "parent": "table.institutional_lending_core.facilities",
+    "physical_field": "institutional_lending_core.facilities.probability_default",
+    "dataset_field": "institutional_loans.probability_default"
+  },
+  "field.institutional_loans.loss_given_default": {
+    "id": "field.institutional_loans.loss_given_default",
+    "type": "dataset_field",
+    "name": "loss_given_default",
+    "description": "Loss given default rate assigned by the wholesale credit risk model.",
+    "parent": "dataset.institutional_loans",
+    "dataset": "institutional_loans",
+    "field": "loss_given_default",
+    "expression": "loss_given_default",
+    "field_definition": {
+      "name": "loss_given_default",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "loss_given_default"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Loss given default rate assigned by the wholesale credit risk model."
+    }
+  },
+  "column.institutional_lending_core.facilities.loss_given_default": {
+    "id": "column.institutional_lending_core.facilities.loss_given_default",
+    "type": "column",
+    "name": "loss_given_default",
+    "description": "Loss given default rate assigned by the wholesale credit risk model.",
+    "parent": "table.institutional_lending_core.facilities",
+    "physical_field": "institutional_lending_core.facilities.loss_given_default",
+    "dataset_field": "institutional_loans.loss_given_default"
+  },
+  "dataset.loan_exposure_report_lines": {
+    "id": "dataset.loan_exposure_report_lines",
+    "type": "semantic_dataset",
     "name": "loan_exposure_report_lines",
     "description": "Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic.",
     "source": "query.loan_exposure_report_lines",
@@ -1861,7 +2300,7 @@
           "dialects": [
             {
               "dialect": "ANSI_SQL",
-              "expression": "loan_id"
+              "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)"
             }
           ]
         },
@@ -1877,7 +2316,7 @@
           "dialects": [
             {
               "dialect": "ANSI_SQL",
-              "expression": "borrower_id"
+              "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)"
             }
           ]
         },
@@ -1893,7 +2332,7 @@
           "dialects": [
             {
               "dialect": "ANSI_SQL",
-              "expression": "borrower_country"
+              "expression": "borrowers.domicile_country"
             }
           ]
         },
@@ -1909,7 +2348,7 @@
           "dialects": [
             {
               "dialect": "ANSI_SQL",
-              "expression": "product_id"
+              "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)"
             }
           ]
         },
@@ -1925,7 +2364,7 @@
           "dialects": [
             {
               "dialect": "ANSI_SQL",
-              "expression": "principal_amount"
+              "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
             }
           ]
         },
@@ -1941,7 +2380,7 @@
           "dialects": [
             {
               "dialect": "ANSI_SQL",
-              "expression": "exposure_at_default_amount"
+              "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
             }
           ]
         },
@@ -1957,7 +2396,7 @@
           "dialects": [
             {
               "dialect": "ANSI_SQL",
-              "expression": "expected_loss_amount"
+              "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
             }
           ]
         },
@@ -1973,7 +2412,7 @@
           "dialects": [
             {
               "dialect": "ANSI_SQL",
-              "expression": "report_currency"
+              "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)"
             }
           ]
         },
@@ -1984,142 +2423,20 @@
         "description": "Currency code in which the exposure line amounts are reported."
       }
     ],
-    "columns": [
-      {
-        "name": "loan_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "loan_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Normalized loan or facility identifier reported on the exposure line."
-      },
-      {
-        "name": "borrower_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "borrower_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Borrower identifier reported on the exposure line for reconciliation to customer master."
-      },
-      {
-        "name": "borrower_country",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "borrower_country"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
-      },
-      {
-        "name": "product_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "product_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Product identifier reported on the exposure line for product-class aggregation."
-      },
-      {
-        "name": "principal_amount",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "principal_amount"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Principal amount included on the report line for exposure reconciliation."
-      },
-      {
-        "name": "exposure_at_default_amount",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "exposure_at_default_amount"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Exposure at default amount reported for regulatory credit risk measurement."
-      },
-      {
-        "name": "expected_loss_amount",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "expected_loss_amount"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Expected loss amount reported after applying probability of default and loss given default."
-      },
-      {
-        "name": "report_currency",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "report_currency"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Currency code in which the exposure line amounts are reported."
-      }
+    "source_tables": [
+      "retail_lending_core.retail_loans",
+      "institutional_lending_core.facilities",
+      "customer_master.borrowers",
+      "product_master.loan_products"
     ],
+    "physical_kind": "",
     "custom_extensions": [
       {
         "name": "physical_source",
         "value": {
           "kind": "query",
-          "sql": "select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency\nfrom credit_risk_engine.loan_exposure_report_lines\nwhere report_date = :report_date\n",
+          "description": "Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.",
+          "sql": "select loan_id, borrower_id, borrower_country, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency\nfrom credit_risk_engine.loan_exposure_report_lines\nwhere report_date = :report_date\n",
           "depends_on": [
             "retail_lending_core.retail_loans",
             "institutional_lending_core.facilities",
@@ -2128,11 +2445,314 @@
           ]
         }
       }
-    ]
+    ],
+    "semantic_model": "LoanExposureSemanticModel"
   },
-  "table.loan_products": {
-    "id": "table.loan_products",
+  "table.retail_lending_core.retail_loans": {
+    "id": "table.retail_lending_core.retail_loans",
     "type": "physical_table",
+    "name": "retail_loans",
+    "description": "",
+    "source": "retail_lending_core.retail_loans",
+    "columns": [
+      {
+        "name": "loan_id",
+        "description": "Retail source identifier for an individual consumer loan record.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "borrower_id",
+        "description": "Customer identifier linking the retail loan to the responsible borrower.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "product_id",
+        "description": "Product identifier classifying the retail lending product.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "origination_date",
+        "description": "Date on which the retail loan was originated or booked.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "principal_amount",
+        "description": "Principal balance or contractual amount recorded for the retail loan.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "currency",
+        "description": "Currency code used for the retail loan amount.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "pd",
+        "description": "Probability of default assigned by the retail credit risk model.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "lgd",
+        "description": "Loss given default rate assigned by the retail credit risk model.",
+        "data_type": "",
+        "nullable": ""
+      }
+    ],
+    "source_datasets": [
+      "loan_exposure_report_lines",
+      "retail_loans"
+    ],
+    "semantic_model": "LoanExposureSemanticModel"
+  },
+  "table.product_master.loan_products": {
+    "id": "table.product_master.loan_products",
+    "type": "physical_table",
+    "name": "loan_products",
+    "description": "",
+    "source": "product_master.loan_products",
+    "columns": [
+      {
+        "name": "product_id",
+        "description": "Master product identifier for a lending product.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "product_type",
+        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
+        "data_type": "",
+        "nullable": ""
+      },
+      {
+        "name": "regulatory_product_class",
+        "description": "Regulatory product class used for credit exposure aggregation.",
+        "data_type": "",
+        "nullable": ""
+      }
+    ],
+    "source_datasets": [
+      "loan_exposure_report_lines",
+      "loan_products"
+    ],
+    "semantic_model": "LoanExposureSemanticModel"
+  },
+  "field.loan_exposure_report_lines.loan_id": {
+    "id": "field.loan_exposure_report_lines.loan_id",
+    "type": "dataset_field",
+    "name": "loan_id",
+    "description": "Normalized loan or facility identifier reported on the exposure line.",
+    "parent": "dataset.loan_exposure_report_lines",
+    "dataset": "loan_exposure_report_lines",
+    "field": "loan_id",
+    "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)",
+    "field_definition": {
+      "name": "loan_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Normalized loan or facility identifier reported on the exposure line."
+    }
+  },
+  "field.loan_exposure_report_lines.borrower_id": {
+    "id": "field.loan_exposure_report_lines.borrower_id",
+    "type": "dataset_field",
+    "name": "borrower_id",
+    "description": "Borrower identifier reported on the exposure line for reconciliation to customer master.",
+    "parent": "dataset.loan_exposure_report_lines",
+    "dataset": "loan_exposure_report_lines",
+    "field": "borrower_id",
+    "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)",
+    "field_definition": {
+      "name": "borrower_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Borrower identifier reported on the exposure line for reconciliation to customer master."
+    }
+  },
+  "field.loan_exposure_report_lines.borrower_country": {
+    "id": "field.loan_exposure_report_lines.borrower_country",
+    "type": "dataset_field",
+    "name": "borrower_country",
+    "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins.",
+    "parent": "dataset.loan_exposure_report_lines",
+    "dataset": "loan_exposure_report_lines",
+    "field": "borrower_country",
+    "expression": "borrowers.domicile_country",
+    "field_definition": {
+      "name": "borrower_country",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "borrowers.domicile_country"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
+    }
+  },
+  "field.loan_exposure_report_lines.product_id": {
+    "id": "field.loan_exposure_report_lines.product_id",
+    "type": "dataset_field",
+    "name": "product_id",
+    "description": "Product identifier reported on the exposure line for product-class aggregation.",
+    "parent": "dataset.loan_exposure_report_lines",
+    "dataset": "loan_exposure_report_lines",
+    "field": "product_id",
+    "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)",
+    "field_definition": {
+      "name": "product_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Product identifier reported on the exposure line for product-class aggregation."
+    }
+  },
+  "field.loan_exposure_report_lines.principal_amount": {
+    "id": "field.loan_exposure_report_lines.principal_amount",
+    "type": "dataset_field",
+    "name": "principal_amount",
+    "description": "Principal amount included on the report line for exposure reconciliation.",
+    "parent": "dataset.loan_exposure_report_lines",
+    "dataset": "loan_exposure_report_lines",
+    "field": "principal_amount",
+    "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)",
+    "field_definition": {
+      "name": "principal_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Principal amount included on the report line for exposure reconciliation."
+    }
+  },
+  "field.loan_exposure_report_lines.exposure_at_default_amount": {
+    "id": "field.loan_exposure_report_lines.exposure_at_default_amount",
+    "type": "dataset_field",
+    "name": "exposure_at_default_amount",
+    "description": "Exposure at default amount reported for regulatory credit risk measurement.",
+    "parent": "dataset.loan_exposure_report_lines",
+    "dataset": "loan_exposure_report_lines",
+    "field": "exposure_at_default_amount",
+    "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)",
+    "field_definition": {
+      "name": "exposure_at_default_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Exposure at default amount reported for regulatory credit risk measurement."
+    }
+  },
+  "field.loan_exposure_report_lines.expected_loss_amount": {
+    "id": "field.loan_exposure_report_lines.expected_loss_amount",
+    "type": "dataset_field",
+    "name": "expected_loss_amount",
+    "description": "Expected loss amount reported after applying probability of default and loss given default.",
+    "parent": "dataset.loan_exposure_report_lines",
+    "dataset": "loan_exposure_report_lines",
+    "field": "expected_loss_amount",
+    "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+    "field_definition": {
+      "name": "expected_loss_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Expected loss amount reported after applying probability of default and loss given default."
+    }
+  },
+  "field.loan_exposure_report_lines.report_currency": {
+    "id": "field.loan_exposure_report_lines.report_currency",
+    "type": "dataset_field",
+    "name": "report_currency",
+    "description": "Currency code in which the exposure line amounts are reported.",
+    "parent": "dataset.loan_exposure_report_lines",
+    "dataset": "loan_exposure_report_lines",
+    "field": "report_currency",
+    "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)",
+    "field_definition": {
+      "name": "report_currency",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Currency code in which the exposure line amounts are reported."
+    }
+  },
+  "dataset.loan_products": {
+    "id": "dataset.loan_products",
+    "type": "semantic_dataset",
     "name": "loan_products",
     "description": "Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures.",
     "source": "product_master.loan_products",
@@ -2189,61 +2809,121 @@
         "description": "Regulatory product class used for credit exposure aggregation."
       }
     ],
-    "columns": [
-      {
-        "name": "product_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "product_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Master product identifier for a lending product."
-      },
-      {
-        "name": "product_type",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "product_type"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line."
-      },
-      {
-        "name": "regulatory_product_class",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "regulatory_product_class"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Regulatory product class used for credit exposure aggregation."
-      }
+    "source_tables": [
+      "product_master.loan_products"
     ],
-    "custom_extensions": []
+    "physical_kind": "",
+    "custom_extensions": [],
+    "semantic_model": "LoanExposureSemanticModel"
   },
-  "table.retail_loans": {
-    "id": "table.retail_loans",
-    "type": "physical_table",
+  "field.loan_products.product_id": {
+    "id": "field.loan_products.product_id",
+    "type": "dataset_field",
+    "name": "product_id",
+    "description": "Master product identifier for a lending product.",
+    "parent": "dataset.loan_products",
+    "dataset": "loan_products",
+    "field": "product_id",
+    "expression": "product_id",
+    "field_definition": {
+      "name": "product_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "product_id"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Master product identifier for a lending product."
+    }
+  },
+  "column.product_master.loan_products.product_id": {
+    "id": "column.product_master.loan_products.product_id",
+    "type": "column",
+    "name": "product_id",
+    "description": "Master product identifier for a lending product.",
+    "parent": "table.product_master.loan_products",
+    "physical_field": "product_master.loan_products.product_id",
+    "dataset_field": "loan_products.product_id"
+  },
+  "field.loan_products.product_type": {
+    "id": "field.loan_products.product_type",
+    "type": "dataset_field",
+    "name": "product_type",
+    "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
+    "parent": "dataset.loan_products",
+    "dataset": "loan_products",
+    "field": "product_type",
+    "expression": "product_type",
+    "field_definition": {
+      "name": "product_type",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "product_type"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line."
+    }
+  },
+  "column.product_master.loan_products.product_type": {
+    "id": "column.product_master.loan_products.product_type",
+    "type": "column",
+    "name": "product_type",
+    "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
+    "parent": "table.product_master.loan_products",
+    "physical_field": "product_master.loan_products.product_type",
+    "dataset_field": "loan_products.product_type"
+  },
+  "field.loan_products.regulatory_product_class": {
+    "id": "field.loan_products.regulatory_product_class",
+    "type": "dataset_field",
+    "name": "regulatory_product_class",
+    "description": "Regulatory product class used for credit exposure aggregation.",
+    "parent": "dataset.loan_products",
+    "dataset": "loan_products",
+    "field": "regulatory_product_class",
+    "expression": "regulatory_product_class",
+    "field_definition": {
+      "name": "regulatory_product_class",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "regulatory_product_class"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Regulatory product class used for credit exposure aggregation."
+    }
+  },
+  "column.product_master.loan_products.regulatory_product_class": {
+    "id": "column.product_master.loan_products.regulatory_product_class",
+    "type": "column",
+    "name": "regulatory_product_class",
+    "description": "Regulatory product class used for credit exposure aggregation.",
+    "parent": "table.product_master.loan_products",
+    "physical_field": "product_master.loan_products.regulatory_product_class",
+    "dataset_field": "loan_products.regulatory_product_class"
+  },
+  "dataset.retail_loans": {
+    "id": "dataset.retail_loans",
+    "type": "semantic_dataset",
     "name": "retail_loans",
     "description": "Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting.",
     "source": "retail_lending_core.retail_loans",
@@ -2380,137 +3060,354 @@
         "description": "Loss given default rate assigned by the retail credit risk model."
       }
     ],
-    "columns": [
-      {
-        "name": "loan_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "loan_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Retail source identifier for an individual consumer loan record."
-      },
-      {
-        "name": "borrower_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "borrower_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Customer identifier linking the retail loan to the responsible borrower."
-      },
-      {
-        "name": "product_id",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "product_id"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Product identifier classifying the retail lending product."
-      },
-      {
-        "name": "origination_date",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "origination_date"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "date",
-          "nullable": false
-        },
-        "description": "Date on which the retail loan was originated or booked."
-      },
-      {
-        "name": "principal_amount",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "principal_amount"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Principal balance or contractual amount recorded for the retail loan."
-      },
-      {
-        "name": "currency",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "currency"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "string",
-          "nullable": false
-        },
-        "description": "Currency code used for the retail loan amount."
-      },
-      {
-        "name": "pd",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "pd"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Probability of default assigned by the retail credit risk model."
-      },
-      {
-        "name": "lgd",
-        "expression": {
-          "dialects": [
-            {
-              "dialect": "ANSI_SQL",
-              "expression": "lgd"
-            }
-          ]
-        },
-        "ai_context": {
-          "physical_type": "decimal",
-          "nullable": false
-        },
-        "description": "Loss given default rate assigned by the retail credit risk model."
-      }
+    "source_tables": [
+      "retail_lending_core.retail_loans"
     ],
-    "custom_extensions": []
+    "physical_kind": "",
+    "custom_extensions": [],
+    "semantic_model": "LoanExposureSemanticModel"
+  },
+  "field.retail_loans.loan_id": {
+    "id": "field.retail_loans.loan_id",
+    "type": "dataset_field",
+    "name": "loan_id",
+    "description": "Retail source identifier for an individual consumer loan record.",
+    "parent": "dataset.retail_loans",
+    "dataset": "retail_loans",
+    "field": "loan_id",
+    "expression": "loan_id",
+    "field_definition": {
+      "name": "loan_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "loan_id"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Retail source identifier for an individual consumer loan record."
+    }
+  },
+  "column.retail_lending_core.retail_loans.loan_id": {
+    "id": "column.retail_lending_core.retail_loans.loan_id",
+    "type": "column",
+    "name": "loan_id",
+    "description": "Retail source identifier for an individual consumer loan record.",
+    "parent": "table.retail_lending_core.retail_loans",
+    "physical_field": "retail_lending_core.retail_loans.loan_id",
+    "dataset_field": "retail_loans.loan_id"
+  },
+  "field.retail_loans.borrower_id": {
+    "id": "field.retail_loans.borrower_id",
+    "type": "dataset_field",
+    "name": "borrower_id",
+    "description": "Customer identifier linking the retail loan to the responsible borrower.",
+    "parent": "dataset.retail_loans",
+    "dataset": "retail_loans",
+    "field": "borrower_id",
+    "expression": "borrower_id",
+    "field_definition": {
+      "name": "borrower_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "borrower_id"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Customer identifier linking the retail loan to the responsible borrower."
+    }
+  },
+  "column.retail_lending_core.retail_loans.borrower_id": {
+    "id": "column.retail_lending_core.retail_loans.borrower_id",
+    "type": "column",
+    "name": "borrower_id",
+    "description": "Customer identifier linking the retail loan to the responsible borrower.",
+    "parent": "table.retail_lending_core.retail_loans",
+    "physical_field": "retail_lending_core.retail_loans.borrower_id",
+    "dataset_field": "retail_loans.borrower_id"
+  },
+  "field.retail_loans.product_id": {
+    "id": "field.retail_loans.product_id",
+    "type": "dataset_field",
+    "name": "product_id",
+    "description": "Product identifier classifying the retail lending product.",
+    "parent": "dataset.retail_loans",
+    "dataset": "retail_loans",
+    "field": "product_id",
+    "expression": "product_id",
+    "field_definition": {
+      "name": "product_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "product_id"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Product identifier classifying the retail lending product."
+    }
+  },
+  "column.retail_lending_core.retail_loans.product_id": {
+    "id": "column.retail_lending_core.retail_loans.product_id",
+    "type": "column",
+    "name": "product_id",
+    "description": "Product identifier classifying the retail lending product.",
+    "parent": "table.retail_lending_core.retail_loans",
+    "physical_field": "retail_lending_core.retail_loans.product_id",
+    "dataset_field": "retail_loans.product_id"
+  },
+  "field.retail_loans.origination_date": {
+    "id": "field.retail_loans.origination_date",
+    "type": "dataset_field",
+    "name": "origination_date",
+    "description": "Date on which the retail loan was originated or booked.",
+    "parent": "dataset.retail_loans",
+    "dataset": "retail_loans",
+    "field": "origination_date",
+    "expression": "origination_date",
+    "field_definition": {
+      "name": "origination_date",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "origination_date"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "date",
+        "nullable": false
+      },
+      "description": "Date on which the retail loan was originated or booked."
+    }
+  },
+  "column.retail_lending_core.retail_loans.origination_date": {
+    "id": "column.retail_lending_core.retail_loans.origination_date",
+    "type": "column",
+    "name": "origination_date",
+    "description": "Date on which the retail loan was originated or booked.",
+    "parent": "table.retail_lending_core.retail_loans",
+    "physical_field": "retail_lending_core.retail_loans.origination_date",
+    "dataset_field": "retail_loans.origination_date"
+  },
+  "field.retail_loans.principal_amount": {
+    "id": "field.retail_loans.principal_amount",
+    "type": "dataset_field",
+    "name": "principal_amount",
+    "description": "Principal balance or contractual amount recorded for the retail loan.",
+    "parent": "dataset.retail_loans",
+    "dataset": "retail_loans",
+    "field": "principal_amount",
+    "expression": "principal_amount",
+    "field_definition": {
+      "name": "principal_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "principal_amount"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Principal balance or contractual amount recorded for the retail loan."
+    }
+  },
+  "column.retail_lending_core.retail_loans.principal_amount": {
+    "id": "column.retail_lending_core.retail_loans.principal_amount",
+    "type": "column",
+    "name": "principal_amount",
+    "description": "Principal balance or contractual amount recorded for the retail loan.",
+    "parent": "table.retail_lending_core.retail_loans",
+    "physical_field": "retail_lending_core.retail_loans.principal_amount",
+    "dataset_field": "retail_loans.principal_amount"
+  },
+  "field.retail_loans.currency": {
+    "id": "field.retail_loans.currency",
+    "type": "dataset_field",
+    "name": "currency",
+    "description": "Currency code used for the retail loan amount.",
+    "parent": "dataset.retail_loans",
+    "dataset": "retail_loans",
+    "field": "currency",
+    "expression": "currency",
+    "field_definition": {
+      "name": "currency",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "currency"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "string",
+        "nullable": false
+      },
+      "description": "Currency code used for the retail loan amount."
+    }
+  },
+  "column.retail_lending_core.retail_loans.currency": {
+    "id": "column.retail_lending_core.retail_loans.currency",
+    "type": "column",
+    "name": "currency",
+    "description": "Currency code used for the retail loan amount.",
+    "parent": "table.retail_lending_core.retail_loans",
+    "physical_field": "retail_lending_core.retail_loans.currency",
+    "dataset_field": "retail_loans.currency"
+  },
+  "field.retail_loans.pd": {
+    "id": "field.retail_loans.pd",
+    "type": "dataset_field",
+    "name": "pd",
+    "description": "Probability of default assigned by the retail credit risk model.",
+    "parent": "dataset.retail_loans",
+    "dataset": "retail_loans",
+    "field": "pd",
+    "expression": "pd",
+    "field_definition": {
+      "name": "pd",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "pd"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Probability of default assigned by the retail credit risk model."
+    }
+  },
+  "column.retail_lending_core.retail_loans.pd": {
+    "id": "column.retail_lending_core.retail_loans.pd",
+    "type": "column",
+    "name": "pd",
+    "description": "Probability of default assigned by the retail credit risk model.",
+    "parent": "table.retail_lending_core.retail_loans",
+    "physical_field": "retail_lending_core.retail_loans.pd",
+    "dataset_field": "retail_loans.pd"
+  },
+  "field.retail_loans.lgd": {
+    "id": "field.retail_loans.lgd",
+    "type": "dataset_field",
+    "name": "lgd",
+    "description": "Loss given default rate assigned by the retail credit risk model.",
+    "parent": "dataset.retail_loans",
+    "dataset": "retail_loans",
+    "field": "lgd",
+    "expression": "lgd",
+    "field_definition": {
+      "name": "lgd",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "lgd"
+          }
+        ]
+      },
+      "ai_context": {
+        "physical_type": "decimal",
+        "nullable": false
+      },
+      "description": "Loss given default rate assigned by the retail credit risk model."
+    }
+  },
+  "column.retail_lending_core.retail_loans.lgd": {
+    "id": "column.retail_lending_core.retail_loans.lgd",
+    "type": "column",
+    "name": "lgd",
+    "description": "Loss given default rate assigned by the retail credit risk model.",
+    "parent": "table.retail_lending_core.retail_loans",
+    "physical_field": "retail_lending_core.retail_loans.lgd",
+    "dataset_field": "retail_loans.lgd"
+  },
+  "metric.expected_loss_amount": {
+    "id": "metric.expected_loss_amount",
+    "type": "semantic_metric",
+    "name": "expected_loss_amount",
+    "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_metric": "expected_loss_amount",
+    "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+    "source_fields": [
+      "institutional_loans.loss_given_default",
+      "institutional_loans.notional_amount",
+      "institutional_loans.probability_default",
+      "retail_loans.lgd",
+      "retail_loans.pd",
+      "retail_loans.principal_amount"
+    ],
+    "metric": {
+      "name": "expected_loss_amount",
+      "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+          }
+        ]
+      },
+      "ai_context": {
+        "metric_type": "calculated_credit_risk_measure"
+      }
+    }
+  },
+  "metric.risk_weighted_exposure_amount": {
+    "id": "metric.risk_weighted_exposure_amount",
+    "type": "semantic_metric",
+    "name": "risk_weighted_exposure_amount",
+    "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_metric": "risk_weighted_exposure_amount",
+    "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+    "source_fields": [
+      "institutional_loans.notional_amount",
+      "institutional_loans.probability_default",
+      "retail_loans.pd",
+      "retail_loans.principal_amount"
+    ],
+    "metric": {
+      "name": "risk_weighted_exposure_amount",
+      "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default"
+          }
+        ]
+      },
+      "ai_context": {
+        "metric_type": "calculated_credit_risk_measure"
+      }
+    }
   },
   "requirement.item": {
     "id": "requirement.item",

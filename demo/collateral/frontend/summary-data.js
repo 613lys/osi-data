@@ -8,6 +8,7 @@ window.OSI_SUMMARY = {
   "value_type_concepts": 13,
   "regulatory_requirements": 1,
   "report_data_logic": 1,
+  "semantic_datasets": 5,
   "physical_tables": 5,
-  "edges": 162
+  "edges": 197
 };

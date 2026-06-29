@@ -371,6 +371,50 @@ window.GRAPH_DATA = {
       }
     },
     {
+      "id": "value.Loan.has_RiskWeightedExposureAmount",
+      "type": "value_type_property",
+      "label": "MonetaryAmount",
+      "properties": {
+        "description": "Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring.",
+        "parent": "concept.Loan",
+        "data_type": "MonetaryAmount",
+        "value_concept": "MonetaryAmount",
+        "field_name": "has_RiskWeightedExposureAmount",
+        "relationship_name": "has_RiskWeightedExposureAmount",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has risk weighted exposure amount {MonetaryAmount}"
+        ],
+        "source_field": "ontology.relationships",
+        "inherited": false,
+        "calculation_type": "metric",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "semantic_reference": "metric.risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "source_fields": [
+          "institutional_loans.notional_amount",
+          "institutional_loans.probability_default",
+          "retail_loans.pd",
+          "retail_loans.principal_amount"
+        ],
+        "metric": {
+          "name": "risk_weighted_exposure_amount",
+          "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default"
+              }
+            ]
+          },
+          "ai_context": {
+            "metric_type": "calculated_credit_risk_measure"
+          }
+        }
+      }
+    },
+    {
       "id": "value.LoanProduct.has_ProductType",
       "type": "value_type_property",
       "label": "ProductType",
@@ -519,8 +563,8 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "table.borrowers",
-      "type": "physical_table",
+      "id": "dataset.borrowers",
+      "type": "semantic_dataset",
       "label": "borrowers",
       "properties": {
         "description": "Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting.",
@@ -529,56 +573,144 @@ window.GRAPH_DATA = {
           "borrower_id"
         ],
         "field_count": 4,
-        "custom_extensions": []
+        "physical_kind": "",
+        "source_tables": [
+          "customer_master.borrowers"
+        ],
+        "custom_extensions": [],
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.borrowers.borrower_id",
+      "id": "table.customer_master.borrowers",
+      "type": "physical_table",
+      "label": "borrowers",
+      "properties": {
+        "description": "",
+        "source": "customer_master.borrowers",
+        "source_dataset": "loan_exposure_report_lines",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "field.borrowers.borrower_id",
+      "type": "dataset_field",
+      "label": "borrower_id",
+      "properties": {
+        "description": "Master customer identifier for a borrower or legal entity.",
+        "parent": "dataset.borrowers",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "borrower_id",
+        "dataset": "borrowers",
+        "field": "borrower_id",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.customer_master.borrowers.borrower_id",
       "type": "column",
       "label": "borrower_id",
       "properties": {
         "description": "Master customer identifier for a borrower or legal entity.",
-        "parent": "table.borrowers",
-        "data_type": "field",
-        "expression": "borrower_id"
+        "parent": "table.customer_master.borrowers",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "borrower_id",
+        "physical_field": "customer_master.borrowers.borrower_id",
+        "dataset_field": "borrowers.borrower_id"
       }
     },
     {
-      "id": "column.borrowers.borrower_segment",
+      "id": "field.borrowers.borrower_segment",
+      "type": "dataset_field",
+      "label": "borrower_segment",
+      "properties": {
+        "description": "Segment classification such as retail, SME, corporate, or financial institution.",
+        "parent": "dataset.borrowers",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "borrower_segment",
+        "dataset": "borrowers",
+        "field": "borrower_segment",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.customer_master.borrowers.borrower_segment",
       "type": "column",
       "label": "borrower_segment",
       "properties": {
         "description": "Segment classification such as retail, SME, corporate, or financial institution.",
-        "parent": "table.borrowers",
-        "data_type": "field",
-        "expression": "borrower_segment"
+        "parent": "table.customer_master.borrowers",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "borrower_segment",
+        "physical_field": "customer_master.borrowers.borrower_segment",
+        "dataset_field": "borrowers.borrower_segment"
       }
     },
     {
-      "id": "column.borrowers.borrower_name",
+      "id": "field.borrowers.borrower_name",
+      "type": "dataset_field",
+      "label": "borrower_name",
+      "properties": {
+        "description": "Human-readable borrower or legal entity name.",
+        "parent": "dataset.borrowers",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "borrower_name",
+        "dataset": "borrowers",
+        "field": "borrower_name",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.customer_master.borrowers.borrower_name",
       "type": "column",
       "label": "borrower_name",
       "properties": {
         "description": "Human-readable borrower or legal entity name.",
-        "parent": "table.borrowers",
-        "data_type": "field",
-        "expression": "borrower_name"
+        "parent": "table.customer_master.borrowers",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "borrower_name",
+        "physical_field": "customer_master.borrowers.borrower_name",
+        "dataset_field": "borrowers.borrower_name"
       }
     },
     {
-      "id": "column.borrowers.domicile_country",
+      "id": "field.borrowers.domicile_country",
+      "type": "dataset_field",
+      "label": "domicile_country",
+      "properties": {
+        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
+        "parent": "dataset.borrowers",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "domicile_country",
+        "dataset": "borrowers",
+        "field": "domicile_country",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.customer_master.borrowers.domicile_country",
       "type": "column",
       "label": "domicile_country",
       "properties": {
         "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
-        "parent": "table.borrowers",
-        "data_type": "field",
-        "expression": "domicile_country"
+        "parent": "table.customer_master.borrowers",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "domicile_country",
+        "physical_field": "customer_master.borrowers.domicile_country",
+        "dataset_field": "borrowers.domicile_country"
       }
     },
     {
-      "id": "table.institutional_loans",
-      "type": "physical_table",
+      "id": "dataset.institutional_loans",
+      "type": "semantic_dataset",
       "label": "institutional_loans",
       "properties": {
         "description": "Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting.",
@@ -587,100 +719,260 @@ window.GRAPH_DATA = {
           "facility_id"
         ],
         "field_count": 8,
-        "custom_extensions": []
+        "physical_kind": "",
+        "source_tables": [
+          "institutional_lending_core.facilities"
+        ],
+        "custom_extensions": [],
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.institutional_loans.facility_id",
+      "id": "table.institutional_lending_core.facilities",
+      "type": "physical_table",
+      "label": "facilities",
+      "properties": {
+        "description": "",
+        "source": "institutional_lending_core.facilities",
+        "source_dataset": "loan_exposure_report_lines",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "field.institutional_loans.facility_id",
+      "type": "dataset_field",
+      "label": "facility_id",
+      "properties": {
+        "description": "Institutional source identifier for a committed credit facility.",
+        "parent": "dataset.institutional_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "facility_id",
+        "dataset": "institutional_loans",
+        "field": "facility_id",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.institutional_lending_core.facilities.facility_id",
       "type": "column",
       "label": "facility_id",
       "properties": {
         "description": "Institutional source identifier for a committed credit facility.",
-        "parent": "table.institutional_loans",
-        "data_type": "field",
-        "expression": "facility_id"
+        "parent": "table.institutional_lending_core.facilities",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "facility_id",
+        "physical_field": "institutional_lending_core.facilities.facility_id",
+        "dataset_field": "institutional_loans.facility_id"
       }
     },
     {
-      "id": "column.institutional_loans.legal_entity_id",
+      "id": "field.institutional_loans.legal_entity_id",
+      "type": "dataset_field",
+      "label": "legal_entity_id",
+      "properties": {
+        "description": "Customer identifier linking the facility to the responsible legal borrower.",
+        "parent": "dataset.institutional_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "legal_entity_id",
+        "dataset": "institutional_loans",
+        "field": "legal_entity_id",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.institutional_lending_core.facilities.legal_entity_id",
       "type": "column",
       "label": "legal_entity_id",
       "properties": {
         "description": "Customer identifier linking the facility to the responsible legal borrower.",
-        "parent": "table.institutional_loans",
-        "data_type": "field",
-        "expression": "legal_entity_id"
+        "parent": "table.institutional_lending_core.facilities",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "legal_entity_id",
+        "physical_field": "institutional_lending_core.facilities.legal_entity_id",
+        "dataset_field": "institutional_loans.legal_entity_id"
       }
     },
     {
-      "id": "column.institutional_loans.product_code",
+      "id": "field.institutional_loans.product_code",
+      "type": "dataset_field",
+      "label": "product_code",
+      "properties": {
+        "description": "Product identifier classifying the institutional lending facility.",
+        "parent": "dataset.institutional_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "product_code",
+        "dataset": "institutional_loans",
+        "field": "product_code",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.institutional_lending_core.facilities.product_code",
       "type": "column",
       "label": "product_code",
       "properties": {
         "description": "Product identifier classifying the institutional lending facility.",
-        "parent": "table.institutional_loans",
-        "data_type": "field",
-        "expression": "product_code"
+        "parent": "table.institutional_lending_core.facilities",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "product_code",
+        "physical_field": "institutional_lending_core.facilities.product_code",
+        "dataset_field": "institutional_loans.product_code"
       }
     },
     {
-      "id": "column.institutional_loans.booking_date",
+      "id": "field.institutional_loans.booking_date",
+      "type": "dataset_field",
+      "label": "booking_date",
+      "properties": {
+        "description": "Date on which the institutional facility was booked.",
+        "parent": "dataset.institutional_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "booking_date",
+        "dataset": "institutional_loans",
+        "field": "booking_date",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.institutional_lending_core.facilities.booking_date",
       "type": "column",
       "label": "booking_date",
       "properties": {
         "description": "Date on which the institutional facility was booked.",
-        "parent": "table.institutional_loans",
-        "data_type": "field",
-        "expression": "booking_date"
+        "parent": "table.institutional_lending_core.facilities",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "booking_date",
+        "physical_field": "institutional_lending_core.facilities.booking_date",
+        "dataset_field": "institutional_loans.booking_date"
       }
     },
     {
-      "id": "column.institutional_loans.notional_amount",
+      "id": "field.institutional_loans.notional_amount",
+      "type": "dataset_field",
+      "label": "notional_amount",
+      "properties": {
+        "description": "Notional or committed amount recorded for the institutional facility.",
+        "parent": "dataset.institutional_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "notional_amount",
+        "dataset": "institutional_loans",
+        "field": "notional_amount",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.institutional_lending_core.facilities.notional_amount",
       "type": "column",
       "label": "notional_amount",
       "properties": {
         "description": "Notional or committed amount recorded for the institutional facility.",
-        "parent": "table.institutional_loans",
-        "data_type": "field",
-        "expression": "notional_amount"
+        "parent": "table.institutional_lending_core.facilities",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "notional_amount",
+        "physical_field": "institutional_lending_core.facilities.notional_amount",
+        "dataset_field": "institutional_loans.notional_amount"
       }
     },
     {
-      "id": "column.institutional_loans.exposure_currency",
+      "id": "field.institutional_loans.exposure_currency",
+      "type": "dataset_field",
+      "label": "exposure_currency",
+      "properties": {
+        "description": "Currency code used for the institutional exposure amount.",
+        "parent": "dataset.institutional_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "exposure_currency",
+        "dataset": "institutional_loans",
+        "field": "exposure_currency",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.institutional_lending_core.facilities.exposure_currency",
       "type": "column",
       "label": "exposure_currency",
       "properties": {
         "description": "Currency code used for the institutional exposure amount.",
-        "parent": "table.institutional_loans",
-        "data_type": "field",
-        "expression": "exposure_currency"
+        "parent": "table.institutional_lending_core.facilities",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "exposure_currency",
+        "physical_field": "institutional_lending_core.facilities.exposure_currency",
+        "dataset_field": "institutional_loans.exposure_currency"
       }
     },
     {
-      "id": "column.institutional_loans.probability_default",
+      "id": "field.institutional_loans.probability_default",
+      "type": "dataset_field",
+      "label": "probability_default",
+      "properties": {
+        "description": "Probability of default assigned by the wholesale credit risk model.",
+        "parent": "dataset.institutional_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "probability_default",
+        "dataset": "institutional_loans",
+        "field": "probability_default",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.institutional_lending_core.facilities.probability_default",
       "type": "column",
       "label": "probability_default",
       "properties": {
         "description": "Probability of default assigned by the wholesale credit risk model.",
-        "parent": "table.institutional_loans",
-        "data_type": "field",
-        "expression": "probability_default"
+        "parent": "table.institutional_lending_core.facilities",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "probability_default",
+        "physical_field": "institutional_lending_core.facilities.probability_default",
+        "dataset_field": "institutional_loans.probability_default"
       }
     },
     {
-      "id": "column.institutional_loans.loss_given_default",
+      "id": "field.institutional_loans.loss_given_default",
+      "type": "dataset_field",
+      "label": "loss_given_default",
+      "properties": {
+        "description": "Loss given default rate assigned by the wholesale credit risk model.",
+        "parent": "dataset.institutional_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "loss_given_default",
+        "dataset": "institutional_loans",
+        "field": "loss_given_default",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.institutional_lending_core.facilities.loss_given_default",
       "type": "column",
       "label": "loss_given_default",
       "properties": {
         "description": "Loss given default rate assigned by the wholesale credit risk model.",
-        "parent": "table.institutional_loans",
-        "data_type": "field",
-        "expression": "loss_given_default"
+        "parent": "table.institutional_lending_core.facilities",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "loss_given_default",
+        "physical_field": "institutional_lending_core.facilities.loss_given_default",
+        "dataset_field": "institutional_loans.loss_given_default"
       }
     },
     {
-      "id": "table.loan_exposure_report_lines",
-      "type": "physical_table",
+      "id": "dataset.loan_exposure_report_lines",
+      "type": "semantic_dataset",
       "label": "loan_exposure_report_lines",
       "properties": {
         "description": "Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic.",
@@ -689,12 +981,20 @@ window.GRAPH_DATA = {
           "loan_id"
         ],
         "field_count": 8,
+        "physical_kind": "",
+        "source_tables": [
+          "retail_lending_core.retail_loans",
+          "institutional_lending_core.facilities",
+          "customer_master.borrowers",
+          "product_master.loan_products"
+        ],
         "custom_extensions": [
           {
             "name": "physical_source",
             "value": {
               "kind": "query",
-              "sql": "select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency\nfrom credit_risk_engine.loan_exposure_report_lines\nwhere report_date = :report_date\n",
+              "description": "Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.",
+              "sql": "select loan_id, borrower_id, borrower_country, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency\nfrom credit_risk_engine.loan_exposure_report_lines\nwhere report_date = :report_date\n",
               "depends_on": [
                 "retail_lending_core.retail_loans",
                 "institutional_lending_core.facilities",
@@ -703,100 +1003,155 @@ window.GRAPH_DATA = {
               ]
             }
           }
-        ]
+        ],
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_exposure_report_lines.loan_id",
-      "type": "column",
+      "id": "table.retail_lending_core.retail_loans",
+      "type": "physical_table",
+      "label": "retail_loans",
+      "properties": {
+        "description": "",
+        "source": "retail_lending_core.retail_loans",
+        "source_dataset": "retail_loans",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "table.product_master.loan_products",
+      "type": "physical_table",
+      "label": "loan_products",
+      "properties": {
+        "description": "",
+        "source": "product_master.loan_products",
+        "source_dataset": "loan_products",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "field.loan_exposure_report_lines.loan_id",
+      "type": "dataset_field",
       "label": "loan_id",
       "properties": {
         "description": "Normalized loan or facility identifier reported on the exposure line.",
-        "parent": "table.loan_exposure_report_lines",
+        "parent": "dataset.loan_exposure_report_lines",
         "data_type": "field",
-        "expression": "loan_id"
+        "nullable": "",
+        "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)",
+        "dataset": "loan_exposure_report_lines",
+        "field": "loan_id",
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_exposure_report_lines.borrower_id",
-      "type": "column",
+      "id": "field.loan_exposure_report_lines.borrower_id",
+      "type": "dataset_field",
       "label": "borrower_id",
       "properties": {
         "description": "Borrower identifier reported on the exposure line for reconciliation to customer master.",
-        "parent": "table.loan_exposure_report_lines",
+        "parent": "dataset.loan_exposure_report_lines",
         "data_type": "field",
-        "expression": "borrower_id"
+        "nullable": "",
+        "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)",
+        "dataset": "loan_exposure_report_lines",
+        "field": "borrower_id",
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_exposure_report_lines.borrower_country",
-      "type": "column",
+      "id": "field.loan_exposure_report_lines.borrower_country",
+      "type": "dataset_field",
       "label": "borrower_country",
       "properties": {
         "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins.",
-        "parent": "table.loan_exposure_report_lines",
+        "parent": "dataset.loan_exposure_report_lines",
         "data_type": "field",
-        "expression": "borrower_country"
+        "nullable": "",
+        "expression": "borrowers.domicile_country",
+        "dataset": "loan_exposure_report_lines",
+        "field": "borrower_country",
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_exposure_report_lines.product_id",
-      "type": "column",
+      "id": "field.loan_exposure_report_lines.product_id",
+      "type": "dataset_field",
       "label": "product_id",
       "properties": {
         "description": "Product identifier reported on the exposure line for product-class aggregation.",
-        "parent": "table.loan_exposure_report_lines",
+        "parent": "dataset.loan_exposure_report_lines",
         "data_type": "field",
-        "expression": "product_id"
+        "nullable": "",
+        "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)",
+        "dataset": "loan_exposure_report_lines",
+        "field": "product_id",
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_exposure_report_lines.principal_amount",
-      "type": "column",
+      "id": "field.loan_exposure_report_lines.principal_amount",
+      "type": "dataset_field",
       "label": "principal_amount",
       "properties": {
         "description": "Principal amount included on the report line for exposure reconciliation.",
-        "parent": "table.loan_exposure_report_lines",
+        "parent": "dataset.loan_exposure_report_lines",
         "data_type": "field",
-        "expression": "principal_amount"
+        "nullable": "",
+        "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)",
+        "dataset": "loan_exposure_report_lines",
+        "field": "principal_amount",
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_exposure_report_lines.exposure_at_default_amount",
-      "type": "column",
+      "id": "field.loan_exposure_report_lines.exposure_at_default_amount",
+      "type": "dataset_field",
       "label": "exposure_at_default_amount",
       "properties": {
         "description": "Exposure at default amount reported for regulatory credit risk measurement.",
-        "parent": "table.loan_exposure_report_lines",
+        "parent": "dataset.loan_exposure_report_lines",
         "data_type": "field",
-        "expression": "exposure_at_default_amount"
+        "nullable": "",
+        "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)",
+        "dataset": "loan_exposure_report_lines",
+        "field": "exposure_at_default_amount",
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_exposure_report_lines.expected_loss_amount",
-      "type": "column",
+      "id": "field.loan_exposure_report_lines.expected_loss_amount",
+      "type": "dataset_field",
       "label": "expected_loss_amount",
       "properties": {
         "description": "Expected loss amount reported after applying probability of default and loss given default.",
-        "parent": "table.loan_exposure_report_lines",
+        "parent": "dataset.loan_exposure_report_lines",
         "data_type": "field",
-        "expression": "expected_loss_amount"
+        "nullable": "",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset": "loan_exposure_report_lines",
+        "field": "expected_loss_amount",
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_exposure_report_lines.report_currency",
-      "type": "column",
+      "id": "field.loan_exposure_report_lines.report_currency",
+      "type": "dataset_field",
       "label": "report_currency",
       "properties": {
         "description": "Currency code in which the exposure line amounts are reported.",
-        "parent": "table.loan_exposure_report_lines",
+        "parent": "dataset.loan_exposure_report_lines",
         "data_type": "field",
-        "expression": "report_currency"
+        "nullable": "",
+        "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)",
+        "dataset": "loan_exposure_report_lines",
+        "field": "report_currency",
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "table.loan_products",
-      "type": "physical_table",
+      "id": "dataset.loan_products",
+      "type": "semantic_dataset",
       "label": "loan_products",
       "properties": {
         "description": "Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures.",
@@ -805,45 +1160,104 @@ window.GRAPH_DATA = {
           "product_id"
         ],
         "field_count": 3,
-        "custom_extensions": []
+        "physical_kind": "",
+        "source_tables": [
+          "product_master.loan_products"
+        ],
+        "custom_extensions": [],
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.loan_products.product_id",
+      "id": "field.loan_products.product_id",
+      "type": "dataset_field",
+      "label": "product_id",
+      "properties": {
+        "description": "Master product identifier for a lending product.",
+        "parent": "dataset.loan_products",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "product_id",
+        "dataset": "loan_products",
+        "field": "product_id",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.product_master.loan_products.product_id",
       "type": "column",
       "label": "product_id",
       "properties": {
         "description": "Master product identifier for a lending product.",
-        "parent": "table.loan_products",
-        "data_type": "field",
-        "expression": "product_id"
+        "parent": "table.product_master.loan_products",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "product_id",
+        "physical_field": "product_master.loan_products.product_id",
+        "dataset_field": "loan_products.product_id"
       }
     },
     {
-      "id": "column.loan_products.product_type",
+      "id": "field.loan_products.product_type",
+      "type": "dataset_field",
+      "label": "product_type",
+      "properties": {
+        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
+        "parent": "dataset.loan_products",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "product_type",
+        "dataset": "loan_products",
+        "field": "product_type",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.product_master.loan_products.product_type",
       "type": "column",
       "label": "product_type",
       "properties": {
         "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
-        "parent": "table.loan_products",
-        "data_type": "field",
-        "expression": "product_type"
+        "parent": "table.product_master.loan_products",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "product_type",
+        "physical_field": "product_master.loan_products.product_type",
+        "dataset_field": "loan_products.product_type"
       }
     },
     {
-      "id": "column.loan_products.regulatory_product_class",
+      "id": "field.loan_products.regulatory_product_class",
+      "type": "dataset_field",
+      "label": "regulatory_product_class",
+      "properties": {
+        "description": "Regulatory product class used for credit exposure aggregation.",
+        "parent": "dataset.loan_products",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "regulatory_product_class",
+        "dataset": "loan_products",
+        "field": "regulatory_product_class",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.product_master.loan_products.regulatory_product_class",
       "type": "column",
       "label": "regulatory_product_class",
       "properties": {
         "description": "Regulatory product class used for credit exposure aggregation.",
-        "parent": "table.loan_products",
-        "data_type": "field",
-        "expression": "regulatory_product_class"
+        "parent": "table.product_master.loan_products",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "regulatory_product_class",
+        "physical_field": "product_master.loan_products.regulatory_product_class",
+        "dataset_field": "loan_products.regulatory_product_class"
       }
     },
     {
-      "id": "table.retail_loans",
-      "type": "physical_table",
+      "id": "dataset.retail_loans",
+      "type": "semantic_dataset",
       "label": "retail_loans",
       "properties": {
         "description": "Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting.",
@@ -852,95 +1266,310 @@ window.GRAPH_DATA = {
           "loan_id"
         ],
         "field_count": 8,
-        "custom_extensions": []
+        "physical_kind": "",
+        "source_tables": [
+          "retail_lending_core.retail_loans"
+        ],
+        "custom_extensions": [],
+        "semantic_model": "LoanExposureSemanticModel"
       }
     },
     {
-      "id": "column.retail_loans.loan_id",
+      "id": "field.retail_loans.loan_id",
+      "type": "dataset_field",
+      "label": "loan_id",
+      "properties": {
+        "description": "Retail source identifier for an individual consumer loan record.",
+        "parent": "dataset.retail_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "loan_id",
+        "dataset": "retail_loans",
+        "field": "loan_id",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.retail_lending_core.retail_loans.loan_id",
       "type": "column",
       "label": "loan_id",
       "properties": {
         "description": "Retail source identifier for an individual consumer loan record.",
-        "parent": "table.retail_loans",
-        "data_type": "field",
-        "expression": "loan_id"
+        "parent": "table.retail_lending_core.retail_loans",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "loan_id",
+        "physical_field": "retail_lending_core.retail_loans.loan_id",
+        "dataset_field": "retail_loans.loan_id"
       }
     },
     {
-      "id": "column.retail_loans.borrower_id",
+      "id": "field.retail_loans.borrower_id",
+      "type": "dataset_field",
+      "label": "borrower_id",
+      "properties": {
+        "description": "Customer identifier linking the retail loan to the responsible borrower.",
+        "parent": "dataset.retail_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "borrower_id",
+        "dataset": "retail_loans",
+        "field": "borrower_id",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.retail_lending_core.retail_loans.borrower_id",
       "type": "column",
       "label": "borrower_id",
       "properties": {
         "description": "Customer identifier linking the retail loan to the responsible borrower.",
-        "parent": "table.retail_loans",
-        "data_type": "field",
-        "expression": "borrower_id"
+        "parent": "table.retail_lending_core.retail_loans",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "borrower_id",
+        "physical_field": "retail_lending_core.retail_loans.borrower_id",
+        "dataset_field": "retail_loans.borrower_id"
       }
     },
     {
-      "id": "column.retail_loans.product_id",
+      "id": "field.retail_loans.product_id",
+      "type": "dataset_field",
+      "label": "product_id",
+      "properties": {
+        "description": "Product identifier classifying the retail lending product.",
+        "parent": "dataset.retail_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "product_id",
+        "dataset": "retail_loans",
+        "field": "product_id",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.retail_lending_core.retail_loans.product_id",
       "type": "column",
       "label": "product_id",
       "properties": {
         "description": "Product identifier classifying the retail lending product.",
-        "parent": "table.retail_loans",
-        "data_type": "field",
-        "expression": "product_id"
+        "parent": "table.retail_lending_core.retail_loans",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "product_id",
+        "physical_field": "retail_lending_core.retail_loans.product_id",
+        "dataset_field": "retail_loans.product_id"
       }
     },
     {
-      "id": "column.retail_loans.origination_date",
+      "id": "field.retail_loans.origination_date",
+      "type": "dataset_field",
+      "label": "origination_date",
+      "properties": {
+        "description": "Date on which the retail loan was originated or booked.",
+        "parent": "dataset.retail_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "origination_date",
+        "dataset": "retail_loans",
+        "field": "origination_date",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.retail_lending_core.retail_loans.origination_date",
       "type": "column",
       "label": "origination_date",
       "properties": {
         "description": "Date on which the retail loan was originated or booked.",
-        "parent": "table.retail_loans",
-        "data_type": "field",
-        "expression": "origination_date"
+        "parent": "table.retail_lending_core.retail_loans",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "origination_date",
+        "physical_field": "retail_lending_core.retail_loans.origination_date",
+        "dataset_field": "retail_loans.origination_date"
       }
     },
     {
-      "id": "column.retail_loans.principal_amount",
+      "id": "field.retail_loans.principal_amount",
+      "type": "dataset_field",
+      "label": "principal_amount",
+      "properties": {
+        "description": "Principal balance or contractual amount recorded for the retail loan.",
+        "parent": "dataset.retail_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "principal_amount",
+        "dataset": "retail_loans",
+        "field": "principal_amount",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.retail_lending_core.retail_loans.principal_amount",
       "type": "column",
       "label": "principal_amount",
       "properties": {
         "description": "Principal balance or contractual amount recorded for the retail loan.",
-        "parent": "table.retail_loans",
-        "data_type": "field",
-        "expression": "principal_amount"
+        "parent": "table.retail_lending_core.retail_loans",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "principal_amount",
+        "physical_field": "retail_lending_core.retail_loans.principal_amount",
+        "dataset_field": "retail_loans.principal_amount"
       }
     },
     {
-      "id": "column.retail_loans.currency",
+      "id": "field.retail_loans.currency",
+      "type": "dataset_field",
+      "label": "currency",
+      "properties": {
+        "description": "Currency code used for the retail loan amount.",
+        "parent": "dataset.retail_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "currency",
+        "dataset": "retail_loans",
+        "field": "currency",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.retail_lending_core.retail_loans.currency",
       "type": "column",
       "label": "currency",
       "properties": {
         "description": "Currency code used for the retail loan amount.",
-        "parent": "table.retail_loans",
-        "data_type": "field",
-        "expression": "currency"
+        "parent": "table.retail_lending_core.retail_loans",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "currency",
+        "physical_field": "retail_lending_core.retail_loans.currency",
+        "dataset_field": "retail_loans.currency"
       }
     },
     {
-      "id": "column.retail_loans.pd",
+      "id": "field.retail_loans.pd",
+      "type": "dataset_field",
+      "label": "pd",
+      "properties": {
+        "description": "Probability of default assigned by the retail credit risk model.",
+        "parent": "dataset.retail_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "pd",
+        "dataset": "retail_loans",
+        "field": "pd",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.retail_lending_core.retail_loans.pd",
       "type": "column",
       "label": "pd",
       "properties": {
         "description": "Probability of default assigned by the retail credit risk model.",
-        "parent": "table.retail_loans",
-        "data_type": "field",
-        "expression": "pd"
+        "parent": "table.retail_lending_core.retail_loans",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "pd",
+        "physical_field": "retail_lending_core.retail_loans.pd",
+        "dataset_field": "retail_loans.pd"
       }
     },
     {
-      "id": "column.retail_loans.lgd",
+      "id": "field.retail_loans.lgd",
+      "type": "dataset_field",
+      "label": "lgd",
+      "properties": {
+        "description": "Loss given default rate assigned by the retail credit risk model.",
+        "parent": "dataset.retail_loans",
+        "data_type": "field",
+        "nullable": "",
+        "expression": "lgd",
+        "dataset": "retail_loans",
+        "field": "lgd",
+        "semantic_model": "LoanExposureSemanticModel"
+      }
+    },
+    {
+      "id": "column.retail_lending_core.retail_loans.lgd",
       "type": "column",
       "label": "lgd",
       "properties": {
         "description": "Loss given default rate assigned by the retail credit risk model.",
-        "parent": "table.retail_loans",
-        "data_type": "field",
-        "expression": "lgd"
+        "parent": "table.retail_lending_core.retail_loans",
+        "data_type": "column",
+        "nullable": "",
+        "expression": "lgd",
+        "physical_field": "retail_lending_core.retail_loans.lgd",
+        "dataset_field": "retail_loans.lgd"
+      }
+    },
+    {
+      "id": "metric.expected_loss_amount",
+      "type": "semantic_metric",
+      "label": "expected_loss_amount",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "semantic_model": "LoanExposureSemanticModel",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "source_fields": [
+          "institutional_loans.loss_given_default",
+          "institutional_loans.notional_amount",
+          "institutional_loans.probability_default",
+          "retail_loans.lgd",
+          "retail_loans.pd",
+          "retail_loans.principal_amount"
+        ],
+        "metric": {
+          "name": "expected_loss_amount",
+          "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+              }
+            ]
+          },
+          "ai_context": {
+            "metric_type": "calculated_credit_risk_measure"
+          }
+        }
+      }
+    },
+    {
+      "id": "metric.risk_weighted_exposure_amount",
+      "type": "semantic_metric",
+      "label": "risk_weighted_exposure_amount",
+      "properties": {
+        "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+        "semantic_model": "LoanExposureSemanticModel",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "source_fields": [
+          "institutional_loans.notional_amount",
+          "institutional_loans.probability_default",
+          "retail_loans.pd",
+          "retail_loans.principal_amount"
+        ],
+        "metric": {
+          "name": "risk_weighted_exposure_amount",
+          "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default"
+              }
+            ]
+          },
+          "ai_context": {
+            "metric_type": "calculated_credit_risk_measure"
+          }
+        }
       }
     },
     {
@@ -1477,6 +2106,23 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
+      "id": "edge.concept.Loan.CONTAINS.contains_value.value.Loan.has_RiskWeightedExposureAmount",
+      "source": "concept.Loan",
+      "target": "value.Loan.has_RiskWeightedExposureAmount",
+      "label": "contains value",
+      "properties": {
+        "description": "Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring.",
+        "multiplicity": "ManyToOne",
+        "verbalizes": [
+          "{Loan} has risk weighted exposure amount {MonetaryAmount}"
+        ],
+        "source_field": "ontology.relationships",
+        "value_concept": "MonetaryAmount",
+        "inherited": false
+      },
+      "type": "CONTAINS"
+    },
+    {
       "id": "edge.concept.LoanProduct.EXTENDS.extends.concept.ProductData",
       "source": "concept.LoanProduct",
       "target": "concept.ProductData",
@@ -1706,9 +2352,45 @@ window.GRAPH_DATA = {
       "type": "SHARES_VALUE_TYPE"
     },
     {
+      "id": "edge.value.Loan.has_ExpectedLossAmount.SHARES_VALUE_TYPE.MonetaryAmount.value.Loan.has_RiskWeightedExposureAmount",
+      "source": "value.Loan.has_ExpectedLossAmount",
+      "target": "value.Loan.has_RiskWeightedExposureAmount",
+      "label": "MonetaryAmount",
+      "properties": {
+        "description": "Both fields use ValueType concept MonetaryAmount.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "MonetaryAmount"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
       "id": "edge.value.Loan.has_ExposureAtDefaultAmount.SHARES_VALUE_TYPE.MonetaryAmount.value.Loan.has_PrincipalAmount",
       "source": "value.Loan.has_ExposureAtDefaultAmount",
       "target": "value.Loan.has_PrincipalAmount",
+      "label": "MonetaryAmount",
+      "properties": {
+        "description": "Both fields use ValueType concept MonetaryAmount.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "MonetaryAmount"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.Loan.has_ExposureAtDefaultAmount.SHARES_VALUE_TYPE.MonetaryAmount.value.Loan.has_RiskWeightedExposureAmount",
+      "source": "value.Loan.has_ExposureAtDefaultAmount",
+      "target": "value.Loan.has_RiskWeightedExposureAmount",
+      "label": "MonetaryAmount",
+      "properties": {
+        "description": "Both fields use ValueType concept MonetaryAmount.",
+        "source_field": "ontology.relationships.roles.concept",
+        "value_concept": "MonetaryAmount"
+      },
+      "type": "SHARES_VALUE_TYPE"
+    },
+    {
+      "id": "edge.value.Loan.has_PrincipalAmount.SHARES_VALUE_TYPE.MonetaryAmount.value.Loan.has_RiskWeightedExposureAmount",
+      "source": "value.Loan.has_PrincipalAmount",
+      "target": "value.Loan.has_RiskWeightedExposureAmount",
       "label": "MonetaryAmount",
       "properties": {
         "description": "Both fields use ValueType concept MonetaryAmount.",
@@ -1730,353 +2412,1021 @@ window.GRAPH_DATA = {
       "type": "SHARES_VALUE_TYPE"
     },
     {
-      "id": "edge.table.borrowers.CONTAINS.contains.column.borrowers.borrower_id",
-      "source": "table.borrowers",
-      "target": "column.borrowers.borrower_id",
+      "id": "edge.dataset.borrowers.SOURCE_TABLE.SOURCE_TABLE.table.customer_master.borrowers",
+      "source": "dataset.borrowers",
+      "target": "table.customer_master.borrowers",
+      "label": "SOURCE_TABLE",
+      "properties": {
+        "source_field": "semantic_model.datasets.source/custom_extensions",
+        "dataset": "borrowers",
+        "source_table": "customer_master.borrowers"
+      },
+      "type": "SOURCE_TABLE"
+    },
+    {
+      "id": "edge.dataset.borrowers.CONTAINS.contains.field.borrowers.borrower_id",
+      "source": "dataset.borrowers",
+      "target": "field.borrowers.borrower_id",
       "label": "contains",
       "properties": {
-        "description": "borrowers contains field borrower_id.",
+        "description": "Master customer identifier for a borrower or legal entity.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.borrowers.CONTAINS.contains.column.borrowers.borrower_segment",
-      "source": "table.borrowers",
-      "target": "column.borrowers.borrower_segment",
+      "id": "edge.field.borrowers.borrower_id.SOURCE_FIELD.SOURCE_FIELD.column.customer_master.borrowers.borrower_id",
+      "source": "field.borrowers.borrower_id",
+      "target": "column.customer_master.borrowers.borrower_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Master customer identifier for a borrower or legal entity.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "borrowers.borrower_id",
+        "physical_field": "customer_master.borrowers.borrower_id",
+        "expression": "borrower_id"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.borrowers.CONTAINS.contains.field.borrowers.borrower_segment",
+      "source": "dataset.borrowers",
+      "target": "field.borrowers.borrower_segment",
       "label": "contains",
       "properties": {
-        "description": "borrowers contains field borrower_segment.",
+        "description": "Segment classification such as retail, SME, corporate, or financial institution.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.borrowers.CONTAINS.contains.column.borrowers.borrower_name",
-      "source": "table.borrowers",
-      "target": "column.borrowers.borrower_name",
+      "id": "edge.field.borrowers.borrower_segment.SOURCE_FIELD.SOURCE_FIELD.column.customer_master.borrowers.borrower_segment",
+      "source": "field.borrowers.borrower_segment",
+      "target": "column.customer_master.borrowers.borrower_segment",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Segment classification such as retail, SME, corporate, or financial institution.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "borrowers.borrower_segment",
+        "physical_field": "customer_master.borrowers.borrower_segment",
+        "expression": "borrower_segment"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.borrowers.CONTAINS.contains.field.borrowers.borrower_name",
+      "source": "dataset.borrowers",
+      "target": "field.borrowers.borrower_name",
       "label": "contains",
       "properties": {
-        "description": "borrowers contains field borrower_name.",
+        "description": "Human-readable borrower or legal entity name.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.borrowers.CONTAINS.contains.column.borrowers.domicile_country",
-      "source": "table.borrowers",
-      "target": "column.borrowers.domicile_country",
+      "id": "edge.field.borrowers.borrower_name.SOURCE_FIELD.SOURCE_FIELD.column.customer_master.borrowers.borrower_name",
+      "source": "field.borrowers.borrower_name",
+      "target": "column.customer_master.borrowers.borrower_name",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Human-readable borrower or legal entity name.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "borrowers.borrower_name",
+        "physical_field": "customer_master.borrowers.borrower_name",
+        "expression": "borrower_name"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.borrowers.CONTAINS.contains.field.borrowers.domicile_country",
+      "source": "dataset.borrowers",
+      "target": "field.borrowers.domicile_country",
       "label": "contains",
       "properties": {
-        "description": "borrowers contains field domicile_country.",
+        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.institutional_loans.CONTAINS.contains.column.institutional_loans.facility_id",
-      "source": "table.institutional_loans",
-      "target": "column.institutional_loans.facility_id",
+      "id": "edge.field.borrowers.domicile_country.SOURCE_FIELD.SOURCE_FIELD.column.customer_master.borrowers.domicile_country",
+      "source": "field.borrowers.domicile_country",
+      "target": "column.customer_master.borrowers.domicile_country",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "borrowers.domicile_country",
+        "physical_field": "customer_master.borrowers.domicile_country",
+        "expression": "domicile_country"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.SOURCE_TABLE.SOURCE_TABLE.table.institutional_lending_core.facilities",
+      "source": "dataset.institutional_loans",
+      "target": "table.institutional_lending_core.facilities",
+      "label": "SOURCE_TABLE",
+      "properties": {
+        "source_field": "semantic_model.datasets.source/custom_extensions",
+        "dataset": "institutional_loans",
+        "source_table": "institutional_lending_core.facilities"
+      },
+      "type": "SOURCE_TABLE"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.CONTAINS.contains.field.institutional_loans.facility_id",
+      "source": "dataset.institutional_loans",
+      "target": "field.institutional_loans.facility_id",
       "label": "contains",
       "properties": {
-        "description": "institutional_loans contains field facility_id.",
+        "description": "Institutional source identifier for a committed credit facility.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.institutional_loans.CONTAINS.contains.column.institutional_loans.legal_entity_id",
-      "source": "table.institutional_loans",
-      "target": "column.institutional_loans.legal_entity_id",
+      "id": "edge.field.institutional_loans.facility_id.SOURCE_FIELD.SOURCE_FIELD.column.institutional_lending_core.facilities.facility_id",
+      "source": "field.institutional_loans.facility_id",
+      "target": "column.institutional_lending_core.facilities.facility_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Institutional source identifier for a committed credit facility.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.facility_id",
+        "physical_field": "institutional_lending_core.facilities.facility_id",
+        "expression": "facility_id"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.CONTAINS.contains.field.institutional_loans.legal_entity_id",
+      "source": "dataset.institutional_loans",
+      "target": "field.institutional_loans.legal_entity_id",
       "label": "contains",
       "properties": {
-        "description": "institutional_loans contains field legal_entity_id.",
+        "description": "Customer identifier linking the facility to the responsible legal borrower.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.institutional_loans.CONTAINS.contains.column.institutional_loans.product_code",
-      "source": "table.institutional_loans",
-      "target": "column.institutional_loans.product_code",
+      "id": "edge.field.institutional_loans.legal_entity_id.SOURCE_FIELD.SOURCE_FIELD.column.institutional_lending_core.facilities.legal_entity_id",
+      "source": "field.institutional_loans.legal_entity_id",
+      "target": "column.institutional_lending_core.facilities.legal_entity_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Customer identifier linking the facility to the responsible legal borrower.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.legal_entity_id",
+        "physical_field": "institutional_lending_core.facilities.legal_entity_id",
+        "expression": "legal_entity_id"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.CONTAINS.contains.field.institutional_loans.product_code",
+      "source": "dataset.institutional_loans",
+      "target": "field.institutional_loans.product_code",
       "label": "contains",
       "properties": {
-        "description": "institutional_loans contains field product_code.",
+        "description": "Product identifier classifying the institutional lending facility.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.institutional_loans.CONTAINS.contains.column.institutional_loans.booking_date",
-      "source": "table.institutional_loans",
-      "target": "column.institutional_loans.booking_date",
+      "id": "edge.field.institutional_loans.product_code.SOURCE_FIELD.SOURCE_FIELD.column.institutional_lending_core.facilities.product_code",
+      "source": "field.institutional_loans.product_code",
+      "target": "column.institutional_lending_core.facilities.product_code",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Product identifier classifying the institutional lending facility.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.product_code",
+        "physical_field": "institutional_lending_core.facilities.product_code",
+        "expression": "product_code"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.CONTAINS.contains.field.institutional_loans.booking_date",
+      "source": "dataset.institutional_loans",
+      "target": "field.institutional_loans.booking_date",
       "label": "contains",
       "properties": {
-        "description": "institutional_loans contains field booking_date.",
+        "description": "Date on which the institutional facility was booked.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.institutional_loans.CONTAINS.contains.column.institutional_loans.notional_amount",
-      "source": "table.institutional_loans",
-      "target": "column.institutional_loans.notional_amount",
+      "id": "edge.field.institutional_loans.booking_date.SOURCE_FIELD.SOURCE_FIELD.column.institutional_lending_core.facilities.booking_date",
+      "source": "field.institutional_loans.booking_date",
+      "target": "column.institutional_lending_core.facilities.booking_date",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Date on which the institutional facility was booked.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.booking_date",
+        "physical_field": "institutional_lending_core.facilities.booking_date",
+        "expression": "booking_date"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.CONTAINS.contains.field.institutional_loans.notional_amount",
+      "source": "dataset.institutional_loans",
+      "target": "field.institutional_loans.notional_amount",
       "label": "contains",
       "properties": {
-        "description": "institutional_loans contains field notional_amount.",
+        "description": "Notional or committed amount recorded for the institutional facility.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.institutional_loans.CONTAINS.contains.column.institutional_loans.exposure_currency",
-      "source": "table.institutional_loans",
-      "target": "column.institutional_loans.exposure_currency",
+      "id": "edge.field.institutional_loans.notional_amount.SOURCE_FIELD.SOURCE_FIELD.column.institutional_lending_core.facilities.notional_amount",
+      "source": "field.institutional_loans.notional_amount",
+      "target": "column.institutional_lending_core.facilities.notional_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Notional or committed amount recorded for the institutional facility.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.notional_amount",
+        "physical_field": "institutional_lending_core.facilities.notional_amount",
+        "expression": "notional_amount"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.CONTAINS.contains.field.institutional_loans.exposure_currency",
+      "source": "dataset.institutional_loans",
+      "target": "field.institutional_loans.exposure_currency",
       "label": "contains",
       "properties": {
-        "description": "institutional_loans contains field exposure_currency.",
+        "description": "Currency code used for the institutional exposure amount.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.institutional_loans.CONTAINS.contains.column.institutional_loans.probability_default",
-      "source": "table.institutional_loans",
-      "target": "column.institutional_loans.probability_default",
+      "id": "edge.field.institutional_loans.exposure_currency.SOURCE_FIELD.SOURCE_FIELD.column.institutional_lending_core.facilities.exposure_currency",
+      "source": "field.institutional_loans.exposure_currency",
+      "target": "column.institutional_lending_core.facilities.exposure_currency",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Currency code used for the institutional exposure amount.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.exposure_currency",
+        "physical_field": "institutional_lending_core.facilities.exposure_currency",
+        "expression": "exposure_currency"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.CONTAINS.contains.field.institutional_loans.probability_default",
+      "source": "dataset.institutional_loans",
+      "target": "field.institutional_loans.probability_default",
       "label": "contains",
       "properties": {
-        "description": "institutional_loans contains field probability_default.",
+        "description": "Probability of default assigned by the wholesale credit risk model.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.institutional_loans.CONTAINS.contains.column.institutional_loans.loss_given_default",
-      "source": "table.institutional_loans",
-      "target": "column.institutional_loans.loss_given_default",
+      "id": "edge.field.institutional_loans.probability_default.SOURCE_FIELD.SOURCE_FIELD.column.institutional_lending_core.facilities.probability_default",
+      "source": "field.institutional_loans.probability_default",
+      "target": "column.institutional_lending_core.facilities.probability_default",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Probability of default assigned by the wholesale credit risk model.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.probability_default",
+        "physical_field": "institutional_lending_core.facilities.probability_default",
+        "expression": "probability_default"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.institutional_loans.CONTAINS.contains.field.institutional_loans.loss_given_default",
+      "source": "dataset.institutional_loans",
+      "target": "field.institutional_loans.loss_given_default",
       "label": "contains",
       "properties": {
-        "description": "institutional_loans contains field loss_given_default.",
+        "description": "Loss given default rate assigned by the wholesale credit risk model.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.CONTAINS.contains.column.loan_exposure_report_lines.loan_id",
-      "source": "table.loan_exposure_report_lines",
-      "target": "column.loan_exposure_report_lines.loan_id",
+      "id": "edge.field.institutional_loans.loss_given_default.SOURCE_FIELD.SOURCE_FIELD.column.institutional_lending_core.facilities.loss_given_default",
+      "source": "field.institutional_loans.loss_given_default",
+      "target": "column.institutional_lending_core.facilities.loss_given_default",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Loss given default rate assigned by the wholesale credit risk model.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.loss_given_default",
+        "physical_field": "institutional_lending_core.facilities.loss_given_default",
+        "expression": "loss_given_default"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.loan_exposure_report_lines.SOURCE_TABLE.SOURCE_TABLE.table.retail_lending_core.retail_loans",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "table.retail_lending_core.retail_loans",
+      "label": "SOURCE_TABLE",
+      "properties": {
+        "description": "Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.",
+        "source_field": "semantic_model.datasets.source/custom_extensions",
+        "dataset": "loan_exposure_report_lines",
+        "source_table": "retail_lending_core.retail_loans"
+      },
+      "type": "SOURCE_TABLE"
+    },
+    {
+      "id": "edge.dataset.loan_exposure_report_lines.SOURCE_TABLE.SOURCE_TABLE.table.institutional_lending_core.facilities",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "table.institutional_lending_core.facilities",
+      "label": "SOURCE_TABLE",
+      "properties": {
+        "description": "Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.",
+        "source_field": "semantic_model.datasets.source/custom_extensions",
+        "dataset": "loan_exposure_report_lines",
+        "source_table": "institutional_lending_core.facilities"
+      },
+      "type": "SOURCE_TABLE"
+    },
+    {
+      "id": "edge.dataset.loan_exposure_report_lines.SOURCE_TABLE.SOURCE_TABLE.table.customer_master.borrowers",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "table.customer_master.borrowers",
+      "label": "SOURCE_TABLE",
+      "properties": {
+        "description": "Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.",
+        "source_field": "semantic_model.datasets.source/custom_extensions",
+        "dataset": "loan_exposure_report_lines",
+        "source_table": "customer_master.borrowers"
+      },
+      "type": "SOURCE_TABLE"
+    },
+    {
+      "id": "edge.dataset.loan_exposure_report_lines.SOURCE_TABLE.SOURCE_TABLE.table.product_master.loan_products",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "table.product_master.loan_products",
+      "label": "SOURCE_TABLE",
+      "properties": {
+        "description": "Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.",
+        "source_field": "semantic_model.datasets.source/custom_extensions",
+        "dataset": "loan_exposure_report_lines",
+        "source_table": "product_master.loan_products"
+      },
+      "type": "SOURCE_TABLE"
+    },
+    {
+      "id": "edge.dataset.loan_exposure_report_lines.CONTAINS.contains.field.loan_exposure_report_lines.loan_id",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "field.loan_exposure_report_lines.loan_id",
       "label": "contains",
       "properties": {
-        "description": "loan_exposure_report_lines contains field loan_id.",
+        "description": "Normalized loan or facility identifier reported on the exposure line.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.CONTAINS.contains.column.loan_exposure_report_lines.borrower_id",
-      "source": "table.loan_exposure_report_lines",
-      "target": "column.loan_exposure_report_lines.borrower_id",
+      "id": "edge.dataset.loan_exposure_report_lines.CONTAINS.contains.field.loan_exposure_report_lines.borrower_id",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "field.loan_exposure_report_lines.borrower_id",
       "label": "contains",
       "properties": {
-        "description": "loan_exposure_report_lines contains field borrower_id.",
+        "description": "Borrower identifier reported on the exposure line for reconciliation to customer master.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.CONTAINS.contains.column.loan_exposure_report_lines.borrower_country",
-      "source": "table.loan_exposure_report_lines",
-      "target": "column.loan_exposure_report_lines.borrower_country",
+      "id": "edge.dataset.loan_exposure_report_lines.CONTAINS.contains.field.loan_exposure_report_lines.borrower_country",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "field.loan_exposure_report_lines.borrower_country",
       "label": "contains",
       "properties": {
-        "description": "loan_exposure_report_lines contains field borrower_country.",
+        "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.CONTAINS.contains.column.loan_exposure_report_lines.product_id",
-      "source": "table.loan_exposure_report_lines",
-      "target": "column.loan_exposure_report_lines.product_id",
+      "id": "edge.dataset.loan_exposure_report_lines.CONTAINS.contains.field.loan_exposure_report_lines.product_id",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "field.loan_exposure_report_lines.product_id",
       "label": "contains",
       "properties": {
-        "description": "loan_exposure_report_lines contains field product_id.",
+        "description": "Product identifier reported on the exposure line for product-class aggregation.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.CONTAINS.contains.column.loan_exposure_report_lines.principal_amount",
-      "source": "table.loan_exposure_report_lines",
-      "target": "column.loan_exposure_report_lines.principal_amount",
+      "id": "edge.dataset.loan_exposure_report_lines.CONTAINS.contains.field.loan_exposure_report_lines.principal_amount",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "field.loan_exposure_report_lines.principal_amount",
       "label": "contains",
       "properties": {
-        "description": "loan_exposure_report_lines contains field principal_amount.",
+        "description": "Principal amount included on the report line for exposure reconciliation.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.CONTAINS.contains.column.loan_exposure_report_lines.exposure_at_default_amount",
-      "source": "table.loan_exposure_report_lines",
-      "target": "column.loan_exposure_report_lines.exposure_at_default_amount",
+      "id": "edge.dataset.loan_exposure_report_lines.CONTAINS.contains.field.loan_exposure_report_lines.exposure_at_default_amount",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "field.loan_exposure_report_lines.exposure_at_default_amount",
       "label": "contains",
       "properties": {
-        "description": "loan_exposure_report_lines contains field exposure_at_default_amount.",
+        "description": "Exposure at default amount reported for regulatory credit risk measurement.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.CONTAINS.contains.column.loan_exposure_report_lines.expected_loss_amount",
-      "source": "table.loan_exposure_report_lines",
-      "target": "column.loan_exposure_report_lines.expected_loss_amount",
+      "id": "edge.dataset.loan_exposure_report_lines.CONTAINS.contains.field.loan_exposure_report_lines.expected_loss_amount",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "field.loan_exposure_report_lines.expected_loss_amount",
       "label": "contains",
       "properties": {
-        "description": "loan_exposure_report_lines contains field expected_loss_amount.",
+        "description": "Expected loss amount reported after applying probability of default and loss given default.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.CONTAINS.contains.column.loan_exposure_report_lines.report_currency",
-      "source": "table.loan_exposure_report_lines",
-      "target": "column.loan_exposure_report_lines.report_currency",
+      "id": "edge.dataset.loan_exposure_report_lines.CONTAINS.contains.field.loan_exposure_report_lines.report_currency",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "field.loan_exposure_report_lines.report_currency",
       "label": "contains",
       "properties": {
-        "description": "loan_exposure_report_lines contains field report_currency.",
+        "description": "Currency code in which the exposure line amounts are reported.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_products.CONTAINS.contains.column.loan_products.product_id",
-      "source": "table.loan_products",
-      "target": "column.loan_products.product_id",
+      "id": "edge.dataset.loan_products.SOURCE_TABLE.SOURCE_TABLE.table.product_master.loan_products",
+      "source": "dataset.loan_products",
+      "target": "table.product_master.loan_products",
+      "label": "SOURCE_TABLE",
+      "properties": {
+        "source_field": "semantic_model.datasets.source/custom_extensions",
+        "dataset": "loan_products",
+        "source_table": "product_master.loan_products"
+      },
+      "type": "SOURCE_TABLE"
+    },
+    {
+      "id": "edge.dataset.loan_products.CONTAINS.contains.field.loan_products.product_id",
+      "source": "dataset.loan_products",
+      "target": "field.loan_products.product_id",
       "label": "contains",
       "properties": {
-        "description": "loan_products contains field product_id.",
+        "description": "Master product identifier for a lending product.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_products.CONTAINS.contains.column.loan_products.product_type",
-      "source": "table.loan_products",
-      "target": "column.loan_products.product_type",
+      "id": "edge.field.loan_products.product_id.SOURCE_FIELD.SOURCE_FIELD.column.product_master.loan_products.product_id",
+      "source": "field.loan_products.product_id",
+      "target": "column.product_master.loan_products.product_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Master product identifier for a lending product.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "loan_products.product_id",
+        "physical_field": "product_master.loan_products.product_id",
+        "expression": "product_id"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.loan_products.CONTAINS.contains.field.loan_products.product_type",
+      "source": "dataset.loan_products",
+      "target": "field.loan_products.product_type",
       "label": "contains",
       "properties": {
-        "description": "loan_products contains field product_type.",
+        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.loan_products.CONTAINS.contains.column.loan_products.regulatory_product_class",
-      "source": "table.loan_products",
-      "target": "column.loan_products.regulatory_product_class",
+      "id": "edge.field.loan_products.product_type.SOURCE_FIELD.SOURCE_FIELD.column.product_master.loan_products.product_type",
+      "source": "field.loan_products.product_type",
+      "target": "column.product_master.loan_products.product_type",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "loan_products.product_type",
+        "physical_field": "product_master.loan_products.product_type",
+        "expression": "product_type"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.loan_products.CONTAINS.contains.field.loan_products.regulatory_product_class",
+      "source": "dataset.loan_products",
+      "target": "field.loan_products.regulatory_product_class",
       "label": "contains",
       "properties": {
-        "description": "loan_products contains field regulatory_product_class.",
+        "description": "Regulatory product class used for credit exposure aggregation.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.CONTAINS.contains.column.retail_loans.loan_id",
-      "source": "table.retail_loans",
-      "target": "column.retail_loans.loan_id",
+      "id": "edge.field.loan_products.regulatory_product_class.SOURCE_FIELD.SOURCE_FIELD.column.product_master.loan_products.regulatory_product_class",
+      "source": "field.loan_products.regulatory_product_class",
+      "target": "column.product_master.loan_products.regulatory_product_class",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Regulatory product class used for credit exposure aggregation.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "loan_products.regulatory_product_class",
+        "physical_field": "product_master.loan_products.regulatory_product_class",
+        "expression": "regulatory_product_class"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.SOURCE_TABLE.SOURCE_TABLE.table.retail_lending_core.retail_loans",
+      "source": "dataset.retail_loans",
+      "target": "table.retail_lending_core.retail_loans",
+      "label": "SOURCE_TABLE",
+      "properties": {
+        "source_field": "semantic_model.datasets.source/custom_extensions",
+        "dataset": "retail_loans",
+        "source_table": "retail_lending_core.retail_loans"
+      },
+      "type": "SOURCE_TABLE"
+    },
+    {
+      "id": "edge.dataset.retail_loans.CONTAINS.contains.field.retail_loans.loan_id",
+      "source": "dataset.retail_loans",
+      "target": "field.retail_loans.loan_id",
       "label": "contains",
       "properties": {
-        "description": "retail_loans contains field loan_id.",
+        "description": "Retail source identifier for an individual consumer loan record.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.CONTAINS.contains.column.retail_loans.borrower_id",
-      "source": "table.retail_loans",
-      "target": "column.retail_loans.borrower_id",
+      "id": "edge.field.retail_loans.loan_id.SOURCE_FIELD.SOURCE_FIELD.column.retail_lending_core.retail_loans.loan_id",
+      "source": "field.retail_loans.loan_id",
+      "target": "column.retail_lending_core.retail_loans.loan_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Retail source identifier for an individual consumer loan record.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.loan_id",
+        "physical_field": "retail_lending_core.retail_loans.loan_id",
+        "expression": "loan_id"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.CONTAINS.contains.field.retail_loans.borrower_id",
+      "source": "dataset.retail_loans",
+      "target": "field.retail_loans.borrower_id",
       "label": "contains",
       "properties": {
-        "description": "retail_loans contains field borrower_id.",
+        "description": "Customer identifier linking the retail loan to the responsible borrower.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.CONTAINS.contains.column.retail_loans.product_id",
-      "source": "table.retail_loans",
-      "target": "column.retail_loans.product_id",
+      "id": "edge.field.retail_loans.borrower_id.SOURCE_FIELD.SOURCE_FIELD.column.retail_lending_core.retail_loans.borrower_id",
+      "source": "field.retail_loans.borrower_id",
+      "target": "column.retail_lending_core.retail_loans.borrower_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Customer identifier linking the retail loan to the responsible borrower.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.borrower_id",
+        "physical_field": "retail_lending_core.retail_loans.borrower_id",
+        "expression": "borrower_id"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.CONTAINS.contains.field.retail_loans.product_id",
+      "source": "dataset.retail_loans",
+      "target": "field.retail_loans.product_id",
       "label": "contains",
       "properties": {
-        "description": "retail_loans contains field product_id.",
+        "description": "Product identifier classifying the retail lending product.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.CONTAINS.contains.column.retail_loans.origination_date",
-      "source": "table.retail_loans",
-      "target": "column.retail_loans.origination_date",
+      "id": "edge.field.retail_loans.product_id.SOURCE_FIELD.SOURCE_FIELD.column.retail_lending_core.retail_loans.product_id",
+      "source": "field.retail_loans.product_id",
+      "target": "column.retail_lending_core.retail_loans.product_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Product identifier classifying the retail lending product.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.product_id",
+        "physical_field": "retail_lending_core.retail_loans.product_id",
+        "expression": "product_id"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.CONTAINS.contains.field.retail_loans.origination_date",
+      "source": "dataset.retail_loans",
+      "target": "field.retail_loans.origination_date",
       "label": "contains",
       "properties": {
-        "description": "retail_loans contains field origination_date.",
+        "description": "Date on which the retail loan was originated or booked.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.CONTAINS.contains.column.retail_loans.principal_amount",
-      "source": "table.retail_loans",
-      "target": "column.retail_loans.principal_amount",
+      "id": "edge.field.retail_loans.origination_date.SOURCE_FIELD.SOURCE_FIELD.column.retail_lending_core.retail_loans.origination_date",
+      "source": "field.retail_loans.origination_date",
+      "target": "column.retail_lending_core.retail_loans.origination_date",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Date on which the retail loan was originated or booked.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.origination_date",
+        "physical_field": "retail_lending_core.retail_loans.origination_date",
+        "expression": "origination_date"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.CONTAINS.contains.field.retail_loans.principal_amount",
+      "source": "dataset.retail_loans",
+      "target": "field.retail_loans.principal_amount",
       "label": "contains",
       "properties": {
-        "description": "retail_loans contains field principal_amount.",
+        "description": "Principal balance or contractual amount recorded for the retail loan.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.CONTAINS.contains.column.retail_loans.currency",
-      "source": "table.retail_loans",
-      "target": "column.retail_loans.currency",
+      "id": "edge.field.retail_loans.principal_amount.SOURCE_FIELD.SOURCE_FIELD.column.retail_lending_core.retail_loans.principal_amount",
+      "source": "field.retail_loans.principal_amount",
+      "target": "column.retail_lending_core.retail_loans.principal_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Principal balance or contractual amount recorded for the retail loan.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.principal_amount",
+        "physical_field": "retail_lending_core.retail_loans.principal_amount",
+        "expression": "principal_amount"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.CONTAINS.contains.field.retail_loans.currency",
+      "source": "dataset.retail_loans",
+      "target": "field.retail_loans.currency",
       "label": "contains",
       "properties": {
-        "description": "retail_loans contains field currency.",
+        "description": "Currency code used for the retail loan amount.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.CONTAINS.contains.column.retail_loans.pd",
-      "source": "table.retail_loans",
-      "target": "column.retail_loans.pd",
+      "id": "edge.field.retail_loans.currency.SOURCE_FIELD.SOURCE_FIELD.column.retail_lending_core.retail_loans.currency",
+      "source": "field.retail_loans.currency",
+      "target": "column.retail_lending_core.retail_loans.currency",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Currency code used for the retail loan amount.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.currency",
+        "physical_field": "retail_lending_core.retail_loans.currency",
+        "expression": "currency"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.CONTAINS.contains.field.retail_loans.pd",
+      "source": "dataset.retail_loans",
+      "target": "field.retail_loans.pd",
       "label": "contains",
       "properties": {
-        "description": "retail_loans contains field pd.",
+        "description": "Probability of default assigned by the retail credit risk model.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.CONTAINS.contains.column.retail_loans.lgd",
-      "source": "table.retail_loans",
-      "target": "column.retail_loans.lgd",
+      "id": "edge.field.retail_loans.pd.SOURCE_FIELD.SOURCE_FIELD.column.retail_lending_core.retail_loans.pd",
+      "source": "field.retail_loans.pd",
+      "target": "column.retail_lending_core.retail_loans.pd",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Probability of default assigned by the retail credit risk model.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.pd",
+        "physical_field": "retail_lending_core.retail_loans.pd",
+        "expression": "pd"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.CONTAINS.contains.field.retail_loans.lgd",
+      "source": "dataset.retail_loans",
+      "target": "field.retail_loans.lgd",
       "label": "contains",
       "properties": {
-        "description": "retail_loans contains field lgd.",
+        "description": "Loss given default rate assigned by the retail credit risk model.",
         "source_field": "semantic_model.datasets.fields"
       },
       "type": "CONTAINS"
     },
     {
-      "id": "edge.table.retail_loans.DATASET_JOIN.join_borrower_id.table.borrowers",
-      "source": "table.retail_loans",
-      "target": "table.borrowers",
+      "id": "edge.field.retail_loans.lgd.SOURCE_FIELD.SOURCE_FIELD.column.retail_lending_core.retail_loans.lgd",
+      "source": "field.retail_loans.lgd",
+      "target": "column.retail_lending_core.retail_loans.lgd",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Loss given default rate assigned by the retail credit risk model.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.lgd",
+        "physical_field": "retail_lending_core.retail_loans.lgd",
+        "expression": "lgd"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.loan_id.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.loan_id",
+      "source": "field.loan_exposure_report_lines.loan_id",
+      "target": "field.retail_loans.loan_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Normalized loan or facility identifier reported on the exposure line.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.loan_id",
+        "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.loan_id.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.facility_id",
+      "source": "field.loan_exposure_report_lines.loan_id",
+      "target": "field.institutional_loans.facility_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Normalized loan or facility identifier reported on the exposure line.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.facility_id",
+        "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.borrower_id.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.borrower_id",
+      "source": "field.loan_exposure_report_lines.borrower_id",
+      "target": "field.retail_loans.borrower_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Borrower identifier reported on the exposure line for reconciliation to customer master.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.borrower_id",
+        "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.borrower_id.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.legal_entity_id",
+      "source": "field.loan_exposure_report_lines.borrower_id",
+      "target": "field.institutional_loans.legal_entity_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Borrower identifier reported on the exposure line for reconciliation to customer master.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.legal_entity_id",
+        "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.borrower_country.SOURCE_FIELD.SOURCE_FIELD.field.borrowers.domicile_country",
+      "source": "field.loan_exposure_report_lines.borrower_country",
+      "target": "field.borrowers.domicile_country",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "borrowers.domicile_country",
+        "expression": "borrowers.domicile_country"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.product_id.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.product_id",
+      "source": "field.loan_exposure_report_lines.product_id",
+      "target": "field.retail_loans.product_id",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Product identifier reported on the exposure line for product-class aggregation.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.product_id",
+        "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.product_id.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.product_code",
+      "source": "field.loan_exposure_report_lines.product_id",
+      "target": "field.institutional_loans.product_code",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Product identifier reported on the exposure line for product-class aggregation.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.product_code",
+        "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.principal_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.principal_amount",
+      "source": "field.loan_exposure_report_lines.principal_amount",
+      "target": "field.retail_loans.principal_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Principal amount included on the report line for exposure reconciliation.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.principal_amount",
+        "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.principal_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.notional_amount",
+      "source": "field.loan_exposure_report_lines.principal_amount",
+      "target": "field.institutional_loans.notional_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Principal amount included on the report line for exposure reconciliation.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.notional_amount",
+        "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.exposure_at_default_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.principal_amount",
+      "source": "field.loan_exposure_report_lines.exposure_at_default_amount",
+      "target": "field.retail_loans.principal_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Exposure at default amount reported for regulatory credit risk measurement.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.principal_amount",
+        "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.exposure_at_default_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.notional_amount",
+      "source": "field.loan_exposure_report_lines.exposure_at_default_amount",
+      "target": "field.institutional_loans.notional_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Exposure at default amount reported for regulatory credit risk measurement.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.notional_amount",
+        "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.principal_amount",
+      "source": "field.loan_exposure_report_lines.expected_loss_amount",
+      "target": "field.retail_loans.principal_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Expected loss amount reported after applying probability of default and loss given default.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.principal_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.pd",
+      "source": "field.loan_exposure_report_lines.expected_loss_amount",
+      "target": "field.retail_loans.pd",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Expected loss amount reported after applying probability of default and loss given default.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.pd",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.lgd",
+      "source": "field.loan_exposure_report_lines.expected_loss_amount",
+      "target": "field.retail_loans.lgd",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Expected loss amount reported after applying probability of default and loss given default.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.lgd",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.notional_amount",
+      "source": "field.loan_exposure_report_lines.expected_loss_amount",
+      "target": "field.institutional_loans.notional_amount",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Expected loss amount reported after applying probability of default and loss given default.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.notional_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.probability_default",
+      "source": "field.loan_exposure_report_lines.expected_loss_amount",
+      "target": "field.institutional_loans.probability_default",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Expected loss amount reported after applying probability of default and loss given default.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.probability_default",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.loss_given_default",
+      "source": "field.loan_exposure_report_lines.expected_loss_amount",
+      "target": "field.institutional_loans.loss_given_default",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Expected loss amount reported after applying probability of default and loss given default.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.loss_given_default",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.report_currency.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.currency",
+      "source": "field.loan_exposure_report_lines.report_currency",
+      "target": "field.retail_loans.currency",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Currency code in which the exposure line amounts are reported.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "retail_loans.currency",
+        "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.field.loan_exposure_report_lines.report_currency.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.exposure_currency",
+      "source": "field.loan_exposure_report_lines.report_currency",
+      "target": "field.institutional_loans.exposure_currency",
+      "label": "SOURCE_FIELD",
+      "properties": {
+        "description": "Currency code in which the exposure line amounts are reported.",
+        "source_field": "semantic_model.datasets.fields.expression",
+        "dataset_field": "institutional_loans.exposure_currency",
+        "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)"
+      },
+      "type": "SOURCE_FIELD"
+    },
+    {
+      "id": "edge.dataset.retail_loans.DATASET_JOIN.join_borrower_id.dataset.borrowers",
+      "source": "dataset.retail_loans",
+      "target": "dataset.borrowers",
       "label": "join borrower_id",
       "properties": {
-        "description": "retail_loans joins borrowers on ['borrower_id'] = ['borrower_id'].",
         "join_name": "retail_loan_borrower",
         "relationship": {
           "name": "retail_loan_borrower",
@@ -2093,12 +3443,11 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.table.institutional_loans.DATASET_JOIN.join_legal_entity_id_borrower_id.table.borrowers",
-      "source": "table.institutional_loans",
-      "target": "table.borrowers",
+      "id": "edge.dataset.institutional_loans.DATASET_JOIN.join_legal_entity_id_borrower_id.dataset.borrowers",
+      "source": "dataset.institutional_loans",
+      "target": "dataset.borrowers",
       "label": "join legal_entity_id = borrower_id",
       "properties": {
-        "description": "institutional_loans joins borrowers on ['legal_entity_id'] = ['borrower_id'].",
         "join_name": "institutional_loan_borrower",
         "relationship": {
           "name": "institutional_loan_borrower",
@@ -2115,12 +3464,11 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.table.retail_loans.DATASET_JOIN.join_product_id.table.loan_products",
-      "source": "table.retail_loans",
-      "target": "table.loan_products",
+      "id": "edge.dataset.retail_loans.DATASET_JOIN.join_product_id.dataset.loan_products",
+      "source": "dataset.retail_loans",
+      "target": "dataset.loan_products",
       "label": "join product_id",
       "properties": {
-        "description": "retail_loans joins loan_products on ['product_id'] = ['product_id'].",
         "join_name": "retail_loan_product",
         "relationship": {
           "name": "retail_loan_product",
@@ -2137,12 +3485,11 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.table.institutional_loans.DATASET_JOIN.join_product_code_product_id.table.loan_products",
-      "source": "table.institutional_loans",
-      "target": "table.loan_products",
+      "id": "edge.dataset.institutional_loans.DATASET_JOIN.join_product_code_product_id.dataset.loan_products",
+      "source": "dataset.institutional_loans",
+      "target": "dataset.loan_products",
       "label": "join product_code = product_id",
       "properties": {
-        "description": "institutional_loans joins loan_products on ['product_code'] = ['product_id'].",
         "join_name": "institutional_loan_product",
         "relationship": {
           "name": "institutional_loan_product",
@@ -2159,12 +3506,11 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.DATASET_JOIN.join_borrower_id_borrower_id_borrower_country_domicile_country.table.borrowers",
-      "source": "table.loan_exposure_report_lines",
-      "target": "table.borrowers",
+      "id": "edge.dataset.loan_exposure_report_lines.DATASET_JOIN.join_borrower_id_borrower_id_borrower_country_domicile_country.dataset.borrowers",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "dataset.borrowers",
       "label": "join borrower_id = borrower_id, borrower_country = domicile_country",
       "properties": {
-        "description": "loan_exposure_report_lines joins borrowers on ['borrower_id', 'borrower_country'] = ['borrower_id', 'domicile_country'].",
         "join_name": "report_line_borrower_composite",
         "relationship": {
           "name": "report_line_borrower_composite",
@@ -2183,12 +3529,11 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.table.loan_exposure_report_lines.DATASET_JOIN.join_product_id.table.loan_products",
-      "source": "table.loan_exposure_report_lines",
-      "target": "table.loan_products",
+      "id": "edge.dataset.loan_exposure_report_lines.DATASET_JOIN.join_product_id.dataset.loan_products",
+      "source": "dataset.loan_exposure_report_lines",
+      "target": "dataset.loan_products",
       "label": "join product_id",
       "properties": {
-        "description": "loan_exposure_report_lines joins loan_products on ['product_id'] = ['product_id'].",
         "join_name": "report_line_product",
         "relationship": {
           "name": "report_line_product",
@@ -2205,10 +3550,220 @@ window.GRAPH_DATA = {
       "type": "DATASET_JOIN"
     },
     {
-      "id": "edge.concept.Borrower.MAPS_TO.maps_to_table.table.borrowers",
+      "id": "edge.metric.expected_loss_amount.DERIVED_BY.DERIVED_BY.dataset.institutional_loans",
+      "source": "metric.expected_loss_amount",
+      "target": "dataset.institutional_loans",
+      "label": "DERIVED_BY",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "source_fields": [
+          "institutional_loans.loss_given_default",
+          "institutional_loans.notional_amount",
+          "institutional_loans.probability_default"
+        ]
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.expected_loss_amount.DERIVED_BY.DERIVED_BY.dataset.retail_loans",
+      "source": "metric.expected_loss_amount",
+      "target": "dataset.retail_loans",
+      "label": "DERIVED_BY",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "source_fields": [
+          "retail_loans.lgd",
+          "retail_loans.pd",
+          "retail_loans.principal_amount"
+        ]
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.expected_loss_amount.DERIVED_BY.institutional_loans.loss_given_default.field.institutional_loans.loss_given_default",
+      "source": "metric.expected_loss_amount",
+      "target": "field.institutional_loans.loss_given_default",
+      "label": "institutional_loans.loss_given_default",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "institutional_loans.loss_given_default"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.expected_loss_amount.DERIVED_BY.institutional_loans.notional_amount.field.institutional_loans.notional_amount",
+      "source": "metric.expected_loss_amount",
+      "target": "field.institutional_loans.notional_amount",
+      "label": "institutional_loans.notional_amount",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "institutional_loans.notional_amount"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.expected_loss_amount.DERIVED_BY.institutional_loans.probability_default.field.institutional_loans.probability_default",
+      "source": "metric.expected_loss_amount",
+      "target": "field.institutional_loans.probability_default",
+      "label": "institutional_loans.probability_default",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "institutional_loans.probability_default"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.expected_loss_amount.DERIVED_BY.retail_loans.lgd.field.retail_loans.lgd",
+      "source": "metric.expected_loss_amount",
+      "target": "field.retail_loans.lgd",
+      "label": "retail_loans.lgd",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "retail_loans.lgd"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.expected_loss_amount.DERIVED_BY.retail_loans.pd.field.retail_loans.pd",
+      "source": "metric.expected_loss_amount",
+      "target": "field.retail_loans.pd",
+      "label": "retail_loans.pd",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "retail_loans.pd"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.expected_loss_amount.DERIVED_BY.retail_loans.principal_amount.field.retail_loans.principal_amount",
+      "source": "metric.expected_loss_amount",
+      "target": "field.retail_loans.principal_amount",
+      "label": "retail_loans.principal_amount",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "retail_loans.principal_amount"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.risk_weighted_exposure_amount.DERIVED_BY.DERIVED_BY.dataset.institutional_loans",
+      "source": "metric.risk_weighted_exposure_amount",
+      "target": "dataset.institutional_loans",
+      "label": "DERIVED_BY",
+      "properties": {
+        "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "source_fields": [
+          "institutional_loans.notional_amount",
+          "institutional_loans.probability_default"
+        ]
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.risk_weighted_exposure_amount.DERIVED_BY.DERIVED_BY.dataset.retail_loans",
+      "source": "metric.risk_weighted_exposure_amount",
+      "target": "dataset.retail_loans",
+      "label": "DERIVED_BY",
+      "properties": {
+        "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "source_fields": [
+          "retail_loans.pd",
+          "retail_loans.principal_amount"
+        ]
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.risk_weighted_exposure_amount.DERIVED_BY.institutional_loans.notional_amount.field.institutional_loans.notional_amount",
+      "source": "metric.risk_weighted_exposure_amount",
+      "target": "field.institutional_loans.notional_amount",
+      "label": "institutional_loans.notional_amount",
+      "properties": {
+        "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "dataset_field": "institutional_loans.notional_amount"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.risk_weighted_exposure_amount.DERIVED_BY.institutional_loans.probability_default.field.institutional_loans.probability_default",
+      "source": "metric.risk_weighted_exposure_amount",
+      "target": "field.institutional_loans.probability_default",
+      "label": "institutional_loans.probability_default",
+      "properties": {
+        "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "dataset_field": "institutional_loans.probability_default"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.risk_weighted_exposure_amount.DERIVED_BY.retail_loans.pd.field.retail_loans.pd",
+      "source": "metric.risk_weighted_exposure_amount",
+      "target": "field.retail_loans.pd",
+      "label": "retail_loans.pd",
+      "properties": {
+        "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "dataset_field": "retail_loans.pd"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.metric.risk_weighted_exposure_amount.DERIVED_BY.retail_loans.principal_amount.field.retail_loans.principal_amount",
+      "source": "metric.risk_weighted_exposure_amount",
+      "target": "field.retail_loans.principal_amount",
+      "label": "retail_loans.principal_amount",
+      "properties": {
+        "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "dataset_field": "retail_loans.principal_amount"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.concept.Borrower.MAPS_TO.MAPS_TO.dataset.borrowers",
       "source": "concept.Borrower",
-      "target": "table.borrowers",
-      "label": "maps to table",
+      "target": "dataset.borrowers",
+      "label": "MAPS_TO",
       "properties": {
         "description": "Borrower master population mapped as Borrower entity records used by loan exposure reporting.",
         "fields": [
@@ -2224,58 +3779,58 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO"
     },
     {
-      "id": "edge.value.Borrower.has_BorrowerCountry.MAPS_TO_FIELD.has_BorrowerCountry.column.borrowers.domicile_country",
+      "id": "edge.value.Borrower.has_BorrowerCountry.MAPS_TO_FIELD.has_BorrowerCountry.field.borrowers.domicile_country",
       "source": "value.Borrower.has_BorrowerCountry",
-      "target": "column.borrowers.domicile_country",
+      "target": "field.borrowers.domicile_country",
       "label": "has_BorrowerCountry",
       "properties": {
-        "description": "Borrower.has_BorrowerCountry maps to physical field borrowers.domicile_country.",
+        "description": "Borrower.has_BorrowerCountry maps to semantic dataset field borrowers.domicile_country.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "borrowers.domicile_country"
+        "dataset_field": "borrowers.domicile_country"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Borrower.has_BorrowerName.MAPS_TO_FIELD.has_BorrowerName.column.borrowers.borrower_name",
+      "id": "edge.value.Borrower.has_BorrowerName.MAPS_TO_FIELD.has_BorrowerName.field.borrowers.borrower_name",
       "source": "value.Borrower.has_BorrowerName",
-      "target": "column.borrowers.borrower_name",
+      "target": "field.borrowers.borrower_name",
       "label": "has_BorrowerName",
       "properties": {
-        "description": "Borrower.has_BorrowerName maps to physical field borrowers.borrower_name.",
+        "description": "Borrower.has_BorrowerName maps to semantic dataset field borrowers.borrower_name.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "borrowers.borrower_name"
+        "dataset_field": "borrowers.borrower_name"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Borrower.has_CustomerIdentifier.MAPS_TO_FIELD.has_CustomerIdentifier.column.borrowers.borrower_id",
+      "id": "edge.value.Borrower.has_CustomerIdentifier.MAPS_TO_FIELD.has_CustomerIdentifier.field.borrowers.borrower_id",
       "source": "value.Borrower.has_CustomerIdentifier",
-      "target": "column.borrowers.borrower_id",
+      "target": "field.borrowers.borrower_id",
       "label": "has_CustomerIdentifier",
       "properties": {
-        "description": "Borrower.has_CustomerIdentifier maps to physical field borrowers.borrower_id.",
+        "description": "Borrower.has_CustomerIdentifier maps to semantic dataset field borrowers.borrower_id.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "borrowers.borrower_id"
+        "dataset_field": "borrowers.borrower_id"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Borrower.has_CustomerSegment.MAPS_TO_FIELD.has_CustomerSegment.column.borrowers.borrower_segment",
+      "id": "edge.value.Borrower.has_CustomerSegment.MAPS_TO_FIELD.has_CustomerSegment.field.borrowers.borrower_segment",
       "source": "value.Borrower.has_CustomerSegment",
-      "target": "column.borrowers.borrower_segment",
+      "target": "field.borrowers.borrower_segment",
       "label": "has_CustomerSegment",
       "properties": {
-        "description": "Borrower.has_CustomerSegment maps to physical field borrowers.borrower_segment.",
+        "description": "Borrower.has_CustomerSegment maps to semantic dataset field borrowers.borrower_segment.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "borrowers.borrower_segment"
+        "dataset_field": "borrowers.borrower_segment"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.concept.Loan.MAPS_TO.maps_to_table.table.institutional_loans",
+      "id": "edge.concept.Loan.MAPS_TO.MAPS_TO.dataset.institutional_loans",
       "source": "concept.Loan",
-      "target": "table.institutional_loans",
-      "label": "maps to table",
+      "target": "dataset.institutional_loans",
+      "label": "MAPS_TO",
       "properties": {
         "description": "Institutional facility source population mapped as Loan entity records for wholesale lending exposures.",
         "fields": [
@@ -2293,10 +3848,10 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO"
     },
     {
-      "id": "edge.concept.Loan.MAPS_TO.maps_to_table.table.loan_exposure_report_lines",
+      "id": "edge.concept.Loan.MAPS_TO.MAPS_TO.dataset.loan_exposure_report_lines",
       "source": "concept.Loan",
-      "target": "table.loan_exposure_report_lines",
-      "label": "maps to table",
+      "target": "dataset.loan_exposure_report_lines",
+      "label": "MAPS_TO",
       "properties": {
         "description": "Prepared report-line population mapped back to Loan entity records for regulatory exposure presentation.",
         "fields": [
@@ -2313,10 +3868,10 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO"
     },
     {
-      "id": "edge.concept.Loan.MAPS_TO.maps_to_table.table.retail_loans",
+      "id": "edge.concept.Loan.MAPS_TO.MAPS_TO.dataset.retail_loans",
       "source": "concept.Loan",
-      "target": "table.retail_loans",
-      "label": "maps to table",
+      "target": "dataset.retail_loans",
+      "label": "MAPS_TO",
       "properties": {
         "description": "Retail loan source population mapped as Loan entity records for consumer lending exposures.",
         "fields": [
@@ -2334,322 +3889,444 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO"
     },
     {
-      "id": "edge.value.Loan.has_ExpectedLossAmount.MAPS_TO_FIELD.has_ExpectedLossAmount.column.loan_exposure_report_lines.expected_loss_amount",
+      "id": "edge.concept.Loan.MAPS_TO.MAPS_TO.metric.expected_loss_amount",
+      "source": "concept.Loan",
+      "target": "metric.expected_loss_amount",
+      "label": "MAPS_TO",
+      "properties": {
+        "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "semantic_metric": "expected_loss_amount",
+        "semantic_reference": "metric.expected_loss_amount"
+      },
+      "type": "MAPS_TO"
+    },
+    {
+      "id": "edge.concept.Loan.MAPS_TO.MAPS_TO.metric.risk_weighted_exposure_amount",
+      "source": "concept.Loan",
+      "target": "metric.risk_weighted_exposure_amount",
+      "label": "MAPS_TO",
+      "properties": {
+        "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "semantic_reference": "metric.risk_weighted_exposure_amount"
+      },
+      "type": "MAPS_TO"
+    },
+    {
+      "id": "edge.value.Loan.has_ExpectedLossAmount.MAPS_TO_FIELD.has_ExpectedLossAmount.field.loan_exposure_report_lines.expected_loss_amount",
       "source": "value.Loan.has_ExpectedLossAmount",
-      "target": "column.loan_exposure_report_lines.expected_loss_amount",
+      "target": "field.loan_exposure_report_lines.expected_loss_amount",
       "label": "has_ExpectedLossAmount",
       "properties": {
-        "description": "Loan.has_ExpectedLossAmount maps to physical field loan_exposure_report_lines.expected_loss_amount.",
+        "description": "Loan.has_ExpectedLossAmount maps to semantic dataset field loan_exposure_report_lines.expected_loss_amount.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "loan_exposure_report_lines.expected_loss_amount"
+        "dataset_field": "loan_exposure_report_lines.expected_loss_amount"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_ExposureAtDefaultAmount.MAPS_TO_FIELD.has_ExposureAtDefaultAmount.column.institutional_loans.notional_amount",
+      "id": "edge.value.Loan.has_ExposureAtDefaultAmount.MAPS_TO_FIELD.has_ExposureAtDefaultAmount.field.institutional_loans.notional_amount",
       "source": "value.Loan.has_ExposureAtDefaultAmount",
-      "target": "column.institutional_loans.notional_amount",
+      "target": "field.institutional_loans.notional_amount",
       "label": "has_ExposureAtDefaultAmount",
       "properties": {
-        "description": "Loan.has_ExposureAtDefaultAmount maps to physical field institutional_loans.notional_amount.",
+        "description": "Loan.has_ExposureAtDefaultAmount maps to semantic dataset field institutional_loans.notional_amount.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "institutional_loans.notional_amount"
+        "dataset_field": "institutional_loans.notional_amount"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_ExposureAtDefaultAmount.MAPS_TO_FIELD.has_ExposureAtDefaultAmount.column.loan_exposure_report_lines.exposure_at_default_amount",
+      "id": "edge.value.Loan.has_ExposureAtDefaultAmount.MAPS_TO_FIELD.has_ExposureAtDefaultAmount.field.loan_exposure_report_lines.exposure_at_default_amount",
       "source": "value.Loan.has_ExposureAtDefaultAmount",
-      "target": "column.loan_exposure_report_lines.exposure_at_default_amount",
+      "target": "field.loan_exposure_report_lines.exposure_at_default_amount",
       "label": "has_ExposureAtDefaultAmount",
       "properties": {
-        "description": "Loan.has_ExposureAtDefaultAmount maps to physical field loan_exposure_report_lines.exposure_at_default_amount.",
+        "description": "Loan.has_ExposureAtDefaultAmount maps to semantic dataset field loan_exposure_report_lines.exposure_at_default_amount.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "loan_exposure_report_lines.exposure_at_default_amount"
+        "dataset_field": "loan_exposure_report_lines.exposure_at_default_amount"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_ExposureAtDefaultAmount.MAPS_TO_FIELD.has_ExposureAtDefaultAmount.column.retail_loans.principal_amount",
+      "id": "edge.value.Loan.has_ExposureAtDefaultAmount.MAPS_TO_FIELD.has_ExposureAtDefaultAmount.field.retail_loans.principal_amount",
       "source": "value.Loan.has_ExposureAtDefaultAmount",
-      "target": "column.retail_loans.principal_amount",
+      "target": "field.retail_loans.principal_amount",
       "label": "has_ExposureAtDefaultAmount",
       "properties": {
-        "description": "Loan.has_ExposureAtDefaultAmount maps to physical field retail_loans.principal_amount.",
+        "description": "Loan.has_ExposureAtDefaultAmount maps to semantic dataset field retail_loans.principal_amount.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "retail_loans.principal_amount"
+        "dataset_field": "retail_loans.principal_amount"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_LoanCurrency.MAPS_TO_FIELD.has_LoanCurrency.column.institutional_loans.exposure_currency",
+      "id": "edge.value.Loan.has_LoanCurrency.MAPS_TO_FIELD.has_LoanCurrency.field.institutional_loans.exposure_currency",
       "source": "value.Loan.has_LoanCurrency",
-      "target": "column.institutional_loans.exposure_currency",
+      "target": "field.institutional_loans.exposure_currency",
       "label": "has_LoanCurrency",
       "properties": {
-        "description": "Loan.has_LoanCurrency maps to physical field institutional_loans.exposure_currency.",
+        "description": "Loan.has_LoanCurrency maps to semantic dataset field institutional_loans.exposure_currency.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "institutional_loans.exposure_currency"
+        "dataset_field": "institutional_loans.exposure_currency"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_LoanCurrency.MAPS_TO_FIELD.has_LoanCurrency.column.loan_exposure_report_lines.report_currency",
+      "id": "edge.value.Loan.has_LoanCurrency.MAPS_TO_FIELD.has_LoanCurrency.field.loan_exposure_report_lines.report_currency",
       "source": "value.Loan.has_LoanCurrency",
-      "target": "column.loan_exposure_report_lines.report_currency",
+      "target": "field.loan_exposure_report_lines.report_currency",
       "label": "has_LoanCurrency",
       "properties": {
-        "description": "Loan.has_LoanCurrency maps to physical field loan_exposure_report_lines.report_currency.",
+        "description": "Loan.has_LoanCurrency maps to semantic dataset field loan_exposure_report_lines.report_currency.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "loan_exposure_report_lines.report_currency"
+        "dataset_field": "loan_exposure_report_lines.report_currency"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_LoanCurrency.MAPS_TO_FIELD.has_LoanCurrency.column.retail_loans.currency",
+      "id": "edge.value.Loan.has_LoanCurrency.MAPS_TO_FIELD.has_LoanCurrency.field.retail_loans.currency",
       "source": "value.Loan.has_LoanCurrency",
-      "target": "column.retail_loans.currency",
+      "target": "field.retail_loans.currency",
       "label": "has_LoanCurrency",
       "properties": {
-        "description": "Loan.has_LoanCurrency maps to physical field retail_loans.currency.",
+        "description": "Loan.has_LoanCurrency maps to semantic dataset field retail_loans.currency.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "retail_loans.currency"
+        "dataset_field": "retail_loans.currency"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_LoanIdentifier.MAPS_TO_FIELD.has_LoanIdentifier.column.institutional_loans.facility_id",
+      "id": "edge.value.Loan.has_LoanIdentifier.MAPS_TO_FIELD.has_LoanIdentifier.field.institutional_loans.facility_id",
       "source": "value.Loan.has_LoanIdentifier",
-      "target": "column.institutional_loans.facility_id",
+      "target": "field.institutional_loans.facility_id",
       "label": "has_LoanIdentifier",
       "properties": {
-        "description": "Loan.has_LoanIdentifier maps to physical field institutional_loans.facility_id.",
+        "description": "Loan.has_LoanIdentifier maps to semantic dataset field institutional_loans.facility_id.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "institutional_loans.facility_id"
+        "dataset_field": "institutional_loans.facility_id"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_LoanIdentifier.MAPS_TO_FIELD.has_LoanIdentifier.column.loan_exposure_report_lines.loan_id",
+      "id": "edge.value.Loan.has_LoanIdentifier.MAPS_TO_FIELD.has_LoanIdentifier.field.loan_exposure_report_lines.loan_id",
       "source": "value.Loan.has_LoanIdentifier",
-      "target": "column.loan_exposure_report_lines.loan_id",
+      "target": "field.loan_exposure_report_lines.loan_id",
       "label": "has_LoanIdentifier",
       "properties": {
-        "description": "Loan.has_LoanIdentifier maps to physical field loan_exposure_report_lines.loan_id.",
+        "description": "Loan.has_LoanIdentifier maps to semantic dataset field loan_exposure_report_lines.loan_id.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "loan_exposure_report_lines.loan_id"
+        "dataset_field": "loan_exposure_report_lines.loan_id"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_LoanIdentifier.MAPS_TO_FIELD.has_LoanIdentifier.column.retail_loans.loan_id",
+      "id": "edge.value.Loan.has_LoanIdentifier.MAPS_TO_FIELD.has_LoanIdentifier.field.retail_loans.loan_id",
       "source": "value.Loan.has_LoanIdentifier",
-      "target": "column.retail_loans.loan_id",
+      "target": "field.retail_loans.loan_id",
       "label": "has_LoanIdentifier",
       "properties": {
-        "description": "Loan.has_LoanIdentifier maps to physical field retail_loans.loan_id.",
+        "description": "Loan.has_LoanIdentifier maps to semantic dataset field retail_loans.loan_id.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "retail_loans.loan_id"
+        "dataset_field": "retail_loans.loan_id"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_LossGivenDefault.MAPS_TO_FIELD.has_LossGivenDefault.column.institutional_loans.loss_given_default",
+      "id": "edge.value.Loan.has_LossGivenDefault.MAPS_TO_FIELD.has_LossGivenDefault.field.institutional_loans.loss_given_default",
       "source": "value.Loan.has_LossGivenDefault",
-      "target": "column.institutional_loans.loss_given_default",
+      "target": "field.institutional_loans.loss_given_default",
       "label": "has_LossGivenDefault",
       "properties": {
-        "description": "Loan.has_LossGivenDefault maps to physical field institutional_loans.loss_given_default.",
+        "description": "Loan.has_LossGivenDefault maps to semantic dataset field institutional_loans.loss_given_default.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "institutional_loans.loss_given_default"
+        "dataset_field": "institutional_loans.loss_given_default"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_LossGivenDefault.MAPS_TO_FIELD.has_LossGivenDefault.column.retail_loans.lgd",
+      "id": "edge.value.Loan.has_LossGivenDefault.MAPS_TO_FIELD.has_LossGivenDefault.field.retail_loans.lgd",
       "source": "value.Loan.has_LossGivenDefault",
-      "target": "column.retail_loans.lgd",
+      "target": "field.retail_loans.lgd",
       "label": "has_LossGivenDefault",
       "properties": {
-        "description": "Loan.has_LossGivenDefault maps to physical field retail_loans.lgd.",
+        "description": "Loan.has_LossGivenDefault maps to semantic dataset field retail_loans.lgd.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "retail_loans.lgd"
+        "dataset_field": "retail_loans.lgd"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_OriginationDate.MAPS_TO_FIELD.has_OriginationDate.column.institutional_loans.booking_date",
+      "id": "edge.value.Loan.has_OriginationDate.MAPS_TO_FIELD.has_OriginationDate.field.institutional_loans.booking_date",
       "source": "value.Loan.has_OriginationDate",
-      "target": "column.institutional_loans.booking_date",
+      "target": "field.institutional_loans.booking_date",
       "label": "has_OriginationDate",
       "properties": {
-        "description": "Loan.has_OriginationDate maps to physical field institutional_loans.booking_date.",
+        "description": "Loan.has_OriginationDate maps to semantic dataset field institutional_loans.booking_date.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "institutional_loans.booking_date"
+        "dataset_field": "institutional_loans.booking_date"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_OriginationDate.MAPS_TO_FIELD.has_OriginationDate.column.retail_loans.origination_date",
+      "id": "edge.value.Loan.has_OriginationDate.MAPS_TO_FIELD.has_OriginationDate.field.retail_loans.origination_date",
       "source": "value.Loan.has_OriginationDate",
-      "target": "column.retail_loans.origination_date",
+      "target": "field.retail_loans.origination_date",
       "label": "has_OriginationDate",
       "properties": {
-        "description": "Loan.has_OriginationDate maps to physical field retail_loans.origination_date.",
+        "description": "Loan.has_OriginationDate maps to semantic dataset field retail_loans.origination_date.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "retail_loans.origination_date"
+        "dataset_field": "retail_loans.origination_date"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_PrincipalAmount.MAPS_TO_FIELD.has_PrincipalAmount.column.institutional_loans.notional_amount",
+      "id": "edge.value.Loan.has_PrincipalAmount.MAPS_TO_FIELD.has_PrincipalAmount.field.institutional_loans.notional_amount",
       "source": "value.Loan.has_PrincipalAmount",
-      "target": "column.institutional_loans.notional_amount",
+      "target": "field.institutional_loans.notional_amount",
       "label": "has_PrincipalAmount",
       "properties": {
-        "description": "Loan.has_PrincipalAmount maps to physical field institutional_loans.notional_amount.",
+        "description": "Loan.has_PrincipalAmount maps to semantic dataset field institutional_loans.notional_amount.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "institutional_loans.notional_amount"
+        "dataset_field": "institutional_loans.notional_amount"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_PrincipalAmount.MAPS_TO_FIELD.has_PrincipalAmount.column.loan_exposure_report_lines.principal_amount",
+      "id": "edge.value.Loan.has_PrincipalAmount.MAPS_TO_FIELD.has_PrincipalAmount.field.loan_exposure_report_lines.principal_amount",
       "source": "value.Loan.has_PrincipalAmount",
-      "target": "column.loan_exposure_report_lines.principal_amount",
+      "target": "field.loan_exposure_report_lines.principal_amount",
       "label": "has_PrincipalAmount",
       "properties": {
-        "description": "Loan.has_PrincipalAmount maps to physical field loan_exposure_report_lines.principal_amount.",
+        "description": "Loan.has_PrincipalAmount maps to semantic dataset field loan_exposure_report_lines.principal_amount.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "loan_exposure_report_lines.principal_amount"
+        "dataset_field": "loan_exposure_report_lines.principal_amount"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_PrincipalAmount.MAPS_TO_FIELD.has_PrincipalAmount.column.retail_loans.principal_amount",
+      "id": "edge.value.Loan.has_PrincipalAmount.MAPS_TO_FIELD.has_PrincipalAmount.field.retail_loans.principal_amount",
       "source": "value.Loan.has_PrincipalAmount",
-      "target": "column.retail_loans.principal_amount",
+      "target": "field.retail_loans.principal_amount",
       "label": "has_PrincipalAmount",
       "properties": {
-        "description": "Loan.has_PrincipalAmount maps to physical field retail_loans.principal_amount.",
+        "description": "Loan.has_PrincipalAmount maps to semantic dataset field retail_loans.principal_amount.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "retail_loans.principal_amount"
+        "dataset_field": "retail_loans.principal_amount"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_ProbabilityOfDefault.MAPS_TO_FIELD.has_ProbabilityOfDefault.column.institutional_loans.probability_default",
+      "id": "edge.value.Loan.has_ProbabilityOfDefault.MAPS_TO_FIELD.has_ProbabilityOfDefault.field.institutional_loans.probability_default",
       "source": "value.Loan.has_ProbabilityOfDefault",
-      "target": "column.institutional_loans.probability_default",
+      "target": "field.institutional_loans.probability_default",
       "label": "has_ProbabilityOfDefault",
       "properties": {
-        "description": "Loan.has_ProbabilityOfDefault maps to physical field institutional_loans.probability_default.",
+        "description": "Loan.has_ProbabilityOfDefault maps to semantic dataset field institutional_loans.probability_default.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "institutional_loans.probability_default"
+        "dataset_field": "institutional_loans.probability_default"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_ProbabilityOfDefault.MAPS_TO_FIELD.has_ProbabilityOfDefault.column.retail_loans.pd",
+      "id": "edge.value.Loan.has_ProbabilityOfDefault.MAPS_TO_FIELD.has_ProbabilityOfDefault.field.retail_loans.pd",
       "source": "value.Loan.has_ProbabilityOfDefault",
-      "target": "column.retail_loans.pd",
+      "target": "field.retail_loans.pd",
       "label": "has_ProbabilityOfDefault",
       "properties": {
-        "description": "Loan.has_ProbabilityOfDefault maps to physical field retail_loans.pd.",
+        "description": "Loan.has_ProbabilityOfDefault maps to semantic dataset field retail_loans.pd.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "retail_loans.pd"
+        "dataset_field": "retail_loans.pd"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.institutional_loans.loss_given_default.column.institutional_loans.loss_given_default",
+      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.expected_loss_amount.metric.expected_loss_amount",
       "source": "value.Loan.has_ExpectedLossAmount",
-      "target": "column.institutional_loans.loss_given_default",
+      "target": "metric.expected_loss_amount",
+      "label": "expected_loss_amount",
+      "properties": {
+        "description": "Loan.has_ExpectedLossAmount is derived by semantic metric expected_loss_amount.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "semantic_metric": "expected_loss_amount",
+        "semantic_reference": "metric.expected_loss_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "metric_value_binding": true
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.institutional_loans.loss_given_default.field.institutional_loans.loss_given_default",
+      "source": "value.Loan.has_ExpectedLossAmount",
+      "target": "field.institutional_loans.loss_given_default",
       "label": "institutional_loans.loss_given_default",
       "properties": {
-        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses physical field institutional_loans.loss_given_default.",
+        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses semantic dataset field institutional_loans.loss_given_default.",
         "source_field": "semantic_model.metrics.expression",
         "semantic_metric": "expected_loss_amount",
         "semantic_reference": "metric.expected_loss_amount",
-        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "institutional_loans.loss_given_default"
       },
       "type": "DERIVED_BY"
     },
     {
-      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.institutional_loans.notional_amount.column.institutional_loans.notional_amount",
+      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.institutional_loans.notional_amount.field.institutional_loans.notional_amount",
       "source": "value.Loan.has_ExpectedLossAmount",
-      "target": "column.institutional_loans.notional_amount",
+      "target": "field.institutional_loans.notional_amount",
       "label": "institutional_loans.notional_amount",
       "properties": {
-        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses physical field institutional_loans.notional_amount.",
+        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses semantic dataset field institutional_loans.notional_amount.",
         "source_field": "semantic_model.metrics.expression",
         "semantic_metric": "expected_loss_amount",
         "semantic_reference": "metric.expected_loss_amount",
-        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "institutional_loans.notional_amount"
       },
       "type": "DERIVED_BY"
     },
     {
-      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.institutional_loans.probability_default.column.institutional_loans.probability_default",
+      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.institutional_loans.probability_default.field.institutional_loans.probability_default",
       "source": "value.Loan.has_ExpectedLossAmount",
-      "target": "column.institutional_loans.probability_default",
+      "target": "field.institutional_loans.probability_default",
       "label": "institutional_loans.probability_default",
       "properties": {
-        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses physical field institutional_loans.probability_default.",
+        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses semantic dataset field institutional_loans.probability_default.",
         "source_field": "semantic_model.metrics.expression",
         "semantic_metric": "expected_loss_amount",
         "semantic_reference": "metric.expected_loss_amount",
-        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "institutional_loans.probability_default"
       },
       "type": "DERIVED_BY"
     },
     {
-      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.retail_loans.lgd.column.retail_loans.lgd",
+      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.retail_loans.lgd.field.retail_loans.lgd",
       "source": "value.Loan.has_ExpectedLossAmount",
-      "target": "column.retail_loans.lgd",
+      "target": "field.retail_loans.lgd",
       "label": "retail_loans.lgd",
       "properties": {
-        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses physical field retail_loans.lgd.",
+        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses semantic dataset field retail_loans.lgd.",
         "source_field": "semantic_model.metrics.expression",
         "semantic_metric": "expected_loss_amount",
         "semantic_reference": "metric.expected_loss_amount",
-        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "retail_loans.lgd"
       },
       "type": "DERIVED_BY"
     },
     {
-      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.retail_loans.pd.column.retail_loans.pd",
+      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.retail_loans.pd.field.retail_loans.pd",
       "source": "value.Loan.has_ExpectedLossAmount",
-      "target": "column.retail_loans.pd",
+      "target": "field.retail_loans.pd",
       "label": "retail_loans.pd",
       "properties": {
-        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses physical field retail_loans.pd.",
+        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses semantic dataset field retail_loans.pd.",
         "source_field": "semantic_model.metrics.expression",
         "semantic_metric": "expected_loss_amount",
         "semantic_reference": "metric.expected_loss_amount",
-        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "retail_loans.pd"
       },
       "type": "DERIVED_BY"
     },
     {
-      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.retail_loans.principal_amount.column.retail_loans.principal_amount",
+      "id": "edge.value.Loan.has_ExpectedLossAmount.DERIVED_BY.retail_loans.principal_amount.field.retail_loans.principal_amount",
       "source": "value.Loan.has_ExpectedLossAmount",
-      "target": "column.retail_loans.principal_amount",
+      "target": "field.retail_loans.principal_amount",
       "label": "retail_loans.principal_amount",
       "properties": {
-        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses physical field retail_loans.principal_amount.",
+        "description": "Metric-backed field Loan.has_ExpectedLossAmount uses semantic dataset field retail_loans.principal_amount.",
         "source_field": "semantic_model.metrics.expression",
         "semantic_metric": "expected_loss_amount",
         "semantic_reference": "metric.expected_loss_amount",
-        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+        "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dataset_field": "retail_loans.principal_amount"
       },
       "type": "DERIVED_BY"
     },
     {
-      "id": "edge.concept.LoanProduct.MAPS_TO.maps_to_table.table.loan_products",
+      "id": "edge.value.Loan.has_RiskWeightedExposureAmount.DERIVED_BY.risk_weighted_exposure_amount.metric.risk_weighted_exposure_amount",
+      "source": "value.Loan.has_RiskWeightedExposureAmount",
+      "target": "metric.risk_weighted_exposure_amount",
+      "label": "risk_weighted_exposure_amount",
+      "properties": {
+        "description": "Loan.has_RiskWeightedExposureAmount is derived by semantic metric risk_weighted_exposure_amount.",
+        "source_field": "ontology_mappings.concept_mappings",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "semantic_reference": "metric.risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "metric_value_binding": true
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.value.Loan.has_RiskWeightedExposureAmount.DERIVED_BY.institutional_loans.notional_amount.field.institutional_loans.notional_amount",
+      "source": "value.Loan.has_RiskWeightedExposureAmount",
+      "target": "field.institutional_loans.notional_amount",
+      "label": "institutional_loans.notional_amount",
+      "properties": {
+        "description": "Metric-backed field Loan.has_RiskWeightedExposureAmount uses semantic dataset field institutional_loans.notional_amount.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "semantic_reference": "metric.risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "dataset_field": "institutional_loans.notional_amount"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.value.Loan.has_RiskWeightedExposureAmount.DERIVED_BY.institutional_loans.probability_default.field.institutional_loans.probability_default",
+      "source": "value.Loan.has_RiskWeightedExposureAmount",
+      "target": "field.institutional_loans.probability_default",
+      "label": "institutional_loans.probability_default",
+      "properties": {
+        "description": "Metric-backed field Loan.has_RiskWeightedExposureAmount uses semantic dataset field institutional_loans.probability_default.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "semantic_reference": "metric.risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "dataset_field": "institutional_loans.probability_default"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.value.Loan.has_RiskWeightedExposureAmount.DERIVED_BY.retail_loans.pd.field.retail_loans.pd",
+      "source": "value.Loan.has_RiskWeightedExposureAmount",
+      "target": "field.retail_loans.pd",
+      "label": "retail_loans.pd",
+      "properties": {
+        "description": "Metric-backed field Loan.has_RiskWeightedExposureAmount uses semantic dataset field retail_loans.pd.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "semantic_reference": "metric.risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "dataset_field": "retail_loans.pd"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.value.Loan.has_RiskWeightedExposureAmount.DERIVED_BY.retail_loans.principal_amount.field.retail_loans.principal_amount",
+      "source": "value.Loan.has_RiskWeightedExposureAmount",
+      "target": "field.retail_loans.principal_amount",
+      "label": "retail_loans.principal_amount",
+      "properties": {
+        "description": "Metric-backed field Loan.has_RiskWeightedExposureAmount uses semantic dataset field retail_loans.principal_amount.",
+        "source_field": "semantic_model.metrics.expression",
+        "semantic_metric": "risk_weighted_exposure_amount",
+        "semantic_reference": "metric.risk_weighted_exposure_amount",
+        "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
+        "dataset_field": "retail_loans.principal_amount"
+      },
+      "type": "DERIVED_BY"
+    },
+    {
+      "id": "edge.concept.LoanProduct.MAPS_TO.MAPS_TO.dataset.loan_products",
       "source": "concept.LoanProduct",
-      "target": "table.loan_products",
-      "label": "maps to table",
+      "target": "dataset.loan_products",
+      "label": "MAPS_TO",
       "properties": {
         "description": "Product reference population mapped as LoanProduct entity records used for regulatory product classification.",
         "fields": [
@@ -2664,38 +4341,38 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO"
     },
     {
-      "id": "edge.value.LoanProduct.has_ProductIdentifier.MAPS_TO_FIELD.has_ProductIdentifier.column.loan_products.product_id",
+      "id": "edge.value.LoanProduct.has_ProductIdentifier.MAPS_TO_FIELD.has_ProductIdentifier.field.loan_products.product_id",
       "source": "value.LoanProduct.has_ProductIdentifier",
-      "target": "column.loan_products.product_id",
+      "target": "field.loan_products.product_id",
       "label": "has_ProductIdentifier",
       "properties": {
-        "description": "LoanProduct.has_ProductIdentifier maps to physical field loan_products.product_id.",
+        "description": "LoanProduct.has_ProductIdentifier maps to semantic dataset field loan_products.product_id.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "loan_products.product_id"
+        "dataset_field": "loan_products.product_id"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.LoanProduct.has_ProductType.MAPS_TO_FIELD.has_ProductType.column.loan_products.product_type",
+      "id": "edge.value.LoanProduct.has_ProductType.MAPS_TO_FIELD.has_ProductType.field.loan_products.product_type",
       "source": "value.LoanProduct.has_ProductType",
-      "target": "column.loan_products.product_type",
+      "target": "field.loan_products.product_type",
       "label": "has_ProductType",
       "properties": {
-        "description": "LoanProduct.has_ProductType maps to physical field loan_products.product_type.",
+        "description": "LoanProduct.has_ProductType maps to semantic dataset field loan_products.product_type.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "loan_products.product_type"
+        "dataset_field": "loan_products.product_type"
       },
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.value.LoanProduct.has_RegulatoryProductClass.MAPS_TO_FIELD.has_RegulatoryProductClass.column.loan_products.regulatory_product_class",
+      "id": "edge.value.LoanProduct.has_RegulatoryProductClass.MAPS_TO_FIELD.has_RegulatoryProductClass.field.loan_products.regulatory_product_class",
       "source": "value.LoanProduct.has_RegulatoryProductClass",
-      "target": "column.loan_products.regulatory_product_class",
+      "target": "field.loan_products.regulatory_product_class",
       "label": "has_RegulatoryProductClass",
       "properties": {
-        "description": "LoanProduct.has_RegulatoryProductClass maps to physical field loan_products.regulatory_product_class.",
+        "description": "LoanProduct.has_RegulatoryProductClass maps to semantic dataset field loan_products.regulatory_product_class.",
         "source_field": "ontology_mappings.concept_mappings",
-        "physical_field": "loan_products.regulatory_product_class"
+        "dataset_field": "loan_products.regulatory_product_class"
       },
       "type": "MAPS_TO_FIELD"
     },
@@ -2959,9 +4636,9 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.loan_id.MAPS_TO_FIELD.MAPS_TO_FIELD.column.loan_exposure_report_lines.loan_id",
+      "id": "edge.implementation_field.loan_exposure_report_lines.loan_id.MAPS_TO_FIELD.MAPS_TO_FIELD.field.loan_exposure_report_lines.loan_id",
       "source": "implementation_field.loan_exposure_report_lines.loan_id",
-      "target": "column.loan_exposure_report_lines.loan_id",
+      "target": "field.loan_exposure_report_lines.loan_id",
       "label": "MAPS_TO_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。"
@@ -2969,9 +4646,9 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.loan_id.SOURCE_FIELD.SOURCE_FIELD.column.institutional_loans.facility_id",
+      "id": "edge.implementation_field.loan_exposure_report_lines.loan_id.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.facility_id",
       "source": "implementation_field.loan_exposure_report_lines.loan_id",
-      "target": "column.institutional_loans.facility_id",
+      "target": "field.institutional_loans.facility_id",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。"
@@ -2979,9 +4656,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.loan_id.SOURCE_FIELD.SOURCE_FIELD.column.retail_loans.loan_id",
+      "id": "edge.implementation_field.loan_exposure_report_lines.loan_id.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.loan_id",
       "source": "implementation_field.loan_exposure_report_lines.loan_id",
-      "target": "column.retail_loans.loan_id",
+      "target": "field.retail_loans.loan_id",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。"
@@ -3012,9 +4689,9 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.borrower_id.MAPS_TO_FIELD.MAPS_TO_FIELD.column.loan_exposure_report_lines.borrower_id",
+      "id": "edge.implementation_field.loan_exposure_report_lines.borrower_id.MAPS_TO_FIELD.MAPS_TO_FIELD.field.loan_exposure_report_lines.borrower_id",
       "source": "implementation_field.loan_exposure_report_lines.borrower_id",
-      "target": "column.loan_exposure_report_lines.borrower_id",
+      "target": "field.loan_exposure_report_lines.borrower_id",
       "label": "MAPS_TO_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。"
@@ -3022,9 +4699,9 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.borrower_id.SOURCE_FIELD.SOURCE_FIELD.column.institutional_loans.legal_entity_id",
+      "id": "edge.implementation_field.loan_exposure_report_lines.borrower_id.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.legal_entity_id",
       "source": "implementation_field.loan_exposure_report_lines.borrower_id",
-      "target": "column.institutional_loans.legal_entity_id",
+      "target": "field.institutional_loans.legal_entity_id",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。"
@@ -3032,9 +4709,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.borrower_id.SOURCE_FIELD.SOURCE_FIELD.column.retail_loans.borrower_id",
+      "id": "edge.implementation_field.loan_exposure_report_lines.borrower_id.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.borrower_id",
       "source": "implementation_field.loan_exposure_report_lines.borrower_id",
-      "target": "column.retail_loans.borrower_id",
+      "target": "field.retail_loans.borrower_id",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。"
@@ -3065,9 +4742,9 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.product_id.MAPS_TO_FIELD.MAPS_TO_FIELD.column.loan_exposure_report_lines.product_id",
+      "id": "edge.implementation_field.loan_exposure_report_lines.product_id.MAPS_TO_FIELD.MAPS_TO_FIELD.field.loan_exposure_report_lines.product_id",
       "source": "implementation_field.loan_exposure_report_lines.product_id",
-      "target": "column.loan_exposure_report_lines.product_id",
+      "target": "field.loan_exposure_report_lines.product_id",
       "label": "MAPS_TO_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。"
@@ -3075,9 +4752,9 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.product_id.SOURCE_FIELD.SOURCE_FIELD.column.institutional_loans.product_code",
+      "id": "edge.implementation_field.loan_exposure_report_lines.product_id.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.product_code",
       "source": "implementation_field.loan_exposure_report_lines.product_id",
-      "target": "column.institutional_loans.product_code",
+      "target": "field.institutional_loans.product_code",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。"
@@ -3085,9 +4762,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.product_id.SOURCE_FIELD.SOURCE_FIELD.column.retail_loans.product_id",
+      "id": "edge.implementation_field.loan_exposure_report_lines.product_id.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.product_id",
       "source": "implementation_field.loan_exposure_report_lines.product_id",
-      "target": "column.retail_loans.product_id",
+      "target": "field.retail_loans.product_id",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。"
@@ -3118,9 +4795,9 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.principal_amount.MAPS_TO_FIELD.MAPS_TO_FIELD.column.loan_exposure_report_lines.principal_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.principal_amount.MAPS_TO_FIELD.MAPS_TO_FIELD.field.loan_exposure_report_lines.principal_amount",
       "source": "implementation_field.loan_exposure_report_lines.principal_amount",
-      "target": "column.loan_exposure_report_lines.principal_amount",
+      "target": "field.loan_exposure_report_lines.principal_amount",
       "label": "MAPS_TO_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。"
@@ -3128,9 +4805,9 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.principal_amount.SOURCE_FIELD.SOURCE_FIELD.column.institutional_loans.notional_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.principal_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.notional_amount",
       "source": "implementation_field.loan_exposure_report_lines.principal_amount",
-      "target": "column.institutional_loans.notional_amount",
+      "target": "field.institutional_loans.notional_amount",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。"
@@ -3138,9 +4815,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.principal_amount.SOURCE_FIELD.SOURCE_FIELD.column.retail_loans.principal_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.principal_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.principal_amount",
       "source": "implementation_field.loan_exposure_report_lines.principal_amount",
-      "target": "column.retail_loans.principal_amount",
+      "target": "field.retail_loans.principal_amount",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。"
@@ -3171,9 +4848,9 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.exposure_at_default_amount.MAPS_TO_FIELD.MAPS_TO_FIELD.column.loan_exposure_report_lines.exposure_at_default_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.exposure_at_default_amount.MAPS_TO_FIELD.MAPS_TO_FIELD.field.loan_exposure_report_lines.exposure_at_default_amount",
       "source": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
-      "target": "column.loan_exposure_report_lines.exposure_at_default_amount",
+      "target": "field.loan_exposure_report_lines.exposure_at_default_amount",
       "label": "MAPS_TO_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。"
@@ -3181,9 +4858,9 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.exposure_at_default_amount.SOURCE_FIELD.SOURCE_FIELD.column.institutional_loans.notional_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.exposure_at_default_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.notional_amount",
       "source": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
-      "target": "column.institutional_loans.notional_amount",
+      "target": "field.institutional_loans.notional_amount",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。"
@@ -3191,9 +4868,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.exposure_at_default_amount.SOURCE_FIELD.SOURCE_FIELD.column.retail_loans.principal_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.exposure_at_default_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.principal_amount",
       "source": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
-      "target": "column.retail_loans.principal_amount",
+      "target": "field.retail_loans.principal_amount",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。"
@@ -3224,9 +4901,9 @@ window.GRAPH_DATA = {
       "type": "CONTAINS"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.MAPS_TO_FIELD.MAPS_TO_FIELD.column.loan_exposure_report_lines.expected_loss_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.MAPS_TO_FIELD.MAPS_TO_FIELD.field.loan_exposure_report_lines.expected_loss_amount",
       "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "target": "column.loan_exposure_report_lines.expected_loss_amount",
+      "target": "field.loan_exposure_report_lines.expected_loss_amount",
       "label": "MAPS_TO_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
@@ -3234,9 +4911,9 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.column.institutional_loans.loss_given_default",
+      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.loss_given_default",
       "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "target": "column.institutional_loans.loss_given_default",
+      "target": "field.institutional_loans.loss_given_default",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
@@ -3244,9 +4921,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.column.institutional_loans.notional_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.notional_amount",
       "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "target": "column.institutional_loans.notional_amount",
+      "target": "field.institutional_loans.notional_amount",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
@@ -3254,9 +4931,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.column.institutional_loans.probability_default",
+      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.institutional_loans.probability_default",
       "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "target": "column.institutional_loans.probability_default",
+      "target": "field.institutional_loans.probability_default",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
@@ -3264,9 +4941,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.column.retail_loans.lgd",
+      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.lgd",
       "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "target": "column.retail_loans.lgd",
+      "target": "field.retail_loans.lgd",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
@@ -3274,9 +4951,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.column.retail_loans.pd",
+      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.pd",
       "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "target": "column.retail_loans.pd",
+      "target": "field.retail_loans.pd",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
@@ -3284,9 +4961,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
-      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.column.retail_loans.principal_amount",
+      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.SOURCE_FIELD.SOURCE_FIELD.field.retail_loans.principal_amount",
       "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "target": "column.retail_loans.principal_amount",
+      "target": "field.retail_loans.principal_amount",
       "label": "SOURCE_FIELD",
       "properties": {
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
@@ -3307,9 +4984,9 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.table.institutional_loans",
+      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.institutional_loans",
       "source": "report_impl.item",
-      "target": "table.institutional_loans",
+      "target": "dataset.institutional_loans",
       "label": "SOURCE_TABLE",
       "properties": {
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。；数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。；数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。；数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。；数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。；数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
@@ -3325,9 +5002,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.table.loan_exposure_report_lines",
+      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.loan_exposure_report_lines",
       "source": "report_impl.item",
-      "target": "table.loan_exposure_report_lines",
+      "target": "dataset.loan_exposure_report_lines",
       "label": "SOURCE_TABLE",
       "properties": {
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。；数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。；数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。；数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。；数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。；数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
@@ -3343,9 +5020,9 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.table.retail_loans",
+      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.retail_loans",
       "source": "report_impl.item",
-      "target": "table.retail_loans",
+      "target": "dataset.retail_loans",
       "label": "SOURCE_TABLE",
       "properties": {
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。；数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。；数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。；数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。；数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。；数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",

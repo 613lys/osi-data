@@ -95,6 +95,11 @@
     "text": "value.Loan.has_ExpectedLossAmount value_type_property MonetaryAmount Calculated expected loss amount for the loan exposure. Calculated expected loss amount for the loan exposure."
   },
   {
+    "id": "value.Loan.has_RiskWeightedExposureAmount",
+    "type": "value_type_property",
+    "text": "value.Loan.has_RiskWeightedExposureAmount value_type_property MonetaryAmount Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring. Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring."
+  },
+  {
     "id": "value.LoanProduct.has_ProductType",
     "type": "value_type_property",
     "text": "value.LoanProduct.has_ProductType value_type_property ProductType Product type used to group lending exposures. Product type used to group lending exposures."
@@ -130,184 +135,329 @@
     "text": "value.LoanProduct.has_ProductIdentifier value_type_property ProductIdentifier Product identifier common to product-like records. Product identifier common to product-like records."
   },
   {
-    "id": "table.borrowers",
+    "id": "dataset.borrowers",
+    "type": "semantic_dataset",
+    "text": "dataset.borrowers semantic_dataset borrowers Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting. Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting. customer_master.borrowers"
+  },
+  {
+    "id": "table.customer_master.borrowers",
     "type": "physical_table",
-    "text": "table.borrowers physical_table borrowers Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting. Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting. customer_master.borrowers"
+    "text": "table.customer_master.borrowers physical_table borrowers customer_master.borrowers"
   },
   {
-    "id": "column.borrowers.borrower_id",
+    "id": "field.borrowers.borrower_id",
+    "type": "dataset_field",
+    "text": "field.borrowers.borrower_id dataset_field borrower_id Master customer identifier for a borrower or legal entity. Master customer identifier for a borrower or legal entity."
+  },
+  {
+    "id": "column.customer_master.borrowers.borrower_id",
     "type": "column",
-    "text": "column.borrowers.borrower_id column borrower_id Master customer identifier for a borrower or legal entity."
+    "text": "column.customer_master.borrowers.borrower_id column borrower_id Master customer identifier for a borrower or legal entity. Master customer identifier for a borrower or legal entity."
   },
   {
-    "id": "column.borrowers.borrower_segment",
+    "id": "field.borrowers.borrower_segment",
+    "type": "dataset_field",
+    "text": "field.borrowers.borrower_segment dataset_field borrower_segment Segment classification such as retail, SME, corporate, or financial institution. Segment classification such as retail, SME, corporate, or financial institution."
+  },
+  {
+    "id": "column.customer_master.borrowers.borrower_segment",
     "type": "column",
-    "text": "column.borrowers.borrower_segment column borrower_segment Segment classification such as retail, SME, corporate, or financial institution."
+    "text": "column.customer_master.borrowers.borrower_segment column borrower_segment Segment classification such as retail, SME, corporate, or financial institution. Segment classification such as retail, SME, corporate, or financial institution."
   },
   {
-    "id": "column.borrowers.borrower_name",
+    "id": "field.borrowers.borrower_name",
+    "type": "dataset_field",
+    "text": "field.borrowers.borrower_name dataset_field borrower_name Human-readable borrower or legal entity name. Human-readable borrower or legal entity name."
+  },
+  {
+    "id": "column.customer_master.borrowers.borrower_name",
     "type": "column",
-    "text": "column.borrowers.borrower_name column borrower_name Human-readable borrower or legal entity name."
+    "text": "column.customer_master.borrowers.borrower_name column borrower_name Human-readable borrower or legal entity name. Human-readable borrower or legal entity name."
   },
   {
-    "id": "column.borrowers.domicile_country",
+    "id": "field.borrowers.domicile_country",
+    "type": "dataset_field",
+    "text": "field.borrowers.domicile_country dataset_field domicile_country Borrower domicile country used for jurisdictional reporting and composite report joins. Borrower domicile country used for jurisdictional reporting and composite report joins."
+  },
+  {
+    "id": "column.customer_master.borrowers.domicile_country",
     "type": "column",
-    "text": "column.borrowers.domicile_country column domicile_country Borrower domicile country used for jurisdictional reporting and composite report joins."
+    "text": "column.customer_master.borrowers.domicile_country column domicile_country Borrower domicile country used for jurisdictional reporting and composite report joins. Borrower domicile country used for jurisdictional reporting and composite report joins."
   },
   {
-    "id": "table.institutional_loans",
+    "id": "dataset.institutional_loans",
+    "type": "semantic_dataset",
+    "text": "dataset.institutional_loans semantic_dataset institutional_loans Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting. Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting. institutional_lending_core.facilities"
+  },
+  {
+    "id": "table.institutional_lending_core.facilities",
     "type": "physical_table",
-    "text": "table.institutional_loans physical_table institutional_loans Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting. Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting. institutional_lending_core.facilities"
+    "text": "table.institutional_lending_core.facilities physical_table facilities institutional_lending_core.facilities"
   },
   {
-    "id": "column.institutional_loans.facility_id",
+    "id": "field.institutional_loans.facility_id",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.facility_id dataset_field facility_id Institutional source identifier for a committed credit facility. Institutional source identifier for a committed credit facility."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.facility_id",
     "type": "column",
-    "text": "column.institutional_loans.facility_id column facility_id Institutional source identifier for a committed credit facility."
+    "text": "column.institutional_lending_core.facilities.facility_id column facility_id Institutional source identifier for a committed credit facility. Institutional source identifier for a committed credit facility."
   },
   {
-    "id": "column.institutional_loans.legal_entity_id",
+    "id": "field.institutional_loans.legal_entity_id",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.legal_entity_id dataset_field legal_entity_id Customer identifier linking the facility to the responsible legal borrower. Customer identifier linking the facility to the responsible legal borrower."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.legal_entity_id",
     "type": "column",
-    "text": "column.institutional_loans.legal_entity_id column legal_entity_id Customer identifier linking the facility to the responsible legal borrower."
+    "text": "column.institutional_lending_core.facilities.legal_entity_id column legal_entity_id Customer identifier linking the facility to the responsible legal borrower. Customer identifier linking the facility to the responsible legal borrower."
   },
   {
-    "id": "column.institutional_loans.product_code",
+    "id": "field.institutional_loans.product_code",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.product_code dataset_field product_code Product identifier classifying the institutional lending facility. Product identifier classifying the institutional lending facility."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.product_code",
     "type": "column",
-    "text": "column.institutional_loans.product_code column product_code Product identifier classifying the institutional lending facility."
+    "text": "column.institutional_lending_core.facilities.product_code column product_code Product identifier classifying the institutional lending facility. Product identifier classifying the institutional lending facility."
   },
   {
-    "id": "column.institutional_loans.booking_date",
+    "id": "field.institutional_loans.booking_date",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.booking_date dataset_field booking_date Date on which the institutional facility was booked. Date on which the institutional facility was booked."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.booking_date",
     "type": "column",
-    "text": "column.institutional_loans.booking_date column booking_date Date on which the institutional facility was booked."
+    "text": "column.institutional_lending_core.facilities.booking_date column booking_date Date on which the institutional facility was booked. Date on which the institutional facility was booked."
   },
   {
-    "id": "column.institutional_loans.notional_amount",
+    "id": "field.institutional_loans.notional_amount",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.notional_amount dataset_field notional_amount Notional or committed amount recorded for the institutional facility. Notional or committed amount recorded for the institutional facility."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.notional_amount",
     "type": "column",
-    "text": "column.institutional_loans.notional_amount column notional_amount Notional or committed amount recorded for the institutional facility."
+    "text": "column.institutional_lending_core.facilities.notional_amount column notional_amount Notional or committed amount recorded for the institutional facility. Notional or committed amount recorded for the institutional facility."
   },
   {
-    "id": "column.institutional_loans.exposure_currency",
+    "id": "field.institutional_loans.exposure_currency",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.exposure_currency dataset_field exposure_currency Currency code used for the institutional exposure amount. Currency code used for the institutional exposure amount."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.exposure_currency",
     "type": "column",
-    "text": "column.institutional_loans.exposure_currency column exposure_currency Currency code used for the institutional exposure amount."
+    "text": "column.institutional_lending_core.facilities.exposure_currency column exposure_currency Currency code used for the institutional exposure amount. Currency code used for the institutional exposure amount."
   },
   {
-    "id": "column.institutional_loans.probability_default",
+    "id": "field.institutional_loans.probability_default",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.probability_default dataset_field probability_default Probability of default assigned by the wholesale credit risk model. Probability of default assigned by the wholesale credit risk model."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.probability_default",
     "type": "column",
-    "text": "column.institutional_loans.probability_default column probability_default Probability of default assigned by the wholesale credit risk model."
+    "text": "column.institutional_lending_core.facilities.probability_default column probability_default Probability of default assigned by the wholesale credit risk model. Probability of default assigned by the wholesale credit risk model."
   },
   {
-    "id": "column.institutional_loans.loss_given_default",
+    "id": "field.institutional_loans.loss_given_default",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.loss_given_default dataset_field loss_given_default Loss given default rate assigned by the wholesale credit risk model. Loss given default rate assigned by the wholesale credit risk model."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.loss_given_default",
     "type": "column",
-    "text": "column.institutional_loans.loss_given_default column loss_given_default Loss given default rate assigned by the wholesale credit risk model."
+    "text": "column.institutional_lending_core.facilities.loss_given_default column loss_given_default Loss given default rate assigned by the wholesale credit risk model. Loss given default rate assigned by the wholesale credit risk model."
   },
   {
-    "id": "table.loan_exposure_report_lines",
+    "id": "dataset.loan_exposure_report_lines",
+    "type": "semantic_dataset",
+    "text": "dataset.loan_exposure_report_lines semantic_dataset loan_exposure_report_lines Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. query.loan_exposure_report_lines"
+  },
+  {
+    "id": "table.retail_lending_core.retail_loans",
     "type": "physical_table",
-    "text": "table.loan_exposure_report_lines physical_table loan_exposure_report_lines Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. query.loan_exposure_report_lines"
+    "text": "table.retail_lending_core.retail_loans physical_table retail_loans retail_lending_core.retail_loans"
   },
   {
-    "id": "column.loan_exposure_report_lines.loan_id",
-    "type": "column",
-    "text": "column.loan_exposure_report_lines.loan_id column loan_id Normalized loan or facility identifier reported on the exposure line."
-  },
-  {
-    "id": "column.loan_exposure_report_lines.borrower_id",
-    "type": "column",
-    "text": "column.loan_exposure_report_lines.borrower_id column borrower_id Borrower identifier reported on the exposure line for reconciliation to customer master."
-  },
-  {
-    "id": "column.loan_exposure_report_lines.borrower_country",
-    "type": "column",
-    "text": "column.loan_exposure_report_lines.borrower_country column borrower_country Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
-  },
-  {
-    "id": "column.loan_exposure_report_lines.product_id",
-    "type": "column",
-    "text": "column.loan_exposure_report_lines.product_id column product_id Product identifier reported on the exposure line for product-class aggregation."
-  },
-  {
-    "id": "column.loan_exposure_report_lines.principal_amount",
-    "type": "column",
-    "text": "column.loan_exposure_report_lines.principal_amount column principal_amount Principal amount included on the report line for exposure reconciliation."
-  },
-  {
-    "id": "column.loan_exposure_report_lines.exposure_at_default_amount",
-    "type": "column",
-    "text": "column.loan_exposure_report_lines.exposure_at_default_amount column exposure_at_default_amount Exposure at default amount reported for regulatory credit risk measurement."
-  },
-  {
-    "id": "column.loan_exposure_report_lines.expected_loss_amount",
-    "type": "column",
-    "text": "column.loan_exposure_report_lines.expected_loss_amount column expected_loss_amount Expected loss amount reported after applying probability of default and loss given default."
-  },
-  {
-    "id": "column.loan_exposure_report_lines.report_currency",
-    "type": "column",
-    "text": "column.loan_exposure_report_lines.report_currency column report_currency Currency code in which the exposure line amounts are reported."
-  },
-  {
-    "id": "table.loan_products",
+    "id": "table.product_master.loan_products",
     "type": "physical_table",
-    "text": "table.loan_products physical_table loan_products Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures. Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures. product_master.loan_products"
+    "text": "table.product_master.loan_products physical_table loan_products product_master.loan_products"
   },
   {
-    "id": "column.loan_products.product_id",
+    "id": "field.loan_exposure_report_lines.loan_id",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.loan_id dataset_field loan_id Normalized loan or facility identifier reported on the exposure line. Normalized loan or facility identifier reported on the exposure line."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.borrower_id",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.borrower_id dataset_field borrower_id Borrower identifier reported on the exposure line for reconciliation to customer master. Borrower identifier reported on the exposure line for reconciliation to customer master."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.borrower_country",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.borrower_country dataset_field borrower_country Borrower country carried on the report line to support jurisdictional aggregation and composite joins. Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.product_id",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.product_id dataset_field product_id Product identifier reported on the exposure line for product-class aggregation. Product identifier reported on the exposure line for product-class aggregation."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.principal_amount",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.principal_amount dataset_field principal_amount Principal amount included on the report line for exposure reconciliation. Principal amount included on the report line for exposure reconciliation."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.exposure_at_default_amount",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.exposure_at_default_amount dataset_field exposure_at_default_amount Exposure at default amount reported for regulatory credit risk measurement. Exposure at default amount reported for regulatory credit risk measurement."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.expected_loss_amount",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.expected_loss_amount dataset_field expected_loss_amount Expected loss amount reported after applying probability of default and loss given default. Expected loss amount reported after applying probability of default and loss given default."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.report_currency",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.report_currency dataset_field report_currency Currency code in which the exposure line amounts are reported. Currency code in which the exposure line amounts are reported."
+  },
+  {
+    "id": "dataset.loan_products",
+    "type": "semantic_dataset",
+    "text": "dataset.loan_products semantic_dataset loan_products Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures. Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures. product_master.loan_products"
+  },
+  {
+    "id": "field.loan_products.product_id",
+    "type": "dataset_field",
+    "text": "field.loan_products.product_id dataset_field product_id Master product identifier for a lending product. Master product identifier for a lending product."
+  },
+  {
+    "id": "column.product_master.loan_products.product_id",
     "type": "column",
-    "text": "column.loan_products.product_id column product_id Master product identifier for a lending product."
+    "text": "column.product_master.loan_products.product_id column product_id Master product identifier for a lending product. Master product identifier for a lending product."
   },
   {
-    "id": "column.loan_products.product_type",
+    "id": "field.loan_products.product_type",
+    "type": "dataset_field",
+    "text": "field.loan_products.product_type dataset_field product_type Lending product type such as mortgage, term loan, revolving credit, or credit line. Lending product type such as mortgage, term loan, revolving credit, or credit line."
+  },
+  {
+    "id": "column.product_master.loan_products.product_type",
     "type": "column",
-    "text": "column.loan_products.product_type column product_type Lending product type such as mortgage, term loan, revolving credit, or credit line."
+    "text": "column.product_master.loan_products.product_type column product_type Lending product type such as mortgage, term loan, revolving credit, or credit line. Lending product type such as mortgage, term loan, revolving credit, or credit line."
   },
   {
-    "id": "column.loan_products.regulatory_product_class",
+    "id": "field.loan_products.regulatory_product_class",
+    "type": "dataset_field",
+    "text": "field.loan_products.regulatory_product_class dataset_field regulatory_product_class Regulatory product class used for credit exposure aggregation. Regulatory product class used for credit exposure aggregation."
+  },
+  {
+    "id": "column.product_master.loan_products.regulatory_product_class",
     "type": "column",
-    "text": "column.loan_products.regulatory_product_class column regulatory_product_class Regulatory product class used for credit exposure aggregation."
+    "text": "column.product_master.loan_products.regulatory_product_class column regulatory_product_class Regulatory product class used for credit exposure aggregation. Regulatory product class used for credit exposure aggregation."
   },
   {
-    "id": "table.retail_loans",
-    "type": "physical_table",
-    "text": "table.retail_loans physical_table retail_loans Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting. Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting. retail_lending_core.retail_loans"
+    "id": "dataset.retail_loans",
+    "type": "semantic_dataset",
+    "text": "dataset.retail_loans semantic_dataset retail_loans Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting. Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting. retail_lending_core.retail_loans"
   },
   {
-    "id": "column.retail_loans.loan_id",
+    "id": "field.retail_loans.loan_id",
+    "type": "dataset_field",
+    "text": "field.retail_loans.loan_id dataset_field loan_id Retail source identifier for an individual consumer loan record. Retail source identifier for an individual consumer loan record."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.loan_id",
     "type": "column",
-    "text": "column.retail_loans.loan_id column loan_id Retail source identifier for an individual consumer loan record."
+    "text": "column.retail_lending_core.retail_loans.loan_id column loan_id Retail source identifier for an individual consumer loan record. Retail source identifier for an individual consumer loan record."
   },
   {
-    "id": "column.retail_loans.borrower_id",
-    "type": "column",
-    "text": "column.retail_loans.borrower_id column borrower_id Customer identifier linking the retail loan to the responsible borrower."
+    "id": "field.retail_loans.borrower_id",
+    "type": "dataset_field",
+    "text": "field.retail_loans.borrower_id dataset_field borrower_id Customer identifier linking the retail loan to the responsible borrower. Customer identifier linking the retail loan to the responsible borrower."
   },
   {
-    "id": "column.retail_loans.product_id",
+    "id": "column.retail_lending_core.retail_loans.borrower_id",
     "type": "column",
-    "text": "column.retail_loans.product_id column product_id Product identifier classifying the retail lending product."
+    "text": "column.retail_lending_core.retail_loans.borrower_id column borrower_id Customer identifier linking the retail loan to the responsible borrower. Customer identifier linking the retail loan to the responsible borrower."
   },
   {
-    "id": "column.retail_loans.origination_date",
-    "type": "column",
-    "text": "column.retail_loans.origination_date column origination_date Date on which the retail loan was originated or booked."
+    "id": "field.retail_loans.product_id",
+    "type": "dataset_field",
+    "text": "field.retail_loans.product_id dataset_field product_id Product identifier classifying the retail lending product. Product identifier classifying the retail lending product."
   },
   {
-    "id": "column.retail_loans.principal_amount",
+    "id": "column.retail_lending_core.retail_loans.product_id",
     "type": "column",
-    "text": "column.retail_loans.principal_amount column principal_amount Principal balance or contractual amount recorded for the retail loan."
+    "text": "column.retail_lending_core.retail_loans.product_id column product_id Product identifier classifying the retail lending product. Product identifier classifying the retail lending product."
   },
   {
-    "id": "column.retail_loans.currency",
-    "type": "column",
-    "text": "column.retail_loans.currency column currency Currency code used for the retail loan amount."
+    "id": "field.retail_loans.origination_date",
+    "type": "dataset_field",
+    "text": "field.retail_loans.origination_date dataset_field origination_date Date on which the retail loan was originated or booked. Date on which the retail loan was originated or booked."
   },
   {
-    "id": "column.retail_loans.pd",
+    "id": "column.retail_lending_core.retail_loans.origination_date",
     "type": "column",
-    "text": "column.retail_loans.pd column pd Probability of default assigned by the retail credit risk model."
+    "text": "column.retail_lending_core.retail_loans.origination_date column origination_date Date on which the retail loan was originated or booked. Date on which the retail loan was originated or booked."
   },
   {
-    "id": "column.retail_loans.lgd",
+    "id": "field.retail_loans.principal_amount",
+    "type": "dataset_field",
+    "text": "field.retail_loans.principal_amount dataset_field principal_amount Principal balance or contractual amount recorded for the retail loan. Principal balance or contractual amount recorded for the retail loan."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.principal_amount",
     "type": "column",
-    "text": "column.retail_loans.lgd column lgd Loss given default rate assigned by the retail credit risk model."
+    "text": "column.retail_lending_core.retail_loans.principal_amount column principal_amount Principal balance or contractual amount recorded for the retail loan. Principal balance or contractual amount recorded for the retail loan."
+  },
+  {
+    "id": "field.retail_loans.currency",
+    "type": "dataset_field",
+    "text": "field.retail_loans.currency dataset_field currency Currency code used for the retail loan amount. Currency code used for the retail loan amount."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.currency",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.currency column currency Currency code used for the retail loan amount. Currency code used for the retail loan amount."
+  },
+  {
+    "id": "field.retail_loans.pd",
+    "type": "dataset_field",
+    "text": "field.retail_loans.pd dataset_field pd Probability of default assigned by the retail credit risk model. Probability of default assigned by the retail credit risk model."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.pd",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.pd column pd Probability of default assigned by the retail credit risk model. Probability of default assigned by the retail credit risk model."
+  },
+  {
+    "id": "field.retail_loans.lgd",
+    "type": "dataset_field",
+    "text": "field.retail_loans.lgd dataset_field lgd Loss given default rate assigned by the retail credit risk model. Loss given default rate assigned by the retail credit risk model."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.lgd",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.lgd column lgd Loss given default rate assigned by the retail credit risk model. Loss given default rate assigned by the retail credit risk model."
+  },
+  {
+    "id": "metric.expected_loss_amount",
+    "type": "semantic_metric",
+    "text": "metric.expected_loss_amount semantic_metric expected_loss_amount Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations. Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations."
+  },
+  {
+    "id": "metric.risk_weighted_exposure_amount",
+    "type": "semantic_metric",
+    "text": "metric.risk_weighted_exposure_amount semantic_metric risk_weighted_exposure_amount Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts. Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts."
   },
   {
     "id": "requirement.item",

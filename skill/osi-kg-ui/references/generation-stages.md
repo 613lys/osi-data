@@ -44,7 +44,7 @@ Constraints:
 - Put every physical or logical table that should appear in the UI in `semantic_model.datasets`; report-line tables are normal datasets, not Report Data Logic outputs.
 - Generate `semantic_model.relationships[]` from known table foreign keys, join columns, reference columns, and source metadata.
 - Use stable dataset names so later concept mappings can refer to `dataset.column` expressions.
-- Keep semantic metrics in `semantic_model.metrics[]`; render them as metric child rows under referenced datasets/tables in the graph.
+- Keep semantic metrics in `semantic_model.metrics[]`; render them as selected blue semantic Metric overlay nodes in Semantic Model View and Mapping View, not as child rows under referenced datasets/tables.
 - Do not create `physical_view`.
 
 Stage gate:
@@ -249,7 +249,7 @@ Validate UI:
 If validation fails, repair the earliest failing layer:
 
 ```text
-physical field or table join missing -> Stage 1
+physical field or semantic dataset join missing -> Stage 1
 semantic concept or reused ValueType wrong -> Stage 2
 concept/object/field mapping wrong -> Stage 3
 requirement scope or metric reference wrong -> Stage 4

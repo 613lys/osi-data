@@ -135,13 +135,14 @@ ontology_mappings:
 
 UI effect:
 
-- Each semantic model dataset renders as a green Table node; the UI label says Table even though the OSI source object is `semantic_model.datasets[]`.
-- Each dataset field renders as a child column row under the Table node. The field `description` appears in field/profile details and helps distinguish same-domain values used in different roles.
-- Concept mappings create `MAPS_TO` and `MAPS_TO_FIELD` edges to these nodes. If one EntityType mapping references multiple datasets, the UI shows one `MAPS_TO` edge per dataset and field-level mapping edges to each referenced column. Dataset `description` appears on the Table node profile; optional app metadata `mapping_edge_annotations` appears on the `MAPS_TO` edge profile.
-- If one semantic ValueType field maps to several dataset fields as a union, the UI keeps one semantic field row and shows multiple `MAPS_TO_FIELD` edges to the contributing columns.
-- If two dataset fields differ semantically, keep them as distinct semantic field relationships on the EntityType even when both relationships point to the same ValueType. The dataset field description preserves the physical/source context; the EntityType relationship preserves the business role.
-- Report Data Logic field mappings and source fields create field-level mapping/read edges to these nodes.
-
+- Each `semantic_model.datasets[]` item renders as a blue `Semantic Dataset` node (`semantic_dataset`). It is the semantic-model object that concept mappings target.
+- Each dataset field renders as a blue `Dataset Field` child row (`dataset_field`) under its dataset. Field descriptions appear in field/profile details and distinguish same-domain values used in different business roles.
+- Physical source tables render separately as green `Table` nodes (`physical_table`) inferred from scalar `source` and from `custom_extensions[].value.depends_on` / `tables` / `source_tables`.
+- A dataset with `source: query.<name>` may map to multiple physical source tables through `custom_extensions`; the UI draws `SOURCE_TABLE` edges from the dataset node to each source table. Put the edge/profile explanation in the extension `description` when the source is query-backed or multi-table.
+- Dataset field expressions that reference `dataset.field` values create field-level `SOURCE_FIELD` edges between dataset fields. Direct scalar physical column expressions on one-source datasets create field-level `SOURCE_FIELD` edges from the dataset field to the physical table column.
+- Concept mappings create `MAPS_TO` edges from EntityType nodes to semantic dataset nodes, and `MAPS_TO_FIELD` edges from EntityType value fields to semantic dataset field rows. They must not target physical table nodes directly.
+- If one EntityType maps to multiple semantic datasets, the UI shows one `MAPS_TO` edge per dataset and field-level mapping edges to every referenced dataset field. If one semantic ValueType field maps to several dataset fields as a union, the UI keeps one semantic field row and shows multiple `MAPS_TO_FIELD` edges.
+- Report Data Logic field mappings and source fields create edges to semantic dataset fields. The semantic dataset then carries the physical source/table context.
 ## Dataset Relationships Fragment
 
 Use this file for joins between datasets.
@@ -188,10 +189,10 @@ ontology_mappings:
 
 UI effect:
 
-- Creates a `DATASET_JOIN` edge between Table nodes.
-- Canvas label is `join <from_columns>`, for example `join account_id`.
-- The full semantic join name remains visible in the edge profile.
-
+- Creates a `DATASET_JOIN` edge between Semantic Dataset nodes.
+- Physical Table nodes are linked to Semantic Dataset nodes through `SOURCE_TABLE`; physical table-to-table join edges are not generated.
+- Canvas labels are `join <from_columns>`, for example `join account_id`; composite joins display all pairs, for example `join borrower_id = borrower_id, borrower_country = domicile_country`.
+- The semantic join name remains visible in the edge profile as `join_name` / relationship metadata.
 ## Metrics Fragment
 
 Use this file for semantic metrics/calculated fields.
@@ -239,7 +240,8 @@ ontology_mappings:
 
 UI effect:
 
-- Metrics do not render as top-level nodes by default in Traceability View. In Semantic Model or Mapping views they can be shown through a Metric Overlay: a multi-select control that displays selected Metric nodes and their `DERIVED_BY` links to dataset fields.
-- Metrics do not render as child rows under Table nodes.
-- If an EntityType relationship maps to `metric.<metric_name>`, the EntityType shows that relationship as a metric-backed value field.
-- Selecting the EntityType metric-backed field draws one field-level `DERIVED_BY` edge for every `dataset.field` referenced by the metric expression, directly to those Table fields.
+- Metrics do not render as Table child rows. In Semantic Model View and Mapping View, each selected `semantic_model.metrics[]` entry renders as a blue Metric overlay node. The metric overlay control is multi-select, so several metrics can be shown together.
+- Selected Metric nodes have node-level `DERIVED_BY` edges to their input Semantic Dataset nodes.
+- Metric expressions are parsed for `dataset.field` references. Field-level `DERIVED_BY` edges connect the Metric node to every contributing Dataset Field row; these edges become visible when the metric overlay expands the relevant dataset fields or when the user selects a related field.
+- If an EntityType relationship maps to `metric.<metric_name>`, the EntityType shows that relationship as a metric-backed ValueType field. Mapping View draws an EntityType -> Metric `MAPS_TO` edge and a field-level `DERIVED_BY` edge from that value field to the selected Metric node.
+- Metrics do not create or materialize output tables in the UI.

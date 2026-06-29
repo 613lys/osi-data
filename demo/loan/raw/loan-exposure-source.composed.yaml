@@ -154,6 +154,14 @@ ontology:
       verbalizes:
       - '{Loan} has expected loss amount {MonetaryAmount}'
       description: Calculated expected loss amount for the loan exposure.
+    - name: has_RiskWeightedExposureAmount
+      roles:
+      - concept: MonetaryAmount
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{Loan} has risk weighted exposure amount {MonetaryAmount}'
+      description: Calculated exposure amount weighted by credit risk probability
+        for portfolio risk monitoring.
   - name: LoanProduct
     description: Lending product definition used to classify loan exposures for credit
       risk reporting.
@@ -331,8 +339,11 @@ semantic_model:
     - name: physical_source
       value:
         kind: query
-        sql: 'select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount,
-          expected_loss_amount, report_currency
+        description: Prepared report-line dataset is produced by a documented query
+          that normalizes retail loan and institutional facility source populations
+          before reporting.
+        sql: 'select loan_id, borrower_id, borrower_country, product_id, principal_amount,
+          exposure_at_default_amount, expected_loss_amount, report_currency
 
           from credit_risk_engine.loan_exposure_report_lines
 
@@ -351,7 +362,7 @@ semantic_model:
       expression:
         dialects:
         - dialect: ANSI_SQL
-          expression: loan_id
+          expression: COALESCE(retail_loans.loan_id, institutional_loans.facility_id)
       description: Normalized loan or facility identifier reported on the exposure
         line.
     - name: borrower_id
@@ -360,7 +371,7 @@ semantic_model:
       expression:
         dialects:
         - dialect: ANSI_SQL
-          expression: borrower_id
+          expression: COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)
       description: Borrower identifier reported on the exposure line for reconciliation
         to customer master.
     - name: borrower_country
@@ -369,7 +380,7 @@ semantic_model:
       expression:
         dialects:
         - dialect: ANSI_SQL
-          expression: borrower_country
+          expression: borrowers.domicile_country
       description: Borrower country carried on the report line to support jurisdictional
         aggregation and composite joins.
     - name: product_id
@@ -378,7 +389,7 @@ semantic_model:
       expression:
         dialects:
         - dialect: ANSI_SQL
-          expression: product_id
+          expression: COALESCE(retail_loans.product_id, institutional_loans.product_code)
       description: Product identifier reported on the exposure line for product-class
         aggregation.
     - name: principal_amount
@@ -387,7 +398,7 @@ semantic_model:
       expression:
         dialects:
         - dialect: ANSI_SQL
-          expression: principal_amount
+          expression: COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)
       description: Principal amount included on the report line for exposure reconciliation.
     - name: exposure_at_default_amount
       type: decimal
@@ -395,7 +406,7 @@ semantic_model:
       expression:
         dialects:
         - dialect: ANSI_SQL
-          expression: exposure_at_default_amount
+          expression: COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)
       description: Exposure at default amount reported for regulatory credit risk
         measurement.
     - name: expected_loss_amount
@@ -404,7 +415,9 @@ semantic_model:
       expression:
         dialects:
         - dialect: ANSI_SQL
-          expression: expected_loss_amount
+          expression: retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd
+            + institutional_loans.notional_amount * institutional_loans.probability_default
+            * institutional_loans.loss_given_default
       description: Expected loss amount reported after applying probability of default
         and loss given default.
     - name: report_currency
@@ -413,7 +426,7 @@ semantic_model:
       expression:
         dialects:
         - dialect: ANSI_SQL
-          expression: report_currency
+          expression: COALESCE(retail_loans.currency, institutional_loans.exposure_currency)
       description: Currency code in which the exposure line amounts are reported.
   - name: loan_products
     source: product_master.loan_products
@@ -580,6 +593,16 @@ semantic_model:
           * institutional_loans.loss_given_default
     ai_context:
       metric_type: calculated_credit_risk_measure
+  - name: risk_weighted_exposure_amount
+    description: Risk-weighted exposure amount calculated by applying default probability
+      to retail principal and institutional notional amounts.
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount
+          * institutional_loans.probability_default
+    ai_context:
+      metric_type: calculated_credit_risk_measure
 concept_mappings:
 - concept: Borrower
   object_mappings:
@@ -669,6 +692,10 @@ concept_mappings:
       object_mapping:
         concept: MonetaryAmount
         expression: metric.expected_loss_amount
+    - relationship: has_RiskWeightedExposureAmount
+      object_mapping:
+        concept: MonetaryAmount
+        expression: metric.risk_weighted_exposure_amount
   - object_mapping:
       referent_mappings:
       - relationship: has_LoanIdentifier
@@ -718,6 +745,10 @@ concept_mappings:
       object_mapping:
         concept: MonetaryAmount
         expression: metric.expected_loss_amount
+    - relationship: has_RiskWeightedExposureAmount
+      object_mapping:
+        concept: MonetaryAmount
+        expression: metric.risk_weighted_exposure_amount
   - object_mapping:
       referent_mappings:
       - relationship: has_LoanIdentifier
@@ -751,6 +782,10 @@ concept_mappings:
       object_mapping:
         concept: MonetaryAmount
         expression: loan_exposure_report_lines.expected_loss_amount
+    - relationship: has_RiskWeightedExposureAmount
+      object_mapping:
+        concept: MonetaryAmount
+        expression: metric.risk_weighted_exposure_amount
     - relationship: has_LoanCurrency
       object_mapping:
         concept: CurrencyCode

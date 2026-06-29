@@ -1,0 +1,71 @@
+name: deposit_accounts
+source: core_deposit.deposit_accounts
+primary_key:
+- account_id
+description: Deposit account balance records at account and reporting-date grain, carrying customer, product, amount, currency, liquidity bucket, and optional runoff override fields for liquidity reporting.
+physical_kind: table
+fields:
+- name: account_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: account_id
+  description: Source account identifier for a deposit account balance record.
+- name: customer_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: customer_id
+  description: Customer identifier linking the deposit account to the depositor master record.
+- name: product_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: product_id
+  description: Product identifier linking the deposit account to the deposit product definition.
+- name: as_of_date
+  type: date
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: as_of_date
+  description: Reporting date for the account balance snapshot.
+- name: balance_amount
+  type: decimal
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: balance_amount
+  description: Deposit balance amount measured on the reporting date.
+- name: currency
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: currency
+  description: Currency code for the deposit balance amount.
+- name: liquidity_bucket
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: liquidity_bucket
+  description: Liquidity bucket assigned to the account for reporting classification.
+- name: rate_override
+  type: decimal
+  nullable: true
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: rate_override
+  description: Account-level runoff rate override when treasury has approved an account-specific rate.

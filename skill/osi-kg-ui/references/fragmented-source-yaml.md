@@ -52,7 +52,7 @@ python skill\osi-kg-ui\scripts\compose_source_fragments.py --fragments demo\coll
 Then generate strict OSI and app metadata:
 
 ```powershell
-python demo\collateral\scripts\generate_osi_yaml.py --raw raw\collateral-margin-source.composed.yaml --output knowledge\regulatory-reporting-osi.yaml --app-output knowledge\regulatory-reporting-app.yaml
+python skill\osi-kg-ui\scripts\generate_osi_yaml.py --raw demo\collateral\raw\collateral-margin-source.composed.yaml --output demo\collateral\knowledge\regulatory-reporting-osi.yaml --app-output demo\collateral\knowledge\regulatory-reporting-app.yaml
 ```
 
 The strict OSI contract applies to `knowledge/regulatory-reporting-osi.yaml`. Report Requirement and Report Data Logic fragments belong in the separate app metadata file.

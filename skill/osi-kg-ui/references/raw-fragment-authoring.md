@@ -14,7 +14,7 @@ raw/fragments/
   semantic_model/relationships.yaml         dataset joins
   semantic_model/metrics.yaml               semantic metrics/calculated fields
   reporting_requirements/*.yaml             app metadata: Report Requirement fragments
-  report_data_logic/*.yaml             app metadata: Report Data Logic fragments
+  report_data_logic/*.yaml                  app metadata: Report Data Logic fragments
   concept_mappings/*.yaml                   all concept mappings, one file per EntityType when possible
 ```
 
@@ -26,7 +26,7 @@ Use direct semantic filenames such as `MarginAccount.yaml` and `margin_accounts.
 raw/fragments/*
   -> compose_source_fragments.py
   -> raw/<scenario>.composed.yaml
-  -> scenario generate_osi_yaml.py
+  -> skill generate_osi_yaml.py
   -> knowledge/regulatory-reporting-osi.yaml
   -> knowledge/regulatory-reporting-app.yaml
   -> build_osi_graph.py
@@ -37,7 +37,7 @@ Commands:
 
 ```powershell
 python skill\osi-kg-ui\scripts\compose_source_fragments.py --fragments demo\collateral\raw\fragments --output demo\collateral\raw\collateral-margin-source.composed.yaml
-python demo\collateral\scripts\generate_osi_yaml.py --raw raw\collateral-margin-source.composed.yaml --output knowledge\regulatory-reporting-osi.yaml --app-output knowledge\regulatory-reporting-app.yaml
+python skill\osi-kg-ui\scripts\generate_osi_yaml.py --raw demo\collateral\raw\collateral-margin-source.composed.yaml --output demo\collateral\knowledge\regulatory-reporting-osi.yaml --app-output demo\collateral\knowledge\regulatory-reporting-app.yaml
 python skill\osi-kg-ui\scripts\build_osi_graph.py --root demo\collateral --source knowledge\regulatory-reporting-osi.yaml --app-metadata knowledge\regulatory-reporting-app.yaml --copy-frontend-template --overwrite-template
 ```
 
@@ -64,9 +64,5 @@ After generating fragments:
 8. Check EntityType fragments do not contain `concept_mapping`.
 9. Check every concrete EntityType has a standalone concept mapping file and every declared or inherited relationship has mapping evidence.
 10. Check root object mapping referents exactly match `identify_by`.
-11. Check every EntityType extends a Base Entity, and inherited Base Entity fields are not redeclared in the EntityType file.
-10. Check every EntityType relationship to a ValueType references a ValueType declared in `ontology/value_types.yaml`.
-
-
-
-
+12. Check every EntityType extends a Base Entity, and inherited Base Entity fields are not redeclared in the EntityType file.
+13. Check every EntityType relationship to a ValueType references a ValueType declared in `ontology/value_types.yaml`.

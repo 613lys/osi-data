@@ -1,0 +1,16 @@
+- name: stable_funding_amount
+  description: Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)
+  ai_context:
+    metric_type: liquidity_stability_measure
+- name: insured_balance_amount
+  description: Insured balance amount calculated as the lower of account balance and product insurance limit.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END
+  ai_context:
+    metric_type: insured_deposit_measure

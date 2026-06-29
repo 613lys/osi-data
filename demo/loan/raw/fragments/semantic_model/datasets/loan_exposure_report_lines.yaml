@@ -8,8 +8,9 @@ custom_extensions:
 - name: physical_source
   value:
     kind: query
+    description: Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.
     sql: |
-      select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency
+      select loan_id, borrower_id, borrower_country, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency
       from credit_risk_engine.loan_exposure_report_lines
       where report_date = :report_date
     depends_on:
@@ -24,7 +25,7 @@ fields:
   expression:
     dialects:
     - dialect: ANSI_SQL
-      expression: loan_id
+      expression: COALESCE(retail_loans.loan_id, institutional_loans.facility_id)
   description: Normalized loan or facility identifier reported on the exposure line.
 - name: borrower_id
   type: string
@@ -32,7 +33,7 @@ fields:
   expression:
     dialects:
     - dialect: ANSI_SQL
-      expression: borrower_id
+      expression: COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)
   description: Borrower identifier reported on the exposure line for reconciliation to customer master.
 - name: borrower_country
   type: string
@@ -40,7 +41,7 @@ fields:
   expression:
     dialects:
     - dialect: ANSI_SQL
-      expression: borrower_country
+      expression: borrowers.domicile_country
   description: Borrower country carried on the report line to support jurisdictional aggregation and composite joins.
 - name: product_id
   type: string
@@ -48,7 +49,7 @@ fields:
   expression:
     dialects:
     - dialect: ANSI_SQL
-      expression: product_id
+      expression: COALESCE(retail_loans.product_id, institutional_loans.product_code)
   description: Product identifier reported on the exposure line for product-class aggregation.
 - name: principal_amount
   type: decimal
@@ -56,7 +57,7 @@ fields:
   expression:
     dialects:
     - dialect: ANSI_SQL
-      expression: principal_amount
+      expression: COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)
   description: Principal amount included on the report line for exposure reconciliation.
 - name: exposure_at_default_amount
   type: decimal
@@ -64,7 +65,7 @@ fields:
   expression:
     dialects:
     - dialect: ANSI_SQL
-      expression: exposure_at_default_amount
+      expression: COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)
   description: Exposure at default amount reported for regulatory credit risk measurement.
 - name: expected_loss_amount
   type: decimal
@@ -72,7 +73,7 @@ fields:
   expression:
     dialects:
     - dialect: ANSI_SQL
-      expression: expected_loss_amount
+      expression: retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default
   description: Expected loss amount reported after applying probability of default and loss given default.
 - name: report_currency
   type: string
@@ -80,5 +81,5 @@ fields:
   expression:
     dialects:
     - dialect: ANSI_SQL
-      expression: report_currency
+      expression: COALESCE(retail_loans.currency, institutional_loans.exposure_currency)
   description: Currency code in which the exposure line amounts are reported.

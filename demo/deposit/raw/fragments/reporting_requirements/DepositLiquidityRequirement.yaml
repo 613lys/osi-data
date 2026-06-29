@@ -1,0 +1,64 @@
+name: 存款流动性稳定资金报送需求
+type: ReportRequirement
+description: 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。
+source: Deposit Liquidity Reporting BRD v1.0 section 4.1
+SLA: Daily EOD before 20:30 local time; treasury liquidity review completed before regulatory submission.
+semantic_scope:
+  concepts:
+  - name: DepositAccount
+    description: 需求需要 DepositAccount 作为存款流动性报送的核心语义对象，用于表达每个账户在报告日的余额、币种、流动性分组和稳定资金金额口径。
+  - name: Depositor
+    description: 需求需要 Depositor 作为持有存款账户的客户或法律实体语义对象，用于按客户分组、归属和辖区解释存款余额。
+  - name: DepositProduct
+    description: 需求需要 DepositProduct 作为存款产品语义对象，用于说明产品监管分类、标准流失率和保险限额。
+  required_fields:
+  - name: 账户标识
+    description: 需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。
+    semantic_reference: DepositAccount.has_AccountIdentifier
+    required: true
+  - name: 报告日期
+    description: 需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。
+    semantic_reference: DepositAccount.has_AsOfDate
+    required: true
+  - name: 客户标识
+    description: 需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。
+    semantic_reference: Depositor.has_CustomerIdentifier
+    required: true
+  - name: 产品标识
+    description: 需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。
+    semantic_reference: DepositProduct.has_ProductIdentifier
+    required: true
+  - name: 存款余额
+    description: 需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。
+    semantic_reference: DepositAccount.has_DepositBalanceAmount
+    required: true
+  - name: 存款币种
+    description: 需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。
+    semantic_reference: DepositAccount.has_DepositCurrency
+    required: true
+  - name: 流动性分组
+    description: 需求需要流动性分组，用于按监管流动性桶分类展示存款余额。
+    semantic_reference: DepositAccount.has_LiquidityBucket
+    required: true
+  controls:
+  - name: account_identifier_present
+    target: DepositAccount.has_AccountIdentifier
+    rule: Account identifier must be present for every report line.
+  - name: reporting_date_present
+    target: DepositAccount.has_AsOfDate
+    rule: Reporting date must be present for every report line.
+calculations:
+- name: 稳定资金金额
+  description: 需求需要稳定资金金额，用于根据存款余额和适用流失率计算可计入稳定资金的金额。
+  output: DepositAccount.has_StableFundingAmount
+  inputs:
+  - DepositAccount.has_DepositBalanceAmount
+  - DepositAccount.has_RunoffRate
+  expression: DepositAccount.has_DepositBalanceAmount * DepositAccount.has_RunoffRate
+- name: 受保存款金额
+  description: 需求需要受保存款金额，用于展示存款余额中受产品保险限额覆盖的部分。
+  output: DepositAccount.has_InsuredBalanceAmount
+  inputs:
+  - DepositAccount.has_DepositBalanceAmount
+  - DepositProduct.has_InsuranceLimitAmount
+  expression: min(DepositAccount.has_DepositBalanceAmount, DepositProduct.has_InsuranceLimitAmount)

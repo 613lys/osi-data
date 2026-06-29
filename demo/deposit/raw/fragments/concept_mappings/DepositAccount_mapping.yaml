@@ -1,0 +1,107 @@
+concept: DepositAccount
+object_mappings:
+- referent_mappings:
+  - relationship: has_AccountIdentifier
+    expression: deposit_accounts.account_id
+- referent_mappings:
+  - relationship: has_AccountIdentifier
+    expression: deposit_liquidity_report_lines.account_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_AccountIdentifier
+      expression: deposit_accounts.account_id
+  children:
+  - relationship: has_AccountIdentifier
+    object_mapping:
+      concept: AccountIdentifier
+      expression: deposit_accounts.account_id
+  - relationship: has_AsOfDate
+    object_mapping:
+      concept: CalendarDate
+      expression: deposit_accounts.as_of_date
+  - relationship: REFERENCES_Depositor
+    object_mapping:
+      concept: Depositor
+      referent_mappings:
+      - relationship: has_CustomerIdentifier
+        expression: deposit_accounts.customer_id
+  - relationship: REFERENCES_DepositProduct
+    object_mapping:
+      concept: DepositProduct
+      referent_mappings:
+      - relationship: has_ProductIdentifier
+        expression: deposit_accounts.product_id
+  - relationship: has_DepositBalanceAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: deposit_accounts.balance_amount
+  - relationship: has_DepositCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: deposit_accounts.currency
+  - relationship: has_LiquidityBucket
+    object_mapping:
+      concept: LiquidityBucket
+      expression: deposit_accounts.liquidity_bucket
+  - relationship: has_RunoffRate
+    object_mapping:
+      concept: Rate
+      expression: deposit_accounts.rate_override
+  - relationship: has_StableFundingAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.stable_funding_amount
+  - relationship: has_InsuredBalanceAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.insured_balance_amount
+- object_mapping:
+    referent_mappings:
+    - relationship: has_AccountIdentifier
+      expression: deposit_liquidity_report_lines.account_id
+  children:
+  - relationship: has_AccountIdentifier
+    object_mapping:
+      concept: AccountIdentifier
+      expression: deposit_liquidity_report_lines.account_id
+  - relationship: has_AsOfDate
+    object_mapping:
+      concept: CalendarDate
+      expression: deposit_liquidity_report_lines.as_of_date
+  - relationship: REFERENCES_Depositor
+    object_mapping:
+      concept: Depositor
+      referent_mappings:
+      - relationship: has_CustomerIdentifier
+        expression: deposit_liquidity_report_lines.customer_id
+  - relationship: REFERENCES_DepositProduct
+    object_mapping:
+      concept: DepositProduct
+      referent_mappings:
+      - relationship: has_ProductIdentifier
+        expression: deposit_liquidity_report_lines.product_id
+  - relationship: has_DepositBalanceAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: deposit_liquidity_report_lines.balance_amount
+  - relationship: has_DepositCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: deposit_liquidity_report_lines.currency
+  - relationship: has_LiquidityBucket
+    object_mapping:
+      concept: LiquidityBucket
+      expression: deposit_liquidity_report_lines.liquidity_bucket
+  - relationship: has_RunoffRate
+    object_mapping:
+      concept: Rate
+      expression: deposit_liquidity_report_lines.runoff_rate
+  - relationship: has_StableFundingAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.stable_funding_amount
+  - relationship: has_InsuredBalanceAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.insured_balance_amount

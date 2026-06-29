@@ -1,0 +1,21 @@
+name: Depositor
+description: Customer or legal entity that owns deposit account balances included in liquidity reporting.
+extends:
+- CustomerData
+identify_by:
+- has_CustomerIdentifier
+relationships:
+- name: has_CustomerName
+  roles:
+  - concept: PersonOrEntityName
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Depositor} has customer name {PersonOrEntityName}"
+  description: Display name of the customer or legal entity holding deposit accounts.
+- name: has_CustomerSegment
+  roles:
+  - concept: CustomerSegment
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Depositor} has customer segment {CustomerSegment}"
+  description: Customer segment used for liquidity reporting and runoff classification.

@@ -1,0 +1,39 @@
+name: deposit_customers
+source: customer_master.deposit_customers
+primary_key:
+- customer_id
+description: Depositor master records carrying names, customer segments, and domicile countries used to classify deposit liquidity reporting populations.
+physical_kind: table
+fields:
+- name: customer_id
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: customer_id
+  description: Master customer identifier for a depositor or legal entity.
+- name: customer_name
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: customer_name
+  description: Human-readable depositor or legal entity name.
+- name: segment
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: segment
+  description: Customer segment used for liquidity classification and management reporting.
+- name: domicile_country
+  type: string
+  nullable: false
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: domicile_country
+  description: Country or jurisdiction associated with the depositor.

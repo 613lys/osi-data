@@ -1,0 +1,19 @@
+name: CustomerData
+description: Base concept for customer-like records with common identifiers and domicile attributes.
+identify_by:
+- has_CustomerIdentifier
+relationships:
+- name: has_CustomerIdentifier
+  roles:
+  - concept: CustomerIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{CustomerData} has customer identifier {CustomerIdentifier}"
+  description: Stable customer identifier common to customer-like records.
+- name: has_DomicileCountry
+  roles:
+  - concept: CountryCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{CustomerData} has domicile country {CountryCode}"
+  description: Country or jurisdiction associated with a customer record.

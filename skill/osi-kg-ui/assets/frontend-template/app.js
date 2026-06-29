@@ -75,11 +75,13 @@ const els = {
   graphDepthSection: document.getElementById("graphDepthSection"),
   graphHiddenSection: document.getElementById("graphHiddenSection"),
   graphNodeTypeSection: document.getElementById("graphNodeTypeSection"),
+  graphMetricSection: document.getElementById("graphMetricSection"),
   graphEdgeTypeSection: document.getElementById("graphEdgeTypeSection"),
   graphScenarioSection: document.getElementById("graphScenarioSection"),
   hiddenNodes: document.getElementById("hiddenNodeList"),
   restoreHidden: document.getElementById("restoreHiddenButton"),
   graphNodeTypes: document.getElementById("graphNodeTypeFilters"),
+  graphMetrics: document.getElementById("graphMetricFilters"),
   graphBusinessEdgeTypes: document.getElementById("graphBusinessEdgeTypeFilters"),
   graphEdgeTypes: document.getElementById("graphEdgeTypeFilters"),
   graphTags: document.getElementById("graphTagFilters"),
@@ -104,6 +106,7 @@ const els = {
 const nodeMap = new Map(graph.nodes.map(node => [node.id, node]));
 const edgeMap = new Map(graph.edges.map(edge => [edge.id, edge]));
 const childTypes = new Set([
+  "dataset_field",
   "column",
   "value_type_property",
   "metric_field",
@@ -116,6 +119,8 @@ const typeColors = {
   ontology: "#2563eb",
   ontology_mapping: "#2563eb",
   semantic_model: "#2563eb",
+  semantic_dataset: "#0891b2",
+  semantic_metric: "#db2777",
   base_entity_concept: "#2563eb",
   entity_type_concept: "#2563eb",
   value_type_concept: "#2563eb",
@@ -127,8 +132,9 @@ const typeColors = {
   table: "#159947",
   view: "#159947",
   column: "#159947",
+  dataset_field: "#0891b2",
   value_type_property: "#2563eb",
-  metric_field: "#2563eb",
+  metric_field: "#db2777",
   requirement_semantic_item: "#c2410c",
   implementation_field_binding: "#9333ea",
 };
@@ -137,6 +143,8 @@ const typeLabels = {
   ontology: "Ontology",
   ontology_mapping: "Mapping",
   semantic_model: "Semantic Model",
+  semantic_dataset: "Semantic Dataset",
+  semantic_metric: "Metric",
   base_entity_concept: "Base Entity Concept",
   entity_type_concept: "Entity Concept",
   value_type_concept: "ValueType",
@@ -148,6 +156,7 @@ const typeLabels = {
   table: "Table",
   view: "View",
   column: "Column",
+  dataset_field: "Dataset Field",
   value_type_property: "ValueType",
   metric_field: "Metric",
   requirement_semantic_item: "Requirement Item",
@@ -158,6 +167,8 @@ const typeOrder = [
   "report_implementation",
   "entity_type_concept",
   "base_entity_concept",
+  "semantic_dataset",
+  "semantic_metric",
   "physical_table",
   "table",
   "view",
@@ -167,6 +178,7 @@ const typeOrder = [
   "semantic_model",
   "ontology",
   "ontology_mapping",
+  "dataset_field",
   "column",
   "value_type_property",
   "metric_field",
@@ -178,6 +190,63 @@ function typeRank(type) {
   const index = typeOrder.indexOf(type);
   return index >= 0 ? index : typeOrder.length;
 }
+
+const EDGE_ROUTE_ORDER = [
+  ["regulatory_requirement", "entity_type_concept"],
+  ["report_implementation", "regulatory_requirement"],
+  ["report_implementation", "semantic_dataset"],
+  ["entity_type_concept", "semantic_dataset"],
+  ["semantic_dataset", "physical_table"],
+  ["semantic_dataset", "table"],
+  ["semantic_dataset", "view"],
+  ["entity_type_concept", "entity_type_concept"],
+  ["semantic_dataset", "semantic_dataset"],
+  ["entity_type_concept", "semantic_metric"],
+  ["semantic_metric", "semantic_dataset"],
+  ["entity_type_concept", "base_entity_concept"],
+];
+
+function edgeRouteRank(sourceType, targetType) {
+  const index = EDGE_ROUTE_ORDER.findIndex(([source, target]) => source === sourceType && target === targetType);
+  return index >= 0 ? index : EDGE_ROUTE_ORDER.length;
+}
+
+function compareEdgeFilter(a, b) {
+  const rankA = edgeRouteRank(edgeFilterSourceType(a), edgeFilterTargetType(a));
+  const rankB = edgeRouteRank(edgeFilterSourceType(b), edgeFilterTargetType(b));
+  return rankA - rankB || edgeFilterLabel(a).localeCompare(edgeFilterLabel(b));
+}
+
+function edgeRouteItems(businessTypes, businessSelected, businessKind, edgeKeys, edgeSelected, edgeKind) {
+  const businessItems = businessTypes.map(type => ({
+    sourceType: "entity_type_concept",
+    targetType: "entity_type_concept",
+    active: businessSelected.has(type),
+    kind: businessKind,
+    value: type,
+    label: `${routeTypeName("entity_type_concept")} -> ${routeTypeName("entity_type_concept")}`,
+  }));
+  const edgeItems = edgeKeys.map(key => ({
+    sourceType: edgeFilterSourceType(key),
+    targetType: edgeFilterTargetType(key),
+    active: edgeSelected.has(key),
+    kind: edgeKind,
+    value: key,
+    label: edgeFilterLabel(key),
+  }));
+  return [...businessItems, ...edgeItems].sort(compareEdgeRouteItems);
+}
+
+function compareEdgeRouteItems(a, b) {
+  const rankA = edgeRouteRank(a.sourceType, a.targetType);
+  const rankB = edgeRouteRank(b.sourceType, b.targetType);
+  return rankA - rankB || a.label.localeCompare(b.label) || String(a.value).localeCompare(String(b.value));
+}
+
+function renderEdgeRouteItems(items) {
+  return items.map(item => routeChip(item.sourceType, item.targetType, item.active, item.kind, item.value)).join("");
+}
+
 
 function compareNodeType(a, b) {
   return typeRank(a).toString().padStart(3, "0").localeCompare(typeRank(b).toString().padStart(3, "0")) || typeName(a).localeCompare(typeName(b));
@@ -198,10 +267,12 @@ const graphState = {
   selectedNodeId: catalogState.selectedId,
   selectedEdgeId: null,
   selectedFieldId: null,
+  selectedFieldIds: new Set(),
   maxDepth: 1,
   nodeTypes: new Set(nodeTypes()),
   businessEdgeTypes: new Set(businessEdgeTypes()),
   edgeTypes: defaultGraphEdgeTypesForFocus(catalogState.selectedId),
+  metricOverlays: new Set(),
   tags: new Set(allTags()),
   expanded: new Set(),
   autoExpandSuppressed: new Set(),
@@ -248,9 +319,9 @@ function nodeTypes() {
 
 function edgeTypes() {
   return [...new Set(graph.edges
-    .map(edge => normalizedEdge(edge))
-    .filter(edge => edge.type && !STRUCTURAL_EDGE_TYPES.has(edge.type) && !isBusinessEntityEdge(edge))
-    .map(edge => edge.type))].sort();
+    .map(edge => edgeFilterKeyFor(edge))
+    .filter(Boolean))]
+    .sort(compareEdgeFilter);
 }
 
 function businessEdgeTypes() {
@@ -271,13 +342,43 @@ function isBusinessEntityEdge(edge) {
     && isEntityConceptNodeType(nodeType(normalized.target));
 }
 
-function edgeTypeAllowed(edge, state) {
+function isChildLevelEdge(edge) {
   const normalized = edge.sourceOriginal ? edge : normalizedEdge(edge);
-  return isBusinessEntityEdge(normalized)
-    ? state.businessEdgeTypes.has(normalized.type)
-    : state.edgeTypes.has(normalized.type);
+  return isChildNode(normalized.sourceOriginal) || isChildNode(normalized.targetOriginal);
 }
 
+function edgeFilterKeyFor(edge) {
+  const normalized = edge.sourceOriginal ? edge : normalizedEdge(edge);
+  if (!normalized.type || STRUCTURAL_EDGE_TYPES.has(normalized.type)) return "";
+  if (isBusinessEntityEdge(normalized)) return "";
+  if (isChildLevelEdge(normalized)) return "";
+  return `${normalized.type}::${nodeType(normalized.source)}::${nodeType(normalized.target)}`;
+}
+
+function edgeFilterTypeFromKey(key) {
+  return String(key || "").split("::")[0] || "";
+}
+
+function edgeFilterSourceType(key) {
+  return String(key || "").split("::")[1] || "";
+}
+
+function edgeFilterTargetType(key) {
+  return String(key || "").split("::")[2] || "";
+}
+
+function edgeFilterMatchesTypes(key, configuredTypes) {
+  if (!configuredTypes) return true;
+  return configuredTypes.includes(edgeFilterTypeFromKey(key));
+}
+
+function edgeTypeAllowed(edge, state) {
+  const normalized = edge.sourceOriginal ? edge : normalizedEdge(edge);
+  if (isChildLevelEdge(normalized)) return true;
+  if (isBusinessEntityEdge(normalized)) return state.businessEdgeTypes.has(normalized.type);
+  const key = edgeFilterKeyFor(normalized);
+  return Boolean(key && state.edgeTypes.has(key));
+}
 const GRAPH_VIEW_CONFIG = {
   traceability: {
     title: "Graph Explorer",
@@ -294,33 +395,34 @@ const GRAPH_VIEW_CONFIG = {
     title: "Ontology View",
     description: "Ontology-only view: Entity concepts, Base Entity concepts, inherited fields, and business relationships.",
     nodeTypes: ["entity_type_concept", "base_entity_concept"],
+    defaultNodeTypes: ["entity_type_concept"],
     edgeTypes: ["EXTENDS"],
     businessEdgeTypes: "all",
     childEdgeTypes: [],
     minDepth: 2,
-    autoExpandFields: true,
+    autoExpandFields: false,
     usesFocus: false,
   },
   semantic: {
     title: "Semantic Model View",
-    description: "Semantic-model view: datasets/tables, dataset fields, joins, and source/query extensions from OSI custom_extensions.",
-    nodeTypes: ["physical_table", "table", "view", "semantic_model"],
-    edgeTypes: ["DATASET_JOIN", "CONTAINS_TABLE"],
+    description: "Semantic-model view: semantic datasets, physical source tables, dataset joins, metric overlays, and query source extensions.",
+    nodeTypes: ["semantic_dataset", "semantic_metric", "physical_table", "table", "view"],
+    edgeTypes: ["DATASET_JOIN", "SOURCE_TABLE", "DERIVED_BY"],
     businessEdgeTypes: [],
-    childEdgeTypes: [],
+    childEdgeTypes: ["SOURCE_FIELD", "DERIVED_BY"],
     minDepth: 2,
-    autoExpandFields: true,
+    autoExpandFields: false,
     usesFocus: false,
   },
   mapping: {
     title: "Mapping View",
     description: "Ontology-to-semantic-model mappings: Entity fields connect to dataset fields and metric-backed fields. Hide nodes to keep the mapping slice focused.",
-    nodeTypes: ["entity_type_concept", "base_entity_concept", "physical_table", "table", "view"],
+    nodeTypes: ["entity_type_concept", "base_entity_concept", "semantic_dataset", "semantic_metric"],
     edgeTypes: ["MAPS_TO", "MAPS_TO_FIELD", "DERIVED_BY"],
     businessEdgeTypes: [],
     childEdgeTypes: ["MAPS_TO_FIELD", "DERIVED_BY"],
     minDepth: 2,
-    autoExpandFields: true,
+    autoExpandFields: false,
     usesFocus: false,
   },
   requirement: {
@@ -331,19 +433,19 @@ const GRAPH_VIEW_CONFIG = {
     businessEdgeTypes: [],
     childEdgeTypes: ["REQUIRES_SEMANTIC_FIELD", "DERIVED_FROM"],
     minDepth: 2,
-    autoExpandFields: true,
+    autoExpandFields: false,
     usesFocus: true,
     selectorNodeType: "regulatory_requirement",
   },
   data_logic: {
     title: "Data Logic View",
     description: "Report data logic view: logic fields connect to requirement fields and the dataset/table fields they read.",
-    nodeTypes: ["report_implementation", "regulatory_requirement", "physical_table", "table", "view"],
+    nodeTypes: ["report_implementation", "regulatory_requirement", "semantic_dataset", "physical_table", "table", "view"],
     edgeTypes: ["IMPLEMENTS", "SOURCE_TABLE", "SOURCE_FIELD", "MAPS_TO_FIELD", "IMPLEMENTS_FIELD"],
     businessEdgeTypes: [],
     childEdgeTypes: ["SOURCE_FIELD", "MAPS_TO_FIELD", "IMPLEMENTS_FIELD"],
     minDepth: 2,
-    autoExpandFields: true,
+    autoExpandFields: false,
     usesFocus: true,
     selectorNodeType: "report_implementation",
   },
@@ -361,8 +463,8 @@ const PAGE_VIEW_MODE = {
 const GRAPH_CONTROL_SECTIONS = {
   traceability: ["focus", "hidden", "depth", "nodeTypes", "edgeTypes", "scenario"],
   ontology: ["hidden", "nodeTypes", "businessEdges", "edgeTypes"],
-  semantic: ["hidden", "nodeTypes", "edgeTypes"],
-  mapping: ["hidden", "nodeTypes", "edgeTypes"],
+  semantic: ["hidden", "nodeTypes", "metrics", "edgeTypes"],
+  mapping: ["hidden", "nodeTypes", "metrics", "edgeTypes"],
   requirement: ["selector", "hidden", "edgeTypes"],
   data_logic: ["selector", "hidden", "edgeTypes"],
 };
@@ -386,7 +488,8 @@ function graphNodeTypeOptions(mode = graphState?.viewMode || "traceability") {
 
 function graphEdgeTypeOptions(mode = graphState?.viewMode || "traceability") {
   const configured = graphViewConfig(mode).edgeTypes;
-  return configured ? [...availableSet(configured, edgeTypes())].sort() : edgeTypes();
+  const options = edgeTypes();
+  return configured ? options.filter(key => edgeFilterMatchesTypes(key, configured)).sort(compareEdgeFilter) : options;
 }
 
 function graphBusinessEdgeTypeOptions(mode = graphState?.viewMode || "traceability") {
@@ -394,6 +497,23 @@ function graphBusinessEdgeTypeOptions(mode = graphState?.viewMode || "traceabili
   if (configured === "all" || configured === null || configured === undefined) return businessEdgeTypes();
   if (Array.isArray(configured)) return [...availableSet(configured, businessEdgeTypes())].sort();
   return [];
+}
+
+function metricOverlayOptions() {
+  return topLevelNodes
+    .filter(item => item.type === "semantic_metric")
+    .map(item => item.properties?.semantic_metric || item.label || item.id)
+    .filter(Boolean)
+    .sort();
+}
+
+function metricNameForNode(id) {
+  const item = node(id);
+  return item?.properties?.semantic_metric || item?.label || id;
+}
+
+function metricOverlaySelected(id) {
+  return nodeType(id) !== "semantic_metric" || graphState.metricOverlays.has(metricNameForNode(id));
 }
 function graphViewUsesFocus(mode = graphState?.viewMode || "traceability") {
   return graphViewConfig(mode).usesFocus !== false;
@@ -415,8 +535,33 @@ function selectGraphViewObject(id) {
   if (!id || !node(id) || isChildNode(id)) return;
   setGraphFocus(id, { resetEdgeTypes: false, applyDefaultEdgeTypes: false });
   graphState.selectedEdgeId = null;
-  graphState.selectedFieldId = null;
+  clearSelectedFields();
   renderGraphPage({ fitAfter: true });
+}
+
+function hasSelectedFields() {
+  return Boolean(graphState.selectedFieldIds?.size);
+}
+
+function fieldIsSelected(id) {
+  return graphState.selectedFieldIds?.has(id);
+}
+
+function clearSelectedFields() {
+  graphState.selectedFieldIds.clear();
+  graphState.selectedFieldId = null;
+}
+
+function syncSelectedFieldId() {
+  if (graphState.selectedFieldId && graphState.selectedFieldIds.has(graphState.selectedFieldId)) return;
+  graphState.selectedFieldId = [...graphState.selectedFieldIds].at(-1) || null;
+}
+
+function removeSelectedFieldsForParent(parentId) {
+  [...graphState.selectedFieldIds].forEach(id => {
+    if (parentOf(id) === parentId) graphState.selectedFieldIds.delete(id);
+  });
+  syncSelectedFieldId();
 }
 
 function nodeTypesForMode(mode) {
@@ -424,9 +569,14 @@ function nodeTypesForMode(mode) {
   return configured ? availableSet(configured, nodeTypes()) : new Set(nodeTypes());
 }
 
+function defaultNodeTypesForMode(mode = graphState?.viewMode || "traceability") {
+  const configured = graphViewConfig(mode).defaultNodeTypes || graphViewConfig(mode).nodeTypes;
+  return configured ? availableSet(configured, nodeTypes()) : new Set(nodeTypes());
+}
+
 function defaultEdgeTypesForMode(mode = graphState?.viewMode || "traceability", focusId = graphState?.focusId) {
   const configured = graphViewConfig(mode).edgeTypes;
-  if (configured) return availableSet(configured, edgeTypes());
+  if (configured) return new Set(graphEdgeTypeOptions(mode));
   return defaultGraphEdgeTypesForFocus(focusId);
 }
 
@@ -438,7 +588,7 @@ function defaultBusinessEdgeTypesForMode(mode = graphState?.viewMode || "traceab
 }
 
 function childEdgeTypesForMode(mode = graphState?.viewMode || "traceability") {
-  return availableSet(graphViewConfig(mode).childEdgeTypes || [], edgeTypes());
+  return new Set(graphViewConfig(mode).childEdgeTypes || []);
 }
 
 function nodeAllowedForMode(id, mode = graphState?.viewMode || "traceability") {
@@ -448,7 +598,7 @@ function nodeAllowedForMode(id, mode = graphState?.viewMode || "traceability") {
 function preferredFocusPredicate(mode = graphState?.viewMode || "traceability") {
   const preferredByMode = {
     ontology: item => isEntityConceptNodeType(item.type),
-    semantic: item => ["physical_table", "table", "view", "semantic_model"].includes(item.type),
+    semantic: item => ["semantic_dataset", "semantic_metric", "physical_table", "table", "view"].includes(item.type),
     mapping: item => parentEdges().some(edge => edge.type === "MAPS_TO" && (edge.source === item.id || edge.target === item.id)),
     requirement: item => item.type === "regulatory_requirement",
     data_logic: item => item.type === "report_implementation",
@@ -471,10 +621,12 @@ function applyGraphViewMode(mode, options = {}) {
   graphState.viewMode = normalizedMode;
   const shouldReset = options.resetFilters || previousMode !== normalizedMode;
   if (shouldReset) {
-    graphState.nodeTypes = nodeTypesForMode(normalizedMode);
+    graphState.nodeTypes = defaultNodeTypesForMode(normalizedMode);
     graphState.businessEdgeTypes = defaultBusinessEdgeTypesForMode(normalizedMode);
     graphState.edgeTypes = defaultEdgeTypesForMode(normalizedMode);
     graphState.maxDepth = Math.max(graphViewConfig(normalizedMode).minDepth || 1, normalizedMode === "traceability" ? 1 : graphState.maxDepth);
+    graphState.expanded.clear();
+    graphState.autoExpandSuppressed.clear();
   }
   if (graphViewUsesFocus(normalizedMode)) {
     if (!nodeAllowedForMode(graphState.focusId, normalizedMode) || (previousMode !== normalizedMode && !preferredFocusPredicate(normalizedMode)(node(graphState.focusId)))) {
@@ -484,7 +636,7 @@ function applyGraphViewMode(mode, options = {}) {
     graphState.selectedNodeId = null;
   }
   graphState.selectedEdgeId = null;
-  graphState.selectedFieldId = null;
+  clearSelectedFields();
 }
 
 function graphViewTitle() {
@@ -495,13 +647,19 @@ function graphViewDescription() {
   return graphViewConfig().description;
 }
 function defaultGraphEdgeTypes() {
-  return new Set(edgeTypes().filter(type => !DEFAULT_UNCHECKED_GRAPH_EDGE_TYPES.has(type)));
+  return new Set(edgeTypes().filter(key => !DEFAULT_UNCHECKED_GRAPH_EDGE_TYPES.has(edgeFilterTypeFromKey(key))));
+}
+
+function addEdgeDefaultsByType(targetSet, type) {
+  edgeTypes()
+    .filter(key => edgeFilterTypeFromKey(key) === type)
+    .forEach(key => targetSet.add(key));
 }
 
 function defaultGraphEdgeTypesForFocus(focusId = graphState?.focusId) {
   const defaults = defaultGraphEdgeTypes();
-  if (nodeType(focusId) === "base_entity_concept" && edgeTypes().includes("EXTENDS")) {
-    defaults.add("EXTENDS");
+  if (nodeType(focusId) === "base_entity_concept") {
+    addEdgeDefaultsByType(defaults, "EXTENDS");
   }
   return defaults;
 }
@@ -543,6 +701,31 @@ function typeName(type) {
   return typeLabels[type] || titleCase(type);
 }
 
+function routeTypeName(type) {
+  const labels = {
+    regulatory_requirement: "Requirement",
+    report_implementation: "Data Logic",
+    entity_type_concept: "Entity",
+    base_entity_concept: "Base Entity",
+    semantic_dataset: "Dataset",
+    semantic_metric: "Metric",
+    physical_table: "Table",
+    table: "Table",
+    view: "View",
+  };
+  return labels[type] || typeName(type);
+}
+
+function edgeFilterRouteLabel(key) {
+  const sourceType = edgeFilterSourceType(key);
+  const targetType = edgeFilterTargetType(key);
+  return [routeTypeName(sourceType), routeTypeName(targetType)].filter(Boolean).join(" -> ");
+}
+
+function edgeFilterLabel(key) {
+  return edgeFilterRouteLabel(key) || titleCase(edgeFilterTypeFromKey(key));
+}
+
 function titleCase(value) {
   return String(value || "node")
     .replace(/_/g, " ")
@@ -554,7 +737,7 @@ function colorFor(type) {
 }
 
 function nodeFamily(type) {
-  if (["base_entity_concept", "entity_type_concept", "value_type_concept", "built_in_concept", "external_concept"].includes(type)) return "concept";
+  if (["base_entity_concept", "entity_type_concept", "value_type_concept", "built_in_concept", "external_concept", "semantic_dataset", "semantic_metric"].includes(type)) return "concept";
   if (["regulatory_requirement", "requirement_semantic_item"].includes(type)) return "requirement";
   if (["report_implementation", "implementation_field_binding"].includes(type)) return "data-logic";
   if (["physical_table", "table", "view"].includes(type)) return "db";
@@ -563,6 +746,8 @@ function nodeFamily(type) {
 
 function nodeFamilyLabel(type) {
   const family = nodeFamily(type);
+  if (type === "semantic_dataset") return "Dataset";
+  if (type === "semantic_metric") return "Metric";
   if (family === "concept") return "Concept";
   if (family === "requirement") return "Requirement";
   if (family === "data-logic") return "Data Logic";
@@ -757,6 +942,9 @@ function searchTextForNode(id) {
     data.name,
     data.description,
     data.definition,
+    data.semantic_metric,
+    data.expression,
+    ...(data.source_fields || []),
     ...(data.aliases || []),
     ...tagsFor(id),
     ...(data.columns || []).flatMap(col => [col.name, col.description, col.term, col.data_type]),
@@ -791,6 +979,7 @@ function searchTextForEdge(edge) {
 
 function edgePassesCatalogFilters(edge) {
   const normalized = normalizedEdge(edge);
+  if (isChildLevelEdge(normalized)) return false;
   if (!edgeTypeAllowed(normalized, catalogState)) return false;
   const sourceType = nodeType(normalized.source);
   const targetType = nodeType(normalized.target);
@@ -892,12 +1081,14 @@ function currentScenarioView() {
     nodeTypes: [...graphState.nodeTypes],
     businessEdgeTypes: [...graphState.businessEdgeTypes],
     edgeTypes: [...graphState.edgeTypes],
+    metricOverlays: [...graphState.metricOverlays],
     tags: [...graphState.tags],
     expanded: [...graphState.expanded],
     autoExpandSuppressed: [...graphState.autoExpandSuppressed],
     hiddenNodes: [...graphState.hiddenNodes],
     selectedEdgeId: graphState.selectedEdgeId,
     selectedFieldId: graphState.selectedFieldId,
+    selectedFieldIds: [...graphState.selectedFieldIds],
     positions: collectScenarioPositions(),
     scroll: {
       left: Math.round(els.viewport.scrollLeft || 0),
@@ -941,12 +1132,16 @@ function applyScenario(id) {
   graphState.nodeTypes = restoredSet(view.nodeTypes, nodeTypes());
   graphState.businessEdgeTypes = restoredSet(view.businessEdgeTypes, businessEdgeTypes());
   graphState.edgeTypes = restoredSet(view.edgeTypes, [...defaultGraphEdgeTypesForFocus(graphState.focusId)]);
+  graphState.metricOverlays = restoredSet(view.metricOverlays, metricOverlayOptions());
   graphState.tags = restoredSet(view.tags, allTags());
   graphState.expanded = new Set((view.expanded || []).filter(id => node(id)));
   graphState.autoExpandSuppressed = new Set((view.autoExpandSuppressed || []).filter(id => node(id)));
   graphState.hiddenNodes = new Set((view.hiddenNodes || []).filter(id => node(id) && !isChildNode(id)));
   graphState.selectedEdgeId = view.selectedEdgeId && graphEdge(view.selectedEdgeId) ? view.selectedEdgeId : null;
-  graphState.selectedFieldId = view.selectedFieldId && node(view.selectedFieldId) ? view.selectedFieldId : null;
+  graphState.selectedFieldIds = new Set((view.selectedFieldIds || []).filter(id => node(id) && isChildNode(id)));
+  if (view.selectedFieldId && node(view.selectedFieldId) && isChildNode(view.selectedFieldId)) graphState.selectedFieldIds.add(view.selectedFieldId);
+  graphState.selectedFieldId = view.selectedFieldId && graphState.selectedFieldIds.has(view.selectedFieldId) ? view.selectedFieldId : null;
+  syncSelectedFieldId();
   graphState.manualPositions = restoredPositions(view.positions);
   scenarioState.selectedId = scenario.id;
   renderGraphPage({ scrollAfter: view.scroll });
@@ -1007,16 +1202,20 @@ function renderCatalogFilters() {
   els.catalogNodeTypes.innerHTML = nodeTypes()
     .map(type => chip(typeName(type), catalogState.nodeTypes.has(type), "catalog-node-type", type))
     .join("");
+  const catalogRouteItems = edgeRouteItems(
+    businessEdgeTypes(),
+    catalogState.businessEdgeTypes,
+    "catalog-business-edge-type",
+    edgeTypes(),
+    catalogState.edgeTypes,
+    "catalog-edge-type"
+  );
   if (els.catalogBusinessEdgeTypes) {
-    const businessTypes = businessEdgeTypes();
-    els.catalogBusinessEdgeTypes.innerHTML = businessTypes.length
-      ? multiSelect(businessTypes, catalogState.businessEdgeTypes, "catalog-business-edge-type", "Business relationships")
-      : `<div class="empty-state">No business relationships.</div>`;
+    els.catalogBusinessEdgeTypes.innerHTML = catalogRouteItems.length
+      ? renderEdgeRouteItems(catalogRouteItems)
+      : `<div class="empty-state">No node-level edge filters in current data.</div>`;
   }
-  els.catalogEdgeTypes.innerHTML = edgeTypes()
-    .length
-    ? multiSelect(edgeTypes(), catalogState.edgeTypes, "catalog-edge-type", "Edge types")
-    : `<div class="empty-state">No edge types in current data.</div>`;
+  if (els.catalogEdgeTypes) els.catalogEdgeTypes.innerHTML = "";
   if (els.catalogTags) {
     const tags = allTags();
     els.catalogTags.innerHTML = tags.length
@@ -1179,6 +1378,7 @@ function renderNodeDetail(item, data, includeRaw) {
     ${renderConceptSemantics(item, data)}
     ${renderMappingSemantics(data)}
     ${renderSourceExtensions(data)}
+    ${renderMetricSemantics(item, data)}
     ${renderRequirementSemantics(data)}
     ${renderImplementationSemantics(data)}
     ${renderConstraints(data.constraints || item.properties?.constraints, "Entity Constraints")}
@@ -1206,6 +1406,21 @@ function renderSourceExtensions(data) {
     <section class="detail-section">
       <h3>Source Extensions</h3>
       <pre class="raw-block">${escapeHtml(JSON.stringify(extensions, null, 2))}</pre>
+    </section>
+  `;
+}
+function renderMetricSemantics(item, data) {
+  if (item.type !== "semantic_metric") return "";
+  const sourceFields = data.source_fields || item.properties?.source_fields || [];
+  const expression = data.expression || item.properties?.expression || "";
+  const metricName = data.semantic_metric || item.properties?.semantic_metric || data.name || item.label;
+  return `
+    <section class="detail-section">
+      <h3>Metric Definition</h3>
+      ${metricName ? kv("Metric", metricName) : ""}
+      ${data.semantic_model || item.properties?.semantic_model ? kv("Semantic Model", data.semantic_model || item.properties.semantic_model) : ""}
+      ${expression ? kv("Expression", expression) : ""}
+      ${sourceFields.length ? kv("Source Fields", sourceFields.join(", ")) : ""}
     </section>
   `;
 }
@@ -1303,14 +1518,14 @@ function renderConceptSemantics(item, data) {
 }
 
 function renderMappingSemantics(data) {
-  const mappedTables = data.mapped_tables || [];
+  const mappedTables = data.mapped_datasets || data.mapped_tables || [];
   const mappedFields = data.mapped_fields || [];
   const mappings = data.mappings || [];
   if (!mappedTables.length && !mappedFields.length && !mappings.length) return "";
   return `
     <section class="detail-section">
       <h3>Ontology Mapping</h3>
-      ${mappedTables.length ? kv("Mapped Tables", mappedTables.join(", ")) : ""}
+      ${mappedTables.length ? kv("Mapped Datasets", mappedTables.join(", ")) : ""}
       ${mappedFields.length ? `
         <div class="mini-list">${mappedFields.slice(0, 12).map(item => `<div class="mini-card"><strong>${escapeHtml(item)}</strong></div>`).join("")}</div>
       ` : ""}
@@ -1343,6 +1558,7 @@ function renderGraphPage(options = {}) {
   clearHiddenSelections();
   graphState.visible = graphNeighborhood();
   if (graphViewConfig().autoExpandFields) expandVisibleViewNodes();
+  expandSelectedMetricValueParents();
   renderScenarioControls();
   renderGraphFilters();
   renderGraphFocus();
@@ -1356,12 +1572,26 @@ function expandVisibleViewNodes() {
     if (childItems(item.id).length && !graphState.autoExpandSuppressed.has(item.id)) graphState.expanded.add(item.id);
   });
 }
+
+function expandSelectedMetricValueParents() {
+  if (!["semantic", "mapping"].includes(graphState.viewMode) || !graphState.metricOverlays.size) return;
+  const parentTypes = new Set(["semantic_dataset", "entity_type_concept", "base_entity_concept"]);
+  [...selectedMetricValueEdges(), ...selectedMetricDependencyEdges()].forEach(edge => {
+    [edge.sourceOriginal, edge.targetOriginal].forEach(id => {
+      const parentId = parentOf(id);
+      if (parentId && node(parentId) && parentTypes.has(nodeType(parentId)) && !graphState.autoExpandSuppressed.has(parentId)) {
+        graphState.expanded.add(parentId);
+      }
+    });
+  });
+}
 function renderGraphFilters() {
   const controls = graphControlSet();
   if (els.graphFocusSection) els.graphFocusSection.classList.toggle("hidden", !controls.has("focus"));
   if (els.graphDepthSection) els.graphDepthSection.classList.toggle("hidden", !controls.has("depth"));
   if (els.graphHiddenSection) els.graphHiddenSection.classList.toggle("hidden", !controls.has("hidden"));
   if (els.graphNodeTypeSection) els.graphNodeTypeSection.classList.toggle("hidden", !controls.has("nodeTypes"));
+  if (els.graphMetricSection) els.graphMetricSection.classList.toggle("hidden", !controls.has("metrics") || !metricOverlayOptions().length);
   if (els.graphEdgeTypeSection) els.graphEdgeTypeSection.classList.toggle("hidden", !controls.has("edgeTypes") && !controls.has("businessEdges"));
   if (els.graphScenarioSection) els.graphScenarioSection.classList.toggle("hidden", !controls.has("scenario"));
   renderGraphViewSelector();
@@ -1371,16 +1601,26 @@ function renderGraphFilters() {
   els.graphNodeTypes.innerHTML = nodeOptions.length
     ? nodeOptions.map(type => chip(typeName(type), graphState.nodeTypes.has(type), "graph-node-type", type)).join("")
     : `<div class="empty-state">No node type filter for this view.</div>`;
-  if (els.graphBusinessEdgeTypes) {
-    const businessTypes = controls.has("businessEdges") ? graphBusinessEdgeTypeOptions() : [];
-    els.graphBusinessEdgeTypes.innerHTML = businessTypes.length
-      ? multiSelect(businessTypes, graphState.businessEdgeTypes, "graph-business-edge-type", "Business relationships")
-      : "";
+  if (els.graphMetrics) {
+    const metricOptions = controls.has("metrics") ? metricOverlayOptions() : [];
+    els.graphMetrics.innerHTML = metricOptions.length
+      ? multiSelect(metricOptions, graphState.metricOverlays, "graph-metric-overlay", "Metrics")
+      : `<div class="empty-state compact">No semantic metrics in current data.</div>`;
   }
-  const mechanismTypes = controls.has("edgeTypes") ? graphEdgeTypeOptions() : [];
-  els.graphEdgeTypes.innerHTML = mechanismTypes.length
-    ? multiSelect(mechanismTypes, graphState.edgeTypes, "graph-edge-type", "Edge types")
-    : `<div class="empty-state">No mechanism edge filters for this view.</div>`;
+  const graphRouteItems = edgeRouteItems(
+    controls.has("businessEdges") ? graphBusinessEdgeTypeOptions() : [],
+    graphState.businessEdgeTypes,
+    "graph-business-edge-type",
+    controls.has("edgeTypes") ? graphEdgeTypeOptions() : [],
+    graphState.edgeTypes,
+    "graph-edge-type"
+  );
+  if (els.graphBusinessEdgeTypes) {
+    els.graphBusinessEdgeTypes.innerHTML = graphRouteItems.length
+      ? renderEdgeRouteItems(graphRouteItems)
+      : `<div class="empty-state">No node-level edge filters for this view.</div>`;
+  }
+  if (els.graphEdgeTypes) els.graphEdgeTypes.innerHTML = "";
   if (els.graphTags) {
     const tags = allTags();
     els.graphTags.innerHTML = tags.length
@@ -1570,7 +1810,9 @@ function graphNodeTypeAllowed(id) {
 }
 
 function graphNodeVisible(id) {
-  return !graphState.hiddenNodes.has(id);
+  if (graphState.hiddenNodes.has(id)) return false;
+  if (["semantic", "mapping"].includes(graphState.viewMode) && !metricOverlaySelected(id)) return false;
+  return true;
 }
 
 function ensureVisibleFocus() {
@@ -1586,9 +1828,10 @@ function ensureVisibleFocus() {
 }
 
 function clearHiddenSelections() {
-  if (graphState.selectedFieldId && graphState.hiddenNodes.has(parentOf(graphState.selectedFieldId))) {
-    graphState.selectedFieldId = null;
-  }
+  [...graphState.selectedFieldIds].forEach(id => {
+    if (graphState.hiddenNodes.has(parentOf(id))) graphState.selectedFieldIds.delete(id);
+  });
+  syncSelectedFieldId();
   const selectedEdge = graphState.selectedEdgeId ? selectedGraphEdge() : null;
   if (selectedEdge && (graphState.hiddenNodes.has(selectedEdge.source) || graphState.hiddenNodes.has(selectedEdge.target))) {
     graphState.selectedEdgeId = null;
@@ -1608,7 +1851,7 @@ function hideGraphNode(id) {
   graphState.hiddenNodes.add(id);
   graphState.expanded.delete(id);
   graphState.manualPositions.delete(id);
-  if (graphState.selectedFieldId && parentOf(graphState.selectedFieldId) === id) graphState.selectedFieldId = null;
+  removeSelectedFieldsForParent(id);
   if (graphState.selectedNodeId === id) graphState.selectedNodeId = null;
   const selectedEdge = selectedGraphEdge();
   if (selectedEdge && (selectedEdge.source === id || selectedEdge.target === id)) graphState.selectedEdgeId = null;
@@ -1636,20 +1879,40 @@ function restoreAllHiddenNodes() {
 }
 
 function selectedFieldEdges() {
-  if (!graphState.selectedFieldId) return [];
-  return childEdges().filter(edge => edge.sourceOriginal === graphState.selectedFieldId || edge.targetOriginal === graphState.selectedFieldId);
+  if (!hasSelectedFields()) return [];
+  const selected = graphState.selectedFieldIds;
+  return childEdges().filter(edge => selected.has(edge.sourceOriginal) || selected.has(edge.targetOriginal));
+}
+
+function selectedMetricValueEdges() {
+  if (graphState.viewMode !== "mapping" || !graphState.metricOverlays.size) return [];
+  return childEdges().filter(edge => {
+    if (!edge.raw?.properties?.metric_value_binding) return false;
+    const metricName = edge.raw?.properties?.semantic_metric || "";
+    return metricName && graphState.metricOverlays.has(metricName);
+  });
+}
+
+function selectedMetricDependencyEdges() {
+  if (!["semantic", "mapping"].includes(graphState.viewMode) || !graphState.metricOverlays.size) return [];
+  return childEdges().filter(edge => {
+    const metricName = edge.raw?.properties?.semantic_metric || "";
+    if (!metricName || !graphState.metricOverlays.has(metricName)) return false;
+    if (edge.raw?.properties?.metric_value_binding) return false;
+    return edge.type === "DERIVED_BY" && nodeType(edge.sourceOriginal) === "semantic_metric" && nodeType(edge.targetOriginal) === "dataset_field";
+  });
 }
 
 function childEdgesForCurrentView() {
-  if (graphState.viewMode === "traceability") return selectedFieldEdges();
+  const selectedEdges = selectedFieldEdges();
+  if (graphState.viewMode === "traceability") return selectedEdges;
   const allowedChildTypes = childEdgeTypesForMode();
   if (!allowedChildTypes.size) return [];
-  return childEdges().filter(edge => allowedChildTypes.has(edge.type));
+  const overlayEdges = [...selectedMetricValueEdges(), ...selectedMetricDependencyEdges()];
+  return dedupeEdges([...selectedEdges, ...overlayEdges]).filter(edge => allowedChildTypes.has(edge.type));
 }
-
 function childEdgeCanParticipate(edge) {
   if (!graphNodeVisible(edge.source) || !graphNodeVisible(edge.target)) return false;
-  if (!edgeTypeAllowed(edge, graphState)) return false;
   if (!graphNodeTypeAllowed(edge.source) || !graphNodeTypeAllowed(edge.target)) return false;
   if (tagFilterIsActive(graphState.tags)) {
     const tagPool = [...tagsFor(edge.source), ...tagsFor(edge.target)];
@@ -1744,7 +2007,7 @@ function layoutEdgesForElk(edges, visibleIds) {
 }
 
 function layoutEdgeDirection(edge) {
-  if (["SOURCE_TABLE", "DERIVES_FROM", "REFERENCES", "DEPENDS_ON", "HAS_TERM"].includes(edge.type)) {
+  if (["DERIVES_FROM", "REFERENCES", "DEPENDS_ON", "HAS_TERM"].includes(edge.type)) {
     return { ...edge, source: edge.target, target: edge.source };
   }
   return edge;
@@ -1753,45 +2016,67 @@ function layoutEdgeDirection(edge) {
 function mappingGraphLayout(nodes) {
   const positions = new Map();
   const ontologyTypes = new Set(["entity_type_concept", "base_entity_concept"]);
-  const semanticTypes = new Set(["physical_table", "table", "view", "semantic_model"]);
+  const semanticTypes = new Set(["semantic_dataset", "semantic_metric"]);
   const sortNodes = group => group.slice().sort((a, b) => typeRank(a.type) - typeRank(b.type) || label(a.id).localeCompare(label(b.id)));
   const ontologyNodes = sortNodes(nodes.filter(item => ontologyTypes.has(item.type)));
   const semanticNodes = sortNodes(nodes.filter(item => semanticTypes.has(item.type)));
   const otherNodes = sortNodes(nodes.filter(item => !ontologyTypes.has(item.type) && !semanticTypes.has(item.type)));
   const expanded = hasExpandedFieldNodes();
   const panelTop = 56;
-  const panelX = { ontology: 64, semantic: 1060 };
-  const panelWidth = 860;
+  const nodeWidth = expanded ? 280 : 230;
+  const rowGap = expanded ? 42 : 34;
+  const columnGap = expanded ? 48 : 40;
   const titleHeight = 54;
-  const rowGap = expanded ? 265 : 168;
-  const columnGap = expanded ? 330 : 300;
-  const columnsFor = group => group.length > 7 ? 2 : 1;
-  function place(group, x, y, columns) {
+  const horizontalGap = 220;
+  const columnsFor = group => group.length > 8 ? 2 : 1;
+  const panelWidthFor = columns => 56 + columns * nodeWidth + Math.max(0, columns - 1) * columnGap;
+  const stackHeightFor = (group, columns) => {
+    const heights = Array.from({ length: Math.max(1, columns) }, () => 0);
     group.forEach((item, index) => {
       const column = index % columns;
-      const row = Math.floor(index / columns);
-      positions.set(item.id, {
-        x: x + 44 + column * columnGap,
-        y: y + titleHeight + 28 + row * rowGap,
-      });
+      heights[column] += estimatedNodeHeight(item.id) + rowGap;
     });
-    return Math.ceil(group.length / columns) * rowGap + titleHeight + 72;
+    return Math.max(0, ...heights) ? Math.max(0, ...heights) - rowGap : 0;
+  };
+  const panelHeightFor = (group, columns) => Math.max(180, titleHeight + 78 + stackHeightFor(group, columns));
+  const ontologyColumns = columnsFor(ontologyNodes);
+  const semanticColumns = semanticNodes.length > 3 ? 2 : 1;
+  const leftWidth = panelWidthFor(ontologyColumns);
+  const rightWidth = Math.max(panelWidthFor(semanticColumns), graphState.metricOverlays.size ? 560 : 420);
+  const panelX = { ontology: 64, semantic: 64 + leftWidth + horizontalGap };
+  function place(group, x, y, columns) {
+    const offsets = Array.from({ length: Math.max(1, columns) }, () => 0);
+    const startY = y + titleHeight + 24;
+    group.forEach((item, index) => {
+      const column = index % columns;
+      positions.set(item.id, {
+        x: x + 28 + column * (nodeWidth + columnGap),
+        y: startY + offsets[column],
+      });
+      offsets[column] += estimatedNodeHeight(item.id) + rowGap;
+    });
   }
-  const leftHeight = place(ontologyNodes, panelX.ontology, panelTop, columnsFor(ontologyNodes));
-  const rightHeight = place(semanticNodes, panelX.semantic, panelTop, columnsFor(semanticNodes));
-  otherNodes.forEach((item, index) => {
-    positions.set(item.id, { x: 880, y: panelTop + titleHeight + 28 + index * rowGap });
+  place(ontologyNodes, panelX.ontology, panelTop, ontologyColumns);
+  place(semanticNodes, panelX.semantic, panelTop, semanticColumns);
+  let otherY = panelTop + titleHeight + 24;
+  otherNodes.forEach(item => {
+    positions.set(item.id, { x: panelX.ontology + leftWidth + 64, y: otherY });
+    otherY += estimatedNodeHeight(item.id) + rowGap;
   });
-  const contentHeight = Math.max(leftHeight, rightHeight, otherNodes.length ? titleHeight + 72 + otherNodes.length * rowGap : 0);
-  const width = Math.max(DEFAULT_GRAPH_SIZE.width, panelX.semantic + panelWidth + 96);
-  const height = Math.max(DEFAULT_GRAPH_SIZE.height, panelTop + contentHeight + 96);
+  const contentHeight = Math.max(
+    panelHeightFor(ontologyNodes, ontologyColumns),
+    panelHeightFor(semanticNodes, semanticColumns),
+    otherNodes.length ? titleHeight + 78 + (otherY - (panelTop + titleHeight + 24)) : 0,
+  );
+  const width = Math.max(DEFAULT_GRAPH_SIZE.width, panelX.semantic + rightWidth + 80);
+  const height = Math.max(DEFAULT_GRAPH_SIZE.height, panelTop + contentHeight + 80);
   applyManualPositions(positions, width, height);
   return {
     positions,
     size: { width, height },
     bands: [
-      { title: "Ontology", subtitle: "Entity and Base Entity concepts", kind: "ontology", x: panelX.ontology, y: panelTop, width: panelWidth, height: contentHeight },
-      { title: "Semantic Model", subtitle: "Datasets, tables, fields, and metrics", kind: "semantic", x: panelX.semantic, y: panelTop, width: panelWidth, height: contentHeight },
+      { title: "Ontology", subtitle: "Entity concepts", kind: "ontology", x: panelX.ontology, y: panelTop, width: leftWidth, height: contentHeight },
+      { title: "Semantic Model", subtitle: "Datasets, tables, fields, and metrics", kind: "semantic", x: panelX.semantic, y: panelTop, width: rightWidth, height: contentHeight },
     ],
   };
 }
@@ -1978,13 +2263,14 @@ async function renderGraph(options = {}) {
     const p = positions.get(item.id);
     if (!p) return;
     const isExpanded = isExpandedNode(item.id);
-    const children = isExpanded ? childItems(item.id).slice(0, 18) : [];
+    const children = isExpanded ? childItems(item.id) : [];
     const isFocus = graphViewUsesFocus() && item.id === graphState.focusId;
-    const isSelected = graphState.selectedNodeId ? item.id === graphState.selectedNodeId : isFocus && !graphState.selectedEdgeId && !graphState.selectedFieldId;
+    const isSelected = graphState.selectedNodeId ? item.id === graphState.selectedNodeId : isFocus && !graphState.selectedEdgeId && !hasSelectedFields();
     const div = document.createElement("div");
     div.className = `graph-node ${nodeFamily(item.type)}-node ${isExpanded ? "expanded" : ""} ${isFocus ? "center" : ""} ${isSelected ? "selected" : ""}`;
     div.dataset.graphNode = item.id;
     div.dataset.nodeType = item.type;
+    div.style.setProperty("--node-color", colorFor(item.type));
     div.style.left = `${p.x}px`;
     div.style.top = `${p.y}px`;
     div.innerHTML = `
@@ -2019,10 +2305,10 @@ async function renderGraph(options = {}) {
         event.stopPropagation();
         const id = toggleButton.dataset.toggleNodeFields;
         const willCollapse = toggleFieldExpansion(id);
-        if (willCollapse && graphState.selectedFieldId && parentOf(graphState.selectedFieldId) === id) {
-          graphState.selectedFieldId = null;
+        if (willCollapse) {
+          removeSelectedFieldsForParent(id);
           graphState.selectedEdgeId = null;
-          graphState.selectedNodeId = id;
+          if (!hasSelectedFields()) graphState.selectedNodeId = id;
         }
         renderGraphPage();
       });
@@ -2111,7 +2397,7 @@ function renderLaneLabels() {
 
 function renderChildRow(item) {
   return `
-    <div class="field-row ${graphState.selectedFieldId === item.id ? "selected" : ""}" data-child-id="${escapeAttr(item.id)}" title="${escapeAttr(item.description || item.id)}">
+    <div class="field-row ${fieldIsSelected(item.id) ? "selected" : ""}" data-child-id="${escapeAttr(item.id)}" title="${escapeAttr(item.description || item.id)}">
       <div>
         <strong>${escapeHtml(item.name)}</strong>
         <small>${escapeHtml(item.description || item.term || "No field description.")}</small>
@@ -2368,16 +2654,20 @@ function renderViewProfile() {
 }
 function selectGraphNode(id, options = {}) {
   if (!node(id) || isChildNode(id)) return;
+  if (nodeType(id) === "semantic_metric") {
+    const metricName = metricNameForNode(id);
+    if (metricName) graphState.metricOverlays.add(metricName);
+  }
   if (!graphViewUsesFocus()) {
     graphState.selectedNodeId = id;
     graphState.selectedEdgeId = null;
-    graphState.selectedFieldId = null;
+    clearSelectedFields();
     renderGraphPage(options);
     return;
   }
   setGraphFocus(id);
   graphState.selectedEdgeId = null;
-  graphState.selectedFieldId = null;
+  clearSelectedFields();
   if (options.render === false) {
     renderGraphDetail();
     return;
@@ -2504,7 +2794,7 @@ function selectedGraphEdge() {
 
 function selectGraphEdge(edge) {
   graphState.selectedEdgeId = edge.id;
-  graphState.selectedFieldId = null;
+  clearSelectedFields();
   graphState.selectedNodeId = null;
   renderGraphDetail();
   allEdgeElements().forEach(item => {
@@ -2522,10 +2812,17 @@ function selectedGraphEdgeById(edgeId) {
 }
 
 function selectGraphField(fieldId) {
-  graphState.selectedFieldId = fieldId;
+  if (!node(fieldId) || !isChildNode(fieldId)) return;
+  if (fieldIsSelected(fieldId)) {
+    graphState.selectedFieldIds.delete(fieldId);
+    if (graphState.selectedFieldId === fieldId) syncSelectedFieldId();
+  } else {
+    graphState.selectedFieldIds.add(fieldId);
+    graphState.selectedFieldId = fieldId;
+    expandLinkedParentsForField(fieldId);
+  }
   graphState.selectedEdgeId = null;
   graphState.selectedNodeId = null;
-  expandLinkedParentsForField(fieldId);
   renderGraphPage();
 }
 
@@ -2544,6 +2841,7 @@ function expandLinkedParentsForField(fieldId) {
           "table",
           "view",
           "physical_table",
+          "semantic_dataset",
           "base_entity_concept",
           "entity_type_concept",
           "regulatory_requirement",
@@ -2640,6 +2938,31 @@ function chip(labelText, active, kind, value) {
   return `<button class="filter-chip ${color ? "type-colored" : ""} ${active ? "active" : ""}"${style} data-filter-kind="${escapeAttr(kind)}" data-filter-value="${escapeAttr(value)}" type="button">${escapeHtml(labelText)}</button>`;
 }
 
+function routeEndpointHtml(type) {
+  return `
+    <span class="route-end" style="--route-color:${escapeAttr(colorFor(type))}">
+      <span class="route-dot" aria-hidden="true"></span>
+      <span class="route-name">${escapeHtml(routeTypeName(type))}</span>
+    </span>
+  `;
+}
+
+function routeChip(sourceType, targetType, active, kind, value) {
+  const title = `${typeName(sourceType)} -> ${typeName(targetType)}`;
+  return `
+    <button class="filter-chip relation-chip route-chip ${active ? "active" : ""}" data-filter-kind="${escapeAttr(kind)}" data-filter-value="${escapeAttr(value)}" type="button" title="${escapeAttr(title)}">
+      ${routeEndpointHtml(sourceType)}
+      <span class="route-arrow" aria-hidden="true">-></span>
+      ${routeEndpointHtml(targetType)}
+    </button>
+  `;
+}
+
+function edgeFilterChip(key, active, kind) {
+  return routeChip(edgeFilterSourceType(key), edgeFilterTargetType(key), active, kind, key);
+}
+
+
 function multiSelect(values, selected, kind, labelText) {
   const allLabel = labelText === "Data type" ? "data types" : labelText.toLowerCase();
   const countText = selected.size === values.length
@@ -2717,7 +3040,7 @@ function openSelectionInGraph() {
       graphState.focusId = normalized.source;
       graphState.selectedNodeId = null;
       graphState.selectedEdgeId = normalized.id;
-      graphState.selectedFieldId = null;
+      clearSelectedFields();
       if (isBusinessEntityEdge(normalized)) graphState.businessEdgeTypes.add(normalized.type);
       else graphState.edgeTypes.add(normalized.type);
       if (isChildNode(edge.source)) graphState.expanded.add(normalized.source);
@@ -2726,7 +3049,7 @@ function openSelectionInGraph() {
   } else {
     setGraphFocus(catalogState.selectedId, { resetEdgeTypes: true });
     graphState.selectedEdgeId = null;
-    graphState.selectedFieldId = null;
+    clearSelectedFields();
   }
   openPage("graph");
 }
@@ -2742,14 +3065,15 @@ function resetCatalogFilters() {
 }
 
 function resetGraphFilters() {
-  graphState.nodeTypes = nodeTypesForMode(graphState.viewMode);
+  graphState.nodeTypes = defaultNodeTypesForMode(graphState.viewMode);
   graphState.businessEdgeTypes = defaultBusinessEdgeTypesForMode(graphState.viewMode);
   graphState.edgeTypes = defaultEdgeTypesForMode(graphState.viewMode);
+  graphState.metricOverlays.clear();
   graphState.tags = new Set(allTags());
   graphState.maxDepth = graphViewConfig().minDepth || 1;
   graphState.selectedNodeId = graphViewUsesFocus() ? graphState.focusId : null;
   graphState.selectedEdgeId = null;
-  graphState.selectedFieldId = null;
+  clearSelectedFields();
   graphState.expanded.clear();
   graphState.autoExpandSuppressed.clear();
   graphState.hiddenNodes.clear();
@@ -2788,6 +3112,7 @@ function multiFilterConfig(kind) {
     "catalog-edge-type": { set: catalogState.edgeTypes, values: edgeTypes },
     "catalog-tag": { set: catalogState.tags, values: allTags },
     "graph-business-edge-type": { set: graphState.businessEdgeTypes, values: graphBusinessEdgeTypeOptions },
+    "graph-metric-overlay": { set: graphState.metricOverlays, values: metricOverlayOptions },
     "graph-edge-type": { set: graphState.edgeTypes, values: graphEdgeTypeOptions },
     "graph-tag": { set: graphState.tags, values: allTags },
   };
@@ -2844,7 +3169,7 @@ function visibleGraphBounds() {
 }
 
 function estimatedExpandedHeight(id) {
-  const rows = childItems(id).slice(0, 18).length;
+  const rows = childItems(id).length;
   return 118 + rows * 68;
 }
 
@@ -2954,7 +3279,7 @@ document.addEventListener("click", event => {
     catalogState.selectedId = openNode.dataset.openGraphNode;
     setGraphFocus(catalogState.selectedId, { resetEdgeTypes: true });
     graphState.selectedEdgeId = null;
-    graphState.selectedFieldId = null;
+    clearSelectedFields();
     openPage("graph");
     event.stopPropagation();
     return;
@@ -3016,10 +3341,10 @@ document.addEventListener("click", event => {
   if (expand) {
     const id = expand.dataset.toggleNodeFields;
     const willCollapse = toggleFieldExpansion(id);
-    if (willCollapse && graphState.selectedFieldId && parentOf(graphState.selectedFieldId) === id) {
-      graphState.selectedFieldId = null;
+    if (willCollapse) {
+      removeSelectedFieldsForParent(id);
       graphState.selectedEdgeId = null;
-      graphState.selectedNodeId = id;
+      if (!hasSelectedFields()) graphState.selectedNodeId = id;
     }
     renderGraphPage();
     return;
@@ -3030,7 +3355,7 @@ document.addEventListener("click", event => {
     graphState.focusId = related.dataset.relatedNode;
     graphState.selectedNodeId = null;
     graphState.selectedEdgeId = related.dataset.miniEdge || null;
-    graphState.selectedFieldId = null;
+    clearSelectedFields();
     openPage("graph");
     return;
   }
@@ -3093,7 +3418,7 @@ els.expandSelected.addEventListener("click", () => {
   const open = !allVisibleFieldNodesExpanded();
   setAllVisibleFields(open);
   if (!open) {
-    graphState.selectedFieldId = null;
+    clearSelectedFields();
     graphState.selectedEdgeId = null;
   }
   renderGraphPage();

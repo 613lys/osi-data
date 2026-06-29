@@ -1,0 +1,26 @@
+- name: AccountIdentifier
+  description: Identifier value assigned to an account or account-like record.
+- name: CustomerIdentifier
+  description: Identifier value assigned to a customer, depositor, or legal entity.
+- name: ProductIdentifier
+  description: Identifier value assigned to a product definition.
+- name: CalendarDate
+  description: Calendar date value used for reporting and business event timing.
+- name: MonetaryAmount
+  description: Decimal numeric value representing an amount of money.
+- name: CurrencyCode
+  description: Code value identifying a currency.
+- name: Rate
+  description: Decimal ratio value representing a percentage, runoff rate, stability rate, or probability.
+- name: LiquidityBucket
+  description: Classification value identifying a liquidity reporting bucket.
+- name: CustomerSegment
+  description: Classification value identifying a customer or depositor segment.
+- name: PersonOrEntityName
+  description: Name value representing a person, organization, or legal entity.
+- name: CountryCode
+  description: Code value identifying a country or jurisdiction.
+- name: ProductType
+  description: Classification value identifying the type of product.
+- name: RegulatoryClass
+  description: Classification value used for regulatory reporting categories.

@@ -1,0 +1,39 @@
+concept: Depositor
+object_mappings:
+- referent_mappings:
+  - relationship: has_CustomerIdentifier
+    expression: deposit_customers.customer_id
+- referent_mappings:
+  - relationship: has_CustomerIdentifier
+    expression: deposit_liquidity_report_lines.customer_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CustomerIdentifier
+      expression: deposit_customers.customer_id
+  children:
+  - relationship: has_CustomerIdentifier
+    object_mapping:
+      concept: CustomerIdentifier
+      expression: deposit_customers.customer_id
+  - relationship: has_DomicileCountry
+    object_mapping:
+      concept: CountryCode
+      expression: deposit_customers.domicile_country
+  - relationship: has_CustomerName
+    object_mapping:
+      concept: PersonOrEntityName
+      expression: deposit_customers.customer_name
+  - relationship: has_CustomerSegment
+    object_mapping:
+      concept: CustomerSegment
+      expression: deposit_customers.segment
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CustomerIdentifier
+      expression: deposit_liquidity_report_lines.customer_id
+  children:
+  - relationship: has_CustomerIdentifier
+    object_mapping:
+      concept: CustomerIdentifier
+      expression: deposit_liquidity_report_lines.customer_id

@@ -180,154 +180,309 @@
     "text": "value.MarginAccount.has_AccountStatus value_type_property StatusCode Status common to account-like records. Status common to account-like records."
   },
   {
-    "id": "table.collateral_margin_report_lines",
+    "id": "dataset.collateral_margin_report_lines",
+    "type": "semantic_dataset",
+    "text": "dataset.collateral_margin_report_lines semantic_dataset collateral_margin_report_lines Produced collateral margin report line records at report-line grain, carrying the account, counterparty, collateral, valuation date, and eligible collateral value submitted for reporting. Produced collateral margin report line records at report-line grain, carrying the account, counterparty, collateral, valuation date, and eligible collateral value submitted for reporting. reporting.collateral_margin_report_lines"
+  },
+  {
+    "id": "table.reporting.collateral_margin_report_lines",
     "type": "physical_table",
-    "text": "table.collateral_margin_report_lines physical_table collateral_margin_report_lines Produced collateral margin report line records at report-line grain, carrying the account, counterparty, collateral, valuation date, and eligible collateral value submitted for reporting. Produced collateral margin report line records at report-line grain, carrying the account, counterparty, collateral, valuation date, and eligible collateral value submitted for reporting. reporting.collateral_margin_report_lines"
+    "text": "table.reporting.collateral_margin_report_lines physical_table collateral_margin_report_lines reporting.collateral_margin_report_lines"
   },
   {
-    "id": "column.collateral_margin_report_lines.report_id",
+    "id": "field.collateral_margin_report_lines.report_id",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.report_id dataset_field report_id Identifier of the generated collateral margin report submission. Identifier of the generated collateral margin report submission."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.report_id",
     "type": "column",
-    "text": "column.collateral_margin_report_lines.report_id column report_id Identifier of the generated collateral margin report submission."
+    "text": "column.reporting.collateral_margin_report_lines.report_id column report_id Identifier of the generated collateral margin report submission. Identifier of the generated collateral margin report submission."
   },
   {
-    "id": "column.collateral_margin_report_lines.line_number",
+    "id": "field.collateral_margin_report_lines.line_number",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.line_number dataset_field line_number Line sequence number within a collateral margin report submission. Line sequence number within a collateral margin report submission."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.line_number",
     "type": "column",
-    "text": "column.collateral_margin_report_lines.line_number column line_number Line sequence number within a collateral margin report submission."
+    "text": "column.reporting.collateral_margin_report_lines.line_number column line_number Line sequence number within a collateral margin report submission. Line sequence number within a collateral margin report submission."
   },
   {
-    "id": "column.collateral_margin_report_lines.account_id",
+    "id": "field.collateral_margin_report_lines.account_id",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.account_id dataset_field account_id Margin account identifier reported on the output line. Margin account identifier reported on the output line."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.account_id",
     "type": "column",
-    "text": "column.collateral_margin_report_lines.account_id column account_id Margin account identifier reported on the output line."
+    "text": "column.reporting.collateral_margin_report_lines.account_id column account_id Margin account identifier reported on the output line. Margin account identifier reported on the output line."
   },
   {
-    "id": "column.collateral_margin_report_lines.counterparty_id",
+    "id": "field.collateral_margin_report_lines.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.counterparty_id dataset_field counterparty_id Counterparty identifier reported on the output line. Counterparty identifier reported on the output line."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.counterparty_id",
     "type": "column",
-    "text": "column.collateral_margin_report_lines.counterparty_id column counterparty_id Counterparty identifier reported on the output line."
+    "text": "column.reporting.collateral_margin_report_lines.counterparty_id column counterparty_id Counterparty identifier reported on the output line. Counterparty identifier reported on the output line."
   },
   {
-    "id": "column.collateral_margin_report_lines.collateral_id",
+    "id": "field.collateral_margin_report_lines.collateral_id",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.collateral_id dataset_field collateral_id Collateral asset identifier reported on the output line. Collateral asset identifier reported on the output line."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.collateral_id",
     "type": "column",
-    "text": "column.collateral_margin_report_lines.collateral_id column collateral_id Collateral asset identifier reported on the output line."
+    "text": "column.reporting.collateral_margin_report_lines.collateral_id column collateral_id Collateral asset identifier reported on the output line. Collateral asset identifier reported on the output line."
   },
   {
-    "id": "column.collateral_margin_report_lines.valuation_date",
+    "id": "field.collateral_margin_report_lines.valuation_date",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.valuation_date dataset_field valuation_date Valuation date used for the reported collateral amount. Valuation date used for the reported collateral amount."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.valuation_date",
     "type": "column",
-    "text": "column.collateral_margin_report_lines.valuation_date column valuation_date Valuation date used for the reported collateral amount."
+    "text": "column.reporting.collateral_margin_report_lines.valuation_date column valuation_date Valuation date used for the reported collateral amount. Valuation date used for the reported collateral amount."
   },
   {
-    "id": "column.collateral_margin_report_lines.eligible_collateral_value",
+    "id": "field.collateral_margin_report_lines.eligible_collateral_value",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.eligible_collateral_value dataset_field eligible_collateral_value Reportable collateral value after applying haircut and eligibility calculation. Reportable collateral value after applying haircut and eligibility calculation."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.eligible_collateral_value",
     "type": "column",
-    "text": "column.collateral_margin_report_lines.eligible_collateral_value column eligible_collateral_value Reportable collateral value after applying haircut and eligibility calculation."
+    "text": "column.reporting.collateral_margin_report_lines.eligible_collateral_value column eligible_collateral_value Reportable collateral value after applying haircut and eligibility calculation. Reportable collateral value after applying haircut and eligibility calculation."
   },
   {
-    "id": "table.collateral_positions",
+    "id": "dataset.collateral_positions",
+    "type": "semantic_dataset",
+    "text": "dataset.collateral_positions semantic_dataset collateral_positions Collateral position records that describe pledged collateral assets assigned to margin accounts, including asset classification, currency, and issuer jurisdiction. Collateral position records that describe pledged collateral assets assigned to margin accounts, including asset classification, currency, and issuer jurisdiction. collateral_master.collateral_positions"
+  },
+  {
+    "id": "table.collateral_master.collateral_positions",
     "type": "physical_table",
-    "text": "table.collateral_positions physical_table collateral_positions Collateral position records that describe pledged collateral assets assigned to margin accounts, including asset classification, currency, and issuer jurisdiction. Collateral position records that describe pledged collateral assets assigned to margin accounts, including asset classification, currency, and issuer jurisdiction. collateral_master.collateral_positions"
+    "text": "table.collateral_master.collateral_positions physical_table collateral_positions collateral_master.collateral_positions"
   },
   {
-    "id": "column.collateral_positions.collateral_id",
+    "id": "field.collateral_positions.collateral_id",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.collateral_id dataset_field collateral_id Stable identifier for the pledged collateral asset position. Stable identifier for the pledged collateral asset position."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.collateral_id",
     "type": "column",
-    "text": "column.collateral_positions.collateral_id column collateral_id Stable identifier for the pledged collateral asset position."
+    "text": "column.collateral_master.collateral_positions.collateral_id column collateral_id Stable identifier for the pledged collateral asset position. Stable identifier for the pledged collateral asset position."
   },
   {
-    "id": "column.collateral_positions.account_id",
+    "id": "field.collateral_positions.account_id",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.account_id dataset_field account_id Margin account identifier to which the collateral position is assigned. Margin account identifier to which the collateral position is assigned."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.account_id",
     "type": "column",
-    "text": "column.collateral_positions.account_id column account_id Margin account identifier to which the collateral position is assigned."
+    "text": "column.collateral_master.collateral_positions.account_id column account_id Margin account identifier to which the collateral position is assigned. Margin account identifier to which the collateral position is assigned."
   },
   {
-    "id": "column.collateral_positions.asset_type",
+    "id": "field.collateral_positions.asset_type",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.asset_type dataset_field asset_type Asset classification of the pledged collateral used for eligibility assessment. Asset classification of the pledged collateral used for eligibility assessment."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.asset_type",
     "type": "column",
-    "text": "column.collateral_positions.asset_type column asset_type Asset classification of the pledged collateral used for eligibility assessment."
+    "text": "column.collateral_master.collateral_positions.asset_type column asset_type Asset classification of the pledged collateral used for eligibility assessment. Asset classification of the pledged collateral used for eligibility assessment."
   },
   {
-    "id": "column.collateral_positions.currency",
+    "id": "field.collateral_positions.currency",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.currency dataset_field currency Denomination currency of the pledged collateral position. Denomination currency of the pledged collateral position."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.currency",
     "type": "column",
-    "text": "column.collateral_positions.currency column currency Denomination currency of the pledged collateral position."
+    "text": "column.collateral_master.collateral_positions.currency column currency Denomination currency of the pledged collateral position. Denomination currency of the pledged collateral position."
   },
   {
-    "id": "column.collateral_positions.issuer_country",
+    "id": "field.collateral_positions.issuer_country",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.issuer_country dataset_field issuer_country Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules. Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.issuer_country",
     "type": "column",
-    "text": "column.collateral_positions.issuer_country column issuer_country Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules."
+    "text": "column.collateral_master.collateral_positions.issuer_country column issuer_country Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules. Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules."
   },
   {
-    "id": "table.collateral_valuations",
+    "id": "dataset.collateral_valuations",
+    "type": "semantic_dataset",
+    "text": "dataset.collateral_valuations semantic_dataset collateral_valuations Daily collateral valuation records that capture market value and haircut inputs for pledged assets at valuation-date grain. Daily collateral valuation records that capture market value and haircut inputs for pledged assets at valuation-date grain. market_risk.collateral_valuations"
+  },
+  {
+    "id": "table.market_risk.collateral_valuations",
     "type": "physical_table",
-    "text": "table.collateral_valuations physical_table collateral_valuations Daily collateral valuation records that capture market value and haircut inputs for pledged assets at valuation-date grain. Daily collateral valuation records that capture market value and haircut inputs for pledged assets at valuation-date grain. market_risk.collateral_valuations"
+    "text": "table.market_risk.collateral_valuations physical_table collateral_valuations market_risk.collateral_valuations"
   },
   {
-    "id": "column.collateral_valuations.valuation_id",
+    "id": "field.collateral_valuations.valuation_id",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.valuation_id dataset_field valuation_id Stable identifier for a collateral valuation record. Stable identifier for a collateral valuation record."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.valuation_id",
     "type": "column",
-    "text": "column.collateral_valuations.valuation_id column valuation_id Stable identifier for a collateral valuation record."
+    "text": "column.market_risk.collateral_valuations.valuation_id column valuation_id Stable identifier for a collateral valuation record. Stable identifier for a collateral valuation record."
   },
   {
-    "id": "column.collateral_valuations.collateral_id",
+    "id": "field.collateral_valuations.collateral_id",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.collateral_id dataset_field collateral_id Identifier of the pledged collateral asset being valued. Identifier of the pledged collateral asset being valued."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.collateral_id",
     "type": "column",
-    "text": "column.collateral_valuations.collateral_id column collateral_id Identifier of the pledged collateral asset being valued."
+    "text": "column.market_risk.collateral_valuations.collateral_id column collateral_id Identifier of the pledged collateral asset being valued. Identifier of the pledged collateral asset being valued."
   },
   {
-    "id": "column.collateral_valuations.valuation_date",
+    "id": "field.collateral_valuations.valuation_date",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.valuation_date dataset_field valuation_date Business date on which the collateral market value and haircut are observed. Business date on which the collateral market value and haircut are observed."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.valuation_date",
     "type": "column",
-    "text": "column.collateral_valuations.valuation_date column valuation_date Business date on which the collateral market value and haircut are observed."
+    "text": "column.market_risk.collateral_valuations.valuation_date column valuation_date Business date on which the collateral market value and haircut are observed. Business date on which the collateral market value and haircut are observed."
   },
   {
-    "id": "column.collateral_valuations.market_value_amount",
+    "id": "field.collateral_valuations.market_value_amount",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.market_value_amount dataset_field market_value_amount Observed market value amount of the collateral before haircut adjustment. Observed market value amount of the collateral before haircut adjustment."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.market_value_amount",
     "type": "column",
-    "text": "column.collateral_valuations.market_value_amount column market_value_amount Observed market value amount of the collateral before haircut adjustment."
+    "text": "column.market_risk.collateral_valuations.market_value_amount column market_value_amount Observed market value amount of the collateral before haircut adjustment. Observed market value amount of the collateral before haircut adjustment."
   },
   {
-    "id": "column.collateral_valuations.haircut_rate",
+    "id": "field.collateral_valuations.haircut_rate",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.haircut_rate dataset_field haircut_rate Haircut percentage applied to collateral market value for eligibility calculation. Haircut percentage applied to collateral market value for eligibility calculation."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.haircut_rate",
     "type": "column",
-    "text": "column.collateral_valuations.haircut_rate column haircut_rate Haircut percentage applied to collateral market value for eligibility calculation."
+    "text": "column.market_risk.collateral_valuations.haircut_rate column haircut_rate Haircut percentage applied to collateral market value for eligibility calculation. Haircut percentage applied to collateral market value for eligibility calculation."
   },
   {
-    "id": "table.counterparties",
+    "id": "dataset.counterparties",
+    "type": "semantic_dataset",
+    "text": "dataset.counterparties semantic_dataset counterparties Legal counterparty reference records used to identify reporting counterparties, domicile, and regulatory segmentation for collateral margin obligations. Legal counterparty reference records used to identify reporting counterparties, domicile, and regulatory segmentation for collateral margin obligations. margin_core.counterparties"
+  },
+  {
+    "id": "table.margin_core.counterparties",
     "type": "physical_table",
-    "text": "table.counterparties physical_table counterparties Legal counterparty reference records used to identify reporting counterparties, domicile, and regulatory segmentation for collateral margin obligations. Legal counterparty reference records used to identify reporting counterparties, domicile, and regulatory segmentation for collateral margin obligations. margin_core.counterparties"
+    "text": "table.margin_core.counterparties physical_table counterparties margin_core.counterparties"
   },
   {
-    "id": "column.counterparties.counterparty_id",
+    "id": "field.counterparties.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.counterparties.counterparty_id dataset_field counterparty_id Stable identifier for the legal counterparty reference record. Stable identifier for the legal counterparty reference record."
+  },
+  {
+    "id": "column.margin_core.counterparties.counterparty_id",
     "type": "column",
-    "text": "column.counterparties.counterparty_id column counterparty_id Stable identifier for the legal counterparty reference record."
+    "text": "column.margin_core.counterparties.counterparty_id column counterparty_id Stable identifier for the legal counterparty reference record. Stable identifier for the legal counterparty reference record."
   },
   {
-    "id": "column.counterparties.legal_name",
+    "id": "field.counterparties.legal_name",
+    "type": "dataset_field",
+    "text": "field.counterparties.legal_name dataset_field legal_name Registered legal name of the reporting counterparty. Registered legal name of the reporting counterparty."
+  },
+  {
+    "id": "column.margin_core.counterparties.legal_name",
     "type": "column",
-    "text": "column.counterparties.legal_name column legal_name Registered legal name of the reporting counterparty."
+    "text": "column.margin_core.counterparties.legal_name column legal_name Registered legal name of the reporting counterparty. Registered legal name of the reporting counterparty."
   },
   {
-    "id": "column.counterparties.domicile_country",
+    "id": "field.counterparties.domicile_country",
+    "type": "dataset_field",
+    "text": "field.counterparties.domicile_country dataset_field domicile_country Country or jurisdiction where the counterparty is domiciled for regulatory classification. Country or jurisdiction where the counterparty is domiciled for regulatory classification."
+  },
+  {
+    "id": "column.margin_core.counterparties.domicile_country",
     "type": "column",
-    "text": "column.counterparties.domicile_country column domicile_country Country or jurisdiction where the counterparty is domiciled for regulatory classification."
+    "text": "column.margin_core.counterparties.domicile_country column domicile_country Country or jurisdiction where the counterparty is domiciled for regulatory classification. Country or jurisdiction where the counterparty is domiciled for regulatory classification."
   },
   {
-    "id": "column.counterparties.regulatory_segment",
+    "id": "field.counterparties.regulatory_segment",
+    "type": "dataset_field",
+    "text": "field.counterparties.regulatory_segment dataset_field regulatory_segment Regulatory counterparty segment used for reporting categorization and eligibility rules. Regulatory counterparty segment used for reporting categorization and eligibility rules."
+  },
+  {
+    "id": "column.margin_core.counterparties.regulatory_segment",
     "type": "column",
-    "text": "column.counterparties.regulatory_segment column regulatory_segment Regulatory counterparty segment used for reporting categorization and eligibility rules."
+    "text": "column.margin_core.counterparties.regulatory_segment column regulatory_segment Regulatory counterparty segment used for reporting categorization and eligibility rules. Regulatory counterparty segment used for reporting categorization and eligibility rules."
   },
   {
-    "id": "table.margin_accounts",
+    "id": "dataset.margin_accounts",
+    "type": "semantic_dataset",
+    "text": "dataset.margin_accounts semantic_dataset margin_accounts Margin account records that track collateralized account obligations, account status, base currency, and the linked counterparty used for margin reporting. Margin account records that track collateralized account obligations, account status, base currency, and the linked counterparty used for margin reporting. margin_core.margin_accounts"
+  },
+  {
+    "id": "table.margin_core.margin_accounts",
     "type": "physical_table",
-    "text": "table.margin_accounts physical_table margin_accounts Margin account records that track collateralized account obligations, account status, base currency, and the linked counterparty used for margin reporting. Margin account records that track collateralized account obligations, account status, base currency, and the linked counterparty used for margin reporting. margin_core.margin_accounts"
+    "text": "table.margin_core.margin_accounts physical_table margin_accounts margin_core.margin_accounts"
   },
   {
-    "id": "column.margin_accounts.account_id",
-    "type": "column",
-    "text": "column.margin_accounts.account_id column account_id Stable identifier for a margin account record at account grain."
+    "id": "field.margin_accounts.account_id",
+    "type": "dataset_field",
+    "text": "field.margin_accounts.account_id dataset_field account_id Stable identifier for a margin account record at account grain. Stable identifier for a margin account record at account grain."
   },
   {
-    "id": "column.margin_accounts.counterparty_id",
+    "id": "column.margin_core.margin_accounts.account_id",
     "type": "column",
-    "text": "column.margin_accounts.counterparty_id column counterparty_id Identifier of the legal counterparty responsible for the margin account."
+    "text": "column.margin_core.margin_accounts.account_id column account_id Stable identifier for a margin account record at account grain. Stable identifier for a margin account record at account grain."
   },
   {
-    "id": "column.margin_accounts.base_currency",
-    "type": "column",
-    "text": "column.margin_accounts.base_currency column base_currency Currency in which the margin account obligation is primarily managed and reported."
+    "id": "field.margin_accounts.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.margin_accounts.counterparty_id dataset_field counterparty_id Identifier of the legal counterparty responsible for the margin account. Identifier of the legal counterparty responsible for the margin account."
   },
   {
-    "id": "column.margin_accounts.account_status",
+    "id": "column.margin_core.margin_accounts.counterparty_id",
     "type": "column",
-    "text": "column.margin_accounts.account_status column account_status Operational status of the margin account used to determine reporting eligibility."
+    "text": "column.margin_core.margin_accounts.counterparty_id column counterparty_id Identifier of the legal counterparty responsible for the margin account. Identifier of the legal counterparty responsible for the margin account."
+  },
+  {
+    "id": "field.margin_accounts.base_currency",
+    "type": "dataset_field",
+    "text": "field.margin_accounts.base_currency dataset_field base_currency Currency in which the margin account obligation is primarily managed and reported. Currency in which the margin account obligation is primarily managed and reported."
+  },
+  {
+    "id": "column.margin_core.margin_accounts.base_currency",
+    "type": "column",
+    "text": "column.margin_core.margin_accounts.base_currency column base_currency Currency in which the margin account obligation is primarily managed and reported. Currency in which the margin account obligation is primarily managed and reported."
+  },
+  {
+    "id": "field.margin_accounts.account_status",
+    "type": "dataset_field",
+    "text": "field.margin_accounts.account_status dataset_field account_status Operational status of the margin account used to determine reporting eligibility. Operational status of the margin account used to determine reporting eligibility."
+  },
+  {
+    "id": "column.margin_core.margin_accounts.account_status",
+    "type": "column",
+    "text": "column.margin_core.margin_accounts.account_status column account_status Operational status of the margin account used to determine reporting eligibility. Operational status of the margin account used to determine reporting eligibility."
+  },
+  {
+    "id": "metric.eligible_collateral_value",
+    "type": "semantic_metric",
+    "text": "metric.eligible_collateral_value semantic_metric eligible_collateral_value Market value after haircut for regulatory eligible collateral reporting. Market value after haircut for regulatory eligible collateral reporting."
   },
   {
     "id": "requirement.item",

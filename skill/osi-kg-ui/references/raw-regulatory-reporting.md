@@ -26,8 +26,10 @@ source: Collateral Margin Reporting BRD v1.0 section 3.2
 SLA: Daily EOD before 21:00 local time; business review completed before submission.
 semantic_scope:
   concepts:
-  - MarginAccount
-  - Counterparty
+  - name: MarginAccount
+    description: 需求需要保证金账户作为报送主粒度，用于账户级余额、抵质押品和责任归属汇总。
+  - name: Counterparty
+    description: 需求需要交易对手信息，用于识别账户责任主体并支持监管分类。
   required_fields:
   - name: 保证金账户标识
     description: 需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。
@@ -92,7 +94,7 @@ reporting_requirements:
 
 UI effect:
 
-- Creates a blue Report Requirement node.
+- Creates an orange Report Requirement node.
 - Shows `source` and `SLA` in the Report Requirement profile.
 - Creates requirement child rows for required fields, calculations, controls, and only explicit relationship requirements.
 - Creates `REQUIRES_CONCEPT` and `REQUIRES_SEMANTIC_FIELD` edges; `REQUIRES_CONCEPT` descriptions come directly from `semantic_scope.concepts[].description`; creates `REQUIRES_SEMANTIC_RELATIONSHIP` only for explicit relationship requirements.
@@ -167,5 +169,3 @@ UI effect:
 - Creates `MAPS_TO_FIELD` from a data logic field row to the dataset field it describes.
 - Creates `SOURCE_FIELD` and `IMPLEMENTS_FIELD` field-level edges.
 - Report Data Logic field edges appear only after selecting a concrete field mapping row.
-
-

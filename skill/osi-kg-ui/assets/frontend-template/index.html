@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>OSI Regulatory Reporting Explorer</title>
-    <link rel="stylesheet" href="./style.css?v=osi-reg-report-skill-v1" />
+    <link rel="stylesheet" href="./style.css?v=osi-reg-report-skill-v9" />
   </head>
   <body>
     <header class="topbar">
@@ -43,7 +43,7 @@
           <div class="section-title">Edge Type</div>
           <div id="catalogBusinessEdgeTypeFilters" class="chip-list"></div>
           <div id="catalogEdgeTypeFilters" class="chip-list"></div>
-          <p class="filter-help">Business relationships are Entity-to-Entity actions; other edge types are mapping, lineage, reporting, and table relationships.</p>
+          <p class="filter-help">Edge chips filter node-to-node relationships. Field-level links are shown by selecting fields or metric overlays.</p>
         </section>
 
         <button id="catalogResetButton" class="secondary" type="button">Reset search filters</button>
@@ -112,11 +112,17 @@
           <div id="graphNodeTypeFilters" class="chip-list"></div>
         </section>
 
+        <section id="graphMetricSection" class="filter-section hidden">
+          <div class="section-title">Metric Overlay</div>
+          <div id="graphMetricFilters" class="chip-list"></div>
+          <p class="filter-help">Selected metrics are drawn as overlay nodes with their semantic and dataset dependencies.</p>
+        </section>
+
         <section id="graphEdgeTypeSection" class="filter-section">
           <div class="section-title">Edge Type</div>
           <div id="graphBusinessEdgeTypeFilters" class="chip-list"></div>
           <div id="graphEdgeTypeFilters" class="chip-list"></div>
-          <p class="filter-help">Business relationships are Entity-to-Entity actions; other edge types are mapping, lineage, reporting, and table relationships.</p>
+          <p class="filter-help">Edge chips filter node-to-node relationships. Field-level links are shown by selecting fields or metric overlays.</p>
         </section>
 
         <button id="graphResetButton" class="secondary" type="button">Reset graph filters</button>
@@ -165,8 +171,8 @@
     </main>
 
     <script src="./vendor/elk.bundled.js?v=0.9.3"></script>
-    <script src="./graph-data.js?v=osi-requirement-implementation-v22"></script>
-    <script src="./catalog-data.js?v=osi-requirement-implementation-v22"></script>
-    <script src="./app.js?v=osi-requirement-implementation-v22"></script>
+    <script src="./graph-data.js?v=osi-requirement-implementation-v30"></script>
+    <script src="./catalog-data.js?v=osi-requirement-implementation-v30"></script>
+    <script src="./app.js?v=osi-requirement-implementation-v30"></script>
   </body>
 </html>

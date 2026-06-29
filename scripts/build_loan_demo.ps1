@@ -16,7 +16,7 @@ $ComposedRaw = Join-Path $DemoRoot "raw\loan-exposure-source.composed.yaml"
   --output $ComposedRaw
 
 & $Python `
-  (Join-Path $DemoRoot "scripts\generate_osi_yaml.py") `
+  (Join-Path $SkillRoot "scripts\generate_osi_yaml.py") `
   --raw $ComposedRaw `
   --output (Join-Path $DemoRoot "knowledge\regulatory-reporting-osi.yaml") `
   --app-output (Join-Path $DemoRoot "knowledge\regulatory-reporting-app.yaml")

@@ -126,9 +126,9 @@ Rules:
 - Use `derived_by` for derivation rules and `requires` for constraints that must hold. Every OSI ontology relationship must include `verbalizes`; put `multiplicity` on the relationship with OSI values `ManyToOne` or `OneToOne`, never under `roles`.
 - The UI identifies EntityType fields by checking whether a relationship role's `concept` is a declared or built-in `ValueType`; it does not require or trust `role.name: value`.
 
-## Semantic Model And Physical Tables
+## Semantic Model, Datasets, And Physical Tables
 
-Declare physical datasets under `ontology_mappings[].semantic_model.datasets`.
+Declare semantic model datasets under `ontology_mappings[].semantic_model.datasets`. A dataset may represent a physical table, a physical view, or a documented logical/query dataset. The dataset is the semantic-model object; its scalar `source` and optional `custom_extensions` carry physical source context.
 
 ```yaml
 ontology_mappings:
@@ -157,11 +157,11 @@ ontology_mappings:
 
 Rules:
 
-- Preserve physical table names, column names, data types, nullability, keys, comments, field descriptions, and explicit OSI field expression objects. Every semantic model field must have a business-readable description and an `expression.dialects[]` object mapping it to a physical column or scalar derived expression.
+- Preserve physical source names, column names, data types, nullability, keys, comments, field descriptions, and explicit OSI field expression objects. Every semantic model field must have a business-readable description and an `expression.dialects[]` object mapping it to a physical column, another semantic dataset field, or a scalar derived expression.
 - Generate the semantic model from table metadata before generating ontology mappings.
 - Generate `semantic_model.relationships[]` from foreign keys, join columns, reference columns, or documented joins.
 - Do not invent physical fields. If a field is required but absent, model it as a requirement or implementation gap.
-- Do not create a separate `physical_view` concept. Model outputs and source tables as datasets.
+- Do not create a separate `physical_view` concept. Model documented views/queries as semantic datasets with scalar `source`; put multi-table/query dependencies under `custom_extensions` rather than inventing unsupported OSI fields.
 
 ## Mapping Levels
 
@@ -182,11 +182,11 @@ Rules:
 - If an EntityType needs composite identity, use referent/identity mapping. Do not use link mappings just to express composite identity.
 - For each `concept_mappings[]` entry, root `object_mappings[].referent_mappings[].relationship` must exactly match the mapped EntityType `identify_by` relationships. If the EntityType inherits an identifier from its Base Entity, the mapping still uses that inherited relationship name.
 - Link mappings connect records/entities; referent mappings identify what a record refers to.
-- Preserve both mapping grains in the graph: concept-level mappings (`EntityType -> dataset/table`) and field-level mappings (`EntityType.relationship value field -> dataset.field`).
+- Preserve both mapping grains in the graph: concept-level mappings (`EntityType -> semantic dataset` and `EntityType -> metric`) and field-level mappings (`EntityType.relationship value field -> semantic dataset.field` or metric).
 - Derive field-level mapping edges from `concept_mappings[].object_mappings/referent_mappings/link_mappings` by combining `concept`, `relationship`, and the `dataset.column` references inside `expression`.
 - For every semantic model dataset, either map it to an existing EntityType or explicitly mark it as an output/support dataset that should not create a business EntityType.
 - For every concrete EntityType, create a concept mapping. For every EntityType relationship/value field, including inherited Base Entity fields, create or preserve mapping evidence to an existing semantic model `dataset.column`. Do not put SQL expressions in concept mappings; use semantic model fields or metrics for derived values.
-- Concept mapping expressions always reference semantic model datasets and fields (`semantic_model.datasets[].name.field`), not SQL and not undeclared physical table names. The dataset `source` carries the physical table/view/query identity.
+- Concept mapping expressions always reference semantic model datasets and fields (`semantic_model.datasets[].name.field`) or `metric.<metric_name>`, not SQL and not undeclared physical table names. The dataset `source` carries the physical table/view/query identity.
 - An EntityType can map to multiple semantic datasets. The UI will render multiple `MAPS_TO` edges and field-level mapping edges for every referenced `dataset.column`.
 - A single EntityType-to-ValueType field may map to multiple `dataset.column` references when the physical sources are a union. The UI renders one semantic field row and multiple `MAPS_TO_FIELD` edges.
 - Use multiple mapping entries for true union of row sources. For calculated/fallback logic such as `COALESCE` or `CASE`, create a semantic model field or metric first and map the concept relationship to that semantic field or metric reference.
@@ -197,18 +197,18 @@ Rules:
 
 ## Metrics
 
-OSI metrics are defined at semantic model level. Metrics are not only for regulatory reporting; they can represent calculated value fields that belong to an EntityType. For this KG UI, do not render metrics as ordinary top-level graph nodes or as Table child rows. Render a metric only through an EntityType ValueType relationship mapped to `metric.<metric_name>`.
+OSI metrics are defined at semantic model level. Metrics are not only for regulatory reporting; they can represent calculated value fields that belong to an EntityType. For this KG UI, render metrics as blue semantic-model Metric overlay nodes in Semantic Model View and Mapping View when selected, never as Table child rows. Also render a metric through any EntityType ValueType relationship mapped to `metric.<metric_name>`.
 
 Rules:
 
 - Keep metrics in the OSI-native `semantic_model.metrics[]` structure.
 - When a metric is an EntityType's own calculated value, declare an EntityType-to-ValueType relationship for that field, for example `has_EligibleCollateralValue -> MonetaryAmount`, and map it in concept mappings with `expression: metric.eligible_collateral_value`.
-- Metric-backed EntityType fields keep their ValueType, such as `MonetaryAmount`, for semantic domain reuse and create `DERIVED_BY` edges directly to the Table fields referenced by the metric expression.
+- Metric-backed EntityType fields keep their ValueType, such as `MonetaryAmount`, for semantic domain reuse and create `DERIVED_BY` edges directly to the Dataset Fields referenced by the metric expression.
 - Do not add non-OSI fields to metric objects; use `custom_extensions` only when extra KG/UI metadata is required.
 - Parse `dataset.column` references from metric expressions.
-- Do not show semantic metrics under Table nodes.
-- Create field-level `DERIVED_BY` edges from the EntityType metric-backed value field to the physical columns used by the metric expression.
-- Only draw metric dependency edges after the user selects the EntityType metric-backed field row.
+- Do not show semantic metrics under Table nodes. Show them as selected semantic Metric overlay nodes sourced from `semantic_model.metrics[]`.
+- Create node-level `DERIVED_BY` summary edges from each selected semantic Metric node to input Semantic Dataset nodes, field-level `DERIVED_BY` edges from the metric-backed EntityType value field or Metric node to the Dataset Fields used by the metric expression, and a Mapping View `DERIVED_BY` field edge from the EntityType metric-backed value field to the selected Metric node.
+- Only draw field-level metric dependency edges after the user selects the relevant field row. Node-level metric-to-dataset summary edges may be visible in Semantic Model View.
 - If the metric is required by a regulatory report, expose it through an EntityType-owned value field and reference that field from the requirement; do not use `metric.<name>` as the requirement data item or calculation output.
 - If a required/implemented field is calculated from semantic model fields, create or reuse a `semantic_model.metrics[]` entry and map it to the relevant EntityType ValueType relationship. The ValueType is the field domain, such as `MonetaryAmount`; the metric is the calculation source, not a ValueType concept.
 - If a metric uses multiple datasets/tables, the EntityType metric-backed field connects to all input fields with `DERIVED_BY`.
@@ -255,10 +255,10 @@ RELATED_TO
 CONTAINS                  # internal parent/child structure only; do not show in Edge Type filters
 EXTENDS                   # Entity Concept extends Base Entity Concept
 SHARES_VALUE_TYPE          # two Entity fields reuse the same ValueType
-MAPS_TO                   # Entity Concept maps to semantic dataset/table
-MAPS_TO_FIELD             # Entity/Value field maps to dataset field or metric-backed field
-DATASET_JOIN              # dataset/table relationship from semantic model joins
-DERIVED_BY                # metric-backed Entity field is derived by physical dataset fields
+MAPS_TO                   # Entity Concept maps to Semantic Dataset or selected semantic Metric
+MAPS_TO_FIELD             # Entity/Value field maps to Semantic Dataset Field
+DATASET_JOIN              # semantic dataset relationship from semantic model joins
+DERIVED_BY                # metric-backed Entity field or Metric node is derived by Semantic Dataset Fields
 REQUIRES_CONCEPT          # Report Requirement references needed Entity Concepts
 REQUIRES_SEMANTIC_FIELD   # Report Requirement field needs an Entity.value field
 REQUIRES_SEMANTIC_RELATIONSHIP # explicit requirement over an Entity-to-Entity relationship
@@ -276,24 +276,4 @@ Examples:
 - `type: MAPS_TO_FIELD`, `label: trade_id`, derived from `concept: Trade`, `relationship: trade_id`, and `expression: trades.trade_id`
 - `type: DATASET_JOIN`, `label: trades_to_accounts`
 - `type: SOURCE_FIELD`, `label: trades.trade_id`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

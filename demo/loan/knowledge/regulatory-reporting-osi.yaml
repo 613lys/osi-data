@@ -150,6 +150,14 @@ ontology:
     verbalizes:
     - '{Loan} has expected loss amount {MonetaryAmount}'
     description: Calculated expected loss amount for the loan exposure.
+  - name: has_RiskWeightedExposureAmount
+    roles:
+    - concept: MonetaryAmount
+    multiplicity: ManyToOne
+    verbalizes:
+    - '{Loan} has risk weighted exposure amount {MonetaryAmount}'
+    description: Calculated exposure amount weighted by credit risk probability for
+      portfolio risk monitoring.
 - concept:
     name: LoanProduct
     type: EntityType
@@ -374,7 +382,7 @@ ontology_mappings:
         expression:
           dialects:
           - dialect: ANSI_SQL
-            expression: loan_id
+            expression: COALESCE(retail_loans.loan_id, institutional_loans.facility_id)
         ai_context:
           physical_type: string
           nullable: false
@@ -384,7 +392,7 @@ ontology_mappings:
         expression:
           dialects:
           - dialect: ANSI_SQL
-            expression: borrower_id
+            expression: COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)
         ai_context:
           physical_type: string
           nullable: false
@@ -394,7 +402,7 @@ ontology_mappings:
         expression:
           dialects:
           - dialect: ANSI_SQL
-            expression: borrower_country
+            expression: borrowers.domicile_country
         ai_context:
           physical_type: string
           nullable: false
@@ -404,7 +412,7 @@ ontology_mappings:
         expression:
           dialects:
           - dialect: ANSI_SQL
-            expression: product_id
+            expression: COALESCE(retail_loans.product_id, institutional_loans.product_code)
         ai_context:
           physical_type: string
           nullable: false
@@ -414,7 +422,7 @@ ontology_mappings:
         expression:
           dialects:
           - dialect: ANSI_SQL
-            expression: principal_amount
+            expression: COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)
         ai_context:
           physical_type: decimal
           nullable: false
@@ -423,7 +431,7 @@ ontology_mappings:
         expression:
           dialects:
           - dialect: ANSI_SQL
-            expression: exposure_at_default_amount
+            expression: COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)
         ai_context:
           physical_type: decimal
           nullable: false
@@ -433,7 +441,9 @@ ontology_mappings:
         expression:
           dialects:
           - dialect: ANSI_SQL
-            expression: expected_loss_amount
+            expression: retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd
+              + institutional_loans.notional_amount * institutional_loans.probability_default
+              * institutional_loans.loss_given_default
         ai_context:
           physical_type: decimal
           nullable: false
@@ -443,7 +453,7 @@ ontology_mappings:
         expression:
           dialects:
           - dialect: ANSI_SQL
-            expression: report_currency
+            expression: COALESCE(retail_loans.currency, institutional_loans.exposure_currency)
         ai_context:
           physical_type: string
           nullable: false
@@ -454,8 +464,11 @@ ontology_mappings:
       - name: physical_source
         value:
           kind: query
-          sql: 'select loan_id, borrower_id, product_id, principal_amount, exposure_at_default_amount,
-            expected_loss_amount, report_currency
+          description: Prepared report-line dataset is produced by a documented query
+            that normalizes retail loan and institutional facility source populations
+            before reporting.
+          sql: 'select loan_id, borrower_id, borrower_country, product_id, principal_amount,
+            exposure_at_default_amount, expected_loss_amount, report_currency
 
             from credit_risk_engine.loan_exposure_report_lines
 
@@ -645,6 +658,16 @@ ontology_mappings:
             * institutional_loans.loss_given_default
       ai_context:
         metric_type: calculated_credit_risk_measure
+    - name: risk_weighted_exposure_amount
+      description: Risk-weighted exposure amount calculated by applying default probability
+        to retail principal and institutional notional amounts.
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount
+            * institutional_loans.probability_default
+      ai_context:
+        metric_type: calculated_credit_risk_measure
   concept_mappings:
   - concept: Borrower
     object_mappings:
@@ -734,6 +757,10 @@ ontology_mappings:
         object_mapping:
           concept: MonetaryAmount
           expression: metric.expected_loss_amount
+      - relationship: has_RiskWeightedExposureAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: metric.risk_weighted_exposure_amount
     - object_mapping:
         referent_mappings:
         - relationship: has_LoanIdentifier
@@ -783,6 +810,10 @@ ontology_mappings:
         object_mapping:
           concept: MonetaryAmount
           expression: metric.expected_loss_amount
+      - relationship: has_RiskWeightedExposureAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: metric.risk_weighted_exposure_amount
     - object_mapping:
         referent_mappings:
         - relationship: has_LoanIdentifier
@@ -816,6 +847,10 @@ ontology_mappings:
         object_mapping:
           concept: MonetaryAmount
           expression: loan_exposure_report_lines.expected_loss_amount
+      - relationship: has_RiskWeightedExposureAmount
+        object_mapping:
+          concept: MonetaryAmount
+          expression: metric.risk_weighted_exposure_amount
       - relationship: has_LoanCurrency
         object_mapping:
           concept: CurrencyCode

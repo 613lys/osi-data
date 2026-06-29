@@ -1,0 +1,19 @@
+mapping_edge_annotations:
+- concept: DepositAccount
+  dataset: deposit_accounts
+  description: Deposit account balance source population mapped as DepositAccount entity records for liquidity reporting.
+- concept: DepositAccount
+  dataset: deposit_liquidity_report_lines
+  description: Prepared report-line population mapped back to DepositAccount entity records for regulatory liquidity presentation.
+- concept: Depositor
+  dataset: deposit_customers
+  description: Depositor master population mapped as Depositor entity records for customer segmentation and domicile classification.
+- concept: Depositor
+  dataset: deposit_liquidity_report_lines
+  description: Prepared report-line depositor identifiers mapped back to Depositor entity records for reporting traceability.
+- concept: DepositProduct
+  dataset: deposit_products
+  description: Deposit product reference population mapped as DepositProduct entity records for runoff and insurance parameter classification.
+- concept: DepositProduct
+  dataset: deposit_liquidity_report_lines
+  description: Prepared report-line product identifiers mapped back to DepositProduct entity records for regulatory product classification.

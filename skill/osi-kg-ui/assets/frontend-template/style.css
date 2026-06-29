@@ -265,6 +265,81 @@ p {
   opacity: .72;
 }
 
+#catalogBusinessEdgeTypeFilters,
+#catalogEdgeTypeFilters,
+#graphBusinessEdgeTypeFilters,
+#graphEdgeTypeFilters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+
+.relation-chip {
+  max-width: 100%;
+  border-radius: 7px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.route-chip {
+  width: 100%;
+  display: grid;
+  min-height: 30px;
+  grid-template-columns: minmax(0, 1fr) 16px minmax(0, 1fr);
+  align-items: center;
+  gap: 5px;
+  padding: 5px 7px;
+  border-color: #d5deea;
+  background: #fff;
+  color: #26364c;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55);
+}
+
+.route-chip:hover {
+  border-color: #aeb9c8;
+  background: #f8fbff;
+}
+
+.route-chip.active {
+  border-color: #84aef5;
+  background: #f3f7ff;
+  color: #17233a;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.route-end {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.route-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 999px;
+  background: var(--route-color);
+}
+
+.route-name {
+  min-width: 0;
+  overflow: hidden;
+  color: inherit;
+  font-size: 10.5px;
+  font-weight: 750;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.route-arrow {
+  color: #66758a;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+}
+
 .multi-select {
   width: 100%;
 }
@@ -816,12 +891,13 @@ p {
   background: rgba(243, 251, 245, .68);
 }
 .graph-node {
+  --node-color: #64748b;
   position: absolute;
   width: 230px;
   min-height: 94px;
-  border: 1px solid #cfd8e6;
+  border: 1px solid color-mix(in srgb, var(--node-color) 38%, #cfd8e6);
   border-radius: 7px;
-  background: rgba(255, 255, 255, .98);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--node-color) 8%, #fff) 0%, #ffffff 58%);
   box-shadow: var(--shadow);
   cursor: grab;
   overflow: hidden;
@@ -833,7 +909,7 @@ p {
   position: absolute;
   inset: 0 auto 0 0;
   width: 5px;
-  background: #64748b;
+  background: var(--node-color);
 }
 
 .graph-node.concept-node {
@@ -842,7 +918,7 @@ p {
 }
 
 .graph-node.concept-node::before {
-  background: #2563eb;
+  background: var(--node-color, #2563eb);
 }
 
 .graph-node.db-node {
@@ -851,7 +927,7 @@ p {
 }
 
 .graph-node.db-node::before {
-  background: #159947;
+  background: var(--node-color, #159947);
 }
 .graph-node.requirement-node {
   border-color: #fed7aa;
@@ -859,7 +935,7 @@ p {
 }
 
 .graph-node.requirement-node::before {
-  background: #c2410c;
+  background: var(--node-color, #c2410c);
 }
 
 .graph-node.data-logic-node {
@@ -868,7 +944,7 @@ p {
 }
 
 .graph-node.data-logic-node::before {
-  background: #9333ea;
+  background: var(--node-color, #9333ea);
 }
 
 .graph-node.dragging {
@@ -946,6 +1022,8 @@ p {
   line-height: 1.2;
   text-transform: uppercase;
   letter-spacing: 0;
+  color: var(--node-color);
+  background: color-mix(in srgb, var(--node-color) 13%, #fff);
 }
 
 .node-kind-badge.concept {
@@ -970,6 +1048,20 @@ p {
 .node-kind-badge.data-logic {
   color: #7e22ce;
   background: #f3e8ff;
+}
+
+.graph-node[data-node-type] {
+  border-color: color-mix(in srgb, var(--node-color) 38%, #cfd8e6);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--node-color) 8%, #fff) 0%, #ffffff 58%);
+}
+
+.graph-node[data-node-type]::before {
+  background: var(--node-color);
+}
+
+.graph-node[data-node-type] .node-kind-badge {
+  color: var(--node-color);
+  background: color-mix(in srgb, var(--node-color) 13%, #fff);
 }
 
 .node-title strong {

@@ -24,7 +24,7 @@ Do not use the older `business_entity` or `term` model for this skill. Generate 
    - Put datasets/tables, joins, and metrics in `semantic_model/`; read `references/raw-semantic-model.md`.
    - Put Report Requirement and Report Data Logic fragments in app metadata; read `references/raw-regulatory-reporting.md`.
    - Read `references/raw-fragment-authoring.md` for the directory layout, generation pipeline, and validation checklist.
-   - Compose fragments with `scripts/compose_source_fragments.py`, then generate strict OSI YAML with the scenario generator. Compose only merges authoring fragments into one raw source shape; generate converts that raw source into strict OSI YAML and separate app metadata.
+   - Compose fragments with `scripts/compose_source_fragments.py`, then generate strict OSI YAML and app metadata with `scripts/generate_osi_yaml.py`. Compose only merges authoring fragments into one raw source shape; generate converts that raw source into strict OSI YAML and separate app metadata.
    - Generate strict OSI YAML from physical metadata in this order: tables -> semantic model datasets -> semantic model relationships -> EntityType/ValueType concepts -> concept/object mappings -> semantic metrics for calculated fields.
    - Generate Report Requirement and Report Data Logic metadata into a separate application metadata file, not into the OSI YAML.
    - Read `references/osi-yaml-generation.md` before inspecting or changing strict OSI YAML.
@@ -97,9 +97,10 @@ frontend/summary-data.js
 
 ## Assets And Scripts
 
-- `scripts/compose_source_fragments.py`: Merges authoring fragments into one raw source YAML. It does not create strict OSI YAML. The scenario generator consumes the composed raw source and creates strict OSI YAML plus app metadata.
-- `scripts/build_osi_graph.py`: The skill generator. It is not part of OSI; it compiles strict OSI YAML plus optional application metadata into `knowledge/indexes/*.json`, copies the frontend template when requested, and emits `frontend/*-data.js` for the static UI.
-- `assets/frontend-template/`: Static HTML/CSS/JS UI template for catalog search and graph exploration.
+- ``scripts/compose_source_fragments.py``: Merges authoring fragments into one raw source YAML. It does not create strict OSI YAML.
+- ``scripts/generate_osi_yaml.py``: Converts composed raw source YAML into strict OSI YAML plus separate application metadata. This is the reusable scenario generator for new demos.
+- ``scripts/build_osi_graph.py``: The skill generator. It is not part of OSI; it compiles strict OSI YAML plus optional application metadata into `knowledge/indexes/*.json`, copies the frontend template when requested, and emits `frontend/*-data.js` for the static UI.
+- ``assets/frontend-template/``: Static HTML/CSS/JS UI template for catalog search and graph exploration.
 
 ## Validation Checklist
 
@@ -120,6 +121,3 @@ After generating a scenario:
 - Field-level edges draw only after selecting a concrete field row.
 - Field-level edges have no graph labels; click the edge to view details in the profile.
 - Node, edge, and field clicks update the right-side profile.
-
-
-

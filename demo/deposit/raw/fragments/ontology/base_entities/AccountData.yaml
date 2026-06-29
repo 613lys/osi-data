@@ -1,0 +1,19 @@
+name: AccountData
+description: Base concept for account-like records with common account identifiers and reporting dates.
+identify_by:
+- has_AccountIdentifier
+relationships:
+- name: has_AccountIdentifier
+  roles:
+  - concept: AccountIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{AccountData} has account identifier {AccountIdentifier}"
+  description: Stable account identifier common to account-like records.
+- name: has_AsOfDate
+  roles:
+  - concept: CalendarDate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{AccountData} has reporting date {CalendarDate}"
+  description: Reporting or snapshot date common to account-like records.

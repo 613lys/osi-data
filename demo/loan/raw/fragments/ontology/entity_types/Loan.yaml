@@ -61,3 +61,10 @@ relationships:
   verbalizes:
   - "{Loan} has expected loss amount {MonetaryAmount}"
   description: Calculated expected loss amount for the loan exposure.
+- name: has_RiskWeightedExposureAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Loan} has risk weighted exposure amount {MonetaryAmount}"
+  description: Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring.

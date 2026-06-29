@@ -6,3 +6,11 @@
       expression: retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default
   ai_context:
     metric_type: calculated_credit_risk_measure
+- name: risk_weighted_exposure_amount
+  description: Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default
+  ai_context:
+    metric_type: calculated_credit_risk_measure

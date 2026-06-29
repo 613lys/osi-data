@@ -1,0 +1,12 @@
+ontology_name: DepositLiquidityReportingOntology
+description: OSI scenario for deposit liquidity and stable funding regulatory reporting built from deposit account, customer, product, and prepared report-line metadata.
+mapping_name: DepositLiquiditySemanticMapping
+semantic_model_name: DepositLiquiditySemanticModel
+semantic_model_description: Semantic model for deposit liquidity reporting across account balances, customer master data, product runoff parameters, and prepared report lines.
+model_version: 1.0.0
+owner: Treasury Liquidity Regulatory Reporting
+source_systems:
+- core_deposit
+- customer_master
+- product_master
+- liquidity_risk_engine

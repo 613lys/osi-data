@@ -1,0 +1,63 @@
+name: DepositAccount
+description: Deposit account balance position that can be assessed for liquidity reporting and stable funding treatment.
+extends:
+- AccountData
+identify_by:
+- has_AccountIdentifier
+relationships:
+- name: REFERENCES_Depositor
+  roles:
+  - concept: Depositor
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositAccount} is held by {Depositor}"
+  description: Customer or legal entity that owns or controls the deposit account balance.
+- name: REFERENCES_DepositProduct
+  roles:
+  - concept: DepositProduct
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositAccount} uses deposit product {DepositProduct}"
+  description: Deposit product definition used to classify runoff and insurance treatment for the account.
+- name: has_DepositBalanceAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositAccount} has deposit balance amount {MonetaryAmount}"
+  description: Booked deposit balance amount measured for liquidity reporting.
+- name: has_DepositCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositAccount} has deposit currency {CurrencyCode}"
+  description: Currency in which the deposit account balance is maintained.
+- name: has_LiquidityBucket
+  roles:
+  - concept: LiquidityBucket
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositAccount} has liquidity bucket {LiquidityBucket}"
+  description: Liquidity classification bucket applied to the deposit account balance.
+- name: has_RunoffRate
+  roles:
+  - concept: Rate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositAccount} has runoff rate {Rate}"
+  description: Liquidity runoff rate applied to the deposit balance for stable funding analysis.
+- name: has_StableFundingAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositAccount} has stable funding amount {MonetaryAmount}"
+  description: Calculated stable funding contribution after applying the applicable runoff or stability rate.
+- name: has_InsuredBalanceAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{DepositAccount} has insured balance amount {MonetaryAmount}"
+  description: Portion of the deposit balance covered by product-level deposit insurance limits.
