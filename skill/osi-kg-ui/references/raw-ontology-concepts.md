@@ -8,7 +8,7 @@ These files define semantic concepts and their semantic-to-physical mappings. Th
 
 - English concept names must use UpperCamelCase, for example `AccountData`, `MarginAccount`, `BaseCurrency`, `CollateralAsset`, `AccountIdentifier`.
 - Base Entity names must end with `Data`, for example `TransactionData`, `PositionData`, `AccountData`.
-- EntityType-to-EntityType relationship names use `<ACTION>_<EntityConceptName>` with the controlled action list in `raw-ontology-entity-types.md`.
+- EntityType-to-EntityType relationship names use `<action>_<role>`; generate the action from semantics, and see `raw-ontology-entity-types.md` for naming rules.
 - EntityType-to-ValueType relationship names use semantic field names such as `has_AccountIdentifier`, `has_BaseCurrency`, or `has_MarketValueAmount`. Use this same style in Base Entity and concrete EntityType fragments.
 - Keep ids stable after generation. Rename only when the semantic meaning is actually wrong.
 

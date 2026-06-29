@@ -97,55 +97,23 @@ def node_id(prefix: str, name: str) -> str:
     return f"{prefix}.{slug(name)}"
 
 
-CONTROLLED_RELATIONSHIP_ACTIONS = {
-    "creates",
-    "references",
-    "depends_on",
-    "derives_from",
-    "aggregates",
-    "reconciles_with",
-    "settles",
-    "values",
-    "part_of",
-    "child_of",
-    "related_to",
-    # Backward-compatible actions for existing demos generated before this controlled list was tightened.
-    "own",
-    "hold",
-    "book",
-    "reference",
-    "pledge",
-    "value",
-    "price",
-    "classify",
-    "settle",
-    "secure",
-    "derive",
-    "post",
-}
-
-
-PRIMARY_RELATIONSHIP_ACTIONS = {
-    "creates",
-    "references",
-    "depends_on",
-    "derives_from",
-    "aggregates",
-    "reconciles_with",
-    "settles",
-    "values",
-    "part_of",
-    "child_of",
-    "related_to",
-}
-
-
 def relationship_action(relationship_name: str) -> str:
     text = slug(relationship_name).lower()
-    for action in sorted(CONTROLLED_RELATIONSHIP_ACTIONS, key=len, reverse=True):
-        if text == action or text.startswith(f"{action}_"):
-            return action
-    return "relationship"
+    if "_" not in text:
+        return ""
+    action, role = text.rsplit("_", 1)
+    return action if action and role else ""
+
+
+def validate_business_relationship_name(relationship_name: str, owner_concept: str, target_concept: str) -> str:
+    action = relationship_action(relationship_name)
+    if not action:
+        raise SystemExit(
+            f"EntityType relationship '{owner_concept}.{relationship_name}' targeting '{target_concept}' must use '<action>_<role>'. "
+            "The action is semantic and not limited to a fixed list; the role suffix usually names the target EntityType."
+        )
+    return action
+
 
 def dataset_join_label(rel: dict[str, Any]) -> str:
     from_columns = [str(item) for item in rel.get("from_columns") or []]
@@ -159,23 +127,6 @@ def dataset_join_label(rel: dict[str, Any]) -> str:
         to_col = to_columns[idx] if idx < len(to_columns) else ""
         pairs.append(f"{from_col} = {to_col}" if to_col else from_col)
     return "join " + ", ".join(pairs)
-
-
-def validate_business_relationship_name(relationship_name: str, owner_concept: str, target_concept: str) -> str:
-    text = slug(relationship_name).lower()
-    action = relationship_action(text)
-    if action == "relationship":
-        allowed = ", ".join(sorted(PRIMARY_RELATIONSHIP_ACTIONS))
-        raise SystemExit(
-            f"EntityType relationship '{owner_concept}.{relationship_name}' targeting '{target_concept}' must use '<ACTION>_<EntityConceptName>'. "
-            f"Allowed actions: {allowed}."
-        )
-    suffix = text[len(action):].lstrip("_")
-    if not suffix:
-        raise SystemExit(
-            f"EntityType relationship '{owner_concept}.{relationship_name}' targeting '{target_concept}' must include a target role after the action."
-        )
-    return action
 
 
 def add_node(nodes: dict[str, dict[str, Any]], item_id: str, item_type: str, label: str, properties: dict[str, Any] | None = None) -> None:

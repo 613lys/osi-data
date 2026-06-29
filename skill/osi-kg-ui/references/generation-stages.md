@@ -75,10 +75,10 @@ Constraints:
 - For each dataset field, either map it to an existing ValueType or create one reusable ValueType with a stable id.
 - Do not model a report as an EntityType unless it is a true business object.
 - EntityType field roles must point to ValueTypes.
-- EntityType-to-EntityType relationships must use `<ACTION>_<EntityConceptName>` ids such as `REFERENCES_Product`, `DEPENDS_ON_CollateralAsset`, `DERIVES_FROM_PositionData`, `VALUES_CollateralAsset`.
+- EntityType-to-EntityType relationships must use `<action>_<role>` ids such as `HELD_BY_Depositor`, `USES_DepositProduct`, `DEPENDS_ON_CollateralAsset`, or `REFERENCES_Counterparty`.
 - Relationship names must be globally unique for generated EntityType-to-EntityType business edges because the graph edge id is exactly the OSI relationship `name`.
-- The controlled action prefix must come from the controlled action set: `CREATES`, `REFERENCES`, `DEPENDS_ON`, `DERIVES_FROM`, `AGGREGATES`, `RECONCILES_WITH`, `SETTLES`, `VALUES`, `PART_OF`, `CHILD_OF`, `RELATED_TO`.
-- The UI edge type and graph canvas label must be the controlled action prefix only; keep the full `<ACTION>_<EntityConceptName>` relationship name for the edge id and edge profile.
+- The action prefix is generated from the relationship semantics and is not restricted to a fixed list.
+- The UI edge type and graph canvas label must be the action prefix before the final underscore only; keep the full `<action>_<role>` relationship name for the edge id and edge profile.
 - Do not add UI-only fields to OSI YAML objects. Keep OSI YAML strict; put non-OSI metadata in `custom_extensions` or the separate application metadata file. Do not put top-level `reporting_requirements` or `report_data_logic` in strict OSI YAML.
 - Use `extends` only for specialization/base reuse, not ownership, grouping, lineage, or tags.
 

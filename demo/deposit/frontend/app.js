@@ -4,32 +4,7 @@ const DEFAULT_GRAPH_SIZE = { width: 1800, height: 1300 };
 const GRAPH_PADDING = 90;
 const DEFAULT_UNCHECKED_GRAPH_EDGE_TYPES = new Set(["EXTENDS"]);
 const STRUCTURAL_EDGE_TYPES = new Set(["CONTAINS"]);
-const CONTROLLED_BUSINESS_EDGE_TYPES = new Set([
-  "CREATES",
-  "REFERENCES",
-  "DEPENDS_ON",
-  "DERIVES_FROM",
-  "AGGREGATES",
-  "RECONCILES_WITH",
-  "SETTLES",
-  "VALUES",
-  "PART_OF",
-  "CHILD_OF",
-  "RELATED_TO",
-  "OWN",
-  "HOLD",
-  "BOOK",
-  "REFERENCE",
-  "PLEDGE",
-  "VALUE",
-  "PRICE",
-  "CLASSIFY",
-  "SETTLE",
-  "SECURE",
-  "DERIVE",
-  "POST",
-  "RELATIONSHIP",
-]);
+const FALLBACK_BUSINESS_EDGE_TYPE = "RELATIONSHIP";
 const SCENARIO_STORAGE_KEY = "metadata-catalog-explorer:graph-scenarios:v1";
 let scenarioMemoryStore = "[]";
 const elkLayoutEngine = window.ELK ? new window.ELK() : null;
@@ -337,7 +312,9 @@ function isEntityConceptNodeType(type) {
 
 function isBusinessEntityEdge(edge) {
   const normalized = edge.sourceOriginal ? edge : normalizedEdge(edge);
-  return CONTROLLED_BUSINESS_EDGE_TYPES.has(normalized.type)
+  const rawEdge = normalized.raw || edge;
+  return !String(rawEdge.type || "").trim()
+    && Boolean(normalized.type)
     && isEntityConceptNodeType(nodeType(normalized.source))
     && isEntityConceptNodeType(nodeType(normalized.target));
 }
@@ -836,11 +813,8 @@ function normalizedEdge(edge, sourceParent = parentOf(edge.source), targetParent
 
 function edgeDisplayName(edge, type, relationshipName) {
   if (type === "DATASET_JOIN" && String(edge.label || "").trim()) return edge.label;
-  const edgeIdAction = relationshipKindFromId(edge.id);
-  if (edgeIdAction && CONTROLLED_BUSINESS_EDGE_TYPES.has(edgeIdAction.toUpperCase())) return edgeIdAction;
-  const relationshipAction = relationshipKindFromId(relationshipName);
-  if (relationshipAction && CONTROLLED_BUSINESS_EDGE_TYPES.has(relationshipAction.toUpperCase())) return relationshipAction;
-  return normalizeType(type);
+  if (String(edge.type || "").trim()) return normalizeType(type);
+  return relationshipKindFromId(relationshipName) || relationshipKindFromId(edge.id) || normalizeType(type);
 }
 
 function edgeRelationshipName(edge) {
@@ -856,14 +830,7 @@ function edgeRelationshipName(edge) {
 
 function inferredEdgeType(edge, relationshipName = edgeRelationshipName(edge)) {
   if (String(edge.type || "").trim()) return normalizeType(edge.type);
-  const relationshipAction = relationshipKindFromId(relationshipName).toUpperCase();
-  if (CONTROLLED_BUSINESS_EDGE_TYPES.has(relationshipAction)) return relationshipAction;
-  const idRelationshipAction = relationshipKindFromId(edge.id).toUpperCase();
-  if (CONTROLLED_BUSINESS_EDGE_TYPES.has(idRelationshipAction)) return idRelationshipAction;
-  const idAction = String(edge.id || "")
-    .split(".")
-    .find(part => CONTROLLED_BUSINESS_EDGE_TYPES.has(part.toUpperCase()));
-  return idAction ? idAction.toUpperCase() : "RELATIONSHIP";
+  return relationshipKindFromId(relationshipName) || relationshipKindFromId(edge.id) || FALLBACK_BUSINESS_EDGE_TYPE;
 }
 
 function relationshipPath(edge) {
@@ -881,8 +848,9 @@ function relationshipKindFromId(value) {
   const text = String(value || "").trim();
   if (!text) return "";
   const upper = text.replace(/[^A-Za-z0-9_]+/g, "_").replace(/^_+|_+$/g, "").toUpperCase();
-  const actions = [...CONTROLLED_BUSINESS_EDGE_TYPES].sort((a, b) => b.length - a.length);
-  return actions.find(action => upper === action || upper.startsWith(`${action}_`)) || "";
+  const parts = upper.split("_").filter(Boolean);
+  if (parts.length < 2) return "";
+  return parts.slice(0, -1).join("_");
 }
 
 function stringRelationshipValue(value) {
@@ -2205,13 +2173,16 @@ function directionalLanes(nodes) {
 function directionalDelta(edge, fromId) {
   const type = edge.type;
   const fromSource = edge.source === fromId;
-  if (["SOURCE_TABLE", "DERIVES_FROM", "REFERENCES", "DEPENDS_ON"].includes(type)) {
+  if (isBusinessEntityEdge(edge)) {
+    return { score: fromSource ? 1 : -1 };
+  }
+  if (["SOURCE_TABLE", "DERIVES_FROM"].includes(type)) {
     return { score: fromSource ? -1 : 1 };
   }
   if (["IMPLEMENTED_BY", "REPRESENTED_BY", "MAPS_TO", "IMPLEMENTS_FIELD"].includes(type)) {
     return { score: fromSource ? 1 : -1 };
   }
-  if (["CREATES", "VALUES", "SETTLES", "AGGREGATES", "WRITES_TO"].includes(type)) {
+  if (["WRITES_TO"].includes(type)) {
     return { score: fromSource ? 1 : -1 };
   }
   return { score: 0 };

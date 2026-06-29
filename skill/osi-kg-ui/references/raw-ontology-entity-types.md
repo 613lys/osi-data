@@ -48,31 +48,17 @@ Additional fields:
 
 EntityType-to-EntityType relationship naming:
 
-- Use `<ACTION>_<EntityConceptName>`.
-- `<ACTION>` must come from this controlled list and must not be freely invented:
-
-```text
-CREATES
-REFERENCES
-DEPENDS_ON
-DERIVES_FROM
-AGGREGATES
-RECONCILES_WITH
-SETTLES
-VALUES
-PART_OF
-CHILD_OF
-RELATED_TO
-```
-
-- `<EntityConceptName>` must be the UpperCamelCase target EntityType name, for example `REFERENCES_Counterparty` or `VALUES_CollateralAsset`.
+- Use `<action>_<role>`.
+- Generate `<action>` from the relationship semantics; do not restrict it to a fixed list. Use a concise verb or verb phrase such as `OWNS`, `HELD_BY`, `USES`, `SERVICES`, `PLEDGES`, `DEPENDS_ON`, or `REFERENCES`.
+- Use the final underscore as the action/role separator. The UI derives the business edge type from everything before the final underscore, so `HELD_BY_Depositor` displays as `HELD_BY` and `DEPENDS_ON_CollateralAsset` displays as `DEPENDS_ON`.
+- `<role>` should usually be the UpperCamelCase target EntityType name, for example `HELD_BY_Depositor`, `USES_DepositProduct`, or `DEPENDS_ON_CollateralAsset`.
 - Relationship `name` should be stable and globally unique across EntityType-to-EntityType relationships.
 - `verbalizes` should use natural domain language and does not need to repeat the action word mechanically.
 
 EntityType-to-ValueType relationship naming:
 
 - Generate from the field semantics. Good examples: `has_AccountIdentifier`, `has_AccountStatus`, `has_BaseCurrency`, `has_ValuationDate`, `has_MarketValueAmount`. Base Entity and concrete EntityType ValueType relationships follow the same naming style.
-- These names are not restricted to the EntityType-to-EntityType action list.
+- These names do not use the EntityType-to-EntityType `<action>_<role>` naming pattern.
 - The UI identifies these as fields because `roles[].concept` points to a ValueType.
 
 

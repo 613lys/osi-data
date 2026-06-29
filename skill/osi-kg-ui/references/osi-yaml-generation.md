@@ -70,7 +70,7 @@ TradeIdentifier, AccountIdentifier, CurrencyCode, MonetaryAmount, CountryCode
 Hard rules:
 
 - OSI YAML must strictly follow the fields accepted by the OSI ontology schema. Do not put application-layer keys such as `reporting_requirements` or `report_data_logic` into the strict OSI YAML. If metadata is needed for the KG/UI but is not accepted by the OSI object schema, put it under OSI `custom_extensions` with a stable extension namespace or in a separate application metadata file.
-- Do not add a separate relationship type field when the type can be derived from the OSI relationship `name`. Use short business relationship names in the exact form `<ACTION>_<EntityConceptName>`, such as `REFERENCES_Product`, `DEPENDS_ON_CollateralAsset`, `DERIVES_FROM_PositionData`, or `VALUES_CollateralAsset`.
+- Do not add a separate relationship type field when the type can be derived from the OSI relationship `name`. Use short business relationship names in the exact form `<action>_<role>`, such as `HELD_BY_Depositor`, `USES_DepositProduct`, `DEPENDS_ON_CollateralAsset`, or `REFERENCES_Counterparty`. Choose the action from semantics, not from a fixed list.
 - Do not create `business_entity` or `term` nodes.
 - Do not create an EntityType for every physical table.
 - Do not model a regulatory report as an EntityType unless the report is a true business object.
@@ -116,12 +116,11 @@ Do not add `name: value` just to mark a relationship as a field. OSI Role only n
 Rules:
 
 - Relationship names should be unique within the source EntityType. For UI graph generation, EntityType-to-EntityType relationship names must also be globally unique across the generated scenario because the graph edge id is exactly the relationship name.
-- Use semantic relationship names in the form `<ACTION>_<EntityConceptName>`, such as `REFERENCES_Product`, `DEPENDS_ON_CollateralAsset`, `DERIVES_FROM_PositionData`, or `VALUES_CollateralAsset`.
-- The longest controlled action prefix before the target concept suffix is the controlled action used as the UI business edge type. The remaining suffix is the target role. If the same action applies to several targets, make the relationship name unique: `REFERENCES_Trade`, `REFERENCES_Position`, `REFERENCES_CollateralAsset`.
-- Do not encode direction words like upstream/downstream as the relationship type. Use a controlled semantic action id and let graph direction/source-target come from the declared relationship roles.
-- EntityType-to-EntityType business graph edges use `id: <ACTION>_<EntityConceptName>` exactly from the OSI relationship `name`, omit an explicit `type`, and derive the UI edge type and graph canvas label from the controlled action prefix only. Do not generate complex ids such as `edge.concept.Source.ACTION.relationship.concept.Target` for these business edges.
+- Use semantic relationship names in the form `<action>_<role>`, such as `HELD_BY_Depositor`, `USES_DepositProduct`, `DEPENDS_ON_CollateralAsset`, or `REFERENCES_Counterparty`.
+- The UI business edge type is everything before the final underscore. The remaining suffix is the role, usually the target EntityType. If the same action applies to several targets, make the relationship name unique: `USES_DepositProduct`, `USES_CreditFacility`, `HELD_BY_Depositor`.
+- Do not encode generic direction words like upstream/downstream as the action unless those are actual business terms. Use a semantic action id and let graph direction/source-target come from the declared relationship roles.
+- EntityType-to-EntityType business graph edges use `id: <action>_<role>` exactly from the OSI relationship `name`, omit an explicit `type`, and derive the UI edge type and graph canvas label from the action prefix before the final underscore only. Do not generate complex ids such as `edge.concept.Source.ACTION.relationship.concept.Target` for these business edges.
 - EntityType-to-EntityType relationships are traversable from either endpoint in the graph, but the generated graph data should contain one business edge from the declaring EntityType to the role target. Do not create a synthetic reverse edge or add synthetic properties such as `inverse`, `inverse_of`, or `bidirectional`.
-- Controlled actions are: `CREATES`, `REFERENCES`, `DEPENDS_ON`, `DERIVES_FROM`, `AGGREGATES`, `RECONCILES_WITH`, `SETTLES`, `VALUES`, `PART_OF`, `CHILD_OF`, `RELATED_TO`.
 - Use `extends` only for subtype/specialization, never for ownership, grouping, lineage, or tags.
 - Use `derived_by` for derivation rules and `requires` for constraints that must hold. Every OSI ontology relationship must include `verbalizes`; put `multiplicity` on the relationship with OSI values `ManyToOne` or `OneToOne`, never under `roles`.
 - The UI identifies EntityType fields by checking whether a relationship role's `concept` is a declared or built-in `ValueType`; it does not require or trust `role.name: value`.
@@ -233,23 +232,13 @@ Rules:
 
 ## Generated Edge Types
 
-Do not add non-OSI fields to YAML for UI-only edge typing. For EntityType relationships, derive the business edge type from the controlled action prefix of `relationship.name`. Generated graph data must also avoid writing an explicit `type` field or extra relationship-name property for these EntityType-to-EntityType business relationship edges; set the graph edge `id` to the OSI relationship `name` itself (`<ACTION>_<EntityConceptName>`) and let the UI derive the filter type and graph canvas label from that graph edge id's action prefix.
+Do not add non-OSI fields to YAML for UI-only edge typing. For EntityType relationships, derive the business edge type from the semantic action prefix of `relationship.name`. Generated graph data must also avoid writing an explicit `type` field or extra relationship-name property for these EntityType-to-EntityType business relationship edges; set the graph edge `id` to the OSI relationship `name` itself (`<action>_<role>`) and let the UI derive the filter type and graph canvas label from that graph edge id's action prefix.
 
 Expected graph edge families:
 
 ```text
-# EntityType relationship business actions, derived from relationship.name prefix
-CREATES
-REFERENCES
-DEPENDS_ON
-DERIVES_FROM
-AGGREGATES
-RECONCILES_WITH
-SETTLES
-VALUES
-PART_OF
-CHILD_OF
-RELATED_TO
+# EntityType relationship business actions, derived from the relationship.name action prefix before the final underscore
+# Examples: HELD_BY, USES, OWNS, PLEDGES, DEPENDS_ON, REFERENCES
 
 # Graph/UI mechanism edges generated from OSI structures
 CONTAINS                  # internal parent/child structure only; do not show in Edge Type filters
@@ -271,8 +260,8 @@ SOURCE_FIELD              # Report Data Logic field derives from a source column
 
 Examples:
 
-- `relationship.name: REFERENCES_Trade` -> graph edge `id: REFERENCES_Trade`, inferred UI type `REFERENCES`, canvas label `REFERENCES`, profile relationship name `REFERENCES_Trade`
-- `relationship.name: DEPENDS_ON_CollateralAsset` -> graph edge `id: DEPENDS_ON_CollateralAsset`, inferred UI type `DEPENDS_ON`, canvas label `DEPENDS_ON`, profile relationship name `DEPENDS_ON_CollateralAsset`
+- `relationship.name: HELD_BY_Depositor` -> graph edge `id: HELD_BY_Depositor`, inferred UI type `HELD_BY`, canvas label `HELD_BY`, profile relationship name `HELD_BY_Depositor`
+- `relationship.name: USES_DepositProduct` -> graph edge `id: USES_DepositProduct`, inferred UI type `USES`, canvas label `USES`, profile relationship name `USES_DepositProduct`
 - `type: MAPS_TO_FIELD`, `label: trade_id`, derived from `concept: Trade`, `relationship: trade_id`, and `expression: trades.trade_id`
 - `type: DATASET_JOIN`, `label: trades_to_accounts`
 - `type: SOURCE_FIELD`, `label: trades.trade_id`
