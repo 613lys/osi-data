@@ -8,7 +8,9 @@
         "description": "Base concept for account-like records with common identifiers and status fields.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_AccountIdentifier"
         ],
@@ -83,7 +85,9 @@
         "description": "Base concept for collateral asset records with common collateral identifiers and classification fields.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_CollateralIdentifier"
         ],
@@ -210,7 +214,9 @@
         "description": "Base concept for counterparty-like records with legal identity and regulatory classification fields.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_CounterpartyIdentifier"
         ],
@@ -337,7 +343,9 @@
         "description": "Base concept for valuation records with common valuation identity and date fields.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_ValuationIdentifier"
         ],
@@ -565,7 +573,6 @@
         ],
         "metric": {
           "name": "eligible_collateral_value",
-          "description": "Market value after haircut for regulatory eligible collateral reporting.",
           "expression": {
             "dialects": [
               {
@@ -574,9 +581,11 @@
               }
             ]
           },
+          "description": "Market value after haircut for regulatory eligible collateral reporting.",
           "ai_context": {
             "metric_type": "calculated_report_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -990,7 +999,11 @@
           "report_id",
           "line_number"
         ],
+        "unique_keys": [],
         "field_count": 7,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "reporting.collateral_margin_report_lines"
@@ -1031,6 +1044,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "report_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "report_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "report_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Identifier of the generated collateral margin report submission.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "report_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1067,6 +1106,32 @@
         "data_type": "integer",
         "nullable": false,
         "expression": "line_number",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "integer",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "line_number",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "line_number"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Line sequence number within a collateral margin report submission.",
+          "ai_context": {
+            "physical_type": "integer",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "line_number",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1103,6 +1168,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Margin account identifier reported on the output line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "account_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1139,6 +1230,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Counterparty identifier reported on the output line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "counterparty_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1175,6 +1292,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "collateral_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "collateral_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "collateral_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Collateral asset identifier reported on the output line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "collateral_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1211,6 +1354,32 @@
         "data_type": "date",
         "nullable": false,
         "expression": "valuation_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "valuation_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "valuation_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Valuation date used for the reported collateral amount.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "valuation_date",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1247,6 +1416,32 @@
         "data_type": "decimal",
         "nullable": false,
         "expression": "eligible_collateral_value",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "eligible_collateral_value",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "eligible_collateral_value"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Reportable collateral value after applying haircut and eligibility calculation.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "eligible_collateral_value",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1283,7 +1478,11 @@
         "primary_key": [
           "collateral_id"
         ],
+        "unique_keys": [],
         "field_count": 5,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "collateral_master.collateral_positions"
@@ -1324,6 +1523,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "collateral_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "collateral_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "collateral_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for the pledged collateral asset position.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "collateral_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1360,6 +1585,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Margin account identifier to which the collateral position is assigned.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "account_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1396,6 +1647,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "asset_type",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "asset_type",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "asset_type"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Asset classification of the pledged collateral used for eligibility assessment.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "asset_type",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1432,6 +1709,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Denomination currency of the pledged collateral position.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "currency",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1468,6 +1771,32 @@
         "data_type": "string",
         "nullable": true,
         "expression": "issuer_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": true
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "issuer_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "issuer_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": true
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "issuer_country",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1504,7 +1833,11 @@
         "primary_key": [
           "valuation_id"
         ],
+        "unique_keys": [],
         "field_count": 5,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "market_risk.collateral_valuations"
@@ -1545,6 +1878,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "valuation_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "valuation_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "valuation_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for a collateral valuation record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "valuation_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1581,6 +1940,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "collateral_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "collateral_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "collateral_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Identifier of the pledged collateral asset being valued.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "collateral_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1617,6 +2002,32 @@
         "data_type": "date",
         "nullable": false,
         "expression": "valuation_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "valuation_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "valuation_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Business date on which the collateral market value and haircut are observed.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "valuation_date",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1653,6 +2064,32 @@
         "data_type": "decimal",
         "nullable": false,
         "expression": "market_value_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "market_value_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "market_value_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Observed market value amount of the collateral before haircut adjustment.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "market_value_amount",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1689,6 +2126,32 @@
         "data_type": "decimal",
         "nullable": false,
         "expression": "haircut_rate",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "haircut_rate",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "haircut_rate"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Haircut percentage applied to collateral market value for eligibility calculation.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "haircut_rate",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1725,7 +2188,11 @@
         "primary_key": [
           "counterparty_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "margin_core.counterparties"
@@ -1766,6 +2233,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for the legal counterparty reference record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "counterparty_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1802,6 +2295,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "legal_name",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "legal_name",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "legal_name"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Registered legal name of the reporting counterparty.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "legal_name",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1838,6 +2357,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "domicile_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "domicile_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "domicile_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Country or jurisdiction where the counterparty is domiciled for regulatory classification.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "domicile_country",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1874,6 +2419,32 @@
         "data_type": "string",
         "nullable": true,
         "expression": "regulatory_segment",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": true
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "regulatory_segment",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "regulatory_segment"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Regulatory counterparty segment used for reporting categorization and eligibility rules.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": true
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "regulatory_segment",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1910,7 +2481,11 @@
         "primary_key": [
           "account_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "margin_core.margin_accounts"
@@ -1951,6 +2526,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for a margin account record at account grain.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "margin_accounts",
         "field": "account_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -1987,6 +2588,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Identifier of the legal counterparty responsible for the margin account.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "margin_accounts",
         "field": "counterparty_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -2023,6 +2650,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "base_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "base_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "base_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency in which the margin account obligation is primarily managed and reported.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "margin_accounts",
         "field": "base_currency",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -2059,6 +2712,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "account_status",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_status",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_status"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Operational status of the margin account used to determine reporting eligibility.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "margin_accounts",
         "field": "account_status",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -2102,9 +2781,12 @@
           "collateral_valuations.haircut_rate",
           "collateral_valuations.market_value_amount"
         ],
+        "ai_context": {
+          "metric_type": "calculated_report_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "eligible_collateral_value",
-          "description": "Market value after haircut for regulatory eligible collateral reporting.",
           "expression": {
             "dialects": [
               {
@@ -2113,9 +2795,11 @@
               }
             ]
           },
+          "description": "Market value after haircut for regulatory eligible collateral reporting.",
           "ai_context": {
             "metric_type": "calculated_report_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -4164,8 +4848,10 @@
           ],
           "ai_context": {
             "description": "Margin accounts use counterparty_id to attach legal counterparty profile and jurisdiction attributes for collateral reporting."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Margin accounts use counterparty_id to attach legal counterparty profile and jurisdiction attributes for collateral reporting."
         }
@@ -4191,8 +4877,10 @@
           ],
           "ai_context": {
             "description": "Collateral positions join to margin accounts through account_id to connect pledged assets with the account obligations they secure."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Collateral positions join to margin accounts through account_id to connect pledged assets with the account obligations they secure."
         }
@@ -4218,8 +4906,10 @@
           ],
           "ai_context": {
             "description": "Collateral valuations use collateral_id to attach current valuation, haircut, and valuation date to the pledged collateral position."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Collateral valuations use collateral_id to attach current valuation, haircut, and valuation date to the pledged collateral position."
         }

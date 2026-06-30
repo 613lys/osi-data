@@ -8,7 +8,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for customer-like records with common identifiers and segmentation fields.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_CustomerIdentifier"
         ],
@@ -132,7 +134,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for loan-like records with common identifiers and origination timing.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_LoanIdentifier"
         ],
@@ -207,7 +211,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for product-like records with common product identifiers.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_ProductIdentifier"
         ],
@@ -590,7 +596,6 @@ window.GRAPH_DATA = {
         ],
         "metric": {
           "name": "expected_loss_amount",
-          "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
           "expression": {
             "dialects": [
               {
@@ -599,9 +604,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
           "ai_context": {
             "metric_type": "calculated_credit_risk_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -641,7 +648,6 @@ window.GRAPH_DATA = {
         ],
         "metric": {
           "name": "risk_weighted_exposure_amount",
-          "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
           "expression": {
             "dialects": [
               {
@@ -650,9 +656,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
           "ai_context": {
             "metric_type": "calculated_credit_risk_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -716,7 +724,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for account-like records with common account identifiers and reporting dates.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_AccountIdentifier"
         ],
@@ -1046,7 +1056,6 @@ window.GRAPH_DATA = {
         ],
         "metric": {
           "name": "stable_funding_amount",
-          "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
           "expression": {
             "dialects": [
               {
@@ -1055,9 +1064,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
           "ai_context": {
             "metric_type": "liquidity_stability_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -1095,7 +1106,6 @@ window.GRAPH_DATA = {
         ],
         "metric": {
           "name": "insured_balance_amount",
-          "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
           "expression": {
             "dialects": [
               {
@@ -1104,9 +1114,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
           "ai_context": {
             "metric_type": "insured_deposit_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -1248,7 +1260,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for collateral asset records with common collateral identifiers and classification fields.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_CollateralIdentifier"
         ],
@@ -1375,7 +1389,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for counterparty-like records with legal identity and regulatory classification fields.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_CounterpartyIdentifier"
         ],
@@ -1502,7 +1518,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for valuation records with common valuation identity and date fields.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_ValuationIdentifier"
         ],
@@ -1730,7 +1748,6 @@ window.GRAPH_DATA = {
         ],
         "metric": {
           "name": "eligible_collateral_value",
-          "description": "Market value after haircut for regulatory eligible collateral reporting.",
           "expression": {
             "dialects": [
               {
@@ -1739,9 +1756,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Market value after haircut for regulatory eligible collateral reporting.",
           "ai_context": {
             "metric_type": "calculated_report_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -2560,7 +2579,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "borrower_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "customer_master.borrowers"
@@ -2601,6 +2624,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "borrower_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "borrower_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "borrower_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Master customer identifier for a borrower or legal entity.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "borrowers",
         "field": "borrower_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2637,6 +2686,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "borrower_segment",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "borrower_segment",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "borrower_segment"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Segment classification such as retail, SME, corporate, or financial institution.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "borrowers",
         "field": "borrower_segment",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2673,6 +2748,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "borrower_name",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "borrower_name",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "borrower_name"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Human-readable borrower or legal entity name.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "borrowers",
         "field": "borrower_name",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2709,6 +2810,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "domicile_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "domicile_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "domicile_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "borrowers",
         "field": "domicile_country",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2745,7 +2872,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "facility_id"
         ],
+        "unique_keys": [],
         "field_count": 8,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "institutional_lending_core.facilities"
@@ -2786,6 +2917,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "facility_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "facility_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "facility_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Institutional source identifier for a committed credit facility.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "institutional_loans",
         "field": "facility_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2822,6 +2979,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "legal_entity_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "legal_entity_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "legal_entity_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Customer identifier linking the facility to the responsible legal borrower.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "institutional_loans",
         "field": "legal_entity_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2858,6 +3041,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_code",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_code",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_code"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Product identifier classifying the institutional lending facility.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "institutional_loans",
         "field": "product_code",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2894,6 +3103,32 @@ window.GRAPH_DATA = {
         "data_type": "date",
         "nullable": false,
         "expression": "booking_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "booking_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "booking_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Date on which the institutional facility was booked.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "institutional_loans",
         "field": "booking_date",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2930,6 +3165,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "notional_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "notional_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "notional_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Notional or committed amount recorded for the institutional facility.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "institutional_loans",
         "field": "notional_amount",
         "semantic_model": "LoanExposureSemanticModel",
@@ -2966,6 +3227,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "exposure_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "exposure_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "exposure_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency code used for the institutional exposure amount.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "institutional_loans",
         "field": "exposure_currency",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3002,6 +3289,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "probability_default",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "probability_default",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "probability_default"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Probability of default assigned by the wholesale credit risk model.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "institutional_loans",
         "field": "probability_default",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3038,6 +3351,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "loss_given_default",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "loss_given_default",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "loss_given_default"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Loss given default rate assigned by the wholesale credit risk model.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "institutional_loans",
         "field": "loss_given_default",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3074,7 +3413,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "loan_id"
         ],
+        "unique_keys": [],
         "field_count": 8,
+        "ai_context": {
+          "physical_kind": "query"
+        },
         "physical_kind": "query",
         "source_tables": [
           "retail_lending_core.retail_loans",
@@ -3138,6 +3481,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "loan_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Normalized loan or facility identifier reported on the exposure line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_exposure_report_lines",
         "field": "loan_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3160,6 +3529,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "borrower_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Borrower identifier reported on the exposure line for reconciliation to customer master.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_exposure_report_lines",
         "field": "borrower_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3182,6 +3577,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "borrowers.domicile_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "borrower_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "borrowers.domicile_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_exposure_report_lines",
         "field": "borrower_country",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3204,6 +3625,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Product identifier reported on the exposure line for product-class aggregation.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_exposure_report_lines",
         "field": "product_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3226,6 +3673,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "principal_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Principal amount included on the report line for exposure reconciliation.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_exposure_report_lines",
         "field": "principal_amount",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3248,6 +3721,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "exposure_at_default_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Exposure at default amount reported for regulatory credit risk measurement.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_exposure_report_lines",
         "field": "exposure_at_default_amount",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3270,6 +3769,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "expected_loss_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Expected loss amount reported after applying probability of default and loss given default.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_exposure_report_lines",
         "field": "expected_loss_amount",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3292,6 +3817,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "report_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency code in which the exposure line amounts are reported.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_exposure_report_lines",
         "field": "report_currency",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3314,7 +3865,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "product_id"
         ],
+        "unique_keys": [],
         "field_count": 3,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "product_master.loan_products"
@@ -3340,6 +3895,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Master product identifier for a lending product.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_products",
         "field": "product_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3376,6 +3957,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_type",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_type",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_type"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_products",
         "field": "product_type",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3412,6 +4019,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "regulatory_product_class",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "regulatory_product_class",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "regulatory_product_class"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Regulatory product class used for credit exposure aggregation.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "loan_products",
         "field": "regulatory_product_class",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3448,7 +4081,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "loan_id"
         ],
+        "unique_keys": [],
         "field_count": 8,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "retail_lending_core.retail_loans"
@@ -3474,6 +4111,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "loan_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "loan_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "loan_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Retail source identifier for an individual consumer loan record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "retail_loans",
         "field": "loan_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3510,6 +4173,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "borrower_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "borrower_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "borrower_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Customer identifier linking the retail loan to the responsible borrower.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "retail_loans",
         "field": "borrower_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3546,6 +4235,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Product identifier classifying the retail lending product.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "retail_loans",
         "field": "product_id",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3582,6 +4297,32 @@ window.GRAPH_DATA = {
         "data_type": "date",
         "nullable": false,
         "expression": "origination_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "origination_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "origination_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Date on which the retail loan was originated or booked.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "retail_loans",
         "field": "origination_date",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3618,6 +4359,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "principal_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "principal_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "principal_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Principal balance or contractual amount recorded for the retail loan.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "retail_loans",
         "field": "principal_amount",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3654,6 +4421,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency code used for the retail loan amount.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "retail_loans",
         "field": "currency",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3690,6 +4483,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "pd",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "pd",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "pd"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Probability of default assigned by the retail credit risk model.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "retail_loans",
         "field": "pd",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3726,6 +4545,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "lgd",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "lgd",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "lgd"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Loss given default rate assigned by the retail credit risk model.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "retail_loans",
         "field": "lgd",
         "semantic_model": "LoanExposureSemanticModel",
@@ -3773,9 +4618,12 @@ window.GRAPH_DATA = {
           "retail_loans.pd",
           "retail_loans.principal_amount"
         ],
+        "ai_context": {
+          "metric_type": "calculated_credit_risk_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "expected_loss_amount",
-          "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
           "expression": {
             "dialects": [
               {
@@ -3784,9 +4632,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
           "ai_context": {
             "metric_type": "calculated_credit_risk_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -3809,9 +4659,12 @@ window.GRAPH_DATA = {
           "retail_loans.pd",
           "retail_loans.principal_amount"
         ],
+        "ai_context": {
+          "metric_type": "calculated_credit_risk_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "risk_weighted_exposure_amount",
-          "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
           "expression": {
             "dialects": [
               {
@@ -3820,9 +4673,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
           "ai_context": {
             "metric_type": "calculated_credit_risk_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -3836,7 +4691,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "account_id"
         ],
+        "unique_keys": [],
         "field_count": 8,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "core_deposit.deposit_accounts"
@@ -3877,6 +4736,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Source account identifier for a deposit account balance record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "account_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -3913,6 +4798,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "customer_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "customer_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "customer_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Customer identifier linking the deposit account to the depositor master record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "customer_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -3949,6 +4860,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Product identifier linking the deposit account to the deposit product definition.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "product_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -3985,6 +4922,32 @@ window.GRAPH_DATA = {
         "data_type": "date",
         "nullable": false,
         "expression": "as_of_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "as_of_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "as_of_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Reporting date for the account balance snapshot.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "as_of_date",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4021,6 +4984,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "balance_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "balance_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "balance_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Deposit balance amount measured on the reporting date.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "balance_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4057,6 +5046,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency code for the deposit balance amount.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "currency",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4093,6 +5108,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "liquidity_bucket",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "liquidity_bucket",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "liquidity_bucket"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Liquidity bucket assigned to the account for reporting classification.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "liquidity_bucket",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4129,6 +5170,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": true,
         "expression": "rate_override",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": true
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "rate_override",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "rate_override"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Account-level runoff rate override when treasury has approved an account-specific rate.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": true
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "rate_override",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4165,7 +5232,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "customer_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "customer_master.deposit_customers"
@@ -4206,6 +5277,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "customer_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "customer_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "customer_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Master customer identifier for a depositor or legal entity.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_customers",
         "field": "customer_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4242,6 +5339,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "customer_name",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "customer_name",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "customer_name"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Human-readable depositor or legal entity name.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_customers",
         "field": "customer_name",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4278,6 +5401,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "segment",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "segment",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "segment"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Customer segment used for liquidity classification and management reporting.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_customers",
         "field": "segment",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4314,6 +5463,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "domicile_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "domicile_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "domicile_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Country or jurisdiction associated with the depositor.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_customers",
         "field": "domicile_country",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4351,7 +5526,11 @@ window.GRAPH_DATA = {
           "account_id",
           "as_of_date"
         ],
+        "unique_keys": [],
         "field_count": 10,
+        "ai_context": {
+          "physical_kind": "query"
+        },
         "physical_kind": "query",
         "source_tables": [
           "core_deposit.deposit_accounts",
@@ -4399,6 +5578,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Account identifier reported on the deposit liquidity line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "account_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4421,6 +5626,32 @@ window.GRAPH_DATA = {
         "data_type": "date",
         "nullable": false,
         "expression": "deposit_accounts.as_of_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "as_of_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.as_of_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Reporting date carried on the deposit liquidity line.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "as_of_date",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4443,6 +5674,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.customer_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "customer_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.customer_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Depositor identifier reported for account ownership and aggregation.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "customer_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4465,6 +5722,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.product_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.product_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Deposit product identifier reported for product-class aggregation.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "product_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4487,6 +5770,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "deposit_accounts.balance_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "balance_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.balance_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Deposit balance amount reported for liquidity measurement.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "balance_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4509,6 +5818,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency code reported for the deposit balance amount.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "currency",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4531,6 +5866,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.liquidity_bucket",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "liquidity_bucket",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.liquidity_bucket"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Liquidity bucket reported for regulatory classification.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "liquidity_bucket",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4553,6 +5914,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "runoff_rate",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Runoff rate reported after applying account override or product standard rate.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "runoff_rate",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4575,6 +5962,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "stable_funding_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Calculated stable funding amount reported after applying the runoff or stability rate.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "stable_funding_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4597,6 +6010,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "insured_balance_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Insured portion of the deposit balance reported under the product insurance limit.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "insured_balance_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4619,7 +6058,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "product_id"
         ],
+        "unique_keys": [],
         "field_count": 5,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "product_master.deposit_products"
@@ -4645,6 +6088,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Product identifier for the deposit product definition.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "product_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4681,6 +6150,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_type",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_type",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_type"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Deposit product type such as current account, savings, term deposit, or brokered deposit.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "product_type",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4717,6 +6212,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "regulatory_class",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "regulatory_class",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "regulatory_class"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Regulatory liquidity class assigned to the deposit product.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "regulatory_class",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4753,6 +6274,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "standard_runoff_rate",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "standard_runoff_rate",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "standard_runoff_rate"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Standard runoff or stability rate assigned by product policy.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "standard_runoff_rate",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4789,6 +6336,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "insurance_limit_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "insurance_limit_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "insurance_limit_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Maximum insured balance amount applicable to the deposit product.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "insurance_limit_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -4833,9 +6406,12 @@ window.GRAPH_DATA = {
           "deposit_accounts.rate_override",
           "deposit_products.standard_runoff_rate"
         ],
+        "ai_context": {
+          "metric_type": "liquidity_stability_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "stable_funding_amount",
-          "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
           "expression": {
             "dialects": [
               {
@@ -4844,9 +6420,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
           "ai_context": {
             "metric_type": "liquidity_stability_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -4867,9 +6445,12 @@ window.GRAPH_DATA = {
           "deposit_accounts.balance_amount",
           "deposit_products.insurance_limit_amount"
         ],
+        "ai_context": {
+          "metric_type": "insured_deposit_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "insured_balance_amount",
-          "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
           "expression": {
             "dialects": [
               {
@@ -4878,9 +6459,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
           "ai_context": {
             "metric_type": "insured_deposit_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -4895,7 +6478,11 @@ window.GRAPH_DATA = {
           "report_id",
           "line_number"
         ],
+        "unique_keys": [],
         "field_count": 7,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "reporting.collateral_margin_report_lines"
@@ -4936,6 +6523,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "report_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "report_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "report_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Identifier of the generated collateral margin report submission.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "report_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -4972,6 +6585,32 @@ window.GRAPH_DATA = {
         "data_type": "integer",
         "nullable": false,
         "expression": "line_number",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "integer",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "line_number",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "line_number"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Line sequence number within a collateral margin report submission.",
+          "ai_context": {
+            "physical_type": "integer",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "line_number",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5008,6 +6647,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Margin account identifier reported on the output line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "account_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5044,6 +6709,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Counterparty identifier reported on the output line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "counterparty_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5080,6 +6771,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "collateral_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "collateral_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "collateral_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Collateral asset identifier reported on the output line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "collateral_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5116,6 +6833,32 @@ window.GRAPH_DATA = {
         "data_type": "date",
         "nullable": false,
         "expression": "valuation_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "valuation_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "valuation_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Valuation date used for the reported collateral amount.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "valuation_date",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5152,6 +6895,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "eligible_collateral_value",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "eligible_collateral_value",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "eligible_collateral_value"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Reportable collateral value after applying haircut and eligibility calculation.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_margin_report_lines",
         "field": "eligible_collateral_value",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5188,7 +6957,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "collateral_id"
         ],
+        "unique_keys": [],
         "field_count": 5,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "collateral_master.collateral_positions"
@@ -5229,6 +7002,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "collateral_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "collateral_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "collateral_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for the pledged collateral asset position.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "collateral_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5265,6 +7064,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Margin account identifier to which the collateral position is assigned.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "account_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5301,6 +7126,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "asset_type",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "asset_type",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "asset_type"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Asset classification of the pledged collateral used for eligibility assessment.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "asset_type",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5337,6 +7188,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Denomination currency of the pledged collateral position.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "currency",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5373,6 +7250,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": true,
         "expression": "issuer_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": true
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "issuer_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "issuer_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": true
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_positions",
         "field": "issuer_country",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5409,7 +7312,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "valuation_id"
         ],
+        "unique_keys": [],
         "field_count": 5,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "market_risk.collateral_valuations"
@@ -5450,6 +7357,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "valuation_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "valuation_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "valuation_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for a collateral valuation record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "valuation_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5486,6 +7419,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "collateral_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "collateral_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "collateral_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Identifier of the pledged collateral asset being valued.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "collateral_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5522,6 +7481,32 @@ window.GRAPH_DATA = {
         "data_type": "date",
         "nullable": false,
         "expression": "valuation_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "valuation_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "valuation_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Business date on which the collateral market value and haircut are observed.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "valuation_date",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5558,6 +7543,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "market_value_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "market_value_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "market_value_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Observed market value amount of the collateral before haircut adjustment.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "market_value_amount",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5594,6 +7605,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "haircut_rate",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "haircut_rate",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "haircut_rate"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Haircut percentage applied to collateral market value for eligibility calculation.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "collateral_valuations",
         "field": "haircut_rate",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5630,7 +7667,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "counterparty_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "margin_core.counterparties"
@@ -5671,6 +7712,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for the legal counterparty reference record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "counterparty_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5707,6 +7774,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "legal_name",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "legal_name",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "legal_name"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Registered legal name of the reporting counterparty.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "legal_name",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5743,6 +7836,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "domicile_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "domicile_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "domicile_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Country or jurisdiction where the counterparty is domiciled for regulatory classification.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "domicile_country",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5779,6 +7898,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": true,
         "expression": "regulatory_segment",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": true
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "regulatory_segment",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "regulatory_segment"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Regulatory counterparty segment used for reporting categorization and eligibility rules.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": true
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "regulatory_segment",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5815,7 +7960,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "account_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "margin_core.margin_accounts"
@@ -5856,6 +8005,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for a margin account record at account grain.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "margin_accounts",
         "field": "account_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5892,6 +8067,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Identifier of the legal counterparty responsible for the margin account.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "margin_accounts",
         "field": "counterparty_id",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5928,6 +8129,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "base_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "base_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "base_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency in which the margin account obligation is primarily managed and reported.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "margin_accounts",
         "field": "base_currency",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -5964,6 +8191,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "account_status",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_status",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_status"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Operational status of the margin account used to determine reporting eligibility.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "margin_accounts",
         "field": "account_status",
         "semantic_model": "CollateralMarginSemanticModel",
@@ -6007,9 +8260,12 @@ window.GRAPH_DATA = {
           "collateral_valuations.haircut_rate",
           "collateral_valuations.market_value_amount"
         ],
+        "ai_context": {
+          "metric_type": "calculated_report_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "eligible_collateral_value",
-          "description": "Market value after haircut for regulatory eligible collateral reporting.",
           "expression": {
             "dialects": [
               {
@@ -6018,9 +8274,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Market value after haircut for regulatory eligible collateral reporting.",
           "ai_context": {
             "metric_type": "calculated_report_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -11577,8 +13835,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Retail loan records use borrower_id to attach the consumer borrower profile used for customer segment and domicile reporting."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Retail loan records use borrower_id to attach the consumer borrower profile used for customer segment and domicile reporting."
         }
@@ -11604,8 +13864,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Institutional facility records use legal_entity_id to resolve the legal borrower profile used for wholesale exposure reporting."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Institutional facility records use legal_entity_id to resolve the legal borrower profile used for wholesale exposure reporting."
         }
@@ -11631,8 +13893,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Retail loan records join to loan product definitions through product_id to classify retail exposure product type and regulatory class."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Retail loan records join to loan product definitions through product_id to classify retail exposure product type and regulatory class."
         }
@@ -11658,8 +13922,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Institutional facility product_code resolves to the shared loan product definition used for wholesale exposure classification."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Institutional facility product_code resolves to the shared loan product definition used for wholesale exposure classification."
         }
@@ -11687,8 +13953,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Report lines reconcile to borrower master records using borrower identifier plus reported country to preserve jurisdiction-specific exposure context."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Report lines reconcile to borrower master records using borrower identifier plus reported country to preserve jurisdiction-specific exposure context."
         }
@@ -11714,8 +13982,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Report lines join to loan product definitions through product_id so reported exposures can be reviewed against product classification reference data."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Report lines join to loan product definitions through product_id so reported exposures can be reviewed against product classification reference data."
         }
@@ -13360,8 +15630,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Deposit account balances use customer_id to attach depositor segment and country attributes required for liquidity classification."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Deposit account balances use customer_id to attach depositor segment and country attributes required for liquidity classification."
         }
@@ -13387,8 +15659,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Deposit account balances join to product definitions through product_id to obtain liquidity class, runoff rate, and insurance limit reference data."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Deposit account balances join to product definitions through product_id to obtain liquidity class, runoff rate, and insurance limit reference data."
         }
@@ -13414,8 +15688,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Prepared deposit report lines reconcile to depositor master records through customer_id for customer-level liquidity review."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Prepared deposit report lines reconcile to depositor master records through customer_id for customer-level liquidity review."
         }
@@ -13441,8 +15717,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Prepared deposit report lines join to product reference data through product_id to validate reported product liquidity classification."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Prepared deposit report lines join to product reference data through product_id to validate reported product liquidity classification."
         }
@@ -14808,8 +17086,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Margin accounts use counterparty_id to attach legal counterparty profile and jurisdiction attributes for collateral reporting."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Margin accounts use counterparty_id to attach legal counterparty profile and jurisdiction attributes for collateral reporting."
         }
@@ -14835,8 +17115,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Collateral positions join to margin accounts through account_id to connect pledged assets with the account obligations they secure."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Collateral positions join to margin accounts through account_id to connect pledged assets with the account obligations they secure."
         }
@@ -14862,8 +17144,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Collateral valuations use collateral_id to attach current valuation, haircut, and valuation date to the pledged collateral position."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Collateral valuations use collateral_id to attach current valuation, haircut, and valuation date to the pledged collateral position."
         }

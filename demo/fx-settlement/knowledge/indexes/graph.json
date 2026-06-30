@@ -8,7 +8,9 @@
         "description": "Base concept for account-like records with common account identifiers.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_AccountIdentifier"
         ],
@@ -57,7 +59,9 @@
         "description": "Base concept for operational instruction records with stable instruction identifiers.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_InstructionIdentifier"
         ],
@@ -106,7 +110,9 @@
         "description": "Base concept for counterparty-like records with stable party identifiers.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_CounterpartyIdentifier"
         ],
@@ -155,7 +161,9 @@
         "description": "Base concept for reference-data records with stable reference identifiers.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_ReferenceIdentifier"
         ],
@@ -204,7 +212,9 @@
         "description": "Base concept for transaction-like records with stable transaction identifiers and booking dates.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_TransactionIdentifier"
         ],
@@ -716,7 +726,6 @@
         ],
         "metric": {
           "name": "report_currency_exposure_amount",
-          "description": "FX trade notional amount converted into reporting currency using the referenced FX rate.",
           "expression": {
             "dialects": [
               {
@@ -725,9 +734,11 @@
               }
             ]
           },
+          "description": "FX trade notional amount converted into reporting currency using the referenced FX rate.",
           "ai_context": {
             "metric_type": "calculated_settlement_monitoring_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -973,7 +984,6 @@
         ],
         "metric": {
           "name": "settlement_delay_days",
-          "description": "Settlement delay measured as the day difference between expected and actual settlement completion dates.",
           "expression": {
             "dialects": [
               {
@@ -982,9 +992,11 @@
               }
             ]
           },
+          "description": "Settlement delay measured as the day difference between expected and actual settlement completion dates.",
           "ai_context": {
             "metric_type": "calculated_settlement_monitoring_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -1172,7 +1184,11 @@
         "primary_key": [
           "counterparty_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "counterparty_master.counterparties"
@@ -1213,6 +1229,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable master identifier for a trading or account counterparty.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "counterparty_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1249,6 +1291,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_name",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_name",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_name"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Legal or trading display name of the counterparty.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "counterparty_name",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1285,6 +1353,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Country or jurisdiction associated with the counterparty master record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "counterparty_country",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1321,6 +1415,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "risk_segment",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "risk_segment",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "risk_segment"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Risk or client segment assigned to the counterparty for monitoring.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "counterparties",
         "field": "risk_segment",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1357,7 +1477,11 @@
         "primary_key": [
           "rate_id"
         ],
+        "unique_keys": [],
         "field_count": 5,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "market_data.fx_rates"
@@ -1398,6 +1522,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "rate_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "rate_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "rate_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable identifier for an FX rate reference record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_rates",
         "field": "rate_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1434,6 +1584,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "base_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "base_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "base_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Base currency of the FX quote.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_rates",
         "field": "base_currency",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1470,6 +1646,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "quote_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "quote_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "quote_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Quote or reporting currency of the FX quote.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_rates",
         "field": "quote_currency",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1506,6 +1708,32 @@
         "data_type": "date",
         "nullable": false,
         "expression": "rate_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "rate_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "rate_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Effective date of the FX rate.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_rates",
         "field": "rate_date",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1542,6 +1770,32 @@
         "data_type": "decimal",
         "nullable": false,
         "expression": "rate_value",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "rate_value",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "rate_value"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Decimal rate value used for currency conversion.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_rates",
         "field": "rate_value",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1576,7 +1830,11 @@
         "description": "Prepared FX settlement monitoring line dataset at trade and settlement-instruction grain, combining trade, settlement, counterparty, account, and FX rate context for operational reporting review.",
         "source": "query.fx_settlement_monitoring_lines",
         "primary_key": [],
+        "unique_keys": [],
         "field_count": 8,
+        "ai_context": {
+          "physical_kind": "query"
+        },
         "physical_kind": "query",
         "source_tables": [
           "fx_trading_core.fx_trades",
@@ -1656,6 +1914,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "fx_trades.trade_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "trade_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "fx_trades.trade_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Trade identifier carried onto the monitoring line for reconciliation.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_settlement_monitoring_lines",
         "field": "trade_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1678,6 +1962,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "settlement_instructions.settlement_instruction_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_instruction_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_instructions.settlement_instruction_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Settlement instruction identifier carried onto the monitoring line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_settlement_monitoring_lines",
         "field": "settlement_instruction_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1700,6 +2010,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "fx_trades.counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "fx_trades.counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Counterparty identifier reported for settlement monitoring and aggregation.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_settlement_monitoring_lines",
         "field": "counterparty_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1722,6 +2058,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "settlement_instructions.settlement_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_instructions.settlement_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Settlement currency reported on the monitoring line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_settlement_monitoring_lines",
         "field": "settlement_currency",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1744,6 +2106,32 @@
         "data_type": "decimal",
         "nullable": false,
         "expression": "settlement_instructions.settlement_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_instructions.settlement_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Settlement amount reported on the monitoring line.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_settlement_monitoring_lines",
         "field": "settlement_amount",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1766,6 +2154,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "settlement_instructions.settlement_status",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_status",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_instructions.settlement_status"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Settlement status reported on the monitoring line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_settlement_monitoring_lines",
         "field": "settlement_status",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1788,6 +2202,32 @@
         "data_type": "decimal",
         "nullable": false,
         "expression": "fx_trades.notional_amount * fx_rates.rate_value",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "exposure_amount_report_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "fx_trades.notional_amount * fx_rates.rate_value"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Trade notional converted into reporting currency for monitoring review.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_settlement_monitoring_lines",
         "field": "exposure_amount_report_currency",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1810,6 +2250,32 @@
         "data_type": "integer",
         "nullable": true,
         "expression": "DATEDIFF(day, settlement_instructions.expected_settlement_date, settlement_instructions.actual_settlement_date)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "integer",
+          "nullable": true
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_delay_days",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "DATEDIFF(day, settlement_instructions.expected_settlement_date, settlement_instructions.actual_settlement_date)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Number of days between expected and actual settlement completion.",
+          "ai_context": {
+            "physical_type": "integer",
+            "nullable": true
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_settlement_monitoring_lines",
         "field": "settlement_delay_days",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1832,7 +2298,11 @@
         "primary_key": [
           "trade_id"
         ],
+        "unique_keys": [],
         "field_count": 8,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "fx_trading_core.fx_trades"
@@ -1858,6 +2328,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "trade_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "trade_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "trade_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable source trade identifier for an executed FX trade.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_trades",
         "field": "trade_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1894,6 +2390,32 @@
         "data_type": "date",
         "nullable": false,
         "expression": "trade_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "trade_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "trade_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Business booking date of the FX trade.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_trades",
         "field": "trade_date",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1930,6 +2452,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Counterparty identifier captured at trade execution.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_trades",
         "field": "counterparty_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -1966,6 +2514,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "buy_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "buy_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "buy_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency bought by the FX trade.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_trades",
         "field": "buy_currency",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2002,6 +2576,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "sell_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "sell_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "sell_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency sold by the FX trade.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_trades",
         "field": "sell_currency",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2038,6 +2638,32 @@
         "data_type": "decimal",
         "nullable": false,
         "expression": "notional_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "notional_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "notional_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Trade notional amount before reporting-currency conversion.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_trades",
         "field": "notional_amount",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2074,6 +2700,32 @@
         "data_type": "date",
         "nullable": false,
         "expression": "settlement_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Contractual settlement date agreed for the FX trade.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_trades",
         "field": "settlement_date",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2110,6 +2762,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "rate_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "rate_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "rate_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Reference identifier of the FX rate used for reporting conversion.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "fx_trades",
         "field": "rate_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2146,7 +2824,11 @@
         "primary_key": [
           "account_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "nostro_master.nostro_accounts"
@@ -2172,6 +2854,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable account identifier for a nostro settlement account.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "nostro_accounts",
         "field": "account_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2208,6 +2916,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "account_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency in which the nostro account settles cash movements.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "nostro_accounts",
         "field": "account_currency",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2244,6 +2978,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "account_status",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_status",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_status"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Operational lifecycle status of the nostro account.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "nostro_accounts",
         "field": "account_status",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2280,6 +3040,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "owner_counterparty_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "owner_counterparty_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "owner_counterparty_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Counterparty identifier responsible for or owning the nostro account.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "nostro_accounts",
         "field": "owner_counterparty_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2316,7 +3102,11 @@
         "primary_key": [
           "settlement_instruction_id"
         ],
+        "unique_keys": [],
         "field_count": 9,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "payments_core.settlement_instructions"
@@ -2342,6 +3132,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "settlement_instruction_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_instruction_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_instruction_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Stable operational identifier for the FX settlement instruction.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "settlement_instruction_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2378,6 +3194,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "trade_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "trade_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "trade_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Trade identifier whose cash movement is governed by the settlement instruction.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "trade_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2414,6 +3256,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "nostro_account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "nostro_account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "nostro_account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Nostro account identifier used to settle the instruction.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "nostro_account_id",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2450,6 +3318,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "settlement_currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency in which the instruction settles.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "settlement_currency",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2486,6 +3380,32 @@
         "data_type": "decimal",
         "nullable": false,
         "expression": "settlement_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Monetary cash obligation that the instruction must settle in the stated settlement currency.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "settlement_amount",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2522,6 +3442,32 @@
         "data_type": "date",
         "nullable": false,
         "expression": "settlement_value_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_value_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_value_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Value date expected for settlement posting.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "settlement_value_date",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2558,6 +3504,32 @@
         "data_type": "date",
         "nullable": false,
         "expression": "expected_settlement_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "expected_settlement_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "expected_settlement_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Date by which the instruction should complete settlement.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "expected_settlement_date",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2594,6 +3566,32 @@
         "data_type": "date",
         "nullable": true,
         "expression": "actual_settlement_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": true
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "actual_settlement_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "actual_settlement_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Date on which the instruction actually completed settlement.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": true
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "actual_settlement_date",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2630,6 +3628,32 @@
         "data_type": "string",
         "nullable": false,
         "expression": "settlement_status",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "settlement_status",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "settlement_status"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Operational status assigned to the settlement instruction.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "settlement_instructions",
         "field": "settlement_status",
         "semantic_model": "FxSettlementSemanticModel",
@@ -2673,9 +3697,12 @@
           "fx_rates.rate_value",
           "fx_trades.notional_amount"
         ],
+        "ai_context": {
+          "metric_type": "calculated_settlement_monitoring_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "report_currency_exposure_amount",
-          "description": "FX trade notional amount converted into reporting currency using the referenced FX rate.",
           "expression": {
             "dialects": [
               {
@@ -2684,9 +3711,11 @@
               }
             ]
           },
+          "description": "FX trade notional amount converted into reporting currency using the referenced FX rate.",
           "ai_context": {
             "metric_type": "calculated_settlement_monitoring_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -2707,9 +3736,12 @@
           "settlement_instructions.actual_settlement_date",
           "settlement_instructions.expected_settlement_date"
         ],
+        "ai_context": {
+          "metric_type": "calculated_settlement_monitoring_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "settlement_delay_days",
-          "description": "Settlement delay measured as the day difference between expected and actual settlement completion dates.",
           "expression": {
             "dialects": [
               {
@@ -2718,9 +3750,11 @@
               }
             ]
           },
+          "description": "Settlement delay measured as the day difference between expected and actual settlement completion dates.",
           "ai_context": {
             "metric_type": "calculated_settlement_monitoring_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -5666,8 +6700,10 @@
           ],
           "ai_context": {
             "description": "FX trades use counterparty_id to attach the legal entity profile needed for settlement exposure monitoring."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "FX trades use counterparty_id to attach the legal entity profile needed for settlement exposure monitoring."
         }
@@ -5693,8 +6729,10 @@
           ],
           "ai_context": {
             "description": "FX trades use rate_id to resolve the rate record used to convert trade notional into reporting currency."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "FX trades use rate_id to resolve the rate record used to convert trade notional into reporting currency."
         }
@@ -5720,8 +6758,10 @@
           ],
           "ai_context": {
             "description": "Settlement instructions use trade_id to connect operational settlement status to the executed FX trade."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Settlement instructions use trade_id to connect operational settlement status to the executed FX trade."
         }
@@ -5747,8 +6787,10 @@
           ],
           "ai_context": {
             "description": "Settlement instructions use nostro_account_id to identify the cash account used for settlement routing."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Settlement instructions use nostro_account_id to identify the cash account used for settlement routing."
         }
@@ -5774,8 +6816,10 @@
           ],
           "ai_context": {
             "description": "Nostro accounts use owner_counterparty_id to identify the responsible counterparty or banking entity."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Nostro accounts use owner_counterparty_id to identify the responsible counterparty or banking entity."
         }
@@ -5801,8 +6845,10 @@
           ],
           "ai_context": {
             "description": "Monitoring lines reconcile to FX trades through trade_id to preserve row-level trade traceability."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Monitoring lines reconcile to FX trades through trade_id to preserve row-level trade traceability."
         }
@@ -5828,8 +6874,10 @@
           ],
           "ai_context": {
             "description": "Monitoring lines reconcile to settlement instructions through settlement_instruction_id for operational status traceability."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Monitoring lines reconcile to settlement instructions through settlement_instruction_id for operational status traceability."
         }

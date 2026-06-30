@@ -27,7 +27,8 @@ window.OSI_SUMMARY = {
     {
       "name": "CollateralMarginSemanticModel",
       "description": "Table-backed semantic model for collateral margin reporting.",
-      "ai_context": null,
+      "ai_context": {},
+      "custom_extensions": [],
       "mapping_name": "CollateralMarginSemanticMapping",
       "ontology": "CollateralMarginReportingOntology",
       "source_file": "knowledge/regulatory-reporting-osi.yaml",

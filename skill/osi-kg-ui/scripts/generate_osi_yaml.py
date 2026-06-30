@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate the collateral demo OSI YAML from raw source metadata.")
+    parser = argparse.ArgumentParser(description="Generate strict OSI YAML plus UI application metadata from raw source metadata.")
     parser.add_argument("--raw", default="raw/collateral-margin-source.yaml", help="Raw source metadata YAML.")
     parser.add_argument("--output", default="knowledge/regulatory-reporting-osi.yaml", help="Generated OSI YAML.")
     parser.add_argument("--app-output", default="knowledge/regulatory-reporting-app.yaml", help="Generated application metadata YAML.")
@@ -30,6 +30,7 @@ def resolve_path(value: str | Path) -> Path:
     if cwd_path.exists() or cwd_path.parent.exists():
         return cwd_path
     return ROOT / path
+
 
 def normalize_custom_extension(extension: dict[str, Any]) -> dict[str, Any]:
     """Convert raw authoring extension shapes to strict OSI custom_extensions."""
@@ -59,6 +60,33 @@ def normalize_custom_extension(extension: dict[str, Any]) -> dict[str, Any]:
 def normalize_custom_extensions(items: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
     return [normalize_custom_extension(item) for item in items or []]
 
+
+def normalize_ai_context(value: Any) -> Any:
+    return value if value not in (None, "") else {}
+
+
+def default_value_type_extends(name: str) -> list[str]:
+    text = str(name or "")
+    lower = text.lower()
+    if "datetime" in lower or lower.endswith("timestamp") or lower.endswith("time"):
+        return ["DateTime"]
+    if "date" in lower:
+        return ["Date"]
+    if any(token in lower for token in ("amount", "balance", "rate", "ratio", "price", "value", "haircut", "percentage", "pct", "decimal")):
+        return ["Decimal"]
+    if any(token in lower for token in ("count", "number", "quantity", "days", "months", "years")) and "identifier" not in lower:
+        return ["Integer"]
+    if any(token in lower for token in ("flag", "indicator", "boolean", "eligible")):
+        return ["Boolean"]
+    return ["String"]
+
+
+def default_entity_extends(item: dict[str, Any]) -> list[str]:
+    if item.get("extends"):
+        return item["extends"]
+    return ["Any"]
+
+
 def expression(value: str | dict[str, Any]) -> dict[str, Any]:
     if isinstance(value, dict):
         return value
@@ -85,25 +113,34 @@ def default_verbalizes(owner: str, relationship: dict[str, Any]) -> list[str]:
 
 
 def relationship(owner: str, item: dict[str, Any]) -> dict[str, Any]:
-    allowed = {"name", "description", "roles", "multiplicity", "derived_by", "requires", "verbalizes"}
-    output = {key: value for key, value in item.items() if key in allowed and value not in (None, [], "")}
-    output["roles"] = [role_without_app_fields(role) for role in item.get("roles") or []]
-    output.setdefault("verbalizes", default_verbalizes(owner, item))
+    output: dict[str, Any] = {
+        "name": item["name"],
+        "description": item.get("description", ""),
+        "roles": [role_without_app_fields(role) for role in item.get("roles") or []],
+        "derived_by": item.get("derived_by") or [],
+        "requires": item.get("requires") or [],
+        "verbalizes": item.get("verbalizes") or default_verbalizes(owner, item),
+    }
+    if item.get("multiplicity"):
+        output["multiplicity"] = item["multiplicity"]
     return output
 
 
 def concept_component(item: dict[str, Any], concept_type: str) -> dict[str, Any]:
+    extends = item.get("extends") or (default_value_type_extends(item["name"]) if concept_type == "ValueType" else default_entity_extends(item))
     concept = {
         "name": item["name"],
         "type": concept_type,
+        "description": item.get("description", ""),
+        "extends": extends,
+        "derived_by": item.get("derived_by") or [],
+        "identify_by": item.get("identify_by") or [],
+        "requires": item.get("requires") or [],
     }
-    for key in ("description", "extends", "derived_by", "identify_by", "requires"):
-        if item.get(key):
-            concept[key] = item[key]
-    component = {"concept": concept}
-    if item.get("relationships"):
-        component["relationships"] = [relationship(item["name"], rel) for rel in item["relationships"]]
-    return component
+    return {
+        "concept": concept,
+        "relationships": [relationship(item["name"], rel) for rel in item.get("relationships") or []],
+    }
 
 
 def dataset(item: dict[str, Any]) -> dict[str, Any]:
@@ -111,10 +148,13 @@ def dataset(item: dict[str, Any]) -> dict[str, Any]:
         "name": item["name"],
         "source": item["source"],
         "primary_key": item.get("primary_key") or [],
+        "unique_keys": item.get("unique_keys") or [],
         "description": item.get("description", ""),
+        "ai_context": normalize_ai_context(item.get("ai_context")),
         "fields": [],
+        "custom_extensions": normalize_custom_extensions(item.get("custom_extensions")),
     }
-    dataset_ai_context = dict(item.get("ai_context") or {}) if isinstance(item.get("ai_context"), dict) else {}
+    dataset_ai_context = output["ai_context"] if isinstance(output["ai_context"], dict) else {}
     if item.get("physical_kind"):
         dataset_ai_context.setdefault("physical_kind", item["physical_kind"])
     elif dataset_ai_context:
@@ -125,10 +165,13 @@ def dataset(item: dict[str, Any]) -> dict[str, Any]:
         field_output = {
             "name": field["name"],
             "expression": field_expression(field),
+            "dimension": field.get("dimension") or {},
+            "label": field.get("label", ""),
+            "description": field.get("description", ""),
+            "ai_context": normalize_ai_context(field.get("ai_context")),
+            "custom_extensions": normalize_custom_extensions(field.get("custom_extensions")),
         }
-        if field.get("description"):
-            field_output["description"] = field["description"]
-        field_ai_context = dict(field.get("ai_context") or {}) if isinstance(field.get("ai_context"), dict) else {}
+        field_ai_context = field_output["ai_context"] if isinstance(field_output["ai_context"], dict) else {}
         if field.get("type"):
             field_ai_context.setdefault("physical_type", field["type"])
         if "nullable" in field:
@@ -136,13 +179,19 @@ def dataset(item: dict[str, Any]) -> dict[str, Any]:
         if field_ai_context:
             field_output["ai_context"] = field_ai_context
         output["fields"].append(field_output)
-    if item.get("custom_extensions"):
-        output["custom_extensions"] = normalize_custom_extensions(item["custom_extensions"])
     return output
 
+
 def dataset_relationship(item: dict[str, Any]) -> dict[str, Any]:
-    allowed = {"name", "from", "to", "from_columns", "to_columns", "ai_context", "custom_extensions"}
-    output = {key: value for key, value in item.items() if key in allowed and value not in (None, [], "")}
+    output = {
+        "name": item["name"],
+        "from": item["from"],
+        "to": item["to"],
+        "from_columns": item.get("from_columns") or [],
+        "to_columns": item.get("to_columns") or [],
+        "ai_context": normalize_ai_context(item.get("ai_context")),
+        "custom_extensions": normalize_custom_extensions(item.get("custom_extensions")),
+    }
     context_text = item.get("description") or item.get("purpose")
     if context_text:
         ai_context = output.get("ai_context")
@@ -153,35 +202,55 @@ def dataset_relationship(item: dict[str, Any]) -> dict[str, Any]:
         else:
             ai_context = {"description": context_text}
         output["ai_context"] = ai_context
-    if output.get("custom_extensions"):
-        output["custom_extensions"] = normalize_custom_extensions(output["custom_extensions"])
     return output
+
 
 def metric(item: dict[str, Any]) -> dict[str, Any]:
-    output = {
+    return {
         "name": item["name"],
-        "description": item.get("description", ""),
         "expression": expression(item["expression"]),
+        "description": item.get("description", ""),
+        "ai_context": normalize_ai_context(item.get("ai_context")),
+        "custom_extensions": normalize_custom_extensions(item.get("custom_extensions")),
     }
-    if item.get("custom_extensions"):
-        output["custom_extensions"] = normalize_custom_extensions(item["custom_extensions"])
-    if item.get("ai_context"):
-        output["ai_context"] = item["ai_context"]
-    return output
 
+
+def referent_mapping(item: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "relationship": item["relationship"],
+        "expression": item.get("expression", ""),
+        "referent_mappings": [referent_mapping(child) for child in item.get("referent_mappings") or []],
+    }
+
+
+def object_mapping(item: dict[str, Any], default_concept: str = "") -> dict[str, Any]:
+    return {
+        "concept": item.get("concept") or default_concept,
+        "expression": item.get("expression", ""),
+        "referent_mappings": [referent_mapping(child) for child in item.get("referent_mappings") or []],
+    }
+
+
+def link_mapping(item: dict[str, Any], default_concept: str = "") -> dict[str, Any]:
+    return {
+        "object_mapping": object_mapping(item["object_mapping"], default_concept),
+        "relationship": item.get("relationship", ""),
+        "children": [link_mapping(child) for child in item.get("children") or []],
+    }
 
 
 def concept_mapping(item: dict[str, Any]) -> dict[str, Any]:
-    output = {"concept": item["concept"]}
-    if item.get("object_mappings"):
-        output["object_mappings"] = item["object_mappings"]
-    if item.get("link_mappings"):
-        output["link_mappings"] = item["link_mappings"]
-    return output
+    concept = item["concept"]
+    return {
+        "concept": concept,
+        "object_mappings": [object_mapping(mapping, concept) for mapping in item.get("object_mappings") or []],
+        "link_mappings": [link_mapping(mapping, concept) for mapping in item.get("link_mappings") or []],
+    }
 
 
 def mapping_edge_annotations(raw: dict[str, Any]) -> list[dict[str, Any]]:
     return raw.get("mapping_edge_annotations") or []
+
 
 def build_model(raw: dict[str, Any]) -> dict[str, Any]:
     scenario = raw["scenario"]
@@ -204,9 +273,11 @@ def build_model(raw: dict[str, Any]) -> dict[str, Any]:
                 "semantic_model": {
                     "name": scenario["semantic_model_name"],
                     "description": scenario.get("semantic_model_description", ""),
+                    "ai_context": normalize_ai_context(scenario.get("semantic_model_ai_context")),
                     "datasets": [dataset(item) for item in semantic_model.get("datasets") or []],
                     "relationships": [dataset_relationship(item) for item in semantic_model.get("relationships") or []],
                     "metrics": [metric(item) for item in semantic_model.get("metrics") or []],
+                    "custom_extensions": normalize_custom_extensions(semantic_model.get("custom_extensions")),
                 },
                 "concept_mappings": [concept_mapping(item) for item in raw.get("concept_mappings") or []],
             }
@@ -248,4 +319,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -702,7 +702,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 existing_concept["description"] = concept.get("description")
             if not existing_concept.get("ai_context") and concept.get("ai_context"):
                 existing_concept["ai_context"] = concept.get("ai_context")
-            for list_key in ("extends", "identify_by", "requires"):
+            for list_key in ("extends", "identify_by", "derived_by", "requires"):
                 merge_concept_list_field(existing_concept, concept, list_key)
             existing_component = existing["component"]
             existing_relationships = existing_component.setdefault("relationships", [])
@@ -994,6 +994,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 "name": sm_name,
                 "description": sm.get("description", ""),
                 "ai_context": sm.get("ai_context"),
+                "custom_extensions": sm.get("custom_extensions") or [],
                 "mapping_name": ontology_map.get("name", ""),
                 "ontology": mapping_ontology,
                 "source_file": ontology_map.get("__source_file", ""),
@@ -1041,7 +1042,9 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "description": dataset.get("description", ""),
                     "source": dataset.get("source"),
                     "primary_key": dataset.get("primary_key") or [],
+                    "unique_keys": dataset.get("unique_keys") or [],
                     "field_count": len(dataset.get("fields") or []),
+                    "ai_context": dataset.get("ai_context"),
                     "physical_kind": dataset_physical_kind(dataset),
                     "source_tables": source_tables,
                     "custom_extensions": dataset.get("custom_extensions") or [],
@@ -1059,7 +1062,9 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "description": dataset.get("description", ""),
                     "source": dataset.get("source"),
                     "primary_key": dataset.get("primary_key") or [],
+                    "unique_keys": dataset.get("unique_keys") or [],
                     "fields": dataset.get("fields") or [],
+                    "ai_context": dataset.get("ai_context"),
                     "source_tables": source_tables,
                     "physical_kind": dataset_physical_kind(dataset),
                     "custom_extensions": dataset.get("custom_extensions") or [],
@@ -1161,6 +1166,11 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         "data_type": field_physical_type(field) or ("time" if field.get("dimension", {}).get("is_time") else "field"),
                         "nullable": field_nullable(field),
                         "expression": field_expression,
+                        "dimension": field.get("dimension") or {},
+                        "label": field.get("label", ""),
+                        "ai_context": field.get("ai_context"),
+                        "custom_extensions": field.get("custom_extensions") or [],
+                        "field_definition": field,
                         "dataset": dataset_name,
                         "field": field_name,
                         "semantic_model": sm_name,
@@ -1178,6 +1188,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "dataset": dataset_name,
                     "field": field_name,
                     "expression": field_expression,
+                    "dimension": field.get("dimension") or {},
+                    "label": field.get("label", ""),
+                    "ai_context": field.get("ai_context"),
+                    "custom_extensions": field.get("custom_extensions") or [],
                     "semantic_model": sm_name,
                     "semantic_models": [sm_name],
                     "ontology": mapping_ontology,
@@ -1296,6 +1310,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             edge_properties = {
                 "join_name": rel.get("name", "join"),
                 "relationship": rel,
+                "custom_extensions": rel.get("custom_extensions") or [],
             }
             if rel_ai_context:
                 edge_properties["ai_context"] = rel_ai_context
@@ -1335,6 +1350,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "semantic_metric": metric_name,
                     "expression": metric_expression,
                     "source_fields": metric_source_fields,
+                    "ai_context": metric.get("ai_context"),
+                    "custom_extensions": metric.get("custom_extensions") or [],
                     "metric": metric,
                 },
             )
@@ -1349,6 +1366,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "semantic_metric": metric_name,
                 "expression": metric_expression,
                 "source_fields": metric_source_fields,
+                "ai_context": metric.get("ai_context"),
+                "custom_extensions": metric.get("custom_extensions") or [],
                 "metric": metric,
             }
             for dataset_name in metric_source_datasets:
@@ -2053,6 +2072,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 

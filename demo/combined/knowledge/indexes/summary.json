@@ -64,7 +64,8 @@
     {
       "name": "LoanExposureSemanticModel",
       "description": "Table-backed semantic model for loan exposure reporting across retail and institutional lending populations.",
-      "ai_context": null,
+      "ai_context": {},
+      "custom_extensions": [],
       "mapping_name": "LoanExposureSemanticMapping",
       "ontology": "LoanExposureReportingOntology",
       "source_file": "knowledge/sources/loan-regulatory-reporting-osi.yaml",
@@ -74,7 +75,8 @@
     {
       "name": "DepositLiquiditySemanticModel",
       "description": "Semantic model for deposit liquidity reporting across account balances, customer master data, product runoff parameters, and prepared report lines.",
-      "ai_context": null,
+      "ai_context": {},
+      "custom_extensions": [],
       "mapping_name": "DepositLiquiditySemanticMapping",
       "ontology": "DepositLiquidityReportingOntology",
       "source_file": "knowledge/sources/deposit-regulatory-reporting-osi.yaml",
@@ -84,7 +86,8 @@
     {
       "name": "CollateralMarginSemanticModel",
       "description": "Table-backed semantic model for collateral margin reporting.",
-      "ai_context": null,
+      "ai_context": {},
+      "custom_extensions": [],
       "mapping_name": "CollateralMarginSemanticMapping",
       "ontology": "CollateralMarginReportingOntology",
       "source_file": "knowledge/sources/collateral-regulatory-reporting-osi.yaml",

@@ -28,7 +28,8 @@ window.OSI_SUMMARY = {
     {
       "name": "DepositLiquiditySemanticModel",
       "description": "Semantic model for deposit liquidity reporting across account balances, customer master data, product runoff parameters, and prepared report lines.",
-      "ai_context": null,
+      "ai_context": {},
+      "custom_extensions": [],
       "mapping_name": "DepositLiquiditySemanticMapping",
       "ontology": "DepositLiquidityReportingOntology",
       "source_file": "knowledge/regulatory-reporting-osi.yaml",

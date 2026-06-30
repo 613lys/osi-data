@@ -75,7 +75,9 @@ object_mappings:
 
 Fields:
 
-- `referent_mappings`: Required at the root object mapping. It identifies the object being mapped.
+- `concept`: Optional in raw root object mappings; when omitted, the generator writes the surrounding `concept` into strict OSI output. In generated strict OSI, every `object_mapping` always has `concept`.
+- `expression`: Optional in raw root object mappings when identity is fully expressed through referent mappings; the generator writes an empty string in strict OSI output when there is no direct object expression. In generated strict OSI, every `object_mapping` always has `expression`.
+- `referent_mappings`: Required at the root object mapping. It identifies the object being mapped. In generated strict OSI, every `object_mapping` always has `referent_mappings`, even when empty.
 - `referent_mappings[].relationship`: Required. Must exactly match a relationship listed in the EntityType `identify_by`; inherited Base Entity identifiers are allowed and expected.
 - `referent_mappings[].expression`: Required. Semantic dataset field that supplies the identifier. Use `dataset.field`, where `dataset` is a semantic model dataset name.
 
@@ -103,8 +105,9 @@ link_mappings:
 
 Fields:
 
-- `object_mapping`: Required. Identifies the source object whose relationships are being populated. Usually repeats the root object identifier.
-- `children`: Required for relationship coverage. Each child maps one relationship under the owning EntityType.
+- `object_mapping`: Required. Identifies the source object whose relationships are being populated. Usually repeats the root object identifier. In generated strict OSI, its nested `object_mapping` always has `concept`, `expression`, and `referent_mappings`.
+- `relationship`: Optional in raw top-level link mappings; the generator writes an empty string in strict OSI output when there is no parent relationship. Child link mappings must have `relationship`.
+- `children`: Required for relationship coverage. Each child maps one relationship under the owning EntityType. In generated strict OSI, every link mapping always has `children`, even when empty.
 - `children[].relationship`: Required. Must match a relationship declared on the concrete EntityType or inherited from its Base Entity.
 - `children[].object_mapping`: Required. Describes the object or value reached through that relationship. Its `concept` must match the target concept declared by the ontology relationship role.
 

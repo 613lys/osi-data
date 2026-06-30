@@ -29,7 +29,8 @@
     {
       "name": "FxSettlementSemanticModel",
       "description": "Table-backed semantic model for FX trade settlement monitoring across trading, payments, counterparty master, account master, and market data sources.",
-      "ai_context": null,
+      "ai_context": {},
+      "custom_extensions": [],
       "mapping_name": "FxSettlementSemanticMapping",
       "ontology": "FxSettlementMonitoringOntology",
       "source_file": "knowledge/regulatory-reporting-osi.yaml",

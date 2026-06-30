@@ -58,16 +58,20 @@ Fields:
 
 - `name`: Required. Stable dataset name used in mapping expressions.
 - `source`: Required. Physical or logical source identifier, usually `schema.table`, `query.<name>`, or another system-qualified table/view/query name. Keep it scalar for OSI compatibility. Do not replace it with a nested object.
-- `primary_key`: Optional list of dataset fields that identify rows.
+- `primary_key`: Optional list of dataset fields that identify rows. Generated strict OSI keeps the field even when empty.
+- `unique_keys`: Optional list of alternate unique key definitions. Generated strict OSI keeps the field even when empty.
 - `description`: Required for generated demos. Describe the dataset as a business-meaningful row population and grain, not merely as a physical object. Include what kind of records it contains, what business process or reporting use they support, and source-population context such as retail loans versus institutional loans when that distinction is source-level context rather than an EntityType field. Do not use descriptions like `Source table for margin accounts.` or `Physical table for reports.` Optional EntityType-to-dataset edge-profile explanation belongs in `ui_annotations/mapping_edge_annotations.yaml`, not in the dataset and not in concept mappings.
-- `ai_context`: Optional OSI field. Put dataset-level AI/context metadata here, including `physical_kind: table | query` when the UI should distinguish table-backed and query-backed datasets. Do not use top-level `physical_kind` in new fragments.
-- `custom_extensions`: Optional OSI extension list. Use it for complex source metadata that does not fit scalar `source`, such as query SQL and table dependencies. Prefer `custom_extensions` over inventing unsupported dataset fields.
+- `ai_context`: Optional OSI field. Put dataset-level AI/context metadata here, including `physical_kind: table | query` when the UI should distinguish table-backed and query-backed datasets. Do not use top-level `physical_kind` in new fragments. Generated strict OSI keeps the field even when empty.
+- `custom_extensions`: Optional OSI extension list. Use it for complex source metadata that does not fit scalar `source`, such as query SQL and table dependencies. Prefer `custom_extensions` over inventing unsupported dataset fields. Generated strict OSI keeps the field even when empty.
 - `fields`: Required list of dataset fields.
 - `fields[].name`: Required. Column/field name.
+- `fields[].expression`: Required OSI expression object with `dialects[]`. Defines how the semantic dataset field maps to the physical source field. For a direct physical column mapping, use scalar SQL in the expression object, for example `expression.dialects[0].expression: account_id`. For a computed semantic field, use scalar SQL such as `first_name || ' ' || last_name`. Do not rely on implicit same-name mapping; the UI and lineage builder need explicit evidence.
+- `fields[].dimension`: Optional OSI dimension metadata object. Generated strict OSI keeps the field even when empty.
+- `fields[].label`: Optional OSI label/category string. Generated strict OSI keeps the field even when empty.
+- `fields[].description`: Required. Describe the field's dataset-level business meaning, row-level role, and source-specific interpretation. This is especially important when several fields share the same ValueType but differ by business role, such as base currency, settlement currency, reporting currency, valuation currency, or fallback currency. Do not merely restate the column name.
 - `fields[].ai_context.physical_type`: Optional OSI-compatible place for physical/logical type such as `string`, `decimal`, `date`, `integer`. Do not use top-level `fields[].type` in new fragments.
 - `fields[].ai_context.nullable`: Optional OSI-compatible place for field nullability. Do not use top-level `fields[].nullable` in new fragments.
-- `fields[].expression`: Required OSI expression object with `dialects[]`. Defines how the semantic dataset field maps to the physical source field. For a direct physical column mapping, use scalar SQL in the expression object, for example `expression.dialects[0].expression: account_id`. For a computed semantic field, use scalar SQL such as `first_name || ' ' || last_name`. Do not rely on implicit same-name mapping; the UI and lineage builder need explicit evidence.
-- `fields[].description`: Required. Describe the field's dataset-level business meaning, row-level role, and source-specific interpretation. This is especially important when several fields share the same ValueType but differ by business role, such as base currency, settlement currency, reporting currency, valuation currency, or fallback currency. Do not merely restate the column name.
+- `fields[].custom_extensions`: Optional OSI extension list for field-level extension metadata. Generated strict OSI keeps the field even when empty.
 
 Complex source metadata example:
 

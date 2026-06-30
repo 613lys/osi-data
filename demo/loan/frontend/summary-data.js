@@ -29,7 +29,8 @@ window.OSI_SUMMARY = {
     {
       "name": "LoanExposureSemanticModel",
       "description": "Table-backed semantic model for loan exposure reporting across retail and institutional lending populations.",
-      "ai_context": null,
+      "ai_context": {},
+      "custom_extensions": [],
       "mapping_name": "LoanExposureSemanticMapping",
       "ontology": "LoanExposureReportingOntology",
       "source_file": "knowledge/regulatory-reporting-osi.yaml",

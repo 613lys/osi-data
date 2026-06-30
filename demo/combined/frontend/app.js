@@ -621,24 +621,153 @@ function scopeHeaderText(info) {
   return info?.description || aiContextSummary(info?.ai_context) || "";
 }
 
+function aiContextRow(value) {
+  const text = aiContextSummary(value);
+  return text ? kv("ai_context", text) : "";
+}
+
 function renderAiContextSection(value) {
-  if (!value) return "";
+  if (value === undefined || value === null || value === "") return "";
+  const row = aiContextRow(value) || compactJsonRow("ai_context", value);
+  if (!row) return "";
   return `
     <section class="detail-section">
-      <h3>ai_context</h3>
-      <pre class="raw-block">${escapeHtml(typeof value === "string" ? value : JSON.stringify(value, null, 2))}</pre>
+      ${row}
     </section>
   `;
 }
 
 function rawYamlSection(payload) {
+  if (!hasRawYamlPayload(payload)) return "";
   return `
     <section class="detail-section">
       <h3>Raw YAML</h3>
-      <pre class="raw-block">${escapeHtml(JSON.stringify(payload || {}, null, 2))}</pre>
+      <pre class="raw-block">${escapeHtml(JSON.stringify(payload, null, 2))}</pre>
     </section>
   `;
 }
+
+function hasRawYamlPayload(value) {
+  if (value === undefined || value === null || value === "") return false;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === "object") return Object.keys(value).length > 0;
+  return true;
+}
+
+function clonePlain(value) {
+  if (value === undefined || value === null) return value;
+  return JSON.parse(JSON.stringify(value));
+}
+
+function pickExisting(source, keys) {
+  const output = {};
+  if (!source || typeof source !== "object") return output;
+  keys.forEach(key => {
+    if (Object.prototype.hasOwnProperty.call(source, key) && source[key] !== undefined) {
+      output[key] = clonePlain(source[key]);
+    }
+  });
+  return output;
+}
+
+function osiRelationshipPayloadFromField(field) {
+  const source = raw(field.id);
+  if (source.relationship) return clonePlain(source.relationship);
+  const props = field.raw || {};
+  const roles = props.roles || (field.valueConcept ? [{ concept: field.valueConcept }] : []);
+  const payload = {
+    name: field.relationship || field.fieldName || props.relationship_name || props.field_name || field.name,
+    description: field.description || props.description || "",
+    roles,
+    derived_by: props.derived_by || [],
+    requires: props.requires || [],
+    verbalizes: props.verbalizes || [],
+  };
+  if (props.multiplicity) payload.multiplicity = props.multiplicity;
+  return payload;
+}
+
+function rawYamlNodePayload(item, data = raw(item.id)) {
+  if (!item) return {};
+  if (data?.concept) {
+    const payload = { concept: clonePlain(data.concept) };
+    if (Array.isArray(data.relationships)) payload.relationships = clonePlain(data.relationships);
+    return payload;
+  }
+  if (item.type === "value_type_property") return osiRelationshipPayloadFromField({ id: item.id, raw: item.properties || {}, ...item.properties });
+  if (item.type === "semantic_dataset") {
+    return pickExisting(data, ["name", "source", "primary_key", "unique_keys", "description", "ai_context", "fields", "custom_extensions"]);
+  }
+  if (item.type === "dataset_field") return data?.field_definition ? clonePlain(data.field_definition) : pickExisting(data, ["name", "expression", "dimension", "label", "description", "ai_context", "custom_extensions"]);
+  if (item.type === "semantic_metric") return data?.metric ? clonePlain(data.metric) : pickExisting(data, ["name", "expression", "description", "ai_context", "custom_extensions"]);
+  if (item.type === "regulatory_requirement") return pickExisting(data, ["name", "description", "source", "SLA", "semantic_scope", "required_fields", "calculations", "controls"]);
+  if (item.type === "report_implementation") return pickExisting(data, ["name", "description", "source", "requirement", "field_mappings", "source_fields"]);
+  if (item.type === "physical_table" || item.type === "table" || item.type === "view") return pickExisting(data, ["source", "columns"]);
+  return {};
+}
+
+function rawYamlFieldPayload(field) {
+  if (!field) return {};
+  const source = raw(field.id);
+  if (field.type === "value_type_property") return osiRelationshipPayloadFromField(field);
+  if (field.type === "dataset_field") return source?.field_definition ? clonePlain(source.field_definition) : pickExisting(field.raw || source, ["name", "expression", "dimension", "label", "description", "ai_context", "custom_extensions"]);
+  if (field.type === "metric_field") return pickExisting(field.raw || source, ["name", "expression", "description", "ai_context", "custom_extensions"]);
+  if (field.type === "column") return pickExisting(field.raw || source, ["name", "description", "data_type", "nullable"]);
+  if (field.type === "requirement_semantic_item") return pickExisting(field.raw || source, ["name", "description", "semantic_reference", "required"]);
+  if (field.type === "implementation_field_binding") return pickExisting(field.raw || source, ["name", "description", "requirement_field", "dataset", "field", "expression"]);
+  return pickExisting(field.raw || source, ["name", "description", "expression", "ai_context", "custom_extensions"]);
+}
+
+function rawYamlEdgePayload(edge) {
+  const rawEdge = edge?.raw || {};
+  const props = rawEdge.properties || {};
+  if (props.relationship && typeof props.relationship === "object") return clonePlain(props.relationship);
+  if (edge && isEntityBusinessEdge(edge)) {
+    const payload = {
+      name: edge.relationshipName,
+      description: edge.description || props.description || "",
+      roles: clonePlain(props.roles || []),
+      derived_by: clonePlain(props.derived_by || []),
+      requires: clonePlain(props.requires || []),
+      verbalizes: clonePlain(props.verbalizes || []),
+    };
+    if (edge.multiplicity || props.multiplicity) payload.multiplicity = edge.multiplicity || props.multiplicity;
+    return payload;
+  }
+  if (edge?.type === "CONTAINS") {
+    const targetRelationship = raw(edge.targetOriginal || edge.target)?.relationship;
+    if (targetRelationship) return clonePlain(targetRelationship);
+  }
+  return {};
+}
+function compactJsonRow(label, value) {
+  if (value === undefined || value === null || value === "") return "";
+  if (Array.isArray(value) && !value.length) return kv(label, "[]");
+  if (typeof value === "object" && !Array.isArray(value) && !Object.keys(value).length) return kv(label, "{}");
+  if (Array.isArray(value) && value.every(item => typeof item !== "object")) return kv(label, value.join(", "));
+  if (typeof value !== "object") return kv(label, String(value));
+  return kv(label, JSON.stringify(value));
+}
+
+function isEntityConceptNodeType(type) {
+  return ["entity_type_concept", "base_entity_concept"].includes(type);
+}
+
+function isEntityBusinessEdge(edge) {
+  return !String(edge.raw?.type || "").trim() && isEntityConceptNodeType(nodeType(edge.source)) && isEntityConceptNodeType(nodeType(edge.target));
+}
+
+function customExtensionsSection(extensions) {
+  const rows = Array.isArray(extensions) ? extensions : [];
+  if (!rows.length) return "";
+  return `
+    <section class="detail-section">
+      <h3>custom_extensions</h3>
+      <pre class="raw-block">${escapeHtml(JSON.stringify(rows, null, 2))}</pre>
+    </section>
+  `;
+}
+
 
 function ontologyInfo(ontologyId = graphState.selectedOntology) {
   const entry = (summary.source_ontologies || []).find(item => item.name === ontologyId) || {};
@@ -648,6 +777,7 @@ function ontologyInfo(ontologyId = graphState.selectedOntology) {
     displayName: optionLabel(ontologyId),
     description: entry.description || aiContextSummary(entry.ai_context) || "",
     ai_context: entry.ai_context || null,
+    custom_extensions: entry.custom_extensions || null,
     version: entry.version || "",
     sourceFile: entry.source_file || "",
     nodeCount: ontologyNodeCount(ontologyId),
@@ -664,6 +794,7 @@ function semanticModelInfo(modelId = graphState.selectedSemanticModel) {
     displayName: optionLabel(modelId),
     description: entry.description || aiContextSummary(entry.ai_context) || "",
     ai_context: entry.ai_context || null,
+    custom_extensions: entry.custom_extensions || null,
     sourceFile: entry.source_file || "",
     mappingName: entry.mapping_name || "",
     ontology: entry.ontology || "",
@@ -2022,7 +2153,7 @@ function renderCatalogDetail() {
   }
 
   const data = raw(selectedNode.id);
-  els.catalogDetailBadge.textContent = typeName(selectedNode.type);
+  els.catalogDetailBadge.textContent = "Profile";
   els.catalogDetailBadge.style.background = `${colorFor(selectedNode.type)}18`;
   els.catalogDetailBadge.style.color = colorFor(selectedNode.type);
   els.catalogDetailTitle.textContent = selectedNode.label;
@@ -2039,17 +2170,19 @@ function renderEdgeDetail(edge) {
     <section class="detail-section">
       <h3>Relationship</h3>
       ${kv("Relationship Name", edge.relationshipName)}
-      ${relationshipKindFromId(edge.relationshipName) ? kv("Action", relationshipKindFromId(edge.relationshipName)) : ""}
+      ${!isEntityBusinessEdge(edge) && relationshipKindFromId(edge.relationshipName) ? kv("Action", relationshipKindFromId(edge.relationshipName)) : ""}
       ${edge.relationshipPath && edge.relationshipPath !== edge.relationshipName ? kv("Ontology Path", edge.relationshipPath) : ""}
       ${edge.joinName && edge.joinName !== edge.relationshipName ? kv("Join Name", edge.joinName) : ""}
-      ${kv("Edge Type", edge.type)}
+      ${isEntityBusinessEdge(edge) ? "" : kv("Edge Type", edge.type)}
       ${kv("Source", `${label(edge.source)} (${edge.sourceOriginal})`)}
       ${kv("Target", `${label(edge.target)} (${edge.targetOriginal})`)}
       ${edge.multiplicity ? kv("Multiplicity", edge.multiplicity) : ""}
       ${edge.sourceField ? kv("Source Field", edge.sourceField) : ""}
       ${edge.requirementField ? kv("Requirement Field", edge.requirementField) : ""}
       ${edge.expression ? kv("Expression", edge.expression) : ""}
-      ${edge.description ? kv("Description", edge.description) : ""}
+      ${edge.description ? kv("description", edge.description) : ""}
+      ${aiContextRow(edge.ai_context)}
+      ${edge.raw?.properties?.custom_extensions ? compactJsonRow("custom_extensions", edge.raw.properties.custom_extensions) : ""}
     </section>
     ${verbalizes.length ? `
       <section class="detail-section">
@@ -2070,8 +2203,7 @@ function renderEdgeDetail(edge) {
       </section>
     ` : ""}
     ${renderConstraints(edge.constraints, "Relationship Constraints")}
-    ${renderAiContextSection(edge.ai_context)}
-    ${rawYamlSection(rawEdge)}
+    ${rawYamlSection(rawYamlEdgePayload(edge))}
   `;
 }
 
@@ -2083,13 +2215,17 @@ function renderNodeDetail(item, data, includeRaw) {
   return `
     <section class="detail-section">
       <h3>Overview</h3>
-      ${kv("ID", item.id)}
-      ${kv("Type", typeName(item.type))}
       ${description(item.id) ? kv("Description", description(item.id)) : ""}
+      ${(data.ai_context !== undefined || item.properties?.ai_context !== undefined) ? (aiContextRow(data.ai_context || item.properties?.ai_context) || compactJsonRow("ai_context", data.ai_context || item.properties?.ai_context)) : ""}
       ${data.term ? kv("Term", data.term) : ""}
       ${data.definition ? kv("Definition", data.definition) : ""}
       ${data.schema ? kv("Schema", data.schema) : ""}
-      ${data.source ? kv("Source", data.source) : ""}
+      ${data.source ? compactJsonRow("source", data.source) : ""}
+      ${data.primary_key !== undefined ? compactJsonRow("primary_key", data.primary_key) : ""}
+      ${data.unique_keys !== undefined ? compactJsonRow("unique_keys", data.unique_keys) : ""}
+      ${data.physical_kind ? kv("physical_kind", data.physical_kind) : ""}
+      ${data.source_tables?.length ? kv("source_tables", data.source_tables.join(", ")) : ""}
+      ${data.field_count !== undefined ? kv("field_count", data.field_count) : ""}
       ${data.verified ? kv("Verified", [data.verified.status ? "true" : "false", data.verified.reason].filter(Boolean).join(" · ")) : ""}
       ${item.properties?.source_file ? kv("Source", item.properties.source_file) : ""}
       ${tagsFor(item.id).length ? `<div class="tag-list">${tagsFor(item.id).map(tag => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
@@ -2098,6 +2234,7 @@ function renderNodeDetail(item, data, includeRaw) {
     ${renderMappingSemantics(data)}
     ${renderSourceExtensions(data)}
     ${renderMetricSemantics(item, data)}
+    ${customExtensionsSection(data.custom_extensions || item.properties?.custom_extensions)}
     ${renderRequirementSemantics(data)}
     ${renderImplementationSemantics(data)}
     ${renderConstraints(data.constraints || item.properties?.constraints, "Entity Constraints")}
@@ -2109,18 +2246,17 @@ function renderNodeDetail(item, data, includeRaw) {
       <h3>Direct Relationships</h3>
       ${relationships.length ? `<div class="mini-list">${relationships.map(edge => renderMiniEdgeCard(edge, item.id)).join("")}</div>` : `<div class="empty-state">No direct node-level relationships.</div>`}
     </section>
-    ${renderAiContextSection(data.ai_context || item.properties?.ai_context)}
-    ${rawYamlSection(Object.keys(data || {}).length ? data : item)}
+    ${rawYamlSection(rawYamlNodePayload(item, data))}
   `;
 }
 
 function renderSourceExtensions(data) {
-  const extensions = data.custom_extensions || [];
-  if (!extensions.length) return "";
+  const fields = data.fields || [];
+  if (!fields.length) return "";
   return `
     <section class="detail-section">
-      <h3>Source Extensions</h3>
-      <pre class="raw-block">${escapeHtml(JSON.stringify(extensions, null, 2))}</pre>
+      <h3>Dataset Fields</h3>
+      ${kv("fields", fields.length)}
     </section>
   `;
 }
@@ -2134,8 +2270,10 @@ function renderMetricSemantics(item, data) {
       <h3>Metric Definition</h3>
       ${metricName ? kv("Metric", metricName) : ""}
       ${data.semantic_model || item.properties?.semantic_model ? kv("Semantic Model", data.semantic_model || item.properties.semantic_model) : ""}
-      ${expression ? kv("Expression", expression) : ""}
-      ${sourceFields.length ? kv("Source Fields", sourceFields.join(", ")) : ""}
+      ${expression ? kv("expression", expression) : ""}
+      ${sourceFields.length ? kv("source_fields", sourceFields.join(", ")) : ""}
+      ${data.ai_context || item.properties?.ai_context ? compactJsonRow("ai_context", data.ai_context || item.properties.ai_context) : ""}
+      ${data.custom_extensions || item.properties?.custom_extensions ? compactJsonRow("custom_extensions", data.custom_extensions || item.properties.custom_extensions) : ""}
     </section>
   `;
 }
@@ -2218,16 +2356,16 @@ function renderConceptSemantics(item, data) {
   const concept = data.concept || {};
   const identifyBy = concept.identify_by || item.properties?.identify_by || [];
   const extendsList = concept.extends || item.properties?.extends || [];
+  const derivedBy = concept.derived_by || item.properties?.derived_by || [];
   const requires = concept.requires || item.properties?.requires || [];
-  if (!identifyBy.length && !extendsList.length && !requires.length) return "";
+  if (!identifyBy.length && !extendsList.length && !derivedBy.length && !requires.length) return "";
   return `
     <section class="detail-section">
       <h3>Concept Semantics</h3>
-      ${identifyBy.length ? kv("Identify By", identifyBy.join(", ")) : ""}
-      ${extendsList.length ? kv("Extends", extendsList.join(", ")) : ""}
-      ${requires.length ? `
-        <div class="mini-list">${requires.map(item => `<div class="mini-card"><strong>${escapeHtml(item)}</strong></div>`).join("")}</div>
-      ` : ""}
+      ${identifyBy.length ? kv("identify_by", identifyBy.join(", ")) : ""}
+      ${extendsList.length ? kv("extends", extendsList.join(", ")) : ""}
+      ${derivedBy.length ? compactJsonRow("derived_by", derivedBy) : ""}
+      ${requires.length ? compactJsonRow("requires", requires) : ""}
     </section>
   `;
 }
@@ -3491,7 +3629,7 @@ function renderGraphDetail() {
   const selectedNodeId = graphState.selectedNodeId && node(graphState.selectedNodeId) ? graphState.selectedNodeId : graphState.focusId;
   const focus = node(selectedNodeId);
   const data = raw(selectedNodeId);
-  els.graphDetailBadge.textContent = typeName(focus?.type);
+  els.graphDetailBadge.textContent = "Profile";
   els.graphDetailBadge.style.background = `${colorFor(focus?.type)}18`;
   els.graphDetailBadge.style.color = colorFor(focus?.type);
   els.graphDetailTitle.textContent = label(selectedNodeId);
@@ -3546,6 +3684,7 @@ function renderScopeProfile(info) {
       ${info.ontology ? kv("ontology", optionLabel(info.ontology)) : ""}
       ${info.mappingName ? kv("mapping_name", optionLabel(info.mappingName)) : ""}
       ${info.sourceFile ? kv("source_file", info.sourceFile) : ""}
+      ${info.custom_extensions ? compactJsonRow("custom_extensions", info.custom_extensions) : ""}
       ${info.type === "Semantic Model" ? kv("datasets", info.datasetCount) : ""}
       ${info.type === "Semantic Model" ? kv("metrics", info.metricCount) : ""}
       ${kv("Visible Nodes", visibleNodes.length)}
@@ -3553,7 +3692,7 @@ function renderScopeProfile(info) {
       ${kv("Field Edges", visibleChildEdges.length)}
     </section>
     ${renderAiContextSection(info.ai_context)}
-    ${rawYamlSection(info.raw || info)}
+    ${rawYamlSection(rawYamlNodePayload(info.raw || info, info.raw || info))}
     <section class="detail-section">
       <h3>Visible Node Types</h3>
       <div class="tag-list">${[...new Set(visibleNodes.map(item => item.type))].sort(compareNodeType).map(type => `<span class="tag-pill">${escapeHtml(typeName(type))}</span>`).join("")}</div>
@@ -3596,7 +3735,8 @@ function selectedGraphField() {
 function renderFieldProfile(field) {
   const relationships = [...parentEdges(), ...childEdges()]
     .filter(edge => edge.sourceOriginal === field.id || edge.targetOriginal === field.id || edge.source === field.id || edge.target === field.id);
-  els.graphDetailBadge.textContent = typeName(field.type);
+  const isValueProperty = field.type === "value_type_property";
+  els.graphDetailBadge.textContent = "Field Profile";
   els.graphDetailBadge.style.background = `${colorFor(field.type)}18`;
   els.graphDetailBadge.style.color = colorFor(field.type);
   els.graphDetailTitle.textContent = field.name;
@@ -3604,15 +3744,17 @@ function renderFieldProfile(field) {
   els.graphDetailBody.innerHTML = `
     <section class="detail-section">
       <h3>Field / Property</h3>
-      ${kv("ID", field.id)}
-      ${kv("Parent", `${label(field.parentId)} (${field.parentId})`)}
-      ${kv("Type", typeName(field.type))}
+      ${isValueProperty ? "" : kv("Parent", `${label(field.parentId)} (${field.parentId})`)}
       ${field.description ? kv("Description", field.description) : ""}
-      ${field.dataType ? kv("Data Type", field.dataType) : ""}
+      ${!isValueProperty && field.dataType ? kv("Data Type", field.dataType) : ""}
       ${field.nullable !== undefined && field.nullable !== "" ? kv("Nullable", String(field.nullable)) : ""}
+      ${field.label ? kv("label", field.label) : ""}
+      ${field.dimension !== undefined ? compactJsonRow("dimension", field.dimension) : ""}
+      ${field.ai_context !== undefined ? compactJsonRow("ai_context", field.ai_context) : ""}
+      ${field.custom_extensions !== undefined ? compactJsonRow("custom_extensions", field.custom_extensions) : ""}
       ${field.semanticRole ? kv("Semantic Role", field.semanticRole) : ""}
       ${field.term ? kv("Term", field.term) : ""}
-      ${field.valueConcept ? kv("Value Concept", field.valueConcept) : ""}
+      ${!isValueProperty && field.valueConcept ? kv("Value Concept", field.valueConcept) : ""}
       ${field.calculationType ? kv("Calculation Type", field.calculationType) : ""}
       ${field.semanticMetric ? kv("Semantic Metric", field.semanticMetric) : ""}
       ${field.relationship ? kv("Ontology Relationship", field.relationship) : ""}
@@ -3623,7 +3765,7 @@ function renderFieldProfile(field) {
       ${field.rule ? kv("Rule", field.rule) : ""}
       ${field.bindingRole ? kv("Binding Role", field.bindingRole) : ""}
       ${field.datasetField ? kv("Dataset Field", field.datasetField) : ""}
-      ${field.sourceField ? kv("Source Field", field.sourceField) : ""}
+      ${!isValueProperty && field.sourceField ? kv("Source Field", field.sourceField) : ""}
       ${field.expression ? kv("Expression", field.expression) : ""}
       ${field.inputs?.length ? kv("Inputs", field.inputs.join(", ")) : ""}
       ${field.sourceFields?.length ? kv("Source Fields", field.sourceFields.join(", ")) : ""}
@@ -3651,10 +3793,7 @@ function renderFieldProfile(field) {
       <h3>${field.valueConcept ? "Shared ValueType Usage" : "Relationships"}</h3>
       ${relationships.length ? `<div class="mini-list">${relationships.map(renderFieldRelationCard).join("")}</div>` : `<div class="empty-state">No field-level relationships are visible for this field.</div>`}
     </section>
-    <section class="detail-section">
-      <h3>Raw YAML</h3>
-      <pre class="raw-block">${escapeHtml(JSON.stringify(field.raw || field, null, 2))}</pre>
-    </section>
+    ${rawYamlSection(rawYamlFieldPayload(field))}
   `;
 }
 
@@ -3770,6 +3909,11 @@ function childItems(parentId) {
       name: item.label,
       type: item.type,
       dataType: item.properties?.data_type || "",
+      nullable: item.properties?.nullable,
+      label: item.properties?.label || "",
+      dimension: item.properties?.dimension,
+      ai_context: item.properties?.ai_context,
+      custom_extensions: item.properties?.custom_extensions,
       description: item.properties?.description || "",
       semanticRole: item.properties?.semantic_role || "",
       term: item.properties?.term || "",

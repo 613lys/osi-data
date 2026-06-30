@@ -8,7 +8,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for account-like records with common account identifiers and reporting dates.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_AccountIdentifier"
         ],
@@ -83,7 +85,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for customer-like records with common identifiers and domicile attributes.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_CustomerIdentifier"
         ],
@@ -158,7 +162,9 @@ window.GRAPH_DATA = {
         "description": "Base concept for product-like records with common product identifiers and classifications.",
         "concept_type": "EntityType",
         "base_entity": true,
-        "extends": [],
+        "extends": [
+          "Any"
+        ],
         "identify_by": [
           "has_ProductIdentifier"
         ],
@@ -439,7 +445,6 @@ window.GRAPH_DATA = {
         ],
         "metric": {
           "name": "stable_funding_amount",
-          "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
           "expression": {
             "dialects": [
               {
@@ -448,9 +453,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
           "ai_context": {
             "metric_type": "liquidity_stability_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -488,7 +495,6 @@ window.GRAPH_DATA = {
         ],
         "metric": {
           "name": "insured_balance_amount",
-          "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
           "expression": {
             "dialects": [
               {
@@ -497,9 +503,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
           "ai_context": {
             "metric_type": "insured_deposit_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -817,7 +825,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "account_id"
         ],
+        "unique_keys": [],
         "field_count": 8,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "core_deposit.deposit_accounts"
@@ -858,6 +870,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Source account identifier for a deposit account balance record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "account_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -894,6 +932,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "customer_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "customer_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "customer_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Customer identifier linking the deposit account to the depositor master record.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "customer_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -930,6 +994,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Product identifier linking the deposit account to the deposit product definition.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "product_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -966,6 +1056,32 @@ window.GRAPH_DATA = {
         "data_type": "date",
         "nullable": false,
         "expression": "as_of_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "as_of_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "as_of_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Reporting date for the account balance snapshot.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "as_of_date",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1002,6 +1118,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "balance_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "balance_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "balance_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Deposit balance amount measured on the reporting date.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "balance_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1038,6 +1180,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency code for the deposit balance amount.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "currency",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1074,6 +1242,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "liquidity_bucket",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "liquidity_bucket",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "liquidity_bucket"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Liquidity bucket assigned to the account for reporting classification.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "liquidity_bucket",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1110,6 +1304,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": true,
         "expression": "rate_override",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": true
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "rate_override",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "rate_override"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Account-level runoff rate override when treasury has approved an account-specific rate.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": true
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_accounts",
         "field": "rate_override",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1146,7 +1366,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "customer_id"
         ],
+        "unique_keys": [],
         "field_count": 4,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "customer_master.deposit_customers"
@@ -1187,6 +1411,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "customer_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "customer_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "customer_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Master customer identifier for a depositor or legal entity.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_customers",
         "field": "customer_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1223,6 +1473,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "customer_name",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "customer_name",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "customer_name"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Human-readable depositor or legal entity name.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_customers",
         "field": "customer_name",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1259,6 +1535,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "segment",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "segment",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "segment"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Customer segment used for liquidity classification and management reporting.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_customers",
         "field": "segment",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1295,6 +1597,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "domicile_country",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "domicile_country",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "domicile_country"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Country or jurisdiction associated with the depositor.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_customers",
         "field": "domicile_country",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1332,7 +1660,11 @@ window.GRAPH_DATA = {
           "account_id",
           "as_of_date"
         ],
+        "unique_keys": [],
         "field_count": 10,
+        "ai_context": {
+          "physical_kind": "query"
+        },
         "physical_kind": "query",
         "source_tables": [
           "core_deposit.deposit_accounts",
@@ -1380,6 +1712,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.account_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "account_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.account_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Account identifier reported on the deposit liquidity line.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "account_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1402,6 +1760,32 @@ window.GRAPH_DATA = {
         "data_type": "date",
         "nullable": false,
         "expression": "deposit_accounts.as_of_date",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "date",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "as_of_date",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.as_of_date"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Reporting date carried on the deposit liquidity line.",
+          "ai_context": {
+            "physical_type": "date",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "as_of_date",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1424,6 +1808,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.customer_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "customer_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.customer_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Depositor identifier reported for account ownership and aggregation.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "customer_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1446,6 +1856,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.product_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.product_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Deposit product identifier reported for product-class aggregation.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "product_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1468,6 +1904,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "deposit_accounts.balance_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "balance_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.balance_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Deposit balance amount reported for liquidity measurement.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "balance_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1490,6 +1952,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.currency",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "currency",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.currency"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Currency code reported for the deposit balance amount.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "currency",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1512,6 +2000,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "deposit_accounts.liquidity_bucket",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "liquidity_bucket",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.liquidity_bucket"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Liquidity bucket reported for regulatory classification.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "liquidity_bucket",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1534,6 +2048,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "runoff_rate",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Runoff rate reported after applying account override or product standard rate.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "runoff_rate",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1556,6 +2096,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "stable_funding_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Calculated stable funding amount reported after applying the runoff or stability rate.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "stable_funding_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1578,6 +2144,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "insured_balance_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Insured portion of the deposit balance reported under the product insurance limit.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_liquidity_report_lines",
         "field": "insured_balance_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1600,7 +2192,11 @@ window.GRAPH_DATA = {
         "primary_key": [
           "product_id"
         ],
+        "unique_keys": [],
         "field_count": 5,
+        "ai_context": {
+          "physical_kind": "table"
+        },
         "physical_kind": "table",
         "source_tables": [
           "product_master.deposit_products"
@@ -1626,6 +2222,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_id",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_id",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_id"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Product identifier for the deposit product definition.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "product_id",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1662,6 +2284,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "product_type",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "product_type",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "product_type"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Deposit product type such as current account, savings, term deposit, or brokered deposit.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "product_type",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1698,6 +2346,32 @@ window.GRAPH_DATA = {
         "data_type": "string",
         "nullable": false,
         "expression": "regulatory_class",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "string",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "regulatory_class",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "regulatory_class"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Regulatory liquidity class assigned to the deposit product.",
+          "ai_context": {
+            "physical_type": "string",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "regulatory_class",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1734,6 +2408,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "standard_runoff_rate",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "standard_runoff_rate",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "standard_runoff_rate"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Standard runoff or stability rate assigned by product policy.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "standard_runoff_rate",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1770,6 +2470,32 @@ window.GRAPH_DATA = {
         "data_type": "decimal",
         "nullable": false,
         "expression": "insurance_limit_amount",
+        "dimension": {},
+        "label": "",
+        "ai_context": {
+          "physical_type": "decimal",
+          "nullable": false
+        },
+        "custom_extensions": [],
+        "field_definition": {
+          "name": "insurance_limit_amount",
+          "expression": {
+            "dialects": [
+              {
+                "dialect": "ANSI_SQL",
+                "expression": "insurance_limit_amount"
+              }
+            ]
+          },
+          "dimension": {},
+          "label": "",
+          "description": "Maximum insured balance amount applicable to the deposit product.",
+          "ai_context": {
+            "physical_type": "decimal",
+            "nullable": false
+          },
+          "custom_extensions": []
+        },
         "dataset": "deposit_products",
         "field": "insurance_limit_amount",
         "semantic_model": "DepositLiquiditySemanticModel",
@@ -1814,9 +2540,12 @@ window.GRAPH_DATA = {
           "deposit_accounts.rate_override",
           "deposit_products.standard_runoff_rate"
         ],
+        "ai_context": {
+          "metric_type": "liquidity_stability_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "stable_funding_amount",
-          "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
           "expression": {
             "dialects": [
               {
@@ -1825,9 +2554,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
           "ai_context": {
             "metric_type": "liquidity_stability_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -1848,9 +2579,12 @@ window.GRAPH_DATA = {
           "deposit_accounts.balance_amount",
           "deposit_products.insurance_limit_amount"
         ],
+        "ai_context": {
+          "metric_type": "insured_deposit_measure"
+        },
+        "custom_extensions": [],
         "metric": {
           "name": "insured_balance_amount",
-          "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
           "expression": {
             "dialects": [
               {
@@ -1859,9 +2593,11 @@ window.GRAPH_DATA = {
               }
             ]
           },
+          "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
           "ai_context": {
             "metric_type": "insured_deposit_measure"
-          }
+          },
+          "custom_extensions": []
         }
       }
     },
@@ -3828,8 +4564,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Deposit account balances use customer_id to attach depositor segment and country attributes required for liquidity classification."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Deposit account balances use customer_id to attach depositor segment and country attributes required for liquidity classification."
         }
@@ -3855,8 +4593,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Deposit account balances join to product definitions through product_id to obtain liquidity class, runoff rate, and insurance limit reference data."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Deposit account balances join to product definitions through product_id to obtain liquidity class, runoff rate, and insurance limit reference data."
         }
@@ -3882,8 +4622,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Prepared deposit report lines reconcile to depositor master records through customer_id for customer-level liquidity review."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Prepared deposit report lines reconcile to depositor master records through customer_id for customer-level liquidity review."
         }
@@ -3909,8 +4651,10 @@ window.GRAPH_DATA = {
           ],
           "ai_context": {
             "description": "Prepared deposit report lines join to product reference data through product_id to validate reported product liquidity classification."
-          }
+          },
+          "custom_extensions": []
         },
+        "custom_extensions": [],
         "ai_context": {
           "description": "Prepared deposit report lines join to product reference data through product_id to validate reported product liquidity classification."
         }

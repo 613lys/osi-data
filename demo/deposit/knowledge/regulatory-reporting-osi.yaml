@@ -8,68 +8,92 @@ ontology:
     type: EntityType
     description: Base concept for account-like records with common account identifiers
       and reporting dates.
+    extends:
+    - Any
+    derived_by: []
     identify_by:
     - has_AccountIdentifier
+    requires: []
   relationships:
   - name: has_AccountIdentifier
+    description: Stable account identifier common to account-like records.
     roles:
     - concept: AccountIdentifier
-    multiplicity: OneToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{AccountData} has account identifier {AccountIdentifier}'
-    description: Stable account identifier common to account-like records.
+    multiplicity: OneToOne
   - name: has_AsOfDate
+    description: Reporting or snapshot date common to account-like records.
     roles:
     - concept: CalendarDate
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{AccountData} has reporting date {CalendarDate}'
-    description: Reporting or snapshot date common to account-like records.
+    multiplicity: ManyToOne
 - concept:
     name: CustomerData
     type: EntityType
     description: Base concept for customer-like records with common identifiers and
       domicile attributes.
+    extends:
+    - Any
+    derived_by: []
     identify_by:
     - has_CustomerIdentifier
+    requires: []
   relationships:
   - name: has_CustomerIdentifier
+    description: Stable customer identifier common to customer-like records.
     roles:
     - concept: CustomerIdentifier
-    multiplicity: OneToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{CustomerData} has customer identifier {CustomerIdentifier}'
-    description: Stable customer identifier common to customer-like records.
+    multiplicity: OneToOne
   - name: has_DomicileCountry
+    description: Country or jurisdiction associated with a customer record.
     roles:
     - concept: CountryCode
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{CustomerData} has domicile country {CountryCode}'
-    description: Country or jurisdiction associated with a customer record.
+    multiplicity: ManyToOne
 - concept:
     name: ProductData
     type: EntityType
     description: Base concept for product-like records with common product identifiers
       and classifications.
+    extends:
+    - Any
+    derived_by: []
     identify_by:
     - has_ProductIdentifier
+    requires: []
   relationships:
   - name: has_ProductIdentifier
+    description: Stable product identifier common to product-like records.
     roles:
     - concept: ProductIdentifier
-    multiplicity: OneToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{ProductData} has product identifier {ProductIdentifier}'
-    description: Stable product identifier common to product-like records.
+    multiplicity: OneToOne
   - name: has_ProductType
-    roles:
-    - concept: ProductType
-    multiplicity: ManyToOne
-    verbalizes:
-    - '{ProductData} has product type {ProductType}'
     description: Classification value identifying the product family or instrument
       type.
+    roles:
+    - concept: ProductType
+    derived_by: []
+    requires: []
+    verbalizes:
+    - '{ProductData} has product type {ProductType}'
+    multiplicity: ManyToOne
 - concept:
     name: DepositAccount
     type: EntityType
@@ -77,70 +101,88 @@ ontology:
       reporting and stable funding treatment.
     extends:
     - AccountData
+    derived_by: []
     identify_by:
     - has_AccountIdentifier
+    requires: []
   relationships:
   - name: REFERENCES_Depositor
-    roles:
-    - concept: Depositor
-    multiplicity: ManyToOne
-    verbalizes:
-    - '{DepositAccount} is held by {Depositor}'
     description: Customer or legal entity that owns or controls the deposit account
       balance.
-  - name: REFERENCES_DepositProduct
     roles:
-    - concept: DepositProduct
-    multiplicity: ManyToOne
+    - concept: Depositor
+    derived_by: []
+    requires: []
     verbalizes:
-    - '{DepositAccount} uses deposit product {DepositProduct}'
+    - '{DepositAccount} is held by {Depositor}'
+    multiplicity: ManyToOne
+  - name: REFERENCES_DepositProduct
     description: Deposit product definition used to classify runoff and insurance
       treatment for the account.
+    roles:
+    - concept: DepositProduct
+    derived_by: []
+    requires: []
+    verbalizes:
+    - '{DepositAccount} uses deposit product {DepositProduct}'
+    multiplicity: ManyToOne
   - name: has_DepositBalanceAmount
+    description: Booked deposit balance amount measured for liquidity reporting.
     roles:
     - concept: MonetaryAmount
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{DepositAccount} has deposit balance amount {MonetaryAmount}'
-    description: Booked deposit balance amount measured for liquidity reporting.
+    multiplicity: ManyToOne
   - name: has_DepositCurrency
+    description: Currency in which the deposit account balance is maintained.
     roles:
     - concept: CurrencyCode
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{DepositAccount} has deposit currency {CurrencyCode}'
-    description: Currency in which the deposit account balance is maintained.
+    multiplicity: ManyToOne
   - name: has_LiquidityBucket
+    description: Liquidity classification bucket applied to the deposit account balance.
     roles:
     - concept: LiquidityBucket
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{DepositAccount} has liquidity bucket {LiquidityBucket}'
-    description: Liquidity classification bucket applied to the deposit account balance.
-  - name: has_RunoffRate
-    roles:
-    - concept: Rate
     multiplicity: ManyToOne
-    verbalizes:
-    - '{DepositAccount} has runoff rate {Rate}'
+  - name: has_RunoffRate
     description: Liquidity runoff rate applied to the deposit balance for stable funding
       analysis.
-  - name: has_StableFundingAmount
     roles:
-    - concept: MonetaryAmount
-    multiplicity: ManyToOne
+    - concept: Rate
+    derived_by: []
+    requires: []
     verbalizes:
-    - '{DepositAccount} has stable funding amount {MonetaryAmount}'
+    - '{DepositAccount} has runoff rate {Rate}'
+    multiplicity: ManyToOne
+  - name: has_StableFundingAmount
     description: Calculated stable funding contribution after applying the applicable
       runoff or stability rate.
-  - name: has_InsuredBalanceAmount
     roles:
     - concept: MonetaryAmount
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
-    - '{DepositAccount} has insured balance amount {MonetaryAmount}'
+    - '{DepositAccount} has stable funding amount {MonetaryAmount}'
+    multiplicity: ManyToOne
+  - name: has_InsuredBalanceAmount
     description: Portion of the deposit balance covered by product-level deposit insurance
       limits.
+    roles:
+    - concept: MonetaryAmount
+    derived_by: []
+    requires: []
+    verbalizes:
+    - '{DepositAccount} has insured balance amount {MonetaryAmount}'
+    multiplicity: ManyToOne
 - concept:
     name: Depositor
     type: EntityType
@@ -148,23 +190,29 @@ ontology:
       in liquidity reporting.
     extends:
     - CustomerData
+    derived_by: []
     identify_by:
     - has_CustomerIdentifier
+    requires: []
   relationships:
   - name: has_CustomerName
+    description: Display name of the customer or legal entity holding deposit accounts.
     roles:
     - concept: PersonOrEntityName
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{Depositor} has customer name {PersonOrEntityName}'
-    description: Display name of the customer or legal entity holding deposit accounts.
+    multiplicity: ManyToOne
   - name: has_CustomerSegment
+    description: Customer segment used for liquidity reporting and runoff classification.
     roles:
     - concept: CustomerSegment
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{Depositor} has customer segment {CustomerSegment}'
-    description: Customer segment used for liquidity reporting and runoff classification.
+    multiplicity: ManyToOne
 - concept:
     name: DepositProduct
     type: EntityType
@@ -172,316 +220,473 @@ ontology:
       runoff and insurance treatment.
     extends:
     - ProductData
+    derived_by: []
     identify_by:
     - has_ProductIdentifier
+    requires: []
   relationships:
   - name: has_RegulatoryClass
+    description: Regulatory product class used for liquidity reporting aggregation.
     roles:
     - concept: RegulatoryClass
-    multiplicity: ManyToOne
+    derived_by: []
+    requires: []
     verbalizes:
     - '{DepositProduct} has regulatory class {RegulatoryClass}'
-    description: Regulatory product class used for liquidity reporting aggregation.
-  - name: has_InsuranceLimitAmount
-    roles:
-    - concept: MonetaryAmount
     multiplicity: ManyToOne
-    verbalizes:
-    - '{DepositProduct} has insurance limit amount {MonetaryAmount}'
+  - name: has_InsuranceLimitAmount
     description: Product-level insured balance limit applied to eligible customer
       deposits.
-  - name: has_StandardRunoffRate
     roles:
-    - concept: Rate
-    multiplicity: ManyToOne
+    - concept: MonetaryAmount
+    derived_by: []
+    requires: []
     verbalizes:
-    - '{DepositProduct} has standard runoff rate {Rate}'
+    - '{DepositProduct} has insurance limit amount {MonetaryAmount}'
+    multiplicity: ManyToOne
+  - name: has_StandardRunoffRate
     description: Standard runoff or stability rate assigned to the deposit product
       class.
+    roles:
+    - concept: Rate
+    derived_by: []
+    requires: []
+    verbalizes:
+    - '{DepositProduct} has standard runoff rate {Rate}'
+    multiplicity: ManyToOne
 - concept:
     name: AccountIdentifier
     type: ValueType
     description: Identifier value assigned to an account or account-like record.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: CustomerIdentifier
     type: ValueType
     description: Identifier value assigned to a customer, depositor, or legal entity.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: ProductIdentifier
     type: ValueType
     description: Identifier value assigned to a product definition.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: CalendarDate
     type: ValueType
     description: Calendar date value used for reporting and business event timing.
+    extends:
+    - Date
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: MonetaryAmount
     type: ValueType
     description: Decimal numeric value representing an amount of money.
+    extends:
+    - Decimal
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: CurrencyCode
     type: ValueType
     description: Code value identifying a currency.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: Rate
     type: ValueType
     description: Decimal ratio value representing a percentage, runoff rate, stability
       rate, or probability.
+    extends:
+    - Decimal
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: LiquidityBucket
     type: ValueType
     description: Classification value identifying a liquidity reporting bucket.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: CustomerSegment
     type: ValueType
     description: Classification value identifying a customer or depositor segment.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: PersonOrEntityName
     type: ValueType
     description: Name value representing a person, organization, or legal entity.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: CountryCode
     type: ValueType
     description: Code value identifying a country or jurisdiction.
+    extends:
+    - Integer
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: ProductType
     type: ValueType
     description: Classification value identifying the type of product.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 - concept:
     name: RegulatoryClass
     type: ValueType
     description: Classification value used for regulatory reporting categories.
+    extends:
+    - String
+    derived_by: []
+    identify_by: []
+    requires: []
+  relationships: []
 ontology_mappings:
 - name: DepositLiquiditySemanticMapping
   semantic_model:
     name: DepositLiquiditySemanticModel
     description: Semantic model for deposit liquidity reporting across account balances,
       customer master data, product runoff parameters, and prepared report lines.
+    ai_context: {}
     datasets:
     - name: deposit_accounts
       source: core_deposit.deposit_accounts
       primary_key:
       - account_id
+      unique_keys: []
       description: Deposit account balance records at account and reporting-date grain,
         carrying customer, product, amount, currency, liquidity bucket, and optional
         runoff override fields for liquidity reporting.
+      ai_context:
+        physical_kind: table
       fields:
       - name: account_id
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: account_id
+        dimension: {}
+        label: ''
         description: Source account identifier for a deposit account balance record.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: customer_id
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: customer_id
+        dimension: {}
+        label: ''
         description: Customer identifier linking the deposit account to the depositor
           master record.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: product_id
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: product_id
+        dimension: {}
+        label: ''
         description: Product identifier linking the deposit account to the deposit
           product definition.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: as_of_date
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: as_of_date
+        dimension: {}
+        label: ''
         description: Reporting date for the account balance snapshot.
         ai_context:
           physical_type: date
           nullable: false
+        custom_extensions: []
       - name: balance_amount
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: balance_amount
+        dimension: {}
+        label: ''
         description: Deposit balance amount measured on the reporting date.
         ai_context:
           physical_type: decimal
           nullable: false
+        custom_extensions: []
       - name: currency
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: currency
+        dimension: {}
+        label: ''
         description: Currency code for the deposit balance amount.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: liquidity_bucket
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: liquidity_bucket
+        dimension: {}
+        label: ''
         description: Liquidity bucket assigned to the account for reporting classification.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: rate_override
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: rate_override
+        dimension: {}
+        label: ''
         description: Account-level runoff rate override when treasury has approved
           an account-specific rate.
         ai_context:
           physical_type: decimal
           nullable: true
-      ai_context:
-        physical_kind: table
+        custom_extensions: []
+      custom_extensions: []
     - name: deposit_customers
       source: customer_master.deposit_customers
       primary_key:
       - customer_id
+      unique_keys: []
       description: Depositor master records carrying names, customer segments, and
         domicile countries used to classify deposit liquidity reporting populations.
+      ai_context:
+        physical_kind: table
       fields:
       - name: customer_id
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: customer_id
+        dimension: {}
+        label: ''
         description: Master customer identifier for a depositor or legal entity.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: customer_name
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: customer_name
+        dimension: {}
+        label: ''
         description: Human-readable depositor or legal entity name.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: segment
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: segment
+        dimension: {}
+        label: ''
         description: Customer segment used for liquidity classification and management
           reporting.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: domicile_country
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: domicile_country
+        dimension: {}
+        label: ''
         description: Country or jurisdiction associated with the depositor.
         ai_context:
           physical_type: string
           nullable: false
-      ai_context:
-        physical_kind: table
+        custom_extensions: []
+      custom_extensions: []
     - name: deposit_liquidity_report_lines
       source: query.deposit_liquidity_report_lines
       primary_key:
       - account_id
       - as_of_date
+      unique_keys: []
       description: Prepared deposit liquidity report line records at account and reporting-date
         grain, carrying normalized depositor, product, balance, runoff, insured amount,
         and stable funding fields consumed by reporting logic.
+      ai_context:
+        physical_kind: query
       fields:
       - name: account_id
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: deposit_accounts.account_id
+        dimension: {}
+        label: ''
         description: Account identifier reported on the deposit liquidity line.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: as_of_date
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: deposit_accounts.as_of_date
+        dimension: {}
+        label: ''
         description: Reporting date carried on the deposit liquidity line.
         ai_context:
           physical_type: date
           nullable: false
+        custom_extensions: []
       - name: customer_id
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: deposit_accounts.customer_id
+        dimension: {}
+        label: ''
         description: Depositor identifier reported for account ownership and aggregation.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: product_id
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: deposit_accounts.product_id
+        dimension: {}
+        label: ''
         description: Deposit product identifier reported for product-class aggregation.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: balance_amount
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: deposit_accounts.balance_amount
+        dimension: {}
+        label: ''
         description: Deposit balance amount reported for liquidity measurement.
         ai_context:
           physical_type: decimal
           nullable: false
+        custom_extensions: []
       - name: currency
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: deposit_accounts.currency
+        dimension: {}
+        label: ''
         description: Currency code reported for the deposit balance amount.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: liquidity_bucket
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: deposit_accounts.liquidity_bucket
+        dimension: {}
+        label: ''
         description: Liquidity bucket reported for regulatory classification.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: runoff_rate
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)
+        dimension: {}
+        label: ''
         description: Runoff rate reported after applying account override or product
           standard rate.
         ai_context:
           physical_type: decimal
           nullable: false
+        custom_extensions: []
       - name: stable_funding_amount
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override,
               deposit_products.standard_runoff_rate)
+        dimension: {}
+        label: ''
         description: Calculated stable funding amount reported after applying the
           runoff or stability rate.
         ai_context:
           physical_type: decimal
           nullable: false
+        custom_extensions: []
       - name: insured_balance_amount
         expression:
           dialects:
@@ -489,13 +694,14 @@ ontology_mappings:
             expression: CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount
               THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount
               END
+        dimension: {}
+        label: ''
         description: Insured portion of the deposit balance reported under the product
           insurance limit.
         ai_context:
           physical_type: decimal
           nullable: false
-      ai_context:
-        physical_kind: query
+        custom_extensions: []
       custom_extensions:
       - vendor_name: OSI_KG_UI
         data: '{"name": "physical_source", "kind": "query", "description": "Prepared
@@ -510,57 +716,74 @@ ontology_mappings:
       source: product_master.deposit_products
       primary_key:
       - product_id
+      unique_keys: []
       description: Deposit product reference records defining product type, regulatory
         class, standard runoff rate, and insurance limit used in liquidity calculations.
+      ai_context:
+        physical_kind: table
       fields:
       - name: product_id
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: product_id
+        dimension: {}
+        label: ''
         description: Product identifier for the deposit product definition.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: product_type
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: product_type
+        dimension: {}
+        label: ''
         description: Deposit product type such as current account, savings, term deposit,
           or brokered deposit.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: regulatory_class
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: regulatory_class
+        dimension: {}
+        label: ''
         description: Regulatory liquidity class assigned to the deposit product.
         ai_context:
           physical_type: string
           nullable: false
+        custom_extensions: []
       - name: standard_runoff_rate
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: standard_runoff_rate
+        dimension: {}
+        label: ''
         description: Standard runoff or stability rate assigned by product policy.
         ai_context:
           physical_type: decimal
           nullable: false
+        custom_extensions: []
       - name: insurance_limit_amount
         expression:
           dialects:
           - dialect: ANSI_SQL
             expression: insurance_limit_amount
+        dimension: {}
+        label: ''
         description: Maximum insured balance amount applicable to the deposit product.
         ai_context:
           physical_type: decimal
           nullable: false
-      ai_context:
-        physical_kind: table
+        custom_extensions: []
+      custom_extensions: []
     relationships:
     - name: deposit_account_customer
       from: deposit_accounts
@@ -572,6 +795,7 @@ ontology_mappings:
       ai_context:
         description: Deposit account balances use customer_id to attach depositor
           segment and country attributes required for liquidity classification.
+      custom_extensions: []
     - name: deposit_account_product
       from: deposit_accounts
       to: deposit_products
@@ -583,6 +807,7 @@ ontology_mappings:
         description: Deposit account balances join to product definitions through
           product_id to obtain liquidity class, runoff rate, and insurance limit reference
           data.
+      custom_extensions: []
     - name: report_line_customer
       from: deposit_liquidity_report_lines
       to: deposit_customers
@@ -593,6 +818,7 @@ ontology_mappings:
       ai_context:
         description: Prepared deposit report lines reconcile to depositor master records
           through customer_id for customer-level liquidity review.
+      custom_extensions: []
     - name: report_line_product
       from: deposit_liquidity_report_lines
       to: deposit_products
@@ -603,218 +829,330 @@ ontology_mappings:
       ai_context:
         description: Prepared deposit report lines join to product reference data
           through product_id to validate reported product liquidity classification.
+      custom_extensions: []
     metrics:
     - name: stable_funding_amount
-      description: Stable funding amount calculated from deposit balance and the account
-        override or product standard runoff rate.
       expression:
         dialects:
         - dialect: ANSI_SQL
           expression: deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override,
             deposit_products.standard_runoff_rate)
+      description: Stable funding amount calculated from deposit balance and the account
+        override or product standard runoff rate.
       ai_context:
         metric_type: liquidity_stability_measure
+      custom_extensions: []
     - name: insured_balance_amount
-      description: Insured balance amount calculated as the lower of account balance
-        and product insurance limit.
       expression:
         dialects:
         - dialect: ANSI_SQL
           expression: CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount
             THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount
             END
+      description: Insured balance amount calculated as the lower of account balance
+        and product insurance limit.
       ai_context:
         metric_type: insured_deposit_measure
+      custom_extensions: []
+    custom_extensions: []
   concept_mappings:
   - concept: DepositAccount
     object_mappings:
-    - referent_mappings:
+    - concept: DepositAccount
+      expression: ''
+      referent_mappings:
       - relationship: has_AccountIdentifier
         expression: deposit_accounts.account_id
-    - referent_mappings:
+        referent_mappings: []
+    - concept: DepositAccount
+      expression: ''
+      referent_mappings:
       - relationship: has_AccountIdentifier
         expression: deposit_liquidity_report_lines.account_id
+        referent_mappings: []
     link_mappings:
     - object_mapping:
+        concept: DepositAccount
+        expression: ''
         referent_mappings:
         - relationship: has_AccountIdentifier
           expression: deposit_accounts.account_id
+          referent_mappings: []
+      relationship: ''
       children:
-      - relationship: has_AccountIdentifier
-        object_mapping:
+      - object_mapping:
           concept: AccountIdentifier
           expression: deposit_accounts.account_id
-      - relationship: has_AsOfDate
-        object_mapping:
+          referent_mappings: []
+        relationship: has_AccountIdentifier
+        children: []
+      - object_mapping:
           concept: CalendarDate
           expression: deposit_accounts.as_of_date
-      - relationship: REFERENCES_Depositor
-        object_mapping:
+          referent_mappings: []
+        relationship: has_AsOfDate
+        children: []
+      - object_mapping:
           concept: Depositor
+          expression: ''
           referent_mappings:
           - relationship: has_CustomerIdentifier
             expression: deposit_accounts.customer_id
-      - relationship: REFERENCES_DepositProduct
-        object_mapping:
+            referent_mappings: []
+        relationship: REFERENCES_Depositor
+        children: []
+      - object_mapping:
           concept: DepositProduct
+          expression: ''
           referent_mappings:
           - relationship: has_ProductIdentifier
             expression: deposit_accounts.product_id
-      - relationship: has_DepositBalanceAmount
-        object_mapping:
+            referent_mappings: []
+        relationship: REFERENCES_DepositProduct
+        children: []
+      - object_mapping:
           concept: MonetaryAmount
           expression: deposit_accounts.balance_amount
-      - relationship: has_DepositCurrency
-        object_mapping:
+          referent_mappings: []
+        relationship: has_DepositBalanceAmount
+        children: []
+      - object_mapping:
           concept: CurrencyCode
           expression: deposit_accounts.currency
-      - relationship: has_LiquidityBucket
-        object_mapping:
+          referent_mappings: []
+        relationship: has_DepositCurrency
+        children: []
+      - object_mapping:
           concept: LiquidityBucket
           expression: deposit_accounts.liquidity_bucket
-      - relationship: has_RunoffRate
-        object_mapping:
+          referent_mappings: []
+        relationship: has_LiquidityBucket
+        children: []
+      - object_mapping:
           concept: Rate
           expression: deposit_accounts.rate_override
-      - relationship: has_StableFundingAmount
-        object_mapping:
+          referent_mappings: []
+        relationship: has_RunoffRate
+        children: []
+      - object_mapping:
           concept: MonetaryAmount
           expression: metric.stable_funding_amount
-      - relationship: has_InsuredBalanceAmount
-        object_mapping:
+          referent_mappings: []
+        relationship: has_StableFundingAmount
+        children: []
+      - object_mapping:
           concept: MonetaryAmount
           expression: metric.insured_balance_amount
+          referent_mappings: []
+        relationship: has_InsuredBalanceAmount
+        children: []
     - object_mapping:
+        concept: DepositAccount
+        expression: ''
         referent_mappings:
         - relationship: has_AccountIdentifier
           expression: deposit_liquidity_report_lines.account_id
+          referent_mappings: []
+      relationship: ''
       children:
-      - relationship: has_AccountIdentifier
-        object_mapping:
+      - object_mapping:
           concept: AccountIdentifier
           expression: deposit_liquidity_report_lines.account_id
-      - relationship: has_AsOfDate
-        object_mapping:
+          referent_mappings: []
+        relationship: has_AccountIdentifier
+        children: []
+      - object_mapping:
           concept: CalendarDate
           expression: deposit_liquidity_report_lines.as_of_date
-      - relationship: REFERENCES_Depositor
-        object_mapping:
+          referent_mappings: []
+        relationship: has_AsOfDate
+        children: []
+      - object_mapping:
           concept: Depositor
+          expression: ''
           referent_mappings:
           - relationship: has_CustomerIdentifier
             expression: deposit_liquidity_report_lines.customer_id
-      - relationship: REFERENCES_DepositProduct
-        object_mapping:
+            referent_mappings: []
+        relationship: REFERENCES_Depositor
+        children: []
+      - object_mapping:
           concept: DepositProduct
+          expression: ''
           referent_mappings:
           - relationship: has_ProductIdentifier
             expression: deposit_liquidity_report_lines.product_id
-      - relationship: has_DepositBalanceAmount
-        object_mapping:
+            referent_mappings: []
+        relationship: REFERENCES_DepositProduct
+        children: []
+      - object_mapping:
           concept: MonetaryAmount
           expression: deposit_liquidity_report_lines.balance_amount
-      - relationship: has_DepositCurrency
-        object_mapping:
+          referent_mappings: []
+        relationship: has_DepositBalanceAmount
+        children: []
+      - object_mapping:
           concept: CurrencyCode
           expression: deposit_liquidity_report_lines.currency
-      - relationship: has_LiquidityBucket
-        object_mapping:
+          referent_mappings: []
+        relationship: has_DepositCurrency
+        children: []
+      - object_mapping:
           concept: LiquidityBucket
           expression: deposit_liquidity_report_lines.liquidity_bucket
-      - relationship: has_RunoffRate
-        object_mapping:
+          referent_mappings: []
+        relationship: has_LiquidityBucket
+        children: []
+      - object_mapping:
           concept: Rate
           expression: deposit_liquidity_report_lines.runoff_rate
-      - relationship: has_StableFundingAmount
-        object_mapping:
+          referent_mappings: []
+        relationship: has_RunoffRate
+        children: []
+      - object_mapping:
           concept: MonetaryAmount
           expression: metric.stable_funding_amount
-      - relationship: has_InsuredBalanceAmount
-        object_mapping:
+          referent_mappings: []
+        relationship: has_StableFundingAmount
+        children: []
+      - object_mapping:
           concept: MonetaryAmount
           expression: metric.insured_balance_amount
+          referent_mappings: []
+        relationship: has_InsuredBalanceAmount
+        children: []
   - concept: Depositor
     object_mappings:
-    - referent_mappings:
+    - concept: Depositor
+      expression: ''
+      referent_mappings:
       - relationship: has_CustomerIdentifier
         expression: deposit_customers.customer_id
-    - referent_mappings:
+        referent_mappings: []
+    - concept: Depositor
+      expression: ''
+      referent_mappings:
       - relationship: has_CustomerIdentifier
         expression: deposit_liquidity_report_lines.customer_id
+        referent_mappings: []
     link_mappings:
     - object_mapping:
+        concept: Depositor
+        expression: ''
         referent_mappings:
         - relationship: has_CustomerIdentifier
           expression: deposit_customers.customer_id
+          referent_mappings: []
+      relationship: ''
       children:
-      - relationship: has_CustomerIdentifier
-        object_mapping:
+      - object_mapping:
           concept: CustomerIdentifier
           expression: deposit_customers.customer_id
-      - relationship: has_DomicileCountry
-        object_mapping:
+          referent_mappings: []
+        relationship: has_CustomerIdentifier
+        children: []
+      - object_mapping:
           concept: CountryCode
           expression: deposit_customers.domicile_country
-      - relationship: has_CustomerName
-        object_mapping:
+          referent_mappings: []
+        relationship: has_DomicileCountry
+        children: []
+      - object_mapping:
           concept: PersonOrEntityName
           expression: deposit_customers.customer_name
-      - relationship: has_CustomerSegment
-        object_mapping:
+          referent_mappings: []
+        relationship: has_CustomerName
+        children: []
+      - object_mapping:
           concept: CustomerSegment
           expression: deposit_customers.segment
+          referent_mappings: []
+        relationship: has_CustomerSegment
+        children: []
     - object_mapping:
+        concept: Depositor
+        expression: ''
         referent_mappings:
         - relationship: has_CustomerIdentifier
           expression: deposit_liquidity_report_lines.customer_id
+          referent_mappings: []
+      relationship: ''
       children:
-      - relationship: has_CustomerIdentifier
-        object_mapping:
+      - object_mapping:
           concept: CustomerIdentifier
           expression: deposit_liquidity_report_lines.customer_id
+          referent_mappings: []
+        relationship: has_CustomerIdentifier
+        children: []
   - concept: DepositProduct
     object_mappings:
-    - referent_mappings:
+    - concept: DepositProduct
+      expression: ''
+      referent_mappings:
       - relationship: has_ProductIdentifier
         expression: deposit_products.product_id
-    - referent_mappings:
+        referent_mappings: []
+    - concept: DepositProduct
+      expression: ''
+      referent_mappings:
       - relationship: has_ProductIdentifier
         expression: deposit_liquidity_report_lines.product_id
+        referent_mappings: []
     link_mappings:
     - object_mapping:
+        concept: DepositProduct
+        expression: ''
         referent_mappings:
         - relationship: has_ProductIdentifier
           expression: deposit_products.product_id
+          referent_mappings: []
+      relationship: ''
       children:
-      - relationship: has_ProductIdentifier
-        object_mapping:
+      - object_mapping:
           concept: ProductIdentifier
           expression: deposit_products.product_id
-      - relationship: has_ProductType
-        object_mapping:
+          referent_mappings: []
+        relationship: has_ProductIdentifier
+        children: []
+      - object_mapping:
           concept: ProductType
           expression: deposit_products.product_type
-      - relationship: has_RegulatoryClass
-        object_mapping:
+          referent_mappings: []
+        relationship: has_ProductType
+        children: []
+      - object_mapping:
           concept: RegulatoryClass
           expression: deposit_products.regulatory_class
-      - relationship: has_InsuranceLimitAmount
-        object_mapping:
+          referent_mappings: []
+        relationship: has_RegulatoryClass
+        children: []
+      - object_mapping:
           concept: MonetaryAmount
           expression: deposit_products.insurance_limit_amount
-      - relationship: has_StandardRunoffRate
-        object_mapping:
+          referent_mappings: []
+        relationship: has_InsuranceLimitAmount
+        children: []
+      - object_mapping:
           concept: Rate
           expression: deposit_products.standard_runoff_rate
+          referent_mappings: []
+        relationship: has_StandardRunoffRate
+        children: []
     - object_mapping:
+        concept: DepositProduct
+        expression: ''
         referent_mappings:
         - relationship: has_ProductIdentifier
           expression: deposit_liquidity_report_lines.product_id
+          referent_mappings: []
+      relationship: ''
       children:
-      - relationship: has_ProductIdentifier
-        object_mapping:
+      - object_mapping:
           concept: ProductIdentifier
           expression: deposit_liquidity_report_lines.product_id
+          referent_mappings: []
+        relationship: has_ProductIdentifier
+        children: []
 ai_context:
   model_version: 1.0.0
   owner: Treasury Liquidity Regulatory Reporting

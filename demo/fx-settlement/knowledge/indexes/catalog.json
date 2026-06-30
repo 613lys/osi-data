@@ -8,23 +8,30 @@
       "name": "AccountData",
       "type": "EntityType",
       "description": "Base concept for account-like records with common account identifiers.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_AccountIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_AccountIdentifier",
+        "description": "Identifier common to account-like records.",
         "roles": [
           {
             "concept": "AccountIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{AccountData} has account identifier {AccountIdentifier}"
         ],
-        "description": "Identifier common to account-like records."
+        "multiplicity": "OneToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -49,16 +56,18 @@
     "relationship_name": "has_AccountIdentifier",
     "relationship": {
       "name": "has_AccountIdentifier",
+      "description": "Identifier common to account-like records.",
       "roles": [
         {
           "concept": "AccountIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{AccountData} has account identifier {AccountIdentifier}"
       ],
-      "description": "Identifier common to account-like records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -79,23 +88,30 @@
       "name": "InstructionData",
       "type": "EntityType",
       "description": "Base concept for operational instruction records with stable instruction identifiers.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_InstructionIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_InstructionIdentifier",
+        "description": "Identifier common to operational instruction records.",
         "roles": [
           {
             "concept": "InstructionIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{InstructionData} has instruction identifier {InstructionIdentifier}"
         ],
-        "description": "Identifier common to operational instruction records."
+        "multiplicity": "OneToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -120,16 +136,18 @@
     "relationship_name": "has_InstructionIdentifier",
     "relationship": {
       "name": "has_InstructionIdentifier",
+      "description": "Identifier common to operational instruction records.",
       "roles": [
         {
           "concept": "InstructionIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{InstructionData} has instruction identifier {InstructionIdentifier}"
       ],
-      "description": "Identifier common to operational instruction records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -150,23 +168,30 @@
       "name": "PartyData",
       "type": "EntityType",
       "description": "Base concept for counterparty-like records with stable party identifiers.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_CounterpartyIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_CounterpartyIdentifier",
+        "description": "Identifier common to counterparty or party records.",
         "roles": [
           {
             "concept": "CounterpartyIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{PartyData} has counterparty identifier {CounterpartyIdentifier}"
         ],
-        "description": "Identifier common to counterparty or party records."
+        "multiplicity": "OneToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -191,16 +216,18 @@
     "relationship_name": "has_CounterpartyIdentifier",
     "relationship": {
       "name": "has_CounterpartyIdentifier",
+      "description": "Identifier common to counterparty or party records.",
       "roles": [
         {
           "concept": "CounterpartyIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{PartyData} has counterparty identifier {CounterpartyIdentifier}"
       ],
-      "description": "Identifier common to counterparty or party records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -221,23 +248,30 @@
       "name": "ReferenceData",
       "type": "EntityType",
       "description": "Base concept for reference-data records with stable reference identifiers.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_ReferenceIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_ReferenceIdentifier",
+        "description": "Identifier common to reference-data records.",
         "roles": [
           {
             "concept": "ReferenceIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{ReferenceData} has reference identifier {ReferenceIdentifier}"
         ],
-        "description": "Identifier common to reference-data records."
+        "multiplicity": "OneToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -262,16 +296,18 @@
     "relationship_name": "has_ReferenceIdentifier",
     "relationship": {
       "name": "has_ReferenceIdentifier",
+      "description": "Identifier common to reference-data records.",
       "roles": [
         {
           "concept": "ReferenceIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{ReferenceData} has reference identifier {ReferenceIdentifier}"
       ],
-      "description": "Identifier common to reference-data records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -292,36 +328,45 @@
       "name": "TransactionData",
       "type": "EntityType",
       "description": "Base concept for transaction-like records with stable transaction identifiers and booking dates.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_TransactionIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_TransactionIdentifier",
+        "description": "Identifier common to transaction-like records.",
         "roles": [
           {
             "concept": "TransactionIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{TransactionData} has transaction identifier {TransactionIdentifier}"
         ],
-        "description": "Identifier common to transaction-like records."
+        "multiplicity": "OneToOne"
       },
       {
         "name": "has_BookingDate",
+        "description": "Business date common to transaction-like records.",
         "roles": [
           {
             "concept": "CalendarDate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{TransactionData} has booking date {CalendarDate}"
         ],
-        "description": "Business date common to transaction-like records."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -346,16 +391,18 @@
     "relationship_name": "has_TransactionIdentifier",
     "relationship": {
       "name": "has_TransactionIdentifier",
+      "description": "Identifier common to transaction-like records.",
       "roles": [
         {
           "concept": "TransactionIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{TransactionData} has transaction identifier {TransactionIdentifier}"
       ],
-      "description": "Identifier common to transaction-like records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -379,16 +426,18 @@
     "relationship_name": "has_BookingDate",
     "relationship": {
       "name": "has_BookingDate",
+      "description": "Business date common to transaction-like records.",
       "roles": [
         {
           "concept": "CalendarDate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{TransactionData} has booking date {CalendarDate}"
       ],
-      "description": "Business date common to transaction-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -412,62 +461,72 @@
       "extends": [
         "PartyData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_CounterpartyIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "OWNS_NostroAccount",
+        "description": "Counterparty relationship used to connect nostro account ownership or responsibility.",
         "roles": [
           {
             "concept": "NostroAccount"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{Counterparty} owns or controls {NostroAccount}"
         ],
-        "description": "Counterparty relationship used to connect nostro account ownership or responsibility."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_CounterpartyName",
+        "description": "Human-readable legal or trading name of the counterparty.",
         "roles": [
           {
             "concept": "PartyName"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{Counterparty} has counterparty name {PartyName}"
         ],
-        "description": "Human-readable legal or trading name of the counterparty."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_CounterpartyCountry",
+        "description": "Country or jurisdiction associated with the counterparty.",
         "roles": [
           {
             "concept": "CountryCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{Counterparty} has counterparty country {CountryCode}"
         ],
-        "description": "Country or jurisdiction associated with the counterparty."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_RiskSegment",
+        "description": "Risk or client segment used for settlement monitoring.",
         "roles": [
           {
             "concept": "RiskSegment"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{Counterparty} has risk segment {RiskSegment}"
         ],
-        "description": "Risk or client segment used for settlement monitoring."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -491,8 +550,8 @@
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "Counterparty",
         "expressions": [
           "counterparties.counterparty_id"
         ],
@@ -551,8 +610,8 @@
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "Counterparty",
         "expressions": [
           "nostro_accounts.owner_counterparty_id"
         ],
@@ -602,16 +661,18 @@
     "relationship_name": "has_CounterpartyName",
     "relationship": {
       "name": "has_CounterpartyName",
+      "description": "Human-readable legal or trading name of the counterparty.",
       "roles": [
         {
           "concept": "PartyName"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{Counterparty} has counterparty name {PartyName}"
       ],
-      "description": "Human-readable legal or trading name of the counterparty."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -635,16 +696,18 @@
     "relationship_name": "has_CounterpartyCountry",
     "relationship": {
       "name": "has_CounterpartyCountry",
+      "description": "Country or jurisdiction associated with the counterparty.",
       "roles": [
         {
           "concept": "CountryCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{Counterparty} has counterparty country {CountryCode}"
       ],
-      "description": "Country or jurisdiction associated with the counterparty."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -668,16 +731,18 @@
     "relationship_name": "has_RiskSegment",
     "relationship": {
       "name": "has_RiskSegment",
+      "description": "Risk or client segment used for settlement monitoring.",
       "roles": [
         {
           "concept": "RiskSegment"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{Counterparty} has risk segment {RiskSegment}"
       ],
-      "description": "Risk or client segment used for settlement monitoring."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -701,62 +766,72 @@
       "extends": [
         "ReferenceData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_ReferenceIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_BaseCurrency",
+        "description": "Base currency of the FX rate quote.",
         "roles": [
           {
             "concept": "CurrencyCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxRate} has base currency {CurrencyCode}"
         ],
-        "description": "Base currency of the FX rate quote."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_QuoteCurrency",
+        "description": "Quote or reporting currency of the FX rate quote.",
         "roles": [
           {
             "concept": "CurrencyCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxRate} has quote currency {CurrencyCode}"
         ],
-        "description": "Quote or reporting currency of the FX rate quote."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_RateDate",
+        "description": "Date on which the FX rate is effective.",
         "roles": [
           {
             "concept": "CalendarDate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxRate} has rate date {CalendarDate}"
         ],
-        "description": "Date on which the FX rate is effective."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_RateValue",
+        "description": "Decimal exchange rate value for the currency pair.",
         "roles": [
           {
             "concept": "Rate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxRate} has rate value {Rate}"
         ],
-        "description": "Decimal exchange rate value for the currency pair."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -780,8 +855,8 @@
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "FxRate",
         "expressions": [
           "fx_rates.rate_id"
         ],
@@ -877,16 +952,18 @@
     "relationship_name": "has_BaseCurrency",
     "relationship": {
       "name": "has_BaseCurrency",
+      "description": "Base currency of the FX rate quote.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxRate} has base currency {CurrencyCode}"
       ],
-      "description": "Base currency of the FX rate quote."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -910,16 +987,18 @@
     "relationship_name": "has_QuoteCurrency",
     "relationship": {
       "name": "has_QuoteCurrency",
+      "description": "Quote or reporting currency of the FX rate quote.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxRate} has quote currency {CurrencyCode}"
       ],
-      "description": "Quote or reporting currency of the FX rate quote."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -943,16 +1022,18 @@
     "relationship_name": "has_RateDate",
     "relationship": {
       "name": "has_RateDate",
+      "description": "Date on which the FX rate is effective.",
       "roles": [
         {
           "concept": "CalendarDate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxRate} has rate date {CalendarDate}"
       ],
-      "description": "Date on which the FX rate is effective."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -976,16 +1057,18 @@
     "relationship_name": "has_RateValue",
     "relationship": {
       "name": "has_RateValue",
+      "description": "Decimal exchange rate value for the currency pair.",
       "roles": [
         {
           "concept": "Rate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxRate} has rate value {Rate}"
       ],
-      "description": "Decimal exchange rate value for the currency pair."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1009,114 +1092,132 @@
       "extends": [
         "TransactionData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_TransactionIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "EXECUTED_WITH_Counterparty",
+        "description": "Counterparty with whom the FX trade was executed.",
         "roles": [
           {
             "concept": "Counterparty"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxTrade} is executed with {Counterparty}"
         ],
-        "description": "Counterparty with whom the FX trade was executed."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "SETTLED_BY_SettlementInstruction",
+        "description": "Settlement instruction that operationally settles the FX trade.",
         "roles": [
           {
             "concept": "SettlementInstruction"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxTrade} is settled by {SettlementInstruction}"
         ],
-        "description": "Settlement instruction that operationally settles the FX trade."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "PRICED_BY_FxRate",
+        "description": "FX rate reference used to convert the trade amount into reporting currency.",
         "roles": [
           {
             "concept": "FxRate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxTrade} is priced by {FxRate}"
         ],
-        "description": "FX rate reference used to convert the trade amount into reporting currency."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_BuyCurrency",
+        "description": "Currency bought by the FX trade.",
         "roles": [
           {
             "concept": "CurrencyCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxTrade} has buy currency {CurrencyCode}"
         ],
-        "description": "Currency bought by the FX trade."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_SellCurrency",
+        "description": "Currency sold by the FX trade.",
         "roles": [
           {
             "concept": "CurrencyCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxTrade} has sell currency {CurrencyCode}"
         ],
-        "description": "Currency sold by the FX trade."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_NotionalAmount",
+        "description": "Original trade notional amount before reporting-currency conversion.",
         "roles": [
           {
             "concept": "MonetaryAmount"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxTrade} has notional amount {MonetaryAmount}"
         ],
-        "description": "Original trade notional amount before reporting-currency conversion."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_SettlementDate",
+        "description": "Contractual settlement date for the FX trade.",
         "roles": [
           {
             "concept": "CalendarDate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxTrade} has settlement date {CalendarDate}"
         ],
-        "description": "Contractual settlement date for the FX trade."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_ReportCurrencyExposureAmount",
+        "description": "Calculated exposure amount after applying the relevant FX rate for monitoring.",
         "roles": [
           {
             "concept": "MonetaryAmount"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{FxTrade} has report currency exposure amount {MonetaryAmount}"
         ],
-        "description": "Calculated exposure amount after applying the relevant FX rate for monitoring."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -1140,8 +1241,8 @@
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "FxTrade",
         "expressions": [
           "fx_trades.trade_id"
         ],
@@ -1260,8 +1361,8 @@
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "FxTrade",
         "expressions": [
           "settlement_instructions.trade_id"
         ],
@@ -1315,16 +1416,18 @@
     "relationship_name": "has_BuyCurrency",
     "relationship": {
       "name": "has_BuyCurrency",
+      "description": "Currency bought by the FX trade.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxTrade} has buy currency {CurrencyCode}"
       ],
-      "description": "Currency bought by the FX trade."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1348,16 +1451,18 @@
     "relationship_name": "has_SellCurrency",
     "relationship": {
       "name": "has_SellCurrency",
+      "description": "Currency sold by the FX trade.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxTrade} has sell currency {CurrencyCode}"
       ],
-      "description": "Currency sold by the FX trade."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1381,16 +1486,18 @@
     "relationship_name": "has_NotionalAmount",
     "relationship": {
       "name": "has_NotionalAmount",
+      "description": "Original trade notional amount before reporting-currency conversion.",
       "roles": [
         {
           "concept": "MonetaryAmount"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxTrade} has notional amount {MonetaryAmount}"
       ],
-      "description": "Original trade notional amount before reporting-currency conversion."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1414,16 +1521,18 @@
     "relationship_name": "has_SettlementDate",
     "relationship": {
       "name": "has_SettlementDate",
+      "description": "Contractual settlement date for the FX trade.",
       "roles": [
         {
           "concept": "CalendarDate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxTrade} has settlement date {CalendarDate}"
       ],
-      "description": "Contractual settlement date for the FX trade."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1447,16 +1556,18 @@
     "relationship_name": "has_ReportCurrencyExposureAmount",
     "relationship": {
       "name": "has_ReportCurrencyExposureAmount",
+      "description": "Calculated exposure amount after applying the relevant FX rate for monitoring.",
       "roles": [
         {
           "concept": "MonetaryAmount"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{FxTrade} has report currency exposure amount {MonetaryAmount}"
       ],
-      "description": "Calculated exposure amount after applying the relevant FX rate for monitoring."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1472,7 +1583,6 @@
     "semantic_reference": "metric.report_currency_exposure_amount",
     "metric": {
       "name": "report_currency_exposure_amount",
-      "description": "FX trade notional amount converted into reporting currency using the referenced FX rate.",
       "expression": {
         "dialects": [
           {
@@ -1481,9 +1591,11 @@
           }
         ]
       },
+      "description": "FX trade notional amount converted into reporting currency using the referenced FX rate.",
       "ai_context": {
         "metric_type": "calculated_settlement_monitoring_measure"
-      }
+      },
+      "custom_extensions": []
     }
   },
   "concept.NostroAccount": {
@@ -1498,49 +1610,57 @@
       "extends": [
         "AccountData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_AccountIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "HELD_BY_Counterparty",
+        "description": "Counterparty or banking entity responsible for the nostro account.",
         "roles": [
           {
             "concept": "Counterparty"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{NostroAccount} is held by {Counterparty}"
         ],
-        "description": "Counterparty or banking entity responsible for the nostro account."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_AccountCurrency",
+        "description": "Currency in which the nostro account settles cash.",
         "roles": [
           {
             "concept": "CurrencyCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{NostroAccount} has account currency {CurrencyCode}"
         ],
-        "description": "Currency in which the nostro account settles cash."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_AccountStatus",
+        "description": "Operational lifecycle status of the nostro account.",
         "roles": [
           {
             "concept": "StatusCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{NostroAccount} has account status {StatusCode}"
         ],
-        "description": "Operational lifecycle status of the nostro account."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -1564,8 +1684,8 @@
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "NostroAccount",
         "expressions": [
           "nostro_accounts.account_id"
         ],
@@ -1647,16 +1767,18 @@
     "relationship_name": "has_AccountCurrency",
     "relationship": {
       "name": "has_AccountCurrency",
+      "description": "Currency in which the nostro account settles cash.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{NostroAccount} has account currency {CurrencyCode}"
       ],
-      "description": "Currency in which the nostro account settles cash."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1680,16 +1802,18 @@
     "relationship_name": "has_AccountStatus",
     "relationship": {
       "name": "has_AccountStatus",
+      "description": "Operational lifecycle status of the nostro account.",
       "roles": [
         {
           "concept": "StatusCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{NostroAccount} has account status {StatusCode}"
       ],
-      "description": "Operational lifecycle status of the nostro account."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1713,127 +1837,147 @@
       "extends": [
         "InstructionData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_InstructionIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "SETTLES_FxTrade",
+        "description": "FX trade whose cash movements are controlled by the settlement instruction.",
         "roles": [
           {
             "concept": "FxTrade"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} settles {FxTrade}"
         ],
-        "description": "FX trade whose cash movements are controlled by the settlement instruction."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "USES_NostroAccount",
+        "description": "Nostro account used to process the settlement cash movement.",
         "roles": [
           {
             "concept": "NostroAccount"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} uses {NostroAccount}"
         ],
-        "description": "Nostro account used to process the settlement cash movement."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_SettlementCurrency",
+        "description": "Currency in which the settlement instruction is executed.",
         "roles": [
           {
             "concept": "CurrencyCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} has settlement currency {CurrencyCode}"
         ],
-        "description": "Currency in which the settlement instruction is executed."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_SettlementAmount",
+        "description": "Cash amount instructed for FX settlement.",
         "roles": [
           {
             "concept": "MonetaryAmount"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} has settlement amount {MonetaryAmount}"
         ],
-        "description": "Cash amount instructed for FX settlement."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_SettlementValueDate",
+        "description": "Value date on which the settlement instruction is expected to settle.",
         "roles": [
           {
             "concept": "CalendarDate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} has settlement value date {CalendarDate}"
         ],
-        "description": "Value date on which the settlement instruction is expected to settle."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_SettlementStatus",
+        "description": "Operational status of the settlement instruction.",
         "roles": [
           {
             "concept": "SettlementStatus"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} has settlement status {SettlementStatus}"
         ],
-        "description": "Operational status of the settlement instruction."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_ExpectedSettlementDate",
+        "description": "Date by which settlement is expected to complete.",
         "roles": [
           {
             "concept": "CalendarDate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} has expected settlement date {CalendarDate}"
         ],
-        "description": "Date by which settlement is expected to complete."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_ActualSettlementDate",
+        "description": "Date on which settlement actually completed.",
         "roles": [
           {
             "concept": "CalendarDate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} has actual settlement date {CalendarDate}"
         ],
-        "description": "Date on which settlement actually completed."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_SettlementDelayDays",
+        "description": "Calculated number of days between expected and actual settlement completion.",
         "roles": [
           {
             "concept": "DayCount"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{SettlementInstruction} has settlement delay days {DayCount}"
         ],
-        "description": "Calculated number of days between expected and actual settlement completion."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "FxSettlementMonitoringOntology",
@@ -1857,8 +2001,8 @@
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "SettlementInstruction",
         "expressions": [
           "settlement_instructions.settlement_instruction_id"
         ],
@@ -2018,16 +2162,18 @@
     "relationship_name": "has_SettlementCurrency",
     "relationship": {
       "name": "has_SettlementCurrency",
+      "description": "Currency in which the settlement instruction is executed.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{SettlementInstruction} has settlement currency {CurrencyCode}"
       ],
-      "description": "Currency in which the settlement instruction is executed."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -2051,16 +2197,18 @@
     "relationship_name": "has_SettlementAmount",
     "relationship": {
       "name": "has_SettlementAmount",
+      "description": "Cash amount instructed for FX settlement.",
       "roles": [
         {
           "concept": "MonetaryAmount"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{SettlementInstruction} has settlement amount {MonetaryAmount}"
       ],
-      "description": "Cash amount instructed for FX settlement."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -2084,16 +2232,18 @@
     "relationship_name": "has_SettlementValueDate",
     "relationship": {
       "name": "has_SettlementValueDate",
+      "description": "Value date on which the settlement instruction is expected to settle.",
       "roles": [
         {
           "concept": "CalendarDate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{SettlementInstruction} has settlement value date {CalendarDate}"
       ],
-      "description": "Value date on which the settlement instruction is expected to settle."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -2117,16 +2267,18 @@
     "relationship_name": "has_SettlementStatus",
     "relationship": {
       "name": "has_SettlementStatus",
+      "description": "Operational status of the settlement instruction.",
       "roles": [
         {
           "concept": "SettlementStatus"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{SettlementInstruction} has settlement status {SettlementStatus}"
       ],
-      "description": "Operational status of the settlement instruction."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -2150,16 +2302,18 @@
     "relationship_name": "has_ExpectedSettlementDate",
     "relationship": {
       "name": "has_ExpectedSettlementDate",
+      "description": "Date by which settlement is expected to complete.",
       "roles": [
         {
           "concept": "CalendarDate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{SettlementInstruction} has expected settlement date {CalendarDate}"
       ],
-      "description": "Date by which settlement is expected to complete."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -2183,16 +2337,18 @@
     "relationship_name": "has_ActualSettlementDate",
     "relationship": {
       "name": "has_ActualSettlementDate",
+      "description": "Date on which settlement actually completed.",
       "roles": [
         {
           "concept": "CalendarDate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{SettlementInstruction} has actual settlement date {CalendarDate}"
       ],
-      "description": "Date on which settlement actually completed."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -2216,16 +2372,18 @@
     "relationship_name": "has_SettlementDelayDays",
     "relationship": {
       "name": "has_SettlementDelayDays",
+      "description": "Calculated number of days between expected and actual settlement completion.",
       "roles": [
         {
           "concept": "DayCount"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{SettlementInstruction} has settlement delay days {DayCount}"
       ],
-      "description": "Calculated number of days between expected and actual settlement completion."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -2241,7 +2399,6 @@
     "semantic_reference": "metric.settlement_delay_days",
     "metric": {
       "name": "settlement_delay_days",
-      "description": "Settlement delay measured as the day difference between expected and actual settlement completion dates.",
       "expression": {
         "dialects": [
           {
@@ -2250,9 +2407,11 @@
           }
         ]
       },
+      "description": "Settlement delay measured as the day difference between expected and actual settlement completion dates.",
       "ai_context": {
         "metric_type": "calculated_settlement_monitoring_measure"
-      }
+      },
+      "custom_extensions": []
     }
   },
   "value.Counterparty.has_CounterpartyIdentifier": {
@@ -2267,16 +2426,18 @@
     "relationship_name": "has_CounterpartyIdentifier",
     "relationship": {
       "name": "has_CounterpartyIdentifier",
+      "description": "Identifier common to counterparty or party records.",
       "roles": [
         {
           "concept": "CounterpartyIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{PartyData} has counterparty identifier {CounterpartyIdentifier}"
       ],
-      "description": "Identifier common to counterparty or party records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "PartyData",
@@ -2300,16 +2461,18 @@
     "relationship_name": "has_ReferenceIdentifier",
     "relationship": {
       "name": "has_ReferenceIdentifier",
+      "description": "Identifier common to reference-data records.",
       "roles": [
         {
           "concept": "ReferenceIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{ReferenceData} has reference identifier {ReferenceIdentifier}"
       ],
-      "description": "Identifier common to reference-data records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "ReferenceData",
@@ -2333,16 +2496,18 @@
     "relationship_name": "has_TransactionIdentifier",
     "relationship": {
       "name": "has_TransactionIdentifier",
+      "description": "Identifier common to transaction-like records.",
       "roles": [
         {
           "concept": "TransactionIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{TransactionData} has transaction identifier {TransactionIdentifier}"
       ],
-      "description": "Identifier common to transaction-like records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "TransactionData",
@@ -2366,16 +2531,18 @@
     "relationship_name": "has_BookingDate",
     "relationship": {
       "name": "has_BookingDate",
+      "description": "Business date common to transaction-like records.",
       "roles": [
         {
           "concept": "CalendarDate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{TransactionData} has booking date {CalendarDate}"
       ],
-      "description": "Business date common to transaction-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "TransactionData",
@@ -2399,16 +2566,18 @@
     "relationship_name": "has_AccountIdentifier",
     "relationship": {
       "name": "has_AccountIdentifier",
+      "description": "Identifier common to account-like records.",
       "roles": [
         {
           "concept": "AccountIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{AccountData} has account identifier {AccountIdentifier}"
       ],
-      "description": "Identifier common to account-like records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "AccountData",
@@ -2432,16 +2601,18 @@
     "relationship_name": "has_InstructionIdentifier",
     "relationship": {
       "name": "has_InstructionIdentifier",
+      "description": "Identifier common to operational instruction records.",
       "roles": [
         {
           "concept": "InstructionIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{InstructionData} has instruction identifier {InstructionIdentifier}"
       ],
-      "description": "Identifier common to operational instruction records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "InstructionData",
@@ -2462,6 +2633,7 @@
     "primary_key": [
       "counterparty_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "counterparty_id",
@@ -2473,11 +2645,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable master identifier for a trading or account counterparty.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "counterparty_name",
@@ -2489,11 +2664,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Legal or trading display name of the counterparty.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "counterparty_country",
@@ -2505,11 +2683,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Country or jurisdiction associated with the counterparty master record.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "risk_segment",
@@ -2521,13 +2702,19 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Risk or client segment assigned to the counterparty for monitoring.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "counterparty_master.counterparties"
     ],
@@ -2593,6 +2780,13 @@
     "dataset": "counterparties",
     "field": "counterparty_id",
     "expression": "counterparty_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -2611,11 +2805,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable master identifier for a trading or account counterparty.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.counterparty_master.counterparties.counterparty_id": {
@@ -2636,6 +2833,13 @@
     "dataset": "counterparties",
     "field": "counterparty_name",
     "expression": "counterparty_name",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -2654,11 +2858,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Legal or trading display name of the counterparty.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.counterparty_master.counterparties.counterparty_name": {
@@ -2679,6 +2886,13 @@
     "dataset": "counterparties",
     "field": "counterparty_country",
     "expression": "counterparty_country",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -2697,11 +2911,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Country or jurisdiction associated with the counterparty master record.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.counterparty_master.counterparties.counterparty_country": {
@@ -2722,6 +2939,13 @@
     "dataset": "counterparties",
     "field": "risk_segment",
     "expression": "risk_segment",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -2740,11 +2964,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Risk or client segment assigned to the counterparty for monitoring.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.counterparty_master.counterparties.risk_segment": {
@@ -2765,6 +2992,7 @@
     "primary_key": [
       "rate_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "rate_id",
@@ -2776,11 +3004,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable identifier for an FX rate reference record.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "base_currency",
@@ -2792,11 +3023,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Base currency of the FX quote.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "quote_currency",
@@ -2808,11 +3042,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Quote or reporting currency of the FX quote.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "rate_date",
@@ -2824,11 +3061,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Effective date of the FX rate.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "rate_value",
@@ -2840,13 +3080,19 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Decimal rate value used for currency conversion.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "market_data.fx_rates"
     ],
@@ -2918,6 +3164,13 @@
     "dataset": "fx_rates",
     "field": "rate_id",
     "expression": "rate_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -2936,11 +3189,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable identifier for an FX rate reference record.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_data.fx_rates.rate_id": {
@@ -2961,6 +3217,13 @@
     "dataset": "fx_rates",
     "field": "base_currency",
     "expression": "base_currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -2979,11 +3242,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Base currency of the FX quote.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_data.fx_rates.base_currency": {
@@ -3004,6 +3270,13 @@
     "dataset": "fx_rates",
     "field": "quote_currency",
     "expression": "quote_currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3022,11 +3295,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Quote or reporting currency of the FX quote.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_data.fx_rates.quote_currency": {
@@ -3047,6 +3323,13 @@
     "dataset": "fx_rates",
     "field": "rate_date",
     "expression": "rate_date",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "date",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3065,11 +3348,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Effective date of the FX rate.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_data.fx_rates.rate_date": {
@@ -3090,6 +3376,13 @@
     "dataset": "fx_rates",
     "field": "rate_value",
     "expression": "rate_value",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "decimal",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3108,11 +3401,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Decimal rate value used for currency conversion.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_data.fx_rates.rate_value": {
@@ -3131,6 +3427,7 @@
     "description": "Prepared FX settlement monitoring line dataset at trade and settlement-instruction grain, combining trade, settlement, counterparty, account, and FX rate context for operational reporting review.",
     "source": "query.fx_settlement_monitoring_lines",
     "primary_key": [],
+    "unique_keys": [],
     "fields": [
       {
         "name": "trade_id",
@@ -3142,11 +3439,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Trade identifier carried onto the monitoring line for reconciliation.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_instruction_id",
@@ -3158,11 +3458,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Settlement instruction identifier carried onto the monitoring line.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "counterparty_id",
@@ -3174,11 +3477,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Counterparty identifier reported for settlement monitoring and aggregation.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_currency",
@@ -3190,11 +3496,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Settlement currency reported on the monitoring line.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_amount",
@@ -3206,11 +3515,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Settlement amount reported on the monitoring line.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_status",
@@ -3222,11 +3534,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Settlement status reported on the monitoring line.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "exposure_amount_report_currency",
@@ -3238,11 +3553,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Trade notional converted into reporting currency for monitoring review.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_delay_days",
@@ -3254,13 +3572,19 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Number of days between expected and actual settlement completion.",
         "ai_context": {
           "physical_type": "integer",
           "nullable": true
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "query"
+    },
     "source_tables": [
       "fx_trading_core.fx_trades",
       "payments_core.settlement_instructions",
@@ -3473,6 +3797,13 @@
     "dataset": "fx_settlement_monitoring_lines",
     "field": "trade_id",
     "expression": "fx_trades.trade_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3491,11 +3822,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Trade identifier carried onto the monitoring line for reconciliation.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "field.fx_settlement_monitoring_lines.settlement_instruction_id": {
@@ -3507,6 +3841,13 @@
     "dataset": "fx_settlement_monitoring_lines",
     "field": "settlement_instruction_id",
     "expression": "settlement_instructions.settlement_instruction_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3525,11 +3866,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Settlement instruction identifier carried onto the monitoring line.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "field.fx_settlement_monitoring_lines.counterparty_id": {
@@ -3541,6 +3885,13 @@
     "dataset": "fx_settlement_monitoring_lines",
     "field": "counterparty_id",
     "expression": "fx_trades.counterparty_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3559,11 +3910,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Counterparty identifier reported for settlement monitoring and aggregation.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "field.fx_settlement_monitoring_lines.settlement_currency": {
@@ -3575,6 +3929,13 @@
     "dataset": "fx_settlement_monitoring_lines",
     "field": "settlement_currency",
     "expression": "settlement_instructions.settlement_currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3593,11 +3954,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Settlement currency reported on the monitoring line.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "field.fx_settlement_monitoring_lines.settlement_amount": {
@@ -3609,6 +3973,13 @@
     "dataset": "fx_settlement_monitoring_lines",
     "field": "settlement_amount",
     "expression": "settlement_instructions.settlement_amount",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "decimal",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3627,11 +3998,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Settlement amount reported on the monitoring line.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "field.fx_settlement_monitoring_lines.settlement_status": {
@@ -3643,6 +4017,13 @@
     "dataset": "fx_settlement_monitoring_lines",
     "field": "settlement_status",
     "expression": "settlement_instructions.settlement_status",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3661,11 +4042,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Settlement status reported on the monitoring line.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "field.fx_settlement_monitoring_lines.exposure_amount_report_currency": {
@@ -3677,6 +4061,13 @@
     "dataset": "fx_settlement_monitoring_lines",
     "field": "exposure_amount_report_currency",
     "expression": "fx_trades.notional_amount * fx_rates.rate_value",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "decimal",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3695,11 +4086,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Trade notional converted into reporting currency for monitoring review.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "field.fx_settlement_monitoring_lines.settlement_delay_days": {
@@ -3711,6 +4105,13 @@
     "dataset": "fx_settlement_monitoring_lines",
     "field": "settlement_delay_days",
     "expression": "DATEDIFF(day, settlement_instructions.expected_settlement_date, settlement_instructions.actual_settlement_date)",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "integer",
+      "nullable": true
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3729,11 +4130,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Number of days between expected and actual settlement completion.",
       "ai_context": {
         "physical_type": "integer",
         "nullable": true
-      }
+      },
+      "custom_extensions": []
     }
   },
   "dataset.fx_trades": {
@@ -3745,6 +4149,7 @@
     "primary_key": [
       "trade_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "trade_id",
@@ -3756,11 +4161,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable source trade identifier for an executed FX trade.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "trade_date",
@@ -3772,11 +4180,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Business booking date of the FX trade.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "counterparty_id",
@@ -3788,11 +4199,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Counterparty identifier captured at trade execution.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "buy_currency",
@@ -3804,11 +4218,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Currency bought by the FX trade.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "sell_currency",
@@ -3820,11 +4237,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Currency sold by the FX trade.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "notional_amount",
@@ -3836,11 +4256,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Trade notional amount before reporting-currency conversion.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_date",
@@ -3852,11 +4275,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Contractual settlement date agreed for the FX trade.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "rate_id",
@@ -3868,13 +4294,19 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Reference identifier of the FX rate used for reporting conversion.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "fx_trading_core.fx_trades"
     ],
@@ -3898,6 +4330,13 @@
     "dataset": "fx_trades",
     "field": "trade_id",
     "expression": "trade_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3916,11 +4355,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable source trade identifier for an executed FX trade.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.fx_trading_core.fx_trades.trade_id": {
@@ -3941,6 +4383,13 @@
     "dataset": "fx_trades",
     "field": "trade_date",
     "expression": "trade_date",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "date",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -3959,11 +4408,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Business booking date of the FX trade.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.fx_trading_core.fx_trades.trade_date": {
@@ -3984,6 +4436,13 @@
     "dataset": "fx_trades",
     "field": "counterparty_id",
     "expression": "counterparty_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4002,11 +4461,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Counterparty identifier captured at trade execution.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.fx_trading_core.fx_trades.counterparty_id": {
@@ -4027,6 +4489,13 @@
     "dataset": "fx_trades",
     "field": "buy_currency",
     "expression": "buy_currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4045,11 +4514,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Currency bought by the FX trade.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.fx_trading_core.fx_trades.buy_currency": {
@@ -4070,6 +4542,13 @@
     "dataset": "fx_trades",
     "field": "sell_currency",
     "expression": "sell_currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4088,11 +4567,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Currency sold by the FX trade.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.fx_trading_core.fx_trades.sell_currency": {
@@ -4113,6 +4595,13 @@
     "dataset": "fx_trades",
     "field": "notional_amount",
     "expression": "notional_amount",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "decimal",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4131,11 +4620,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Trade notional amount before reporting-currency conversion.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.fx_trading_core.fx_trades.notional_amount": {
@@ -4156,6 +4648,13 @@
     "dataset": "fx_trades",
     "field": "settlement_date",
     "expression": "settlement_date",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "date",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4174,11 +4673,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Contractual settlement date agreed for the FX trade.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.fx_trading_core.fx_trades.settlement_date": {
@@ -4199,6 +4701,13 @@
     "dataset": "fx_trades",
     "field": "rate_id",
     "expression": "rate_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4217,11 +4726,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Reference identifier of the FX rate used for reporting conversion.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.fx_trading_core.fx_trades.rate_id": {
@@ -4242,6 +4754,7 @@
     "primary_key": [
       "account_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "account_id",
@@ -4253,11 +4766,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable account identifier for a nostro settlement account.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "account_currency",
@@ -4269,11 +4785,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Currency in which the nostro account settles cash movements.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "account_status",
@@ -4285,11 +4804,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Operational lifecycle status of the nostro account.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "owner_counterparty_id",
@@ -4301,13 +4823,19 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Counterparty identifier responsible for or owning the nostro account.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "nostro_master.nostro_accounts"
     ],
@@ -4331,6 +4859,13 @@
     "dataset": "nostro_accounts",
     "field": "account_id",
     "expression": "account_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4349,11 +4884,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable account identifier for a nostro settlement account.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.nostro_master.nostro_accounts.account_id": {
@@ -4374,6 +4912,13 @@
     "dataset": "nostro_accounts",
     "field": "account_currency",
     "expression": "account_currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4392,11 +4937,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Currency in which the nostro account settles cash movements.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.nostro_master.nostro_accounts.account_currency": {
@@ -4417,6 +4965,13 @@
     "dataset": "nostro_accounts",
     "field": "account_status",
     "expression": "account_status",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4435,11 +4990,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Operational lifecycle status of the nostro account.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.nostro_master.nostro_accounts.account_status": {
@@ -4460,6 +5018,13 @@
     "dataset": "nostro_accounts",
     "field": "owner_counterparty_id",
     "expression": "owner_counterparty_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4478,11 +5043,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Counterparty identifier responsible for or owning the nostro account.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.nostro_master.nostro_accounts.owner_counterparty_id": {
@@ -4503,6 +5071,7 @@
     "primary_key": [
       "settlement_instruction_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "settlement_instruction_id",
@@ -4514,11 +5083,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable operational identifier for the FX settlement instruction.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "trade_id",
@@ -4530,11 +5102,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Trade identifier whose cash movement is governed by the settlement instruction.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "nostro_account_id",
@@ -4546,11 +5121,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Nostro account identifier used to settle the instruction.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_currency",
@@ -4562,11 +5140,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Currency in which the instruction settles.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_amount",
@@ -4578,11 +5159,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Monetary cash obligation that the instruction must settle in the stated settlement currency.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_value_date",
@@ -4594,11 +5178,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Value date expected for settlement posting.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "expected_settlement_date",
@@ -4610,11 +5197,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Date by which the instruction should complete settlement.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "actual_settlement_date",
@@ -4626,11 +5216,14 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Date on which the instruction actually completed settlement.",
         "ai_context": {
           "physical_type": "date",
           "nullable": true
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "settlement_status",
@@ -4642,13 +5235,19 @@
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Operational status assigned to the settlement instruction.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "payments_core.settlement_instructions"
     ],
@@ -4672,6 +5271,13 @@
     "dataset": "settlement_instructions",
     "field": "settlement_instruction_id",
     "expression": "settlement_instruction_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4690,11 +5296,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable operational identifier for the FX settlement instruction.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.settlement_instruction_id": {
@@ -4715,6 +5324,13 @@
     "dataset": "settlement_instructions",
     "field": "trade_id",
     "expression": "trade_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4733,11 +5349,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Trade identifier whose cash movement is governed by the settlement instruction.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.trade_id": {
@@ -4758,6 +5377,13 @@
     "dataset": "settlement_instructions",
     "field": "nostro_account_id",
     "expression": "nostro_account_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4776,11 +5402,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Nostro account identifier used to settle the instruction.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.nostro_account_id": {
@@ -4801,6 +5430,13 @@
     "dataset": "settlement_instructions",
     "field": "settlement_currency",
     "expression": "settlement_currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4819,11 +5455,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Currency in which the instruction settles.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.settlement_currency": {
@@ -4844,6 +5483,13 @@
     "dataset": "settlement_instructions",
     "field": "settlement_amount",
     "expression": "settlement_amount",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "decimal",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4862,11 +5508,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Monetary cash obligation that the instruction must settle in the stated settlement currency.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.settlement_amount": {
@@ -4887,6 +5536,13 @@
     "dataset": "settlement_instructions",
     "field": "settlement_value_date",
     "expression": "settlement_value_date",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "date",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4905,11 +5561,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Value date expected for settlement posting.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.settlement_value_date": {
@@ -4930,6 +5589,13 @@
     "dataset": "settlement_instructions",
     "field": "expected_settlement_date",
     "expression": "expected_settlement_date",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "date",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4948,11 +5614,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Date by which the instruction should complete settlement.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.expected_settlement_date": {
@@ -4973,6 +5642,13 @@
     "dataset": "settlement_instructions",
     "field": "actual_settlement_date",
     "expression": "actual_settlement_date",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "date",
+      "nullable": true
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -4991,11 +5667,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Date on which the instruction actually completed settlement.",
       "ai_context": {
         "physical_type": "date",
         "nullable": true
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.actual_settlement_date": {
@@ -5016,6 +5695,13 @@
     "dataset": "settlement_instructions",
     "field": "settlement_status",
     "expression": "settlement_status",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "FxSettlementSemanticModel",
     "semantic_models": [
       "FxSettlementSemanticModel"
@@ -5034,11 +5720,14 @@
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Operational status assigned to the settlement instruction.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.payments_core.settlement_instructions.settlement_status": {
@@ -5066,9 +5755,12 @@
       "fx_rates.rate_value",
       "fx_trades.notional_amount"
     ],
+    "ai_context": {
+      "metric_type": "calculated_settlement_monitoring_measure"
+    },
+    "custom_extensions": [],
     "metric": {
       "name": "report_currency_exposure_amount",
-      "description": "FX trade notional amount converted into reporting currency using the referenced FX rate.",
       "expression": {
         "dialects": [
           {
@@ -5077,9 +5769,11 @@
           }
         ]
       },
+      "description": "FX trade notional amount converted into reporting currency using the referenced FX rate.",
       "ai_context": {
         "metric_type": "calculated_settlement_monitoring_measure"
-      }
+      },
+      "custom_extensions": []
     }
   },
   "metric.settlement_delay_days": {
@@ -5098,9 +5792,12 @@
       "settlement_instructions.actual_settlement_date",
       "settlement_instructions.expected_settlement_date"
     ],
+    "ai_context": {
+      "metric_type": "calculated_settlement_monitoring_measure"
+    },
+    "custom_extensions": [],
     "metric": {
       "name": "settlement_delay_days",
-      "description": "Settlement delay measured as the day difference between expected and actual settlement completion dates.",
       "expression": {
         "dialects": [
           {
@@ -5109,9 +5806,11 @@
           }
         ]
       },
+      "description": "Settlement delay measured as the day difference between expected and actual settlement completion dates.",
       "ai_context": {
         "metric_type": "calculated_settlement_monitoring_measure"
-      }
+      },
+      "custom_extensions": []
     }
   },
   "requirement.item": {

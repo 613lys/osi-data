@@ -20,17 +20,25 @@ ontology:
       type: EntityType | ValueType
       description:
       extends: []
+      derived_by: []
       identify_by: []
+      requires: []
     relationships: []
 
 ontology_mappings:
   - name:
     semantic_model:
       name:
+      description:
+      ai_context: {}
       datasets: []
       relationships: []
+      metrics: []
+      custom_extensions: []
     concept_mappings: []
 ```
+
+Generated strict OSI YAML must write every OSI field that this skill supports, even when the value is empty. Use empty arrays or objects for optional structured OSI fields instead of omitting them: concept `derived_by` / `requires`, ontology component `relationships`, semantic model `ai_context` / `custom_extensions`, dataset `unique_keys` / `ai_context` / `custom_extensions`, dataset field `dimension` / `label` / `ai_context` / `custom_extensions`, dataset relationship `ai_context` / `custom_extensions`, metric `ai_context` / `custom_extensions`, and concept mapping `object_mappings` / `link_mappings`. Do not add non-OSI fields to strict YAML to satisfy the UI.
 
 The default strict OSI file path is `knowledge/regulatory-reporting-osi.yaml`. Report Requirement and Report Data Logic UI metadata such as `reporting_requirements` and `report_data_logic` is not OSI schema and belongs in a separate application metadata file, defaulting to `knowledge/regulatory-reporting-app.yaml`.
 
@@ -186,8 +194,8 @@ ontology_mappings:
 Rules:
 
 - Preserve physical source names, column names, data types, nullability, keys, comments, field descriptions, and explicit OSI field expression objects. Every semantic model field must have a business-readable description and an `expression.dialects[]` object mapping it to a physical column, another semantic dataset field, or a scalar derived expression.
-- Strict OSI dataset fields should use only OSI-supported keys such as `name`, `expression`, `dimension`, `label`, `description`, `ai_context`, and `custom_extensions`. Put display type/nullability in `fields[].ai_context.physical_type` and `fields[].ai_context.nullable`, not top-level `type` or `nullable`.
-- Strict OSI dataset relationships should use only `name`, `from`, `to`, `from_columns`, `to_columns`, `ai_context`, and `custom_extensions`. Put join explanation in `ai_context.description`; do not add `description` to a semantic model relationship.
+- Strict OSI dataset fields must use only OSI-supported keys: `name`, `expression`, `dimension`, `label`, `description`, `ai_context`, and `custom_extensions`. Generate all of these keys in strict output. Put display type/nullability in `fields[].ai_context.physical_type` and `fields[].ai_context.nullable`, not top-level `type` or `nullable`.
+- Strict OSI dataset relationships must use only `name`, `from`, `to`, `from_columns`, `to_columns`, `ai_context`, and `custom_extensions`. Generate all of these keys in strict output. Put join explanation in `ai_context.description`; do not add `description` to a semantic model relationship.
 - Strict OSI `custom_extensions` entries use `vendor_name` and `data`; `data` is a JSON string. Do not leave raw helper shapes such as `name/value` in generated OSI YAML.
 - Generate the semantic model from table metadata before generating ontology mappings.
 - Generate `semantic_model.relationships[]` from foreign keys, join columns, reference columns, or documented joins.

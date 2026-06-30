@@ -8,36 +8,45 @@ window.CATALOG_DATA = {
       "name": "AccountData",
       "type": "EntityType",
       "description": "Base concept for account-like records with common identifiers and status fields.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_AccountIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_AccountIdentifier",
+        "description": "Identifier common to account-like records.",
         "roles": [
           {
             "concept": "AccountIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{AccountData} has account identifier {AccountIdentifier}"
         ],
-        "description": "Identifier common to account-like records."
+        "multiplicity": "OneToOne"
       },
       {
         "name": "has_AccountStatus",
+        "description": "Status common to account-like records.",
         "roles": [
           {
             "concept": "StatusCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{AccountData} has account status {StatusCode}"
         ],
-        "description": "Status common to account-like records."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "CollateralMarginReportingOntology",
@@ -62,16 +71,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_AccountIdentifier",
     "relationship": {
       "name": "has_AccountIdentifier",
+      "description": "Identifier common to account-like records.",
       "roles": [
         {
           "concept": "AccountIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{AccountData} has account identifier {AccountIdentifier}"
       ],
-      "description": "Identifier common to account-like records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -95,16 +106,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_AccountStatus",
     "relationship": {
       "name": "has_AccountStatus",
+      "description": "Status common to account-like records.",
       "roles": [
         {
           "concept": "StatusCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{AccountData} has account status {StatusCode}"
       ],
-      "description": "Status common to account-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -125,62 +138,75 @@ window.CATALOG_DATA = {
       "name": "CollateralAssetData",
       "type": "EntityType",
       "description": "Base concept for collateral asset records with common collateral identifiers and classification fields.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_CollateralIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_CollateralIdentifier",
+        "description": "Identifier common to collateral asset records.",
         "roles": [
           {
             "concept": "CollateralIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
         ],
-        "description": "Identifier common to collateral asset records."
+        "multiplicity": "OneToOne"
       },
       {
         "name": "has_AssetType",
+        "description": "Asset type common to collateral asset records.",
         "roles": [
           {
             "concept": "AssetType"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralAssetData} has asset type {AssetType}"
         ],
-        "description": "Asset type common to collateral asset records."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_AssetCurrency",
+        "description": "Currency common to collateral asset records.",
         "roles": [
           {
             "concept": "CurrencyCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralAssetData} has currency {CurrencyCode}"
         ],
-        "description": "Currency common to collateral asset records."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_IssuerCountry",
+        "description": "Issuer country common to collateral asset records.",
         "roles": [
           {
             "concept": "CountryCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralAssetData} has issuer country {CountryCode}"
         ],
-        "description": "Issuer country common to collateral asset records."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "CollateralMarginReportingOntology",
@@ -205,16 +231,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_CollateralIdentifier",
     "relationship": {
       "name": "has_CollateralIdentifier",
+      "description": "Identifier common to collateral asset records.",
       "roles": [
         {
           "concept": "CollateralIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
       ],
-      "description": "Identifier common to collateral asset records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -238,16 +266,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_AssetType",
     "relationship": {
       "name": "has_AssetType",
+      "description": "Asset type common to collateral asset records.",
       "roles": [
         {
           "concept": "AssetType"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralAssetData} has asset type {AssetType}"
       ],
-      "description": "Asset type common to collateral asset records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -271,16 +301,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_AssetCurrency",
     "relationship": {
       "name": "has_AssetCurrency",
+      "description": "Currency common to collateral asset records.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralAssetData} has currency {CurrencyCode}"
       ],
-      "description": "Currency common to collateral asset records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -304,16 +336,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_IssuerCountry",
     "relationship": {
       "name": "has_IssuerCountry",
+      "description": "Issuer country common to collateral asset records.",
       "roles": [
         {
           "concept": "CountryCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralAssetData} has issuer country {CountryCode}"
       ],
-      "description": "Issuer country common to collateral asset records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -334,62 +368,75 @@ window.CATALOG_DATA = {
       "name": "CounterpartyData",
       "type": "EntityType",
       "description": "Base concept for counterparty-like records with legal identity and regulatory classification fields.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_CounterpartyIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_CounterpartyIdentifier",
+        "description": "Identifier common to counterparty-like records.",
         "roles": [
           {
             "concept": "CounterpartyIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
         ],
-        "description": "Identifier common to counterparty-like records."
+        "multiplicity": "OneToOne"
       },
       {
         "name": "has_LegalName",
+        "description": "Legal name common to counterparty-like records.",
         "roles": [
           {
             "concept": "LegalName"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CounterpartyData} has legal name {LegalName}"
         ],
-        "description": "Legal name common to counterparty-like records."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_DomicileCountry",
+        "description": "Domicile country common to counterparty-like records.",
         "roles": [
           {
             "concept": "CountryCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CounterpartyData} has domicile country {CountryCode}"
         ],
-        "description": "Domicile country common to counterparty-like records."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_RegulatorySegment",
+        "description": "Regulatory segment common to counterparty-like records.",
         "roles": [
           {
             "concept": "RegulatorySegment"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CounterpartyData} has regulatory segment {RegulatorySegment}"
         ],
-        "description": "Regulatory segment common to counterparty-like records."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "CollateralMarginReportingOntology",
@@ -414,16 +461,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_CounterpartyIdentifier",
     "relationship": {
       "name": "has_CounterpartyIdentifier",
+      "description": "Identifier common to counterparty-like records.",
       "roles": [
         {
           "concept": "CounterpartyIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
       ],
-      "description": "Identifier common to counterparty-like records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -447,16 +496,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_LegalName",
     "relationship": {
       "name": "has_LegalName",
+      "description": "Legal name common to counterparty-like records.",
       "roles": [
         {
           "concept": "LegalName"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CounterpartyData} has legal name {LegalName}"
       ],
-      "description": "Legal name common to counterparty-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -480,16 +531,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_DomicileCountry",
     "relationship": {
       "name": "has_DomicileCountry",
+      "description": "Domicile country common to counterparty-like records.",
       "roles": [
         {
           "concept": "CountryCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CounterpartyData} has domicile country {CountryCode}"
       ],
-      "description": "Domicile country common to counterparty-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -513,16 +566,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_RegulatorySegment",
     "relationship": {
       "name": "has_RegulatorySegment",
+      "description": "Regulatory segment common to counterparty-like records.",
       "roles": [
         {
           "concept": "RegulatorySegment"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CounterpartyData} has regulatory segment {RegulatorySegment}"
       ],
-      "description": "Regulatory segment common to counterparty-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -543,36 +598,45 @@ window.CATALOG_DATA = {
       "name": "ValuationData",
       "type": "EntityType",
       "description": "Base concept for valuation records with common valuation identity and date fields.",
+      "extends": [
+        "Any"
+      ],
+      "derived_by": [],
       "identify_by": [
         "has_ValuationIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "has_ValuationIdentifier",
+        "description": "Identifier common to valuation records.",
         "roles": [
           {
             "concept": "ValuationIdentifier"
           }
         ],
-        "multiplicity": "OneToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{ValuationData} has valuation identifier {ValuationIdentifier}"
         ],
-        "description": "Identifier common to valuation records."
+        "multiplicity": "OneToOne"
       },
       {
         "name": "has_ValuationDate",
+        "description": "Date common to valuation records.",
         "roles": [
           {
             "concept": "Date"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{ValuationData} has valuation date {Date}"
         ],
-        "description": "Date common to valuation records."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "CollateralMarginReportingOntology",
@@ -597,16 +661,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_ValuationIdentifier",
     "relationship": {
       "name": "has_ValuationIdentifier",
+      "description": "Identifier common to valuation records.",
       "roles": [
         {
           "concept": "ValuationIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{ValuationData} has valuation identifier {ValuationIdentifier}"
       ],
-      "description": "Identifier common to valuation records."
+      "multiplicity": "OneToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -630,16 +696,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_ValuationDate",
     "relationship": {
       "name": "has_ValuationDate",
+      "description": "Date common to valuation records.",
       "roles": [
         {
           "concept": "Date"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{ValuationData} has valuation date {Date}"
       ],
-      "description": "Date common to valuation records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -663,22 +731,26 @@ window.CATALOG_DATA = {
       "extends": [
         "CollateralAssetData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_CollateralIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "PART_OF_MarginAccount",
+        "description": "Margin account whose obligations are supported by this collateral asset.",
         "roles": [
           {
             "concept": "MarginAccount"
           }
         ],
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralAsset} is part of the collateral set for {MarginAccount}"
-        ],
-        "description": "Margin account whose obligations are supported by this collateral asset."
+        ]
       }
     ],
     "ontology": "CollateralMarginReportingOntology",
@@ -711,8 +783,8 @@ window.CATALOG_DATA = {
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "CollateralAsset",
         "expressions": [
           "collateral_positions.collateral_id"
         ],
@@ -783,8 +855,8 @@ window.CATALOG_DATA = {
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "CollateralAsset",
         "expressions": [
           "collateral_margin_report_lines.collateral_id"
         ],
@@ -834,62 +906,72 @@ window.CATALOG_DATA = {
       "extends": [
         "ValuationData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_ValuationIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "VALUES_CollateralAsset",
+        "description": "Collateral asset whose market value and haircut are measured by this valuation.",
         "roles": [
           {
             "concept": "CollateralAsset"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralValuation} values {CollateralAsset}"
         ],
-        "description": "Collateral asset whose market value and haircut are measured by this valuation."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_MarketValueAmount",
+        "description": "Gross market value before haircut.",
         "roles": [
           {
             "concept": "MonetaryAmount"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralValuation} has market value amount {MonetaryAmount}"
         ],
-        "description": "Gross market value before haircut."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_HaircutRate",
+        "description": "Haircut rate applied to the collateral valuation.",
         "roles": [
           {
             "concept": "Rate"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralValuation} has haircut rate {Rate}"
         ],
-        "description": "Haircut rate applied to the collateral valuation."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "has_EligibleCollateralValue",
+        "description": "Market value after haircut represented as an entity-level calculated collateral valuation amount.",
         "roles": [
           {
             "concept": "MonetaryAmount"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{CollateralValuation} has eligible collateral value {MonetaryAmount}"
         ],
-        "description": "Market value after haircut represented as an entity-level calculated collateral valuation amount."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "CollateralMarginReportingOntology",
@@ -913,8 +995,8 @@ window.CATALOG_DATA = {
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "CollateralValuation",
         "expressions": [
           "collateral_valuations.valuation_id"
         ],
@@ -1023,16 +1105,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_MarketValueAmount",
     "relationship": {
       "name": "has_MarketValueAmount",
+      "description": "Gross market value before haircut.",
       "roles": [
         {
           "concept": "MonetaryAmount"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralValuation} has market value amount {MonetaryAmount}"
       ],
-      "description": "Gross market value before haircut."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1056,16 +1140,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_HaircutRate",
     "relationship": {
       "name": "has_HaircutRate",
+      "description": "Haircut rate applied to the collateral valuation.",
       "roles": [
         {
           "concept": "Rate"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralValuation} has haircut rate {Rate}"
       ],
-      "description": "Haircut rate applied to the collateral valuation."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1089,16 +1175,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_EligibleCollateralValue",
     "relationship": {
       "name": "has_EligibleCollateralValue",
+      "description": "Market value after haircut represented as an entity-level calculated collateral valuation amount.",
       "roles": [
         {
           "concept": "MonetaryAmount"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralValuation} has eligible collateral value {MonetaryAmount}"
       ],
-      "description": "Market value after haircut represented as an entity-level calculated collateral valuation amount."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1114,7 +1202,6 @@ window.CATALOG_DATA = {
     "semantic_reference": "metric.eligible_collateral_value",
     "metric": {
       "name": "eligible_collateral_value",
-      "description": "Market value after haircut for regulatory eligible collateral reporting.",
       "expression": {
         "dialects": [
           {
@@ -1123,9 +1210,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Market value after haircut for regulatory eligible collateral reporting.",
       "ai_context": {
         "metric_type": "calculated_report_measure"
-      }
+      },
+      "custom_extensions": []
     }
   },
   "concept.Counterparty": {
@@ -1140,22 +1229,26 @@ window.CATALOG_DATA = {
       "extends": [
         "CounterpartyData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_CounterpartyIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "RELATED_TO_MarginAccount",
+        "description": "Margin accounts owned or controlled by the counterparty.",
         "roles": [
           {
             "concept": "MarginAccount"
           }
         ],
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{Counterparty} is related to {MarginAccount} through account ownership or control"
-        ],
-        "description": "Margin accounts owned or controlled by the counterparty."
+        ]
       }
     ],
     "ontology": "CollateralMarginReportingOntology",
@@ -1188,8 +1281,8 @@ window.CATALOG_DATA = {
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "Counterparty",
         "expressions": [
           "counterparties.counterparty_id"
         ],
@@ -1260,8 +1353,8 @@ window.CATALOG_DATA = {
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "Counterparty",
         "expressions": [
           "collateral_margin_report_lines.counterparty_id"
         ],
@@ -1311,48 +1404,56 @@ window.CATALOG_DATA = {
       "extends": [
         "AccountData"
       ],
+      "derived_by": [],
       "identify_by": [
         "has_AccountIdentifier"
-      ]
+      ],
+      "requires": []
     },
     "relationships": [
       {
         "name": "REFERENCES_Counterparty",
+        "description": "Counterparty that owns or controls the margin account.",
         "roles": [
           {
             "concept": "Counterparty"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{MarginAccount} is owned by {Counterparty}"
         ],
-        "description": "Counterparty that owns or controls the margin account."
+        "multiplicity": "ManyToOne"
       },
       {
         "name": "DEPENDS_ON_CollateralAsset",
+        "description": "Collateral assets pledged against this margin account.",
         "roles": [
           {
             "concept": "CollateralAsset"
           }
         ],
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{MarginAccount} depends on pledged {CollateralAsset} for margin coverage"
-        ],
-        "description": "Collateral assets pledged against this margin account."
+        ]
       },
       {
         "name": "has_BaseCurrency",
+        "description": "Currency used as the margin account base currency.",
         "roles": [
           {
             "concept": "CurrencyCode"
           }
         ],
-        "multiplicity": "ManyToOne",
+        "derived_by": [],
+        "requires": [],
         "verbalizes": [
           "{MarginAccount} has base currency {CurrencyCode}"
         ],
-        "description": "Currency used as the margin account base currency."
+        "multiplicity": "ManyToOne"
       }
     ],
     "ontology": "CollateralMarginReportingOntology",
@@ -1385,8 +1486,8 @@ window.CATALOG_DATA = {
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "MarginAccount",
         "expressions": [
           "margin_accounts.account_id"
         ],
@@ -1457,8 +1558,8 @@ window.CATALOG_DATA = {
       {
         "kind": "link_mapping",
         "level": 1,
-        "relationship": null,
-        "target_concept": null,
+        "relationship": "",
+        "target_concept": "MarginAccount",
         "expressions": [
           "collateral_margin_report_lines.account_id"
         ],
@@ -1507,16 +1608,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_BaseCurrency",
     "relationship": {
       "name": "has_BaseCurrency",
+      "description": "Currency used as the margin account base currency.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{MarginAccount} has base currency {CurrencyCode}"
       ],
-      "description": "Currency used as the margin account base currency."
+      "multiplicity": "ManyToOne"
     },
     "inherited": false,
     "inherited_from": "",
@@ -1540,16 +1643,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_CollateralIdentifier",
     "relationship": {
       "name": "has_CollateralIdentifier",
+      "description": "Identifier common to collateral asset records.",
       "roles": [
         {
           "concept": "CollateralIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
       ],
-      "description": "Identifier common to collateral asset records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "CollateralAssetData",
@@ -1573,16 +1678,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_AssetType",
     "relationship": {
       "name": "has_AssetType",
+      "description": "Asset type common to collateral asset records.",
       "roles": [
         {
           "concept": "AssetType"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralAssetData} has asset type {AssetType}"
       ],
-      "description": "Asset type common to collateral asset records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "CollateralAssetData",
@@ -1606,16 +1713,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_AssetCurrency",
     "relationship": {
       "name": "has_AssetCurrency",
+      "description": "Currency common to collateral asset records.",
       "roles": [
         {
           "concept": "CurrencyCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralAssetData} has currency {CurrencyCode}"
       ],
-      "description": "Currency common to collateral asset records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "CollateralAssetData",
@@ -1639,16 +1748,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_IssuerCountry",
     "relationship": {
       "name": "has_IssuerCountry",
+      "description": "Issuer country common to collateral asset records.",
       "roles": [
         {
           "concept": "CountryCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CollateralAssetData} has issuer country {CountryCode}"
       ],
-      "description": "Issuer country common to collateral asset records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "CollateralAssetData",
@@ -1672,16 +1783,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_ValuationIdentifier",
     "relationship": {
       "name": "has_ValuationIdentifier",
+      "description": "Identifier common to valuation records.",
       "roles": [
         {
           "concept": "ValuationIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{ValuationData} has valuation identifier {ValuationIdentifier}"
       ],
-      "description": "Identifier common to valuation records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "ValuationData",
@@ -1705,16 +1818,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_ValuationDate",
     "relationship": {
       "name": "has_ValuationDate",
+      "description": "Date common to valuation records.",
       "roles": [
         {
           "concept": "Date"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{ValuationData} has valuation date {Date}"
       ],
-      "description": "Date common to valuation records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "ValuationData",
@@ -1738,16 +1853,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_CounterpartyIdentifier",
     "relationship": {
       "name": "has_CounterpartyIdentifier",
+      "description": "Identifier common to counterparty-like records.",
       "roles": [
         {
           "concept": "CounterpartyIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
       ],
-      "description": "Identifier common to counterparty-like records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "CounterpartyData",
@@ -1771,16 +1888,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_LegalName",
     "relationship": {
       "name": "has_LegalName",
+      "description": "Legal name common to counterparty-like records.",
       "roles": [
         {
           "concept": "LegalName"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CounterpartyData} has legal name {LegalName}"
       ],
-      "description": "Legal name common to counterparty-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "CounterpartyData",
@@ -1804,16 +1923,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_DomicileCountry",
     "relationship": {
       "name": "has_DomicileCountry",
+      "description": "Domicile country common to counterparty-like records.",
       "roles": [
         {
           "concept": "CountryCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CounterpartyData} has domicile country {CountryCode}"
       ],
-      "description": "Domicile country common to counterparty-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "CounterpartyData",
@@ -1837,16 +1958,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_RegulatorySegment",
     "relationship": {
       "name": "has_RegulatorySegment",
+      "description": "Regulatory segment common to counterparty-like records.",
       "roles": [
         {
           "concept": "RegulatorySegment"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{CounterpartyData} has regulatory segment {RegulatorySegment}"
       ],
-      "description": "Regulatory segment common to counterparty-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "CounterpartyData",
@@ -1870,16 +1993,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_AccountIdentifier",
     "relationship": {
       "name": "has_AccountIdentifier",
+      "description": "Identifier common to account-like records.",
       "roles": [
         {
           "concept": "AccountIdentifier"
         }
       ],
-      "multiplicity": "OneToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{AccountData} has account identifier {AccountIdentifier}"
       ],
-      "description": "Identifier common to account-like records."
+      "multiplicity": "OneToOne"
     },
     "inherited": true,
     "inherited_from": "AccountData",
@@ -1903,16 +2028,18 @@ window.CATALOG_DATA = {
     "relationship_name": "has_AccountStatus",
     "relationship": {
       "name": "has_AccountStatus",
+      "description": "Status common to account-like records.",
       "roles": [
         {
           "concept": "StatusCode"
         }
       ],
-      "multiplicity": "ManyToOne",
+      "derived_by": [],
+      "requires": [],
       "verbalizes": [
         "{AccountData} has account status {StatusCode}"
       ],
-      "description": "Status common to account-like records."
+      "multiplicity": "ManyToOne"
     },
     "inherited": true,
     "inherited_from": "AccountData",
@@ -1934,6 +2061,7 @@ window.CATALOG_DATA = {
       "report_id",
       "line_number"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "report_id",
@@ -1945,11 +2073,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Identifier of the generated collateral margin report submission.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "line_number",
@@ -1961,11 +2092,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Line sequence number within a collateral margin report submission.",
         "ai_context": {
           "physical_type": "integer",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "account_id",
@@ -1977,11 +2111,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Margin account identifier reported on the output line.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "counterparty_id",
@@ -1993,11 +2130,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Counterparty identifier reported on the output line.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "collateral_id",
@@ -2009,11 +2149,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Collateral asset identifier reported on the output line.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "valuation_date",
@@ -2025,11 +2168,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Valuation date used for the reported collateral amount.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "eligible_collateral_value",
@@ -2041,13 +2187,19 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Reportable collateral value after applying haircut and eligibility calculation.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "reporting.collateral_margin_report_lines"
     ],
@@ -2130,6 +2282,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_margin_report_lines",
     "field": "report_id",
     "expression": "report_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2148,11 +2307,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Identifier of the generated collateral margin report submission.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.reporting.collateral_margin_report_lines.report_id": {
@@ -2173,6 +2335,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_margin_report_lines",
     "field": "line_number",
     "expression": "line_number",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "integer",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2191,11 +2360,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Line sequence number within a collateral margin report submission.",
       "ai_context": {
         "physical_type": "integer",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.reporting.collateral_margin_report_lines.line_number": {
@@ -2216,6 +2388,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_margin_report_lines",
     "field": "account_id",
     "expression": "account_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2234,11 +2413,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Margin account identifier reported on the output line.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.reporting.collateral_margin_report_lines.account_id": {
@@ -2259,6 +2441,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_margin_report_lines",
     "field": "counterparty_id",
     "expression": "counterparty_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2277,11 +2466,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Counterparty identifier reported on the output line.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.reporting.collateral_margin_report_lines.counterparty_id": {
@@ -2302,6 +2494,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_margin_report_lines",
     "field": "collateral_id",
     "expression": "collateral_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2320,11 +2519,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Collateral asset identifier reported on the output line.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.reporting.collateral_margin_report_lines.collateral_id": {
@@ -2345,6 +2547,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_margin_report_lines",
     "field": "valuation_date",
     "expression": "valuation_date",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "date",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2363,11 +2572,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Valuation date used for the reported collateral amount.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.reporting.collateral_margin_report_lines.valuation_date": {
@@ -2388,6 +2600,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_margin_report_lines",
     "field": "eligible_collateral_value",
     "expression": "eligible_collateral_value",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "decimal",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2406,11 +2625,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Reportable collateral value after applying haircut and eligibility calculation.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.reporting.collateral_margin_report_lines.eligible_collateral_value": {
@@ -2431,6 +2653,7 @@ window.CATALOG_DATA = {
     "primary_key": [
       "collateral_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "collateral_id",
@@ -2442,11 +2665,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable identifier for the pledged collateral asset position.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "account_id",
@@ -2458,11 +2684,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Margin account identifier to which the collateral position is assigned.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "asset_type",
@@ -2474,11 +2703,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Asset classification of the pledged collateral used for eligibility assessment.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "currency",
@@ -2490,11 +2722,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Denomination currency of the pledged collateral position.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "issuer_country",
@@ -2506,13 +2741,19 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules.",
         "ai_context": {
           "physical_type": "string",
           "nullable": true
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "collateral_master.collateral_positions"
     ],
@@ -2583,6 +2824,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_positions",
     "field": "collateral_id",
     "expression": "collateral_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2601,11 +2849,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable identifier for the pledged collateral asset position.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.collateral_master.collateral_positions.collateral_id": {
@@ -2626,6 +2877,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_positions",
     "field": "account_id",
     "expression": "account_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2644,11 +2902,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Margin account identifier to which the collateral position is assigned.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.collateral_master.collateral_positions.account_id": {
@@ -2669,6 +2930,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_positions",
     "field": "asset_type",
     "expression": "asset_type",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2687,11 +2955,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Asset classification of the pledged collateral used for eligibility assessment.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.collateral_master.collateral_positions.asset_type": {
@@ -2712,6 +2983,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_positions",
     "field": "currency",
     "expression": "currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2730,11 +3008,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Denomination currency of the pledged collateral position.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.collateral_master.collateral_positions.currency": {
@@ -2755,6 +3036,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_positions",
     "field": "issuer_country",
     "expression": "issuer_country",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": true
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2773,11 +3061,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules.",
       "ai_context": {
         "physical_type": "string",
         "nullable": true
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.collateral_master.collateral_positions.issuer_country": {
@@ -2798,6 +3089,7 @@ window.CATALOG_DATA = {
     "primary_key": [
       "valuation_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "valuation_id",
@@ -2809,11 +3101,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable identifier for a collateral valuation record.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "collateral_id",
@@ -2825,11 +3120,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Identifier of the pledged collateral asset being valued.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "valuation_date",
@@ -2841,11 +3139,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Business date on which the collateral market value and haircut are observed.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "market_value_amount",
@@ -2857,11 +3158,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Observed market value amount of the collateral before haircut adjustment.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "haircut_rate",
@@ -2873,13 +3177,19 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Haircut percentage applied to collateral market value for eligibility calculation.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "market_risk.collateral_valuations"
     ],
@@ -2950,6 +3260,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_valuations",
     "field": "valuation_id",
     "expression": "valuation_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -2968,11 +3285,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable identifier for a collateral valuation record.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_risk.collateral_valuations.valuation_id": {
@@ -2993,6 +3313,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_valuations",
     "field": "collateral_id",
     "expression": "collateral_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3011,11 +3338,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Identifier of the pledged collateral asset being valued.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_risk.collateral_valuations.collateral_id": {
@@ -3036,6 +3366,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_valuations",
     "field": "valuation_date",
     "expression": "valuation_date",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "date",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3054,11 +3391,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Business date on which the collateral market value and haircut are observed.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_risk.collateral_valuations.valuation_date": {
@@ -3079,6 +3419,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_valuations",
     "field": "market_value_amount",
     "expression": "market_value_amount",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "decimal",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3097,11 +3444,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Observed market value amount of the collateral before haircut adjustment.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_risk.collateral_valuations.market_value_amount": {
@@ -3122,6 +3472,13 @@ window.CATALOG_DATA = {
     "dataset": "collateral_valuations",
     "field": "haircut_rate",
     "expression": "haircut_rate",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "decimal",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3140,11 +3497,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Haircut percentage applied to collateral market value for eligibility calculation.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.market_risk.collateral_valuations.haircut_rate": {
@@ -3165,6 +3525,7 @@ window.CATALOG_DATA = {
     "primary_key": [
       "counterparty_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "counterparty_id",
@@ -3176,11 +3537,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable identifier for the legal counterparty reference record.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "legal_name",
@@ -3192,11 +3556,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Registered legal name of the reporting counterparty.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "domicile_country",
@@ -3208,11 +3575,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Country or jurisdiction where the counterparty is domiciled for regulatory classification.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "regulatory_segment",
@@ -3224,13 +3594,19 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Regulatory counterparty segment used for reporting categorization and eligibility rules.",
         "ai_context": {
           "physical_type": "string",
           "nullable": true
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "margin_core.counterparties"
     ],
@@ -3295,6 +3671,13 @@ window.CATALOG_DATA = {
     "dataset": "counterparties",
     "field": "counterparty_id",
     "expression": "counterparty_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3313,11 +3696,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable identifier for the legal counterparty reference record.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.margin_core.counterparties.counterparty_id": {
@@ -3338,6 +3724,13 @@ window.CATALOG_DATA = {
     "dataset": "counterparties",
     "field": "legal_name",
     "expression": "legal_name",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3356,11 +3749,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Registered legal name of the reporting counterparty.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.margin_core.counterparties.legal_name": {
@@ -3381,6 +3777,13 @@ window.CATALOG_DATA = {
     "dataset": "counterparties",
     "field": "domicile_country",
     "expression": "domicile_country",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3399,11 +3802,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Country or jurisdiction where the counterparty is domiciled for regulatory classification.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.margin_core.counterparties.domicile_country": {
@@ -3424,6 +3830,13 @@ window.CATALOG_DATA = {
     "dataset": "counterparties",
     "field": "regulatory_segment",
     "expression": "regulatory_segment",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": true
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3442,11 +3855,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Regulatory counterparty segment used for reporting categorization and eligibility rules.",
       "ai_context": {
         "physical_type": "string",
         "nullable": true
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.margin_core.counterparties.regulatory_segment": {
@@ -3467,6 +3883,7 @@ window.CATALOG_DATA = {
     "primary_key": [
       "account_id"
     ],
+    "unique_keys": [],
     "fields": [
       {
         "name": "account_id",
@@ -3478,11 +3895,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Stable identifier for a margin account record at account grain.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "counterparty_id",
@@ -3494,11 +3914,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Identifier of the legal counterparty responsible for the margin account.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "base_currency",
@@ -3510,11 +3933,14 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Currency in which the margin account obligation is primarily managed and reported.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       },
       {
         "name": "account_status",
@@ -3526,13 +3952,19 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "dimension": {},
+        "label": "",
         "description": "Operational status of the margin account used to determine reporting eligibility.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        }
+        },
+        "custom_extensions": []
       }
     ],
+    "ai_context": {
+      "physical_kind": "table"
+    },
     "source_tables": [
       "margin_core.margin_accounts"
     ],
@@ -3597,6 +4029,13 @@ window.CATALOG_DATA = {
     "dataset": "margin_accounts",
     "field": "account_id",
     "expression": "account_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3615,11 +4054,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Stable identifier for a margin account record at account grain.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.margin_core.margin_accounts.account_id": {
@@ -3640,6 +4082,13 @@ window.CATALOG_DATA = {
     "dataset": "margin_accounts",
     "field": "counterparty_id",
     "expression": "counterparty_id",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3658,11 +4107,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Identifier of the legal counterparty responsible for the margin account.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.margin_core.margin_accounts.counterparty_id": {
@@ -3683,6 +4135,13 @@ window.CATALOG_DATA = {
     "dataset": "margin_accounts",
     "field": "base_currency",
     "expression": "base_currency",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3701,11 +4160,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Currency in which the margin account obligation is primarily managed and reported.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.margin_core.margin_accounts.base_currency": {
@@ -3726,6 +4188,13 @@ window.CATALOG_DATA = {
     "dataset": "margin_accounts",
     "field": "account_status",
     "expression": "account_status",
+    "dimension": {},
+    "label": "",
+    "ai_context": {
+      "physical_type": "string",
+      "nullable": false
+    },
+    "custom_extensions": [],
     "semantic_model": "CollateralMarginSemanticModel",
     "semantic_models": [
       "CollateralMarginSemanticModel"
@@ -3744,11 +4213,14 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "dimension": {},
+      "label": "",
       "description": "Operational status of the margin account used to determine reporting eligibility.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      }
+      },
+      "custom_extensions": []
     }
   },
   "column.margin_core.margin_accounts.account_status": {
@@ -3776,9 +4248,12 @@ window.CATALOG_DATA = {
       "collateral_valuations.haircut_rate",
       "collateral_valuations.market_value_amount"
     ],
+    "ai_context": {
+      "metric_type": "calculated_report_measure"
+    },
+    "custom_extensions": [],
     "metric": {
       "name": "eligible_collateral_value",
-      "description": "Market value after haircut for regulatory eligible collateral reporting.",
       "expression": {
         "dialects": [
           {
@@ -3787,9 +4262,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Market value after haircut for regulatory eligible collateral reporting.",
       "ai_context": {
         "metric_type": "calculated_report_measure"
-      }
+      },
+      "custom_extensions": []
     }
   },
   "requirement.item": {

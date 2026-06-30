@@ -88,7 +88,9 @@ Profiles should show:
 - Description.
 - Relationship name and edge type.
 - Raw YAML for every node, edge, and field profile, using the structured YAML-derived record available to the UI.
-- YAML field names exactly when exposing YAML-specific sections; for example show `ai_context`, not `AI Context`.
+- YAML field names exactly when exposing YAML-specific sections; for example show `ai_context`, `custom_extensions`, `primary_key`, `unique_keys`, `dimension`, and `label`, not renamed display-only labels.
+- Node, edge, and field profiles must render OSI fields explicitly when present or intentionally generated as empty structures. Do not rely on Raw YAML as the only place a user can see OSI fields such as dataset `unique_keys`, dataset field `dimension` / `label`, metric `custom_extensions`, or relationship `derived_by` / `requires`.
+- When `ai_context` is an object with a human-readable `description`, `purpose`, `context`, `summary`, or `notes`, show that text directly as an `ai_context` profile row like other fields. If the object has only structured keys such as `physical_kind`, still render an `ai_context` row with compact JSON instead of hiding it. Do not render a large JSON block such as `{ "description": "..." }` for ordinary profile context; the full raw structure remains available in Raw YAML.
 - Source and target.
 - Requirement field when present.
 - Expression when present.
@@ -128,7 +130,7 @@ In the profile:
 - When the graph focus node is a Base Entity, select only the `EXTENDS` edge type by default so the initial graph shows inheritance only. Other edge types can still be enabled manually.
 - Hidden node-level edge chips must not contribute graph traversal. After edge filtering, render only nodes reachable from the current focus node through currently visible parent/node-level edges. If a node no longer has a visible path to the focus node, remove it from the graph even if it has field-level edges or was previously expanded.
 - Field-level edges may render only between fields whose parent nodes are already visible through focus-reachable node-level edges; selecting a field must not introduce an otherwise disconnected parent node. Field-level edge visibility is controlled by selected fields and selected metric overlays, not by Edge Type chips.
-- Do not add synthetic EntityType relationship properties such as a separate relationship-name property, `inverse`, `inverse_of`, `bidirectional`, `relationship_path`, generated `relationship`, or null-valued `multiplicity`. Business edge profiles should only show fields with a clear YAML source, such as the relationship `name` via `edge.label`, non-empty `verbalizes`, non-empty `requires`, non-empty `derived_by`, and the source `roles` array when needed.
+- Do not add synthetic EntityType relationship properties such as a separate relationship-name property, `inverse`, `inverse_of`, `bidirectional`, `relationship_path`, generated `relationship`, or null-valued `multiplicity`. Business edge profiles should only show fields with a clear YAML source, such as the relationship `name` via `edge.label`, non-empty `verbalizes`, non-empty `requires`, non-empty `derived_by`, and the source `roles` array when needed. Do not show derived UI helper rows such as `Edge Type` or `Action` for EntityType-to-EntityType business relationship profiles.
 
 ## Verification Checklist
 
