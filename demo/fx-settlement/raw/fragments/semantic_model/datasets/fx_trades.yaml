@@ -1,0 +1,80 @@
+name: fx_trades
+source: fx_trading_core.fx_trades
+primary_key:
+- trade_id
+description: Executed FX trade records at trade grain, carrying counterparty, currencies, notional amount, settlement date, and pricing reference used for settlement monitoring.
+ai_context:
+  physical_kind: table
+fields:
+- name: trade_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: trade_id
+  description: Stable source trade identifier for an executed FX trade.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: trade_date
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: trade_date
+  description: Business booking date of the FX trade.
+  ai_context:
+    physical_type: date
+    nullable: false
+- name: counterparty_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: counterparty_id
+  description: Counterparty identifier captured at trade execution.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: buy_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: buy_currency
+  description: Currency bought by the FX trade.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: sell_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: sell_currency
+  description: Currency sold by the FX trade.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: notional_amount
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: notional_amount
+  description: Trade notional amount before reporting-currency conversion.
+  ai_context:
+    physical_type: decimal
+    nullable: false
+- name: settlement_date
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_date
+  description: Contractual settlement date agreed for the FX trade.
+  ai_context:
+    physical_type: date
+    nullable: false
+- name: rate_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: rate_id
+  description: Reference identifier of the FX rate used for reporting conversion.
+  ai_context:
+    physical_type: string
+    nullable: false

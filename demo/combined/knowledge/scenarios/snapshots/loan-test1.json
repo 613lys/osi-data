@@ -1,0 +1,84 @@
+{
+  "id": "loan-test1",
+  "kind": "snapshot",
+  "name": "Loan - test1",
+  "description": "Saved graph view snapshot.",
+  "createdAt": "2026-06-30T13:03:44.559Z",
+  "updatedAt": "2026-06-30T13:03:45.734Z",
+  "view": {
+    "viewMode": "traceability",
+    "focusId": "requirement.item",
+    "selectedNodeId": "requirement.item",
+    "selectedOntology": "LoanExposureReportingOntology",
+    "selectedSemanticModel": "LoanExposureSemanticModel",
+    "maxDepth": 1,
+    "nodeTypes": [
+      "regulatory_requirement",
+      "report_implementation",
+      "entity_type_concept",
+      "base_entity_concept",
+      "semantic_dataset",
+      "semantic_metric",
+      "physical_table"
+    ],
+    "businessEdgeTypes": [
+      "REFERENCES"
+    ],
+    "edgeTypes": [
+      "REQUIRES_CONCEPT::regulatory_requirement::entity_type_concept",
+      "IMPLEMENTS::report_implementation::regulatory_requirement",
+      "SOURCE_TABLE::report_implementation::semantic_dataset",
+      "MAPS_TO::entity_type_concept::semantic_dataset",
+      "SOURCE_TABLE::semantic_dataset::physical_table",
+      "DATASET_JOIN::semantic_dataset::semantic_dataset",
+      "MAPS_TO::entity_type_concept::semantic_metric",
+      "DERIVED_BY::semantic_metric::semantic_dataset"
+    ],
+    "metricOverlays": [],
+    "tags": [],
+    "expanded": [
+      "concept.LoanProduct"
+    ],
+    "autoExpandSuppressed": [],
+    "hiddenNodes": [
+      "report_impl.item"
+    ],
+    "selectedEdgeId": null,
+    "selectedFieldId": null,
+    "selectedFieldIds": [],
+    "positions": [
+      [
+        "requirement.item",
+        {
+          "x": 136,
+          "y": 89
+        }
+      ],
+      [
+        "concept.Borrower",
+        {
+          "x": 442,
+          "y": 327
+        }
+      ],
+      [
+        "concept.Loan",
+        {
+          "x": 782,
+          "y": 102
+        }
+      ],
+      [
+        "concept.LoanProduct",
+        {
+          "x": 942,
+          "y": 310
+        }
+      ]
+    ],
+    "scroll": {
+      "left": 161,
+      "top": 46
+    }
+  }
+}

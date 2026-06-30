@@ -1,0 +1,63 @@
+name: FxTrade
+description: Executed foreign exchange trade that must be monitored through settlement completion and exposure reporting.
+extends:
+- TransactionData
+identify_by:
+- has_TransactionIdentifier
+relationships:
+- name: EXECUTED_WITH_Counterparty
+  roles:
+  - concept: Counterparty
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxTrade} is executed with {Counterparty}"
+  description: Counterparty with whom the FX trade was executed.
+- name: SETTLED_BY_SettlementInstruction
+  roles:
+  - concept: SettlementInstruction
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxTrade} is settled by {SettlementInstruction}"
+  description: Settlement instruction that operationally settles the FX trade.
+- name: PRICED_BY_FxRate
+  roles:
+  - concept: FxRate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxTrade} is priced by {FxRate}"
+  description: FX rate reference used to convert the trade amount into reporting currency.
+- name: has_BuyCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxTrade} has buy currency {CurrencyCode}"
+  description: Currency bought by the FX trade.
+- name: has_SellCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxTrade} has sell currency {CurrencyCode}"
+  description: Currency sold by the FX trade.
+- name: has_NotionalAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxTrade} has notional amount {MonetaryAmount}"
+  description: Original trade notional amount before reporting-currency conversion.
+- name: has_SettlementDate
+  roles:
+  - concept: CalendarDate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxTrade} has settlement date {CalendarDate}"
+  description: Contractual settlement date for the FX trade.
+- name: has_ReportCurrencyExposureAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxTrade} has report currency exposure amount {MonetaryAmount}"
+  description: Calculated exposure amount after applying the relevant FX rate for monitoring.

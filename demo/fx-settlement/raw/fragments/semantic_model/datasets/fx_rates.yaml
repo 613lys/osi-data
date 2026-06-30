@@ -1,0 +1,53 @@
+name: fx_rates
+source: market_data.fx_rates
+primary_key:
+- rate_id
+description: FX rate reference records at currency-pair and rate-date grain, used to convert trade notional amounts into reporting currency.
+ai_context:
+  physical_kind: table
+fields:
+- name: rate_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: rate_id
+  description: Stable identifier for an FX rate reference record.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: base_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: base_currency
+  description: Base currency of the FX quote.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: quote_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: quote_currency
+  description: Quote or reporting currency of the FX quote.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: rate_date
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: rate_date
+  description: Effective date of the FX rate.
+  ai_context:
+    physical_type: date
+    nullable: false
+- name: rate_value
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: rate_value
+  description: Decimal rate value used for currency conversion.
+  ai_context:
+    physical_type: decimal
+    nullable: false

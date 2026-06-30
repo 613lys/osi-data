@@ -504,6 +504,9 @@ semantic_model:
     - counterparty_id
     to_columns:
     - counterparty_id
+    ai_context:
+      description: Margin accounts use counterparty_id to attach legal counterparty
+        profile and jurisdiction attributes for collateral reporting.
   - name: pledge_collateral
     from: collateral_positions
     to: margin_accounts
@@ -511,6 +514,9 @@ semantic_model:
     - account_id
     to_columns:
     - account_id
+    ai_context:
+      description: Collateral positions join to margin accounts through account_id
+        to connect pledged assets with the account obligations they secure.
   - name: value_collateral
     from: collateral_valuations
     to: collateral_positions
@@ -518,6 +524,9 @@ semantic_model:
     - collateral_id
     to_columns:
     - collateral_id
+    ai_context:
+      description: Collateral valuations use collateral_id to attach current valuation,
+        haircut, and valuation date to the pledged collateral position.
   metrics:
   - name: eligible_collateral_value
     description: Market value after haircut for regulatory eligible collateral reporting.

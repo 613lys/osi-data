@@ -1,7 +1,39 @@
 {
   "ontology": "CollateralMarginReportingOntology",
+  "ontologies": [
+    "CollateralMarginReportingOntology"
+  ],
+  "source_ontologies": [
+    {
+      "name": "CollateralMarginReportingOntology",
+      "description": "OSI scenario for collateral margin regulatory reporting built from physical table metadata first.",
+      "version": "0.2.0.dev0",
+      "ai_context": {
+        "model_version": "1.0.0",
+        "owner": "Collateral Regulatory Reporting",
+        "source_systems": [
+          "margin_core",
+          "collateral_master",
+          "market_risk"
+        ]
+      },
+      "source_file": "knowledge/regulatory-reporting-osi.yaml"
+    }
+  ],
   "semantic_models": [
     "CollateralMarginSemanticModel"
+  ],
+  "source_semantic_models": [
+    {
+      "name": "CollateralMarginSemanticModel",
+      "description": "Table-backed semantic model for collateral margin reporting.",
+      "ai_context": null,
+      "mapping_name": "CollateralMarginSemanticMapping",
+      "ontology": "CollateralMarginReportingOntology",
+      "source_file": "knowledge/regulatory-reporting-osi.yaml",
+      "dataset_count": 5,
+      "metric_count": 1
+    }
   ],
   "entity_type_concepts": 8,
   "base_entity_concepts": 4,
@@ -10,5 +42,7 @@
   "report_data_logic": 1,
   "semantic_datasets": 5,
   "physical_tables": 5,
-  "edges": 197
+  "edges": 197,
+  "warning_count": 0,
+  "warnings": []
 }

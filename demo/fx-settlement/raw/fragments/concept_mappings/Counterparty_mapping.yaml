@@ -1,0 +1,38 @@
+concept: Counterparty
+object_mappings:
+- referent_mappings:
+  - relationship: has_CounterpartyIdentifier
+    expression: counterparties.counterparty_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CounterpartyIdentifier
+      expression: counterparties.counterparty_id
+  children:
+  - relationship: has_CounterpartyIdentifier
+    object_mapping:
+      concept: CounterpartyIdentifier
+      expression: counterparties.counterparty_id
+  - relationship: has_CounterpartyName
+    object_mapping:
+      concept: PartyName
+      expression: counterparties.counterparty_name
+  - relationship: has_CounterpartyCountry
+    object_mapping:
+      concept: CountryCode
+      expression: counterparties.counterparty_country
+  - relationship: has_RiskSegment
+    object_mapping:
+      concept: RiskSegment
+      expression: counterparties.risk_segment
+- object_mapping:
+    referent_mappings:
+    - relationship: has_CounterpartyIdentifier
+      expression: nostro_accounts.owner_counterparty_id
+  children:
+  - relationship: OWNS_NostroAccount
+    object_mapping:
+      concept: NostroAccount
+      referent_mappings:
+      - relationship: has_AccountIdentifier
+        expression: nostro_accounts.account_id

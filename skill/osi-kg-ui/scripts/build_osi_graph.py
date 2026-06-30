@@ -4,6 +4,7 @@ import argparse
 import json
 import re
 import shutil
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -36,6 +37,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Compile OSI regulatory-reporting YAML into graph indexes and frontend JS data.")
     parser.add_argument("--root", default=".", help="Project root. Relative input/output paths resolve against this directory.")
     parser.add_argument("--source", default="knowledge/regulatory-reporting-osi.yaml", help="Input OSI YAML path.")
+    parser.add_argument("--sources", nargs="+", help="One or more strict OSI YAML files to compile into a combined UI graph. Overrides --source when provided.")
     parser.add_argument("--app-metadata", default="knowledge/regulatory-reporting-app.yaml", help="Optional application-layer metadata YAML merged only for graph/UI generation.")
     parser.add_argument("--index-dir", default="knowledge/indexes", help="Output directory for graph/catalog/search/summary JSON.")
     parser.add_argument("--frontend-dir", default="frontend", help="Output directory for frontend JS data and optional UI template.")
@@ -64,6 +66,85 @@ def copy_frontend_template(template_dir: Path, frontend_dir: Path, overwrite: bo
             continue
         shutil.copy2(item, target)
 
+def display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT)).replace("\\", "/")
+    except ValueError:
+        return str(path).replace("\\", "/")
+
+
+def load_osi_sources(paths: list[Path]) -> dict[str, Any]:
+    docs: list[dict[str, Any]] = []
+    source_ontologies: list[dict[str, Any]] = []
+    for path in paths:
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        ontology_name = doc.get("name") or path.stem
+        source_file = display_path(path)
+        source_ontologies.append(
+            {
+                "name": ontology_name,
+                "description": doc.get("description", ""),
+                "version": doc.get("version", ""),
+                "ai_context": doc.get("ai_context"),
+                "source_file": source_file,
+            }
+        )
+        for component in doc.get("ontology") or []:
+            if isinstance(component, dict):
+                component["__source_ontology"] = ontology_name
+                component["__source_file"] = source_file
+        for ontology_map in doc.get("ontology_mappings") or []:
+            if isinstance(ontology_map, dict):
+                ontology_map["__source_ontology"] = ontology_name
+                ontology_map["__source_file"] = source_file
+        doc["source_ontologies"] = [source_ontologies[-1]]
+        docs.append(doc)
+
+    if len(docs) == 1:
+        return docs[0]
+
+    combined: dict[str, Any] = {
+        "version": docs[0].get("version", ""),
+        "name": "CombinedOSIModel",
+        "description": "UI-only compilation of multiple strict OSI YAML documents.",
+        "ontology": [],
+        "ontology_mappings": [],
+        "source_ontologies": source_ontologies,
+        "ai_context": {"source_ontologies": source_ontologies},
+    }
+    for doc in docs:
+        combined["ontology"].extend(doc.get("ontology") or [])
+        combined["ontology_mappings"].extend(doc.get("ontology_mappings") or [])
+    return combined
+
+
+
+def load_scenario_library(root: Path) -> dict[str, Any]:
+    scenario_root = root / "knowledge" / "scenarios"
+    result: dict[str, list[dict[str, Any]]] = {"presets": [], "snapshots": []}
+    folders = [("presets", "preset"), ("snapshots", "snapshot")]
+    for folder_name, kind in folders:
+        folder = scenario_root / folder_name
+        if not folder.exists():
+            continue
+        for path in sorted(folder.iterdir()):
+            if not path.is_file() or path.suffix.lower() not in {".yaml", ".yml", ".json"}:
+                continue
+            try:
+                if path.suffix.lower() == ".json":
+                    payload = json.loads(path.read_text(encoding="utf-8"))
+                else:
+                    payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            except Exception as exc:  # pragma: no cover - keep generation usable, but expose the bad file
+                payload = {"id": path.stem, "name": path.stem, "description": f"Could not parse scenario file: {exc}"}
+            if not isinstance(payload, dict):
+                continue
+            payload.setdefault("id", path.stem)
+            payload.setdefault("name", payload["id"])
+            payload["kind"] = "preset" if kind == "preset" else "snapshot"
+            payload["source_file"] = display_path(path)
+            result[folder_name].append(payload)
+    return result
 
 def compact_type(value: Any) -> str:
     return re.sub(r"[^A-Za-z0-9]+", "", str(value or ""))
@@ -129,9 +210,29 @@ def dataset_join_label(rel: dict[str, Any]) -> str:
     return "join " + ", ".join(pairs)
 
 
+MULTI_VALUE_NODE_PROPERTIES = {"ontologies", "semantic_models", "source_files", "source_datasets"}
+
+
+def as_unique_strings(value: Any) -> list[str]:
+    if value in (None, "", [], {}):
+        return []
+    values = value if isinstance(value, list) else [value]
+    return unique_list([str(item) for item in values if item not in (None, "")])
+
+
+def merge_node_properties(existing: dict[str, Any], incoming: dict[str, Any]) -> None:
+    for key, value in (incoming or {}).items():
+        if key in MULTI_VALUE_NODE_PROPERTIES:
+            existing[key] = unique_list(as_unique_strings(existing.get(key)) + as_unique_strings(value))
+            continue
+        if value in (None, "", [], {}):
+            continue
+        existing[key] = value
+
+
 def add_node(nodes: dict[str, dict[str, Any]], item_id: str, item_type: str, label: str, properties: dict[str, Any] | None = None) -> None:
     if item_id in nodes:
-        nodes[item_id]["properties"].update(properties or {})
+        merge_node_properties(nodes[item_id]["properties"], properties or {})
         return
     nodes[item_id] = {
         "id": item_id,
@@ -139,7 +240,6 @@ def add_node(nodes: dict[str, dict[str, Any]], item_id: str, item_type: str, lab
         "label": label,
         "properties": properties or {},
     }
-
 
 def add_edge(
     edges: dict[str, dict[str, Any]],
@@ -340,16 +440,50 @@ def unique_list(items: list[str]) -> list[str]:
     return ordered
 
 
+def custom_extension_payload(extension: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(extension, dict):
+        return {}
+    if "data" in extension:
+        data = extension.get("data")
+        if isinstance(data, dict):
+            return data
+        if isinstance(data, str) and data.strip():
+            try:
+                parsed = json.loads(data)
+                return parsed if isinstance(parsed, dict) else {"value": parsed}
+            except json.JSONDecodeError:
+                return {"value": data}
+        return {}
+    value = extension.get("value") or {}
+    if isinstance(value, dict):
+        payload = dict(value)
+    elif value not in (None, ""):
+        payload = {"value": value}
+    else:
+        payload = {}
+    if extension.get("name"):
+        payload.setdefault("name", extension.get("name"))
+    if extension.get("description"):
+        payload.setdefault("description", extension.get("description"))
+    return payload
+
+
 def custom_extension_values(dataset: dict[str, Any], names: set[str]) -> list[dict[str, Any]]:
     values: list[dict[str, Any]] = []
     for extension in dataset.get("custom_extensions") or []:
         if not isinstance(extension, dict):
             continue
-        if str(extension.get("name") or "") not in names:
+        payload = custom_extension_payload(extension)
+        extension_names = {
+            str(extension.get("name") or ""),
+            str(extension.get("vendor_name") or ""),
+            str(payload.get("name") or ""),
+            str(payload.get("kind") or ""),
+        }
+        if not names.intersection({item for item in extension_names if item}):
             continue
-        value = extension.get("value") or {}
-        if isinstance(value, dict):
-            values.append(value)
+        if payload:
+            values.append(payload)
     return values
 
 
@@ -378,18 +512,51 @@ def dataset_source_tables(dataset: dict[str, Any]) -> list[str]:
 
 
 def dataset_source_edge_description(dataset: dict[str, Any]) -> str:
-    for extension in dataset.get("custom_extensions") or []:
-        if not isinstance(extension, dict):
-            continue
-        if str(extension.get("name") or "") not in {"physical_source", "physical_sources", "source_query"}:
-            continue
-        value = extension.get("value") or {}
-        if isinstance(value, dict) and value.get("description"):
+    for value in custom_extension_values(dataset, {"physical_source", "physical_sources", "source_query", "query"}):
+        if value.get("description"):
             return str(value["description"])
-        if extension.get("description"):
-            return str(extension["description"])
+        if value.get("ai_context"):
+            return ai_context_summary(value.get("ai_context"))
     return ""
 
+
+def ai_context_summary(value: Any) -> str:
+    if value in (None, "", [], {}):
+        return ""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, list):
+        return " · ".join(item for item in (ai_context_summary(item) for item in value) if item)
+    if isinstance(value, dict):
+        for key in ("description", "purpose", "context", "summary", "notes"):
+            if value.get(key):
+                return str(value[key])
+        return json.dumps(value, ensure_ascii=False)
+    return str(value)
+
+
+
+def mapping_context(value: dict[str, Any], key: str) -> Any:
+    ai_context = value.get("ai_context") if isinstance(value, dict) else None
+    if isinstance(ai_context, dict) and key in ai_context:
+        return ai_context.get(key)
+    return value.get(key) if isinstance(value, dict) else None
+
+
+def dataset_physical_kind(dataset: dict[str, Any]) -> str:
+    return str(mapping_context(dataset, "physical_kind") or "")
+
+
+def field_physical_type(field: dict[str, Any]) -> str:
+    physical_type = mapping_context(field, "physical_type") or mapping_context(field, "data_type") or field.get("type")
+    return str(physical_type or "")
+
+
+def field_nullable(field: dict[str, Any]) -> Any:
+    value = mapping_context(field, "nullable")
+    if value is not None:
+        return value
+    return field.get("nullable", "")
 
 def scalar_expression_column(expression: str) -> str:
     text = str(expression or "").strip()
@@ -429,36 +596,128 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
     nodes: dict[str, dict[str, Any]] = {}
     edges: dict[str, dict[str, Any]] = {}
     catalog: dict[str, dict[str, Any]] = {}
+    warnings: list[dict[str, Any]] = []
 
-    ontology_id = node_id("ontology", data["name"]) if SHOW_CONTAINER_NODES else ""
+    source_ontology_entries = data.get("source_ontologies") or [
+        {
+            "name": data.get("name", "ontology"),
+            "description": data.get("description", ""),
+            "version": data.get("version", ""),
+            "ai_context": data.get("ai_context"),
+            "source_file": display_path(SOURCE),
+        }
+    ]
+    ontology_names = [entry.get("name") for entry in source_ontology_entries if entry.get("name")]
+    default_ontology_name = ontology_names[0] if ontology_names else data.get("name", "ontology")
+    ontology_name = ontology_names[0] if len(ontology_names) == 1 else data.get("name", "Multiple OSI Ontologies")
+    ontology_id = node_id("ontology", ontology_name) if SHOW_CONTAINER_NODES else ""
     if SHOW_CONTAINER_NODES:
         add_node(
             nodes,
             ontology_id,
             "ontology",
-            data["name"],
+            ontology_name,
             {
                 "description": data.get("description", ""),
                 "version": data.get("version"),
-                "source_file": str(SOURCE.relative_to(ROOT)).replace("\\", "/"),
+                "source_file": display_path(SOURCE),
             },
         )
         catalog[ontology_id] = {
             "id": ontology_id,
             "type": "ontology",
-            "name": data["name"],
+            "name": ontology_name,
             "description": data.get("description", ""),
             "version": data.get("version"),
             "ai_context": data.get("ai_context"),
         }
 
     declared_concepts: dict[str, dict[str, Any]] = {}
+
+    def merge_concept_list_field(existing_concept: dict[str, Any], incoming_concept: dict[str, Any], key: str) -> None:
+        existing_values = existing_concept.get(key) or []
+        incoming_values = incoming_concept.get(key) or []
+        if not isinstance(existing_values, list):
+            existing_values = [existing_values]
+        if not isinstance(incoming_values, list):
+            incoming_values = [incoming_values]
+        merged = unique_list([str(item) for item in [*existing_values, *incoming_values] if item])
+        if merged:
+            existing_concept[key] = merged
+
+    def merge_relationships(existing_relationships: list[dict[str, Any]], incoming_relationships: list[dict[str, Any]], concept_name: str) -> None:
+        by_name = {str(rel.get("name") or "relationship"): rel for rel in existing_relationships if isinstance(rel, dict)}
+        for rel in incoming_relationships:
+            if not isinstance(rel, dict):
+                continue
+            rel_name = str(rel.get("name") or "relationship")
+            if rel_name in by_name:
+                current = json.dumps(by_name[rel_name], sort_keys=True, ensure_ascii=False)
+                incoming = json.dumps(rel, sort_keys=True, ensure_ascii=False)
+                if current != incoming:
+                    warnings.append(
+                        {
+                            "type": "shared_concept_relationship_mismatch",
+                            "severity": "warning",
+                            "concept": concept_name,
+                            "relationship": rel_name,
+                            "message": f"Shared concept {concept_name!r} has different definitions for relationship {rel_name!r}; keeping the first definition for the shared graph node.",
+                        }
+                    )
+                continue
+            existing_relationships.append(rel)
+            by_name[rel_name] = rel
+
     for component in data.get("ontology") or []:
         concept = component.get("concept") or {}
         name = concept.get("name")
         if not name:
             continue
-        declared_concepts[name] = {"component": component, "concept": concept}
+        component_ontology = component.get("__source_ontology") or default_ontology_name
+        source_file = component.get("__source_file") or ""
+        if name in declared_concepts:
+            existing = declared_concepts[name]
+            existing_concept = existing["concept"]
+            if normalized_concept_type(existing_concept) != normalized_concept_type(concept):
+                raise SystemExit(
+                    f"Shared concept {name!r} has conflicting concept types: "
+                    f"{normalized_concept_type(existing_concept)!r} and {normalized_concept_type(concept)!r}."
+                )
+            existing_description = str(existing_concept.get("description") or "").strip()
+            incoming_description = str(concept.get("description") or "").strip()
+            if existing_description and incoming_description and existing_description != incoming_description:
+                warning = {
+                    "type": "shared_concept_description_mismatch",
+                    "severity": "warning",
+                    "concept": name,
+                    "message": f"Shared concept {name!r} has different non-empty descriptions; keeping the first description for the shared graph node.",
+                    "existing_ontologies": existing.get("ontologies") or [existing.get("ontology", default_ontology_name)],
+                    "incoming_ontology": component_ontology,
+                    "existing_source_files": existing.get("source_files") or ([existing.get("source_file", "")] if existing.get("source_file") else []),
+                    "incoming_source_file": source_file,
+                }
+                warnings.append(warning)
+                existing.setdefault("warnings", []).append(warning)
+            if not existing_concept.get("description") and concept.get("description"):
+                existing_concept["description"] = concept.get("description")
+            if not existing_concept.get("ai_context") and concept.get("ai_context"):
+                existing_concept["ai_context"] = concept.get("ai_context")
+            for list_key in ("extends", "identify_by", "requires"):
+                merge_concept_list_field(existing_concept, concept, list_key)
+            existing_component = existing["component"]
+            existing_relationships = existing_component.setdefault("relationships", [])
+            merge_relationships(existing_relationships, component.get("relationships") or [], name)
+            existing["ontologies"] = unique_list([*(existing.get("ontologies") or []), component_ontology])
+            existing["source_files"] = unique_list([*(existing.get("source_files") or []), source_file])
+            continue
+        declared_concepts[name] = {
+            "component": component,
+            "concept": concept,
+            "ontology": component_ontology,
+            "ontologies": [component_ontology],
+            "source_file": source_file,
+            "source_files": [source_file] if source_file else [],
+        }
 
     base_entity_names = {
         name
@@ -469,7 +728,12 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
     def ensure_concept(name: str) -> str:
         concept_id = node_id("concept", name)
         if name in declared_concepts:
-            concept = declared_concepts[name]["concept"]
+            concept_entry = declared_concepts[name]
+            concept = concept_entry["concept"]
+            concept_ontology = concept_entry.get("ontology", default_ontology_name)
+            concept_ontologies = concept_entry.get("ontologies") or [concept_ontology]
+            concept_source_files = concept_entry.get("source_files") or ([concept_entry.get("source_file", "")] if concept_entry.get("source_file") else [])
+            concept_warnings = concept_entry.get("warnings") or []
             concept_type = normalized_concept_type(concept)
             if not is_entity_concept_type(concept_type):
                 return ""
@@ -486,6 +750,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "extends": concept.get("extends") or [],
                     "identify_by": concept.get("identify_by") or [],
                     "requires": concept.get("requires") or [],
+                    "ontology": concept_ontology,
+                    "ontologies": concept_ontologies,
+                    "source_files": concept_source_files,
+                    "definition_warnings": concept_warnings,
                 },
             )
         elif SHOW_REFERENCED_BUILT_INS or name not in BUILT_INS:
@@ -516,6 +784,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
         if not owner_id:
             return ""
         value_id = node_id("value", f"{owner_name}.{rel_name}")
+        owner_entry = declared_concepts.get(owner_name, {})
+        owner_ontology = owner_entry.get("ontology", default_ontology_name)
+        owner_ontologies = owner_entry.get("ontologies") or [owner_ontology]
+        owner_source_files = owner_entry.get("source_files") or ([owner_entry.get("source_file", "")] if owner_entry.get("source_file") else [])
         verbalizes = "; ".join(rel.get("verbalizes") or [])
         base_owner_name = inherited_from or owner_name
         description = rel.get("description") or verbalizes or f"{base_owner_name}.{rel_name} uses {role_concept}."
@@ -530,6 +802,9 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 "inherited_from": inherited_from,
                 "base_relationship_path": f"{inherited_from}.{rel_name}" if inherited_from else "",
                 "inheritance_note": f"Inherited from {inherited_from}." if inherited_from else "",
+                "ontology": owner_ontology,
+                "ontologies": owner_ontologies,
+                "source_files": owner_source_files,
             },
         )
         add_node(
@@ -560,6 +835,9 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             "relationship": rel,
             "inherited": bool(inherited_from),
             "inherited_from": inherited_from,
+            "ontology": owner_ontology,
+            "ontologies": owner_ontologies,
+            "source_files": owner_source_files,
         }
         add_edge(
             edges,
@@ -592,6 +870,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             "description": concept.get("description", ""),
             "concept": concept,
             "relationships": component.get("relationships") or [],
+            "ontology": entry.get("ontology", default_ontology_name),
+            "ontologies": entry.get("ontologies") or [entry.get("ontology", default_ontology_name)],
+            "source_files": entry.get("source_files") or ([entry.get("source_file", "")] if entry.get("source_file") else []),
+            "definition_warnings": entry.get("warnings") or [],
             "mappings": [],
         }
         if SHOW_CONTAINER_NODES:
@@ -694,6 +976,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 )
 
     semantic_models: dict[str, dict[str, Any]] = {}
+    semantic_model_entries: list[dict[str, Any]] = []
     dataset_index: dict[str, dict[str, Any]] = {}
     field_index: dict[str, dict[str, Any]] = {}
     metric_definitions_by_name: dict[str, dict[str, Any]] = {}
@@ -701,8 +984,23 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
     for ontology_map in data.get("ontology_mappings") or []:
         sm = ontology_map.get("semantic_model") or {}
         sm_name = sm.get("name", "semantic_model")
+        mapping_ontology = ontology_map.get("__source_ontology") or default_ontology_name
         semantic_metric_names = {metric.get("name") for metric in sm.get("metrics") or [] if metric.get("name")}
+        if sm_name in semantic_models:
+            raise SystemExit(f"Duplicate semantic model name {sm_name!r}. Semantic model names must be globally unique in one UI compile batch.")
         semantic_models[sm_name] = sm
+        semantic_model_entries.append(
+            {
+                "name": sm_name,
+                "description": sm.get("description", ""),
+                "ai_context": sm.get("ai_context"),
+                "mapping_name": ontology_map.get("name", ""),
+                "ontology": mapping_ontology,
+                "source_file": ontology_map.get("__source_file", ""),
+                "dataset_count": len(sm.get("datasets") or []),
+                "metric_count": len(sm.get("metrics") or []),
+            }
+        )
         sm_id = node_id("semantic_model", sm_name)
         map_id = node_id("ontology_map", ontology_map.get("name", f"{sm_name}_map"))
 
@@ -744,25 +1042,47 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "source": dataset.get("source"),
                     "primary_key": dataset.get("primary_key") or [],
                     "field_count": len(dataset.get("fields") or []),
-                    "physical_kind": dataset.get("physical_kind") or "",
+                    "physical_kind": dataset_physical_kind(dataset),
                     "source_tables": source_tables,
                     "custom_extensions": dataset.get("custom_extensions") or [],
                     "semantic_model": sm_name,
+                    "semantic_models": [sm_name],
+                    "ontology": mapping_ontology,
                 },
             )
-            catalog[dataset_id] = {
-                "id": dataset_id,
-                "type": "semantic_dataset",
-                "name": dataset_name,
-                "description": dataset.get("description", ""),
-                "source": dataset.get("source"),
-                "primary_key": dataset.get("primary_key") or [],
-                "fields": dataset.get("fields") or [],
-                "source_tables": source_tables,
-                "physical_kind": dataset.get("physical_kind") or "",
-                "custom_extensions": dataset.get("custom_extensions") or [],
-                "semantic_model": sm_name,
-            }
+            dataset_catalog = catalog.setdefault(
+                dataset_id,
+                {
+                    "id": dataset_id,
+                    "type": "semantic_dataset",
+                    "name": dataset_name,
+                    "description": dataset.get("description", ""),
+                    "source": dataset.get("source"),
+                    "primary_key": dataset.get("primary_key") or [],
+                    "fields": dataset.get("fields") or [],
+                    "source_tables": source_tables,
+                    "physical_kind": dataset_physical_kind(dataset),
+                    "custom_extensions": dataset.get("custom_extensions") or [],
+                    "semantic_model": sm_name,
+                    "semantic_models": [sm_name],
+                    "ontology": mapping_ontology,
+                    "ontologies": [mapping_ontology],
+                },
+            )
+            dataset_catalog.setdefault("semantic_models", [])
+            if sm_name not in dataset_catalog["semantic_models"]:
+                dataset_catalog["semantic_models"].append(sm_name)
+            dataset_catalog.setdefault("ontologies", [])
+            if mapping_ontology not in dataset_catalog["ontologies"]:
+                dataset_catalog["ontologies"].append(mapping_ontology)
+            dataset_catalog["source_tables"] = unique_list([*(dataset_catalog.get("source_tables") or []), *source_tables])
+            dataset_node_props = nodes[dataset_id].setdefault("properties", {})
+            dataset_node_props.setdefault("semantic_models", [])
+            if sm_name not in dataset_node_props["semantic_models"]:
+                dataset_node_props["semantic_models"].append(sm_name)
+            dataset_node_props.setdefault("ontologies", [])
+            if mapping_ontology not in dataset_node_props["ontologies"]:
+                dataset_node_props["ontologies"].append(mapping_ontology)
             if SHOW_CONTAINER_NODES:
                 add_edge(edges, sm_id, dataset_id, "CONTAINS_TABLE", "dataset", f"{sm_name} contains dataset {dataset_name}.")
 
@@ -779,6 +1099,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         "source": table_ref,
                         "source_dataset": dataset_name,
                         "semantic_model": sm_name,
+                        "semantic_models": [sm_name],
+                        "ontology": mapping_ontology,
                     },
                 )
                 table_catalog = catalog.setdefault(
@@ -791,12 +1113,21 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         "source": table_ref,
                         "columns": [],
                         "source_datasets": [],
-                        "semantic_model": sm_name,
-                    },
-                )
+                            "semantic_model": sm_name,
+                            "semantic_models": [sm_name],
+                            "ontology": mapping_ontology,
+                        },
+                    )
                 table_catalog.setdefault("source_datasets", [])
                 if dataset_name not in table_catalog["source_datasets"]:
                     table_catalog["source_datasets"].append(dataset_name)
+                table_catalog.setdefault("semantic_models", [])
+                if sm_name not in table_catalog["semantic_models"]:
+                    table_catalog["semantic_models"].append(sm_name)
+                table_node_props = nodes[table_id].setdefault("properties", {})
+                table_node_props.setdefault("semantic_models", [])
+                if sm_name not in table_node_props["semantic_models"]:
+                    table_node_props["semantic_models"].append(sm_name)
                 add_edge(
                     edges,
                     dataset_id,
@@ -827,12 +1158,15 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     {
                         "description": field.get("description", ""),
                         "parent": dataset_id,
-                        "data_type": field.get("type") or ("time" if field.get("dimension", {}).get("is_time") else "field"),
-                        "nullable": field.get("nullable", ""),
+                        "data_type": field_physical_type(field) or ("time" if field.get("dimension", {}).get("is_time") else "field"),
+                        "nullable": field_nullable(field),
                         "expression": field_expression,
                         "dataset": dataset_name,
                         "field": field_name,
                         "semantic_model": sm_name,
+                        "semantic_models": [sm_name],
+                        "ontology": mapping_ontology,
+                        "ontologies": [mapping_ontology],
                     },
                 )
                 catalog[field_id] = {
@@ -844,6 +1178,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "dataset": dataset_name,
                     "field": field_name,
                     "expression": field_expression,
+                    "semantic_model": sm_name,
+                    "semantic_models": [sm_name],
+                    "ontology": mapping_ontology,
+                    "ontologies": [mapping_ontology],
                     "field_definition": field,
                 }
                 add_edge(
@@ -879,8 +1217,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         {
                             "description": field.get("description", ""),
                             "parent": table_id,
-                            "data_type": field.get("type") or "column",
-                            "nullable": field.get("nullable", ""),
+                            "data_type": field_physical_type(field) or "column",
+                            "nullable": field_nullable(field),
                             "expression": scalar_column,
                             "physical_field": column_ref,
                             "dataset_field": field_ref,
@@ -914,8 +1252,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                             {
                                 "name": scalar_column,
                                 "description": field.get("description", ""),
-                                "data_type": field.get("type") or "",
-                                "nullable": field.get("nullable", ""),
+                                "data_type": field_physical_type(field),
+                                "nullable": field_nullable(field),
                             }
                         )
                     add_edge(
@@ -954,17 +1292,21 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             source = dataset_node_id(rel.get("from", ""))
             target = dataset_node_id(rel.get("to", ""))
             join_label = dataset_join_label(rel)
+            rel_ai_context = rel.get("ai_context")
+            edge_properties = {
+                "join_name": rel.get("name", "join"),
+                "relationship": rel,
+            }
+            if rel_ai_context:
+                edge_properties["ai_context"] = rel_ai_context
             add_edge(
                 edges,
                 source,
                 target,
                 "DATASET_JOIN",
                 join_label,
-                rel.get("description") or "",
-                {
-                    "join_name": rel.get("name", "join"),
-                    "relationship": rel,
-                },
+                "",
+                edge_properties,
             )
 
         for metric in sm.get("metrics") or []:
@@ -988,6 +1330,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 {
                     "description": metric.get("description", ""),
                     "semantic_model": sm_name,
+                    "semantic_models": [sm_name],
+                    "ontology": mapping_ontology,
                     "semantic_metric": metric_name,
                     "expression": metric_expression,
                     "source_fields": metric_source_fields,
@@ -1000,7 +1344,9 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 "name": metric.get("label") or metric_name,
                 "description": metric.get("description", ""),
                 "semantic_model": sm_name,
-                "semantic_metric": metric_name,
+                    "semantic_models": [sm_name],
+                    "ontology": mapping_ontology,
+                    "semantic_metric": metric_name,
                 "expression": metric_expression,
                 "source_fields": metric_source_fields,
                 "metric": metric,
@@ -1622,8 +1968,11 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
         search.append({"id": item["id"], "type": item["type"], "text": " ".join(str(part) for part in text_parts if part)})
 
     summary = {
-        "ontology": data.get("name"),
+        "ontology": ontology_names[0] if len(ontology_names) == 1 else "Multiple OSI Ontologies",
+        "ontologies": ontology_names,
+        "source_ontologies": source_ontology_entries,
         "semantic_models": list(semantic_models),
+        "source_semantic_models": semantic_model_entries,
         "entity_type_concepts": sum(1 for entry in declared_concepts.values() if normalized_concept_type(entry["concept"]) == "EntityType"),
         "base_entity_concepts": len(base_entity_names),
         "value_type_concepts": sum(1 for entry in declared_concepts.values() if normalized_concept_type(entry["concept"]) == "ValueType"),
@@ -1632,6 +1981,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
         "semantic_datasets": sum(1 for n in graph["nodes"] if n["type"] == "semantic_dataset"),
         "physical_tables": sum(1 for n in graph["nodes"] if n["type"] == "physical_table"),
         "edges": len(graph["edges"]),
+        "warning_count": len(warnings),
+        "warnings": warnings,
     }
 
     return graph, catalog, {"summary": summary, "search": search}
@@ -1641,20 +1992,23 @@ def main() -> None:
     global ROOT, SOURCE, INDEX_DIR, FRONTEND_DIR
     args = parse_args()
     ROOT = Path(args.root).resolve()
-    SOURCE = resolve_path(args.source, ROOT).resolve()
+    source_values = args.sources or [args.source]
+    source_paths = [resolve_path(value, ROOT).resolve() for value in source_values]
+    SOURCE = source_paths[0]
     INDEX_DIR = resolve_path(args.index_dir, ROOT).resolve()
     FRONTEND_DIR = resolve_path(args.frontend_dir, ROOT).resolve()
     template_dir = resolve_path(args.template_dir, ROOT).resolve()
 
-    if not SOURCE.exists():
-        raise SystemExit(f"Input OSI YAML not found: {SOURCE}")
+    missing_sources = [path for path in source_paths if not path.exists()]
+    if missing_sources:
+        raise SystemExit("Input OSI YAML not found: " + ", ".join(str(path) for path in missing_sources))
 
     INDEX_DIR.mkdir(parents=True, exist_ok=True)
     FRONTEND_DIR.mkdir(parents=True, exist_ok=True)
     if args.copy_frontend_template:
         copy_frontend_template(template_dir, FRONTEND_DIR, args.overwrite_template)
 
-    data = yaml.safe_load(SOURCE.read_text(encoding="utf-8"))
+    data = load_osi_sources(source_paths)
     app_metadata_path = resolve_path(args.app_metadata, ROOT).resolve()
     if app_metadata_path.exists():
         app_metadata = yaml.safe_load(app_metadata_path.read_text(encoding="utf-8")) or {}
@@ -1662,15 +2016,20 @@ def main() -> None:
             if key in app_metadata:
                 data[key] = app_metadata[key]
     graph, catalog, meta = compile_catalog_and_graph(data)
+    for warning in meta.get("summary", {}).get("warnings", []):
+        print(f"WARNING: {warning.get('message', warning)}", file=sys.stderr)
 
     (INDEX_DIR / "graph.json").write_text(json.dumps(graph, indent=2, ensure_ascii=False), encoding="utf-8")
     (INDEX_DIR / "catalog.json").write_text(json.dumps(catalog, indent=2, ensure_ascii=False), encoding="utf-8")
     (INDEX_DIR / "search.json").write_text(json.dumps(meta["search"], indent=2, ensure_ascii=False), encoding="utf-8")
     (INDEX_DIR / "summary.json").write_text(json.dumps(meta["summary"], indent=2, ensure_ascii=False), encoding="utf-8")
+    scenario_library = load_scenario_library(ROOT)
+    (INDEX_DIR / "scenarios.json").write_text(json.dumps(scenario_library, indent=2, ensure_ascii=False), encoding="utf-8")
 
     graph_json = json.dumps(graph, indent=2, ensure_ascii=False)
     catalog_json = json.dumps(catalog, indent=2, ensure_ascii=False)
     summary_json = json.dumps(meta["summary"], indent=2, ensure_ascii=False)
+    scenario_json = json.dumps(scenario_library, indent=2, ensure_ascii=False)
 
     (FRONTEND_DIR / "graph-data.js").write_text(
         "window.GRAPH_DATA = " + graph_json + ";\nwindow.OSI_GRAPH_DATA = window.GRAPH_DATA;\n",
@@ -1684,10 +2043,35 @@ def main() -> None:
         "window.OSI_SUMMARY = " + summary_json + ";\n",
         encoding="utf-8",
     )
+    (FRONTEND_DIR / "scenario-data.js").write_text(
+        "window.SCENARIO_DATA = " + scenario_json + ";\n",
+        encoding="utf-8",
+    )
 
     print(f"Built {len(graph['nodes'])} nodes and {len(graph['edges'])} edges")
 
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

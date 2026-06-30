@@ -1,0 +1,712 @@
+[
+  {
+    "id": "concept.AccountData",
+    "type": "base_entity_concept",
+    "text": "concept.AccountData base_entity_concept AccountData Base concept for account-like records with common account identifiers. Base concept for account-like records with common account identifiers."
+  },
+  {
+    "id": "value.AccountData.has_AccountIdentifier",
+    "type": "value_type_property",
+    "text": "value.AccountData.has_AccountIdentifier value_type_property AccountIdentifier Identifier common to account-like records. Identifier common to account-like records."
+  },
+  {
+    "id": "concept.InstructionData",
+    "type": "base_entity_concept",
+    "text": "concept.InstructionData base_entity_concept InstructionData Base concept for operational instruction records with stable instruction identifiers. Base concept for operational instruction records with stable instruction identifiers."
+  },
+  {
+    "id": "value.InstructionData.has_InstructionIdentifier",
+    "type": "value_type_property",
+    "text": "value.InstructionData.has_InstructionIdentifier value_type_property InstructionIdentifier Identifier common to operational instruction records. Identifier common to operational instruction records."
+  },
+  {
+    "id": "concept.PartyData",
+    "type": "base_entity_concept",
+    "text": "concept.PartyData base_entity_concept PartyData Base concept for counterparty-like records with stable party identifiers. Base concept for counterparty-like records with stable party identifiers."
+  },
+  {
+    "id": "value.PartyData.has_CounterpartyIdentifier",
+    "type": "value_type_property",
+    "text": "value.PartyData.has_CounterpartyIdentifier value_type_property CounterpartyIdentifier Identifier common to counterparty or party records. Identifier common to counterparty or party records."
+  },
+  {
+    "id": "concept.ReferenceData",
+    "type": "base_entity_concept",
+    "text": "concept.ReferenceData base_entity_concept ReferenceData Base concept for reference-data records with stable reference identifiers. Base concept for reference-data records with stable reference identifiers."
+  },
+  {
+    "id": "value.ReferenceData.has_ReferenceIdentifier",
+    "type": "value_type_property",
+    "text": "value.ReferenceData.has_ReferenceIdentifier value_type_property ReferenceIdentifier Identifier common to reference-data records. Identifier common to reference-data records."
+  },
+  {
+    "id": "concept.TransactionData",
+    "type": "base_entity_concept",
+    "text": "concept.TransactionData base_entity_concept TransactionData Base concept for transaction-like records with stable transaction identifiers and booking dates. Base concept for transaction-like records with stable transaction identifiers and booking dates."
+  },
+  {
+    "id": "value.TransactionData.has_TransactionIdentifier",
+    "type": "value_type_property",
+    "text": "value.TransactionData.has_TransactionIdentifier value_type_property TransactionIdentifier Identifier common to transaction-like records. Identifier common to transaction-like records."
+  },
+  {
+    "id": "value.TransactionData.has_BookingDate",
+    "type": "value_type_property",
+    "text": "value.TransactionData.has_BookingDate value_type_property CalendarDate Business date common to transaction-like records. Business date common to transaction-like records."
+  },
+  {
+    "id": "concept.Counterparty",
+    "type": "entity_type_concept",
+    "text": "concept.Counterparty entity_type_concept Counterparty Legal entity or trading counterparty involved in FX trading or account ownership. Legal entity or trading counterparty involved in FX trading or account ownership. counterparties nostro_accounts counterparties.counterparty_country counterparties.counterparty_id counterparties.counterparty_name counterparties.risk_segment nostro_accounts.owner_counterparty_id"
+  },
+  {
+    "id": "concept.NostroAccount",
+    "type": "entity_type_concept",
+    "text": "concept.NostroAccount entity_type_concept NostroAccount Cash settlement account used for FX payment and receipt processing. Cash settlement account used for FX payment and receipt processing. nostro_accounts nostro_accounts.account_currency nostro_accounts.account_id nostro_accounts.account_status"
+  },
+  {
+    "id": "value.Counterparty.has_CounterpartyName",
+    "type": "value_type_property",
+    "text": "value.Counterparty.has_CounterpartyName value_type_property PartyName Human-readable legal or trading name of the counterparty. Human-readable legal or trading name of the counterparty."
+  },
+  {
+    "id": "value.Counterparty.has_CounterpartyCountry",
+    "type": "value_type_property",
+    "text": "value.Counterparty.has_CounterpartyCountry value_type_property CountryCode Country or jurisdiction associated with the counterparty. Country or jurisdiction associated with the counterparty."
+  },
+  {
+    "id": "value.Counterparty.has_RiskSegment",
+    "type": "value_type_property",
+    "text": "value.Counterparty.has_RiskSegment value_type_property RiskSegment Risk or client segment used for settlement monitoring. Risk or client segment used for settlement monitoring."
+  },
+  {
+    "id": "concept.FxRate",
+    "type": "entity_type_concept",
+    "text": "concept.FxRate entity_type_concept FxRate Reference FX rate used to convert trade amounts for monitoring and reporting. Reference FX rate used to convert trade amounts for monitoring and reporting. fx_rates fx_rates.base_currency fx_rates.quote_currency fx_rates.rate_date fx_rates.rate_id fx_rates.rate_value"
+  },
+  {
+    "id": "value.FxRate.has_BaseCurrency",
+    "type": "value_type_property",
+    "text": "value.FxRate.has_BaseCurrency value_type_property CurrencyCode Base currency of the FX rate quote. Base currency of the FX rate quote."
+  },
+  {
+    "id": "value.FxRate.has_QuoteCurrency",
+    "type": "value_type_property",
+    "text": "value.FxRate.has_QuoteCurrency value_type_property CurrencyCode Quote or reporting currency of the FX rate quote. Quote or reporting currency of the FX rate quote."
+  },
+  {
+    "id": "value.FxRate.has_RateDate",
+    "type": "value_type_property",
+    "text": "value.FxRate.has_RateDate value_type_property CalendarDate Date on which the FX rate is effective. Date on which the FX rate is effective."
+  },
+  {
+    "id": "value.FxRate.has_RateValue",
+    "type": "value_type_property",
+    "text": "value.FxRate.has_RateValue value_type_property Rate Decimal exchange rate value for the currency pair. Decimal exchange rate value for the currency pair."
+  },
+  {
+    "id": "concept.FxTrade",
+    "type": "entity_type_concept",
+    "text": "concept.FxTrade entity_type_concept FxTrade Executed foreign exchange trade that must be monitored through settlement completion and exposure reporting. Executed foreign exchange trade that must be monitored through settlement completion and exposure reporting. fx_trades settlement_instructions fx_trades.buy_currency fx_trades.notional_amount fx_trades.sell_currency fx_trades.settlement_date fx_trades.trade_date fx_trades.trade_id settlement_instructions.trade_id"
+  },
+  {
+    "id": "concept.SettlementInstruction",
+    "type": "entity_type_concept",
+    "text": "concept.SettlementInstruction entity_type_concept SettlementInstruction Payment or settlement instruction used to settle an FX trade through a nostro account. Payment or settlement instruction used to settle an FX trade through a nostro account. settlement_instructions settlement_instructions.actual_settlement_date settlement_instructions.expected_settlement_date settlement_instructions.settlement_amount settlement_instructions.settlement_currency settlement_instructions.settlement_instruction_id settlement_instructions.settlement_status settlement_instructions.settlement_value_date"
+  },
+  {
+    "id": "value.FxTrade.has_BuyCurrency",
+    "type": "value_type_property",
+    "text": "value.FxTrade.has_BuyCurrency value_type_property CurrencyCode Currency bought by the FX trade. Currency bought by the FX trade."
+  },
+  {
+    "id": "value.FxTrade.has_SellCurrency",
+    "type": "value_type_property",
+    "text": "value.FxTrade.has_SellCurrency value_type_property CurrencyCode Currency sold by the FX trade. Currency sold by the FX trade."
+  },
+  {
+    "id": "value.FxTrade.has_NotionalAmount",
+    "type": "value_type_property",
+    "text": "value.FxTrade.has_NotionalAmount value_type_property MonetaryAmount Original trade notional amount before reporting-currency conversion. Original trade notional amount before reporting-currency conversion."
+  },
+  {
+    "id": "value.FxTrade.has_SettlementDate",
+    "type": "value_type_property",
+    "text": "value.FxTrade.has_SettlementDate value_type_property CalendarDate Contractual settlement date for the FX trade. Contractual settlement date for the FX trade."
+  },
+  {
+    "id": "value.FxTrade.has_ReportCurrencyExposureAmount",
+    "type": "value_type_property",
+    "text": "value.FxTrade.has_ReportCurrencyExposureAmount value_type_property MonetaryAmount Calculated exposure amount after applying the relevant FX rate for monitoring. Calculated exposure amount after applying the relevant FX rate for monitoring."
+  },
+  {
+    "id": "value.NostroAccount.has_AccountCurrency",
+    "type": "value_type_property",
+    "text": "value.NostroAccount.has_AccountCurrency value_type_property CurrencyCode Currency in which the nostro account settles cash. Currency in which the nostro account settles cash."
+  },
+  {
+    "id": "value.NostroAccount.has_AccountStatus",
+    "type": "value_type_property",
+    "text": "value.NostroAccount.has_AccountStatus value_type_property StatusCode Operational lifecycle status of the nostro account. Operational lifecycle status of the nostro account."
+  },
+  {
+    "id": "value.SettlementInstruction.has_SettlementCurrency",
+    "type": "value_type_property",
+    "text": "value.SettlementInstruction.has_SettlementCurrency value_type_property CurrencyCode Currency in which the settlement instruction is executed. Currency in which the settlement instruction is executed."
+  },
+  {
+    "id": "value.SettlementInstruction.has_SettlementAmount",
+    "type": "value_type_property",
+    "text": "value.SettlementInstruction.has_SettlementAmount value_type_property MonetaryAmount Cash amount instructed for FX settlement. Cash amount instructed for FX settlement."
+  },
+  {
+    "id": "value.SettlementInstruction.has_SettlementValueDate",
+    "type": "value_type_property",
+    "text": "value.SettlementInstruction.has_SettlementValueDate value_type_property CalendarDate Value date on which the settlement instruction is expected to settle. Value date on which the settlement instruction is expected to settle."
+  },
+  {
+    "id": "value.SettlementInstruction.has_SettlementStatus",
+    "type": "value_type_property",
+    "text": "value.SettlementInstruction.has_SettlementStatus value_type_property SettlementStatus Operational status of the settlement instruction. Operational status of the settlement instruction."
+  },
+  {
+    "id": "value.SettlementInstruction.has_ExpectedSettlementDate",
+    "type": "value_type_property",
+    "text": "value.SettlementInstruction.has_ExpectedSettlementDate value_type_property CalendarDate Date by which settlement is expected to complete. Date by which settlement is expected to complete."
+  },
+  {
+    "id": "value.SettlementInstruction.has_ActualSettlementDate",
+    "type": "value_type_property",
+    "text": "value.SettlementInstruction.has_ActualSettlementDate value_type_property CalendarDate Date on which settlement actually completed. Date on which settlement actually completed."
+  },
+  {
+    "id": "value.SettlementInstruction.has_SettlementDelayDays",
+    "type": "value_type_property",
+    "text": "value.SettlementInstruction.has_SettlementDelayDays value_type_property DayCount Calculated number of days between expected and actual settlement completion. Calculated number of days between expected and actual settlement completion."
+  },
+  {
+    "id": "value.Counterparty.has_CounterpartyIdentifier",
+    "type": "value_type_property",
+    "text": "value.Counterparty.has_CounterpartyIdentifier value_type_property CounterpartyIdentifier Identifier common to counterparty or party records. Identifier common to counterparty or party records."
+  },
+  {
+    "id": "value.FxRate.has_ReferenceIdentifier",
+    "type": "value_type_property",
+    "text": "value.FxRate.has_ReferenceIdentifier value_type_property ReferenceIdentifier Identifier common to reference-data records. Identifier common to reference-data records."
+  },
+  {
+    "id": "value.FxTrade.has_TransactionIdentifier",
+    "type": "value_type_property",
+    "text": "value.FxTrade.has_TransactionIdentifier value_type_property TransactionIdentifier Identifier common to transaction-like records. Identifier common to transaction-like records."
+  },
+  {
+    "id": "value.FxTrade.has_BookingDate",
+    "type": "value_type_property",
+    "text": "value.FxTrade.has_BookingDate value_type_property CalendarDate Business date common to transaction-like records. Business date common to transaction-like records."
+  },
+  {
+    "id": "value.NostroAccount.has_AccountIdentifier",
+    "type": "value_type_property",
+    "text": "value.NostroAccount.has_AccountIdentifier value_type_property AccountIdentifier Identifier common to account-like records. Identifier common to account-like records."
+  },
+  {
+    "id": "value.SettlementInstruction.has_InstructionIdentifier",
+    "type": "value_type_property",
+    "text": "value.SettlementInstruction.has_InstructionIdentifier value_type_property InstructionIdentifier Identifier common to operational instruction records. Identifier common to operational instruction records."
+  },
+  {
+    "id": "dataset.counterparties",
+    "type": "semantic_dataset",
+    "text": "dataset.counterparties semantic_dataset counterparties Counterparty master records at legal entity grain, providing names, jurisdiction, and risk segment attributes used for FX settlement monitoring. Counterparty master records at legal entity grain, providing names, jurisdiction, and risk segment attributes used for FX settlement monitoring. counterparty_master.counterparties"
+  },
+  {
+    "id": "table.counterparty_master.counterparties",
+    "type": "physical_table",
+    "text": "table.counterparty_master.counterparties physical_table counterparties counterparty_master.counterparties"
+  },
+  {
+    "id": "field.counterparties.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.counterparties.counterparty_id dataset_field counterparty_id Stable master identifier for a trading or account counterparty. Stable master identifier for a trading or account counterparty."
+  },
+  {
+    "id": "column.counterparty_master.counterparties.counterparty_id",
+    "type": "column",
+    "text": "column.counterparty_master.counterparties.counterparty_id column counterparty_id Stable master identifier for a trading or account counterparty. Stable master identifier for a trading or account counterparty."
+  },
+  {
+    "id": "field.counterparties.counterparty_name",
+    "type": "dataset_field",
+    "text": "field.counterparties.counterparty_name dataset_field counterparty_name Legal or trading display name of the counterparty. Legal or trading display name of the counterparty."
+  },
+  {
+    "id": "column.counterparty_master.counterparties.counterparty_name",
+    "type": "column",
+    "text": "column.counterparty_master.counterparties.counterparty_name column counterparty_name Legal or trading display name of the counterparty. Legal or trading display name of the counterparty."
+  },
+  {
+    "id": "field.counterparties.counterparty_country",
+    "type": "dataset_field",
+    "text": "field.counterparties.counterparty_country dataset_field counterparty_country Country or jurisdiction associated with the counterparty master record. Country or jurisdiction associated with the counterparty master record."
+  },
+  {
+    "id": "column.counterparty_master.counterparties.counterparty_country",
+    "type": "column",
+    "text": "column.counterparty_master.counterparties.counterparty_country column counterparty_country Country or jurisdiction associated with the counterparty master record. Country or jurisdiction associated with the counterparty master record."
+  },
+  {
+    "id": "field.counterparties.risk_segment",
+    "type": "dataset_field",
+    "text": "field.counterparties.risk_segment dataset_field risk_segment Risk or client segment assigned to the counterparty for monitoring. Risk or client segment assigned to the counterparty for monitoring."
+  },
+  {
+    "id": "column.counterparty_master.counterparties.risk_segment",
+    "type": "column",
+    "text": "column.counterparty_master.counterparties.risk_segment column risk_segment Risk or client segment assigned to the counterparty for monitoring. Risk or client segment assigned to the counterparty for monitoring."
+  },
+  {
+    "id": "dataset.fx_rates",
+    "type": "semantic_dataset",
+    "text": "dataset.fx_rates semantic_dataset fx_rates FX rate reference records at currency-pair and rate-date grain, used to convert trade notional amounts into reporting currency. FX rate reference records at currency-pair and rate-date grain, used to convert trade notional amounts into reporting currency. market_data.fx_rates"
+  },
+  {
+    "id": "table.market_data.fx_rates",
+    "type": "physical_table",
+    "text": "table.market_data.fx_rates physical_table fx_rates market_data.fx_rates"
+  },
+  {
+    "id": "field.fx_rates.rate_id",
+    "type": "dataset_field",
+    "text": "field.fx_rates.rate_id dataset_field rate_id Stable identifier for an FX rate reference record. Stable identifier for an FX rate reference record."
+  },
+  {
+    "id": "column.market_data.fx_rates.rate_id",
+    "type": "column",
+    "text": "column.market_data.fx_rates.rate_id column rate_id Stable identifier for an FX rate reference record. Stable identifier for an FX rate reference record."
+  },
+  {
+    "id": "field.fx_rates.base_currency",
+    "type": "dataset_field",
+    "text": "field.fx_rates.base_currency dataset_field base_currency Base currency of the FX quote. Base currency of the FX quote."
+  },
+  {
+    "id": "column.market_data.fx_rates.base_currency",
+    "type": "column",
+    "text": "column.market_data.fx_rates.base_currency column base_currency Base currency of the FX quote. Base currency of the FX quote."
+  },
+  {
+    "id": "field.fx_rates.quote_currency",
+    "type": "dataset_field",
+    "text": "field.fx_rates.quote_currency dataset_field quote_currency Quote or reporting currency of the FX quote. Quote or reporting currency of the FX quote."
+  },
+  {
+    "id": "column.market_data.fx_rates.quote_currency",
+    "type": "column",
+    "text": "column.market_data.fx_rates.quote_currency column quote_currency Quote or reporting currency of the FX quote. Quote or reporting currency of the FX quote."
+  },
+  {
+    "id": "field.fx_rates.rate_date",
+    "type": "dataset_field",
+    "text": "field.fx_rates.rate_date dataset_field rate_date Effective date of the FX rate. Effective date of the FX rate."
+  },
+  {
+    "id": "column.market_data.fx_rates.rate_date",
+    "type": "column",
+    "text": "column.market_data.fx_rates.rate_date column rate_date Effective date of the FX rate. Effective date of the FX rate."
+  },
+  {
+    "id": "field.fx_rates.rate_value",
+    "type": "dataset_field",
+    "text": "field.fx_rates.rate_value dataset_field rate_value Decimal rate value used for currency conversion. Decimal rate value used for currency conversion."
+  },
+  {
+    "id": "column.market_data.fx_rates.rate_value",
+    "type": "column",
+    "text": "column.market_data.fx_rates.rate_value column rate_value Decimal rate value used for currency conversion. Decimal rate value used for currency conversion."
+  },
+  {
+    "id": "dataset.fx_settlement_monitoring_lines",
+    "type": "semantic_dataset",
+    "text": "dataset.fx_settlement_monitoring_lines semantic_dataset fx_settlement_monitoring_lines Prepared FX settlement monitoring line dataset at trade and settlement-instruction grain, combining trade, settlement, counterparty, account, and FX rate context for operational reporting review. Prepared FX settlement monitoring line dataset at trade and settlement-instruction grain, combining trade, settlement, counterparty, account, and FX rate context for operational reporting review. query.fx_settlement_monitoring_lines"
+  },
+  {
+    "id": "table.fx_trading_core.fx_trades",
+    "type": "physical_table",
+    "text": "table.fx_trading_core.fx_trades physical_table fx_trades fx_trading_core.fx_trades"
+  },
+  {
+    "id": "table.payments_core.settlement_instructions",
+    "type": "physical_table",
+    "text": "table.payments_core.settlement_instructions physical_table settlement_instructions payments_core.settlement_instructions"
+  },
+  {
+    "id": "table.nostro_master.nostro_accounts",
+    "type": "physical_table",
+    "text": "table.nostro_master.nostro_accounts physical_table nostro_accounts nostro_master.nostro_accounts"
+  },
+  {
+    "id": "field.fx_settlement_monitoring_lines.trade_id",
+    "type": "dataset_field",
+    "text": "field.fx_settlement_monitoring_lines.trade_id dataset_field trade_id Trade identifier carried onto the monitoring line for reconciliation. Trade identifier carried onto the monitoring line for reconciliation."
+  },
+  {
+    "id": "field.fx_settlement_monitoring_lines.settlement_instruction_id",
+    "type": "dataset_field",
+    "text": "field.fx_settlement_monitoring_lines.settlement_instruction_id dataset_field settlement_instruction_id Settlement instruction identifier carried onto the monitoring line. Settlement instruction identifier carried onto the monitoring line."
+  },
+  {
+    "id": "field.fx_settlement_monitoring_lines.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.fx_settlement_monitoring_lines.counterparty_id dataset_field counterparty_id Counterparty identifier reported for settlement monitoring and aggregation. Counterparty identifier reported for settlement monitoring and aggregation."
+  },
+  {
+    "id": "field.fx_settlement_monitoring_lines.settlement_currency",
+    "type": "dataset_field",
+    "text": "field.fx_settlement_monitoring_lines.settlement_currency dataset_field settlement_currency Settlement currency reported on the monitoring line. Settlement currency reported on the monitoring line."
+  },
+  {
+    "id": "field.fx_settlement_monitoring_lines.settlement_amount",
+    "type": "dataset_field",
+    "text": "field.fx_settlement_monitoring_lines.settlement_amount dataset_field settlement_amount Settlement amount reported on the monitoring line. Settlement amount reported on the monitoring line."
+  },
+  {
+    "id": "field.fx_settlement_monitoring_lines.settlement_status",
+    "type": "dataset_field",
+    "text": "field.fx_settlement_monitoring_lines.settlement_status dataset_field settlement_status Settlement status reported on the monitoring line. Settlement status reported on the monitoring line."
+  },
+  {
+    "id": "field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
+    "type": "dataset_field",
+    "text": "field.fx_settlement_monitoring_lines.exposure_amount_report_currency dataset_field exposure_amount_report_currency Trade notional converted into reporting currency for monitoring review. Trade notional converted into reporting currency for monitoring review."
+  },
+  {
+    "id": "field.fx_settlement_monitoring_lines.settlement_delay_days",
+    "type": "dataset_field",
+    "text": "field.fx_settlement_monitoring_lines.settlement_delay_days dataset_field settlement_delay_days Number of days between expected and actual settlement completion. Number of days between expected and actual settlement completion."
+  },
+  {
+    "id": "dataset.fx_trades",
+    "type": "semantic_dataset",
+    "text": "dataset.fx_trades semantic_dataset fx_trades Executed FX trade records at trade grain, carrying counterparty, currencies, notional amount, settlement date, and pricing reference used for settlement monitoring. Executed FX trade records at trade grain, carrying counterparty, currencies, notional amount, settlement date, and pricing reference used for settlement monitoring. fx_trading_core.fx_trades"
+  },
+  {
+    "id": "field.fx_trades.trade_id",
+    "type": "dataset_field",
+    "text": "field.fx_trades.trade_id dataset_field trade_id Stable source trade identifier for an executed FX trade. Stable source trade identifier for an executed FX trade."
+  },
+  {
+    "id": "column.fx_trading_core.fx_trades.trade_id",
+    "type": "column",
+    "text": "column.fx_trading_core.fx_trades.trade_id column trade_id Stable source trade identifier for an executed FX trade. Stable source trade identifier for an executed FX trade."
+  },
+  {
+    "id": "field.fx_trades.trade_date",
+    "type": "dataset_field",
+    "text": "field.fx_trades.trade_date dataset_field trade_date Business booking date of the FX trade. Business booking date of the FX trade."
+  },
+  {
+    "id": "column.fx_trading_core.fx_trades.trade_date",
+    "type": "column",
+    "text": "column.fx_trading_core.fx_trades.trade_date column trade_date Business booking date of the FX trade. Business booking date of the FX trade."
+  },
+  {
+    "id": "field.fx_trades.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.fx_trades.counterparty_id dataset_field counterparty_id Counterparty identifier captured at trade execution. Counterparty identifier captured at trade execution."
+  },
+  {
+    "id": "column.fx_trading_core.fx_trades.counterparty_id",
+    "type": "column",
+    "text": "column.fx_trading_core.fx_trades.counterparty_id column counterparty_id Counterparty identifier captured at trade execution. Counterparty identifier captured at trade execution."
+  },
+  {
+    "id": "field.fx_trades.buy_currency",
+    "type": "dataset_field",
+    "text": "field.fx_trades.buy_currency dataset_field buy_currency Currency bought by the FX trade. Currency bought by the FX trade."
+  },
+  {
+    "id": "column.fx_trading_core.fx_trades.buy_currency",
+    "type": "column",
+    "text": "column.fx_trading_core.fx_trades.buy_currency column buy_currency Currency bought by the FX trade. Currency bought by the FX trade."
+  },
+  {
+    "id": "field.fx_trades.sell_currency",
+    "type": "dataset_field",
+    "text": "field.fx_trades.sell_currency dataset_field sell_currency Currency sold by the FX trade. Currency sold by the FX trade."
+  },
+  {
+    "id": "column.fx_trading_core.fx_trades.sell_currency",
+    "type": "column",
+    "text": "column.fx_trading_core.fx_trades.sell_currency column sell_currency Currency sold by the FX trade. Currency sold by the FX trade."
+  },
+  {
+    "id": "field.fx_trades.notional_amount",
+    "type": "dataset_field",
+    "text": "field.fx_trades.notional_amount dataset_field notional_amount Trade notional amount before reporting-currency conversion. Trade notional amount before reporting-currency conversion."
+  },
+  {
+    "id": "column.fx_trading_core.fx_trades.notional_amount",
+    "type": "column",
+    "text": "column.fx_trading_core.fx_trades.notional_amount column notional_amount Trade notional amount before reporting-currency conversion. Trade notional amount before reporting-currency conversion."
+  },
+  {
+    "id": "field.fx_trades.settlement_date",
+    "type": "dataset_field",
+    "text": "field.fx_trades.settlement_date dataset_field settlement_date Contractual settlement date agreed for the FX trade. Contractual settlement date agreed for the FX trade."
+  },
+  {
+    "id": "column.fx_trading_core.fx_trades.settlement_date",
+    "type": "column",
+    "text": "column.fx_trading_core.fx_trades.settlement_date column settlement_date Contractual settlement date agreed for the FX trade. Contractual settlement date agreed for the FX trade."
+  },
+  {
+    "id": "field.fx_trades.rate_id",
+    "type": "dataset_field",
+    "text": "field.fx_trades.rate_id dataset_field rate_id Reference identifier of the FX rate used for reporting conversion. Reference identifier of the FX rate used for reporting conversion."
+  },
+  {
+    "id": "column.fx_trading_core.fx_trades.rate_id",
+    "type": "column",
+    "text": "column.fx_trading_core.fx_trades.rate_id column rate_id Reference identifier of the FX rate used for reporting conversion. Reference identifier of the FX rate used for reporting conversion."
+  },
+  {
+    "id": "dataset.nostro_accounts",
+    "type": "semantic_dataset",
+    "text": "dataset.nostro_accounts semantic_dataset nostro_accounts Nostro account master records at account grain, carrying account currency, operational status, and owner counterparty used for settlement routing. Nostro account master records at account grain, carrying account currency, operational status, and owner counterparty used for settlement routing. nostro_master.nostro_accounts"
+  },
+  {
+    "id": "field.nostro_accounts.account_id",
+    "type": "dataset_field",
+    "text": "field.nostro_accounts.account_id dataset_field account_id Stable account identifier for a nostro settlement account. Stable account identifier for a nostro settlement account."
+  },
+  {
+    "id": "column.nostro_master.nostro_accounts.account_id",
+    "type": "column",
+    "text": "column.nostro_master.nostro_accounts.account_id column account_id Stable account identifier for a nostro settlement account. Stable account identifier for a nostro settlement account."
+  },
+  {
+    "id": "field.nostro_accounts.account_currency",
+    "type": "dataset_field",
+    "text": "field.nostro_accounts.account_currency dataset_field account_currency Currency in which the nostro account settles cash movements. Currency in which the nostro account settles cash movements."
+  },
+  {
+    "id": "column.nostro_master.nostro_accounts.account_currency",
+    "type": "column",
+    "text": "column.nostro_master.nostro_accounts.account_currency column account_currency Currency in which the nostro account settles cash movements. Currency in which the nostro account settles cash movements."
+  },
+  {
+    "id": "field.nostro_accounts.account_status",
+    "type": "dataset_field",
+    "text": "field.nostro_accounts.account_status dataset_field account_status Operational lifecycle status of the nostro account. Operational lifecycle status of the nostro account."
+  },
+  {
+    "id": "column.nostro_master.nostro_accounts.account_status",
+    "type": "column",
+    "text": "column.nostro_master.nostro_accounts.account_status column account_status Operational lifecycle status of the nostro account. Operational lifecycle status of the nostro account."
+  },
+  {
+    "id": "field.nostro_accounts.owner_counterparty_id",
+    "type": "dataset_field",
+    "text": "field.nostro_accounts.owner_counterparty_id dataset_field owner_counterparty_id Counterparty identifier responsible for or owning the nostro account. Counterparty identifier responsible for or owning the nostro account."
+  },
+  {
+    "id": "column.nostro_master.nostro_accounts.owner_counterparty_id",
+    "type": "column",
+    "text": "column.nostro_master.nostro_accounts.owner_counterparty_id column owner_counterparty_id Counterparty identifier responsible for or owning the nostro account. Counterparty identifier responsible for or owning the nostro account."
+  },
+  {
+    "id": "dataset.settlement_instructions",
+    "type": "semantic_dataset",
+    "text": "dataset.settlement_instructions semantic_dataset settlement_instructions FX settlement instruction records at instruction grain, carrying the linked trade, nostro account, settlement currency, amount, value dates, and operational status. FX settlement instruction records at instruction grain, carrying the linked trade, nostro account, settlement currency, amount, value dates, and operational status. payments_core.settlement_instructions"
+  },
+  {
+    "id": "field.settlement_instructions.settlement_instruction_id",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.settlement_instruction_id dataset_field settlement_instruction_id Stable operational identifier for the FX settlement instruction. Stable operational identifier for the FX settlement instruction."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.settlement_instruction_id",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.settlement_instruction_id column settlement_instruction_id Stable operational identifier for the FX settlement instruction. Stable operational identifier for the FX settlement instruction."
+  },
+  {
+    "id": "field.settlement_instructions.trade_id",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.trade_id dataset_field trade_id Trade identifier whose cash movement is governed by the settlement instruction. Trade identifier whose cash movement is governed by the settlement instruction."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.trade_id",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.trade_id column trade_id Trade identifier whose cash movement is governed by the settlement instruction. Trade identifier whose cash movement is governed by the settlement instruction."
+  },
+  {
+    "id": "field.settlement_instructions.nostro_account_id",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.nostro_account_id dataset_field nostro_account_id Nostro account identifier used to settle the instruction. Nostro account identifier used to settle the instruction."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.nostro_account_id",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.nostro_account_id column nostro_account_id Nostro account identifier used to settle the instruction. Nostro account identifier used to settle the instruction."
+  },
+  {
+    "id": "field.settlement_instructions.settlement_currency",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.settlement_currency dataset_field settlement_currency Currency in which the instruction settles. Currency in which the instruction settles."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.settlement_currency",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.settlement_currency column settlement_currency Currency in which the instruction settles. Currency in which the instruction settles."
+  },
+  {
+    "id": "field.settlement_instructions.settlement_amount",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.settlement_amount dataset_field settlement_amount Monetary cash obligation that the instruction must settle in the stated settlement currency. Monetary cash obligation that the instruction must settle in the stated settlement currency."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.settlement_amount",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.settlement_amount column settlement_amount Monetary cash obligation that the instruction must settle in the stated settlement currency. Monetary cash obligation that the instruction must settle in the stated settlement currency."
+  },
+  {
+    "id": "field.settlement_instructions.settlement_value_date",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.settlement_value_date dataset_field settlement_value_date Value date expected for settlement posting. Value date expected for settlement posting."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.settlement_value_date",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.settlement_value_date column settlement_value_date Value date expected for settlement posting. Value date expected for settlement posting."
+  },
+  {
+    "id": "field.settlement_instructions.expected_settlement_date",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.expected_settlement_date dataset_field expected_settlement_date Date by which the instruction should complete settlement. Date by which the instruction should complete settlement."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.expected_settlement_date",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.expected_settlement_date column expected_settlement_date Date by which the instruction should complete settlement. Date by which the instruction should complete settlement."
+  },
+  {
+    "id": "field.settlement_instructions.actual_settlement_date",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.actual_settlement_date dataset_field actual_settlement_date Date on which the instruction actually completed settlement. Date on which the instruction actually completed settlement."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.actual_settlement_date",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.actual_settlement_date column actual_settlement_date Date on which the instruction actually completed settlement. Date on which the instruction actually completed settlement."
+  },
+  {
+    "id": "field.settlement_instructions.settlement_status",
+    "type": "dataset_field",
+    "text": "field.settlement_instructions.settlement_status dataset_field settlement_status Operational status assigned to the settlement instruction. Operational status assigned to the settlement instruction."
+  },
+  {
+    "id": "column.payments_core.settlement_instructions.settlement_status",
+    "type": "column",
+    "text": "column.payments_core.settlement_instructions.settlement_status column settlement_status Operational status assigned to the settlement instruction. Operational status assigned to the settlement instruction."
+  },
+  {
+    "id": "metric.report_currency_exposure_amount",
+    "type": "semantic_metric",
+    "text": "metric.report_currency_exposure_amount semantic_metric report_currency_exposure_amount FX trade notional amount converted into reporting currency using the referenced FX rate. FX trade notional amount converted into reporting currency using the referenced FX rate."
+  },
+  {
+    "id": "metric.settlement_delay_days",
+    "type": "semantic_metric",
+    "text": "metric.settlement_delay_days semantic_metric settlement_delay_days Settlement delay measured as the day difference between expected and actual settlement completion dates. Settlement delay measured as the day difference between expected and actual settlement completion dates."
+  },
+  {
+    "id": "requirement.item",
+    "type": "regulatory_requirement",
+    "text": "requirement.item regulatory_requirement 外汇结算监测报送需求 监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。\n 监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。\n Treasury FX Settlement Monitoring BRD v1.0 section 2.4"
+  },
+  {
+    "id": "requirement_item..FxTrade.has_TransactionIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..FxTrade.has_TransactionIdentifier requirement_semantic_item 交易标识 需求需要交易标识，用于唯一识别每笔外汇交易并支持报表行级对账。 需求需要交易标识，用于唯一识别每笔外汇交易并支持报表行级对账。"
+  },
+  {
+    "id": "requirement_item..SettlementInstruction.has_InstructionIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..SettlementInstruction.has_InstructionIdentifier requirement_semantic_item 结算指令标识 需求需要结算指令标识，用于定位执行结算的运营指令并追踪处理状态。 需求需要结算指令标识，用于定位执行结算的运营指令并追踪处理状态。"
+  },
+  {
+    "id": "requirement_item..Counterparty.has_CounterpartyIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Counterparty.has_CounterpartyIdentifier requirement_semantic_item 交易对手标识 需求需要交易对手标识，用于识别交易责任主体并支持风险分组。 需求需要交易对手标识，用于识别交易责任主体并支持风险分组。"
+  },
+  {
+    "id": "requirement_item..SettlementInstruction.has_SettlementCurrency",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..SettlementInstruction.has_SettlementCurrency requirement_semantic_item 结算币种 需求需要结算币种，用于说明现金实际交收的币种口径。 需求需要结算币种，用于说明现金实际交收的币种口径。"
+  },
+  {
+    "id": "requirement_item..SettlementInstruction.has_SettlementAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..SettlementInstruction.has_SettlementAmount requirement_semantic_item 结算金额 需求需要结算金额，用于展示外汇结算现金金额并支持金额级对账。 需求需要结算金额，用于展示外汇结算现金金额并支持金额级对账。"
+  },
+  {
+    "id": "requirement_item..SettlementInstruction.has_SettlementStatus",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..SettlementInstruction.has_SettlementStatus requirement_semantic_item 结算状态 需求需要结算状态，用于识别未完成、失败或已完成的结算指令。 需求需要结算状态，用于识别未完成、失败或已完成的结算指令。"
+  },
+  {
+    "id": "requirement_item..FxTrade.has_ReportCurrencyExposureAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..FxTrade.has_ReportCurrencyExposureAmount requirement_semantic_item 折算后报送币种敞口金额 需求需要将外汇交易名义金额按汇率折算为报送币种金额，用于衡量结算风险敞口。"
+  },
+  {
+    "id": "requirement_item..SettlementInstruction.has_SettlementDelayDays",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..SettlementInstruction.has_SettlementDelayDays requirement_semantic_item 结算延迟天数 需求需要计算预计结算日和实际结算日之间的延迟天数，用于识别结算超时风险。"
+  },
+  {
+    "id": "report_impl.item",
+    "type": "report_implementation",
+    "text": "report_impl.item report_implementation 每日外汇结算监测数据逻辑 说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。 说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。"
+  },
+  {
+    "id": "implementation_field.fx_settlement_monitoring_lines.trade_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.fx_settlement_monitoring_lines.trade_id implementation_field_binding 交易标识逻辑 数据逻辑说明监测明细字段 trade_id 如何承载交易标识需求，并从外汇交易数据取得交易主键。 数据逻辑说明监测明细字段 trade_id 如何承载交易标识需求，并从外汇交易数据取得交易主键。"
+  },
+  {
+    "id": "implementation_field.fx_settlement_monitoring_lines.settlement_instruction_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.fx_settlement_monitoring_lines.settlement_instruction_id implementation_field_binding 结算指令标识逻辑 数据逻辑说明监测明细字段 settlement_instruction_id 如何承载结算指令标识需求，并从结算指令数据取得运营指令主键。 数据逻辑说明监测明细字段 settlement_instruction_id 如何承载结算指令标识需求，并从结算指令数据取得运营指令主键。"
+  },
+  {
+    "id": "implementation_field.fx_settlement_monitoring_lines.counterparty_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.fx_settlement_monitoring_lines.counterparty_id implementation_field_binding 交易对手标识逻辑 数据逻辑说明监测明细字段 counterparty_id 如何承载交易对手标识需求，并使用交易上的交易对手引用。 数据逻辑说明监测明细字段 counterparty_id 如何承载交易对手标识需求，并使用交易上的交易对手引用。"
+  },
+  {
+    "id": "implementation_field.fx_settlement_monitoring_lines.settlement_currency",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.fx_settlement_monitoring_lines.settlement_currency implementation_field_binding 结算币种逻辑 数据逻辑说明监测明细字段 settlement_currency 如何承载结算币种需求，并从结算指令取得实际交收币种。 数据逻辑说明监测明细字段 settlement_currency 如何承载结算币种需求，并从结算指令取得实际交收币种。"
+  },
+  {
+    "id": "implementation_field.fx_settlement_monitoring_lines.settlement_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.fx_settlement_monitoring_lines.settlement_amount implementation_field_binding 结算金额逻辑 数据逻辑说明监测明细字段 settlement_amount 如何承载结算金额需求，并从结算指令取得现金交收金额。 数据逻辑说明监测明细字段 settlement_amount 如何承载结算金额需求，并从结算指令取得现金交收金额。"
+  },
+  {
+    "id": "implementation_field.fx_settlement_monitoring_lines.settlement_status",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.fx_settlement_monitoring_lines.settlement_status implementation_field_binding 结算状态逻辑 数据逻辑说明监测明细字段 settlement_status 如何承载结算状态需求，并从结算指令取得运营处理状态。 数据逻辑说明监测明细字段 settlement_status 如何承载结算状态需求，并从结算指令取得运营处理状态。"
+  },
+  {
+    "id": "implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency implementation_field_binding 折算后报送币种敞口金额逻辑 数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。 数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。"
+  },
+  {
+    "id": "implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.fx_settlement_monitoring_lines.settlement_delay_days implementation_field_binding 结算延迟天数逻辑 数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。 数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。"
+  }
+]

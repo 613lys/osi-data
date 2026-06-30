@@ -1,0 +1,63 @@
+- name: fx_trade_counterparty
+  from: fx_trades
+  to: counterparties
+  from_columns:
+  - counterparty_id
+  to_columns:
+  - counterparty_id
+  ai_context:
+    description: FX trades use counterparty_id to attach the legal entity profile needed for settlement exposure monitoring.
+- name: fx_trade_rate
+  from: fx_trades
+  to: fx_rates
+  from_columns:
+  - rate_id
+  to_columns:
+  - rate_id
+  ai_context:
+    description: FX trades use rate_id to resolve the rate record used to convert trade notional into reporting currency.
+- name: settlement_trade
+  from: settlement_instructions
+  to: fx_trades
+  from_columns:
+  - trade_id
+  to_columns:
+  - trade_id
+  ai_context:
+    description: Settlement instructions use trade_id to connect operational settlement status to the executed FX trade.
+- name: settlement_nostro_account
+  from: settlement_instructions
+  to: nostro_accounts
+  from_columns:
+  - nostro_account_id
+  to_columns:
+  - account_id
+  ai_context:
+    description: Settlement instructions use nostro_account_id to identify the cash account used for settlement routing.
+- name: account_owner_counterparty
+  from: nostro_accounts
+  to: counterparties
+  from_columns:
+  - owner_counterparty_id
+  to_columns:
+  - counterparty_id
+  ai_context:
+    description: Nostro accounts use owner_counterparty_id to identify the responsible counterparty or banking entity.
+- name: monitoring_line_trade
+  from: fx_settlement_monitoring_lines
+  to: fx_trades
+  from_columns:
+  - trade_id
+  to_columns:
+  - trade_id
+  ai_context:
+    description: Monitoring lines reconcile to FX trades through trade_id to preserve row-level trade traceability.
+- name: monitoring_line_instruction
+  from: fx_settlement_monitoring_lines
+  to: settlement_instructions
+  from_columns:
+  - settlement_instruction_id
+  to_columns:
+  - settlement_instruction_id
+  ai_context:
+    description: Monitoring lines reconcile to settlement instructions through settlement_instruction_id for operational status traceability.

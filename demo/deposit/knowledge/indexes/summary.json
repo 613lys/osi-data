@@ -1,7 +1,40 @@
 {
   "ontology": "DepositLiquidityReportingOntology",
+  "ontologies": [
+    "DepositLiquidityReportingOntology"
+  ],
+  "source_ontologies": [
+    {
+      "name": "DepositLiquidityReportingOntology",
+      "description": "OSI scenario for deposit liquidity and stable funding regulatory reporting built from deposit account, customer, product, and prepared report-line metadata.",
+      "version": "0.2.0.dev0",
+      "ai_context": {
+        "model_version": "1.0.0",
+        "owner": "Treasury Liquidity Regulatory Reporting",
+        "source_systems": [
+          "core_deposit",
+          "customer_master",
+          "product_master",
+          "liquidity_risk_engine"
+        ]
+      },
+      "source_file": "knowledge/regulatory-reporting-osi.yaml"
+    }
+  ],
   "semantic_models": [
     "DepositLiquiditySemanticModel"
+  ],
+  "source_semantic_models": [
+    {
+      "name": "DepositLiquiditySemanticModel",
+      "description": "Semantic model for deposit liquidity reporting across account balances, customer master data, product runoff parameters, and prepared report lines.",
+      "ai_context": null,
+      "mapping_name": "DepositLiquiditySemanticMapping",
+      "ontology": "DepositLiquidityReportingOntology",
+      "source_file": "knowledge/regulatory-reporting-osi.yaml",
+      "dataset_count": 4,
+      "metric_count": 2
+    }
   ],
   "entity_type_concepts": 6,
   "base_entity_concepts": 3,
@@ -10,5 +43,7 @@
   "report_data_logic": 1,
   "semantic_datasets": 4,
   "physical_tables": 3,
-  "edges": 222
+  "edges": 222,
+  "warning_count": 0,
+  "warnings": []
 }

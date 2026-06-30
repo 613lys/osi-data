@@ -520,6 +520,9 @@ semantic_model:
     - customer_id
     to_columns:
     - customer_id
+    ai_context:
+      description: Deposit account balances use customer_id to attach depositor segment
+        and country attributes required for liquidity classification.
   - name: deposit_account_product
     from: deposit_accounts
     to: deposit_products
@@ -527,6 +530,9 @@ semantic_model:
     - product_id
     to_columns:
     - product_id
+    ai_context:
+      description: Deposit account balances join to product definitions through product_id
+        to obtain liquidity class, runoff rate, and insurance limit reference data.
   - name: report_line_customer
     from: deposit_liquidity_report_lines
     to: deposit_customers
@@ -534,6 +540,9 @@ semantic_model:
     - customer_id
     to_columns:
     - customer_id
+    ai_context:
+      description: Prepared deposit report lines reconcile to depositor master records
+        through customer_id for customer-level liquidity review.
   - name: report_line_product
     from: deposit_liquidity_report_lines
     to: deposit_products
@@ -541,6 +550,9 @@ semantic_model:
     - product_id
     to_columns:
     - product_id
+    ai_context:
+      description: Prepared deposit report lines join to product reference data through
+        product_id to validate reported product liquidity classification.
   metrics:
   - name: stable_funding_amount
     description: Stable funding amount calculated from deposit balance and the account

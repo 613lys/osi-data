@@ -1,0 +1,12 @@
+name: ReferenceData
+description: Base concept for reference-data records with stable reference identifiers.
+identify_by:
+- has_ReferenceIdentifier
+relationships:
+- name: has_ReferenceIdentifier
+  roles:
+  - concept: ReferenceIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{ReferenceData} has reference identifier {ReferenceIdentifier}"
+  description: Identifier common to reference-data records.

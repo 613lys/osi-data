@@ -1,0 +1,35 @@
+name: Counterparty
+description: Legal entity or trading counterparty involved in FX trading or account ownership.
+extends:
+- PartyData
+identify_by:
+- has_CounterpartyIdentifier
+relationships:
+- name: OWNS_NostroAccount
+  roles:
+  - concept: NostroAccount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Counterparty} owns or controls {NostroAccount}"
+  description: Counterparty relationship used to connect nostro account ownership or responsibility.
+- name: has_CounterpartyName
+  roles:
+  - concept: PartyName
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Counterparty} has counterparty name {PartyName}"
+  description: Human-readable legal or trading name of the counterparty.
+- name: has_CounterpartyCountry
+  roles:
+  - concept: CountryCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Counterparty} has counterparty country {CountryCode}"
+  description: Country or jurisdiction associated with the counterparty.
+- name: has_RiskSegment
+  roles:
+  - concept: RiskSegment
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{Counterparty} has risk segment {RiskSegment}"
+  description: Risk or client segment used for settlement monitoring.

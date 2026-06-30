@@ -40,6 +40,14 @@ window.CATALOG_DATA = {
         "description": "Customer segment common to customer-like records."
       }
     ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ],
+    "definition_warnings": [],
     "mappings": []
   },
   "value.CustomerData.has_CustomerIdentifier": {
@@ -66,7 +74,14 @@ window.CATALOG_DATA = {
       "description": "Customer identifier common to customer-like records."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.CustomerData.has_CustomerSegment": {
     "id": "value.CustomerData.has_CustomerSegment",
@@ -92,7 +107,14 @@ window.CATALOG_DATA = {
       "description": "Customer segment common to customer-like records."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "concept.LoanData": {
     "id": "concept.LoanData",
@@ -135,6 +157,14 @@ window.CATALOG_DATA = {
         "description": "Origination or booking date common to loan-like records."
       }
     ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ],
+    "definition_warnings": [],
     "mappings": []
   },
   "value.LoanData.has_LoanIdentifier": {
@@ -161,7 +191,14 @@ window.CATALOG_DATA = {
       "description": "Loan identifier common to loan-like records."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.LoanData.has_OriginationDate": {
     "id": "value.LoanData.has_OriginationDate",
@@ -187,7 +224,14 @@ window.CATALOG_DATA = {
       "description": "Origination or booking date common to loan-like records."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "concept.ProductData": {
     "id": "concept.ProductData",
@@ -217,6 +261,14 @@ window.CATALOG_DATA = {
         "description": "Product identifier common to product-like records."
       }
     ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ],
+    "definition_warnings": [],
     "mappings": []
   },
   "value.ProductData.has_ProductIdentifier": {
@@ -243,7 +295,14 @@ window.CATALOG_DATA = {
       "description": "Product identifier common to product-like records."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "concept.Borrower": {
     "id": "concept.Borrower",
@@ -289,6 +348,14 @@ window.CATALOG_DATA = {
         "description": "Country or jurisdiction associated with the borrower."
       }
     ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ],
+    "definition_warnings": [],
     "mappings": [
       {
         "kind": "object_mapping",
@@ -398,7 +465,14 @@ window.CATALOG_DATA = {
       "description": "Display name of the borrower or legal entity."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Borrower.has_BorrowerCountry": {
     "id": "value.Borrower.has_BorrowerCountry",
@@ -424,7 +498,14 @@ window.CATALOG_DATA = {
       "description": "Country or jurisdiction associated with the borrower."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "concept.Loan": {
     "id": "concept.Loan",
@@ -561,6 +642,14 @@ window.CATALOG_DATA = {
         "description": "Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring."
       }
     ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ],
+    "definition_warnings": [],
     "mappings": [
       {
         "kind": "object_mapping",
@@ -1044,7 +1133,14 @@ window.CATALOG_DATA = {
       "description": "Contractual principal or notional amount of the loan exposure."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Loan.has_LoanCurrency": {
     "id": "value.Loan.has_LoanCurrency",
@@ -1070,7 +1166,14 @@ window.CATALOG_DATA = {
       "description": "Currency in which the loan exposure is booked or managed."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Loan.has_ExposureAtDefaultAmount": {
     "id": "value.Loan.has_ExposureAtDefaultAmount",
@@ -1096,7 +1199,14 @@ window.CATALOG_DATA = {
       "description": "Exposure amount used for regulatory credit risk calculations."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Loan.has_ProbabilityOfDefault": {
     "id": "value.Loan.has_ProbabilityOfDefault",
@@ -1122,7 +1232,14 @@ window.CATALOG_DATA = {
       "description": "Probability of default assigned to the loan exposure."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Loan.has_LossGivenDefault": {
     "id": "value.Loan.has_LossGivenDefault",
@@ -1148,7 +1265,14 @@ window.CATALOG_DATA = {
       "description": "Loss given default rate assigned to the loan exposure."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Loan.has_ExpectedLossAmount": {
     "id": "value.Loan.has_ExpectedLossAmount",
@@ -1175,6 +1299,13 @@ window.CATALOG_DATA = {
     },
     "inherited": false,
     "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ],
     "calculation_type": "metric",
     "semantic_metric": "expected_loss_amount",
     "semantic_reference": "metric.expected_loss_amount",
@@ -1219,6 +1350,13 @@ window.CATALOG_DATA = {
     },
     "inherited": false,
     "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ],
     "calculation_type": "metric",
     "semantic_metric": "risk_weighted_exposure_amount",
     "semantic_reference": "metric.risk_weighted_exposure_amount",
@@ -1282,6 +1420,14 @@ window.CATALOG_DATA = {
         "description": "Regulatory classification applied to the loan product."
       }
     ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ],
+    "definition_warnings": [],
     "mappings": [
       {
         "kind": "object_mapping",
@@ -1378,7 +1524,14 @@ window.CATALOG_DATA = {
       "description": "Product type used to group lending exposures."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.LoanProduct.has_RegulatoryProductClass": {
     "id": "value.LoanProduct.has_RegulatoryProductClass",
@@ -1404,7 +1557,14 @@ window.CATALOG_DATA = {
       "description": "Regulatory classification applied to the loan product."
     },
     "inherited": false,
-    "inherited_from": ""
+    "inherited_from": "",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Borrower.has_CustomerIdentifier": {
     "id": "value.Borrower.has_CustomerIdentifier",
@@ -1430,7 +1590,14 @@ window.CATALOG_DATA = {
       "description": "Customer identifier common to customer-like records."
     },
     "inherited": true,
-    "inherited_from": "CustomerData"
+    "inherited_from": "CustomerData",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Borrower.has_CustomerSegment": {
     "id": "value.Borrower.has_CustomerSegment",
@@ -1456,7 +1623,14 @@ window.CATALOG_DATA = {
       "description": "Customer segment common to customer-like records."
     },
     "inherited": true,
-    "inherited_from": "CustomerData"
+    "inherited_from": "CustomerData",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Loan.has_LoanIdentifier": {
     "id": "value.Loan.has_LoanIdentifier",
@@ -1482,7 +1656,14 @@ window.CATALOG_DATA = {
       "description": "Loan identifier common to loan-like records."
     },
     "inherited": true,
-    "inherited_from": "LoanData"
+    "inherited_from": "LoanData",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.Loan.has_OriginationDate": {
     "id": "value.Loan.has_OriginationDate",
@@ -1508,7 +1689,14 @@ window.CATALOG_DATA = {
       "description": "Origination or booking date common to loan-like records."
     },
     "inherited": true,
-    "inherited_from": "LoanData"
+    "inherited_from": "LoanData",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "value.LoanProduct.has_ProductIdentifier": {
     "id": "value.LoanProduct.has_ProductIdentifier",
@@ -1534,7 +1722,14 @@ window.CATALOG_DATA = {
       "description": "Product identifier common to product-like records."
     },
     "inherited": true,
-    "inherited_from": "ProductData"
+    "inherited_from": "ProductData",
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
+    "source_files": [
+      "knowledge/regulatory-reporting-osi.yaml"
+    ]
   },
   "dataset.borrowers": {
     "id": "dataset.borrowers",
@@ -1556,11 +1751,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Master customer identifier for a borrower or legal entity.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Master customer identifier for a borrower or legal entity."
+        }
       },
       {
         "name": "borrower_segment",
@@ -1572,11 +1767,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Segment classification such as retail, SME, corporate, or financial institution.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Segment classification such as retail, SME, corporate, or financial institution."
+        }
       },
       {
         "name": "borrower_name",
@@ -1588,11 +1783,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Human-readable borrower or legal entity name.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Human-readable borrower or legal entity name."
+        }
       },
       {
         "name": "domicile_country",
@@ -1604,19 +1799,26 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Borrower domicile country used for jurisdictional reporting and composite report joins."
+        }
       }
     ],
     "source_tables": [
       "customer_master.borrowers"
     ],
-    "physical_kind": "",
+    "physical_kind": "table",
     "custom_extensions": [],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ]
   },
   "table.customer_master.borrowers": {
     "id": "table.customer_master.borrowers",
@@ -1628,33 +1830,37 @@ window.CATALOG_DATA = {
       {
         "name": "borrower_id",
         "description": "Master customer identifier for a borrower or legal entity.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "borrower_segment",
         "description": "Segment classification such as retail, SME, corporate, or financial institution.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "borrower_name",
         "description": "Human-readable borrower or legal entity name.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "domicile_country",
         "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       }
     ],
     "source_datasets": [
       "borrowers",
       "loan_exposure_report_lines"
     ],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology"
   },
   "field.borrowers.borrower_id": {
     "id": "field.borrowers.borrower_id",
@@ -1665,6 +1871,14 @@ window.CATALOG_DATA = {
     "dataset": "borrowers",
     "field": "borrower_id",
     "expression": "borrower_id",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "borrower_id",
       "expression": {
@@ -1675,11 +1889,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Master customer identifier for a borrower or legal entity.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Master customer identifier for a borrower or legal entity."
+      }
     }
   },
   "column.customer_master.borrowers.borrower_id": {
@@ -1700,6 +1914,14 @@ window.CATALOG_DATA = {
     "dataset": "borrowers",
     "field": "borrower_segment",
     "expression": "borrower_segment",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "borrower_segment",
       "expression": {
@@ -1710,11 +1932,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Segment classification such as retail, SME, corporate, or financial institution.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Segment classification such as retail, SME, corporate, or financial institution."
+      }
     }
   },
   "column.customer_master.borrowers.borrower_segment": {
@@ -1735,6 +1957,14 @@ window.CATALOG_DATA = {
     "dataset": "borrowers",
     "field": "borrower_name",
     "expression": "borrower_name",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "borrower_name",
       "expression": {
@@ -1745,11 +1975,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Human-readable borrower or legal entity name.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Human-readable borrower or legal entity name."
+      }
     }
   },
   "column.customer_master.borrowers.borrower_name": {
@@ -1770,6 +2000,14 @@ window.CATALOG_DATA = {
     "dataset": "borrowers",
     "field": "domicile_country",
     "expression": "domicile_country",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "domicile_country",
       "expression": {
@@ -1780,11 +2018,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Borrower domicile country used for jurisdictional reporting and composite report joins.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Borrower domicile country used for jurisdictional reporting and composite report joins."
+      }
     }
   },
   "column.customer_master.borrowers.domicile_country": {
@@ -1816,11 +2054,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Institutional source identifier for a committed credit facility.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Institutional source identifier for a committed credit facility."
+        }
       },
       {
         "name": "legal_entity_id",
@@ -1832,11 +2070,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Customer identifier linking the facility to the responsible legal borrower.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Customer identifier linking the facility to the responsible legal borrower."
+        }
       },
       {
         "name": "product_code",
@@ -1848,11 +2086,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Product identifier classifying the institutional lending facility.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Product identifier classifying the institutional lending facility."
+        }
       },
       {
         "name": "booking_date",
@@ -1864,11 +2102,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Date on which the institutional facility was booked.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        },
-        "description": "Date on which the institutional facility was booked."
+        }
       },
       {
         "name": "notional_amount",
@@ -1880,11 +2118,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Notional or committed amount recorded for the institutional facility.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Notional or committed amount recorded for the institutional facility."
+        }
       },
       {
         "name": "exposure_currency",
@@ -1896,11 +2134,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Currency code used for the institutional exposure amount.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Currency code used for the institutional exposure amount."
+        }
       },
       {
         "name": "probability_default",
@@ -1912,11 +2150,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Probability of default assigned by the wholesale credit risk model.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Probability of default assigned by the wholesale credit risk model."
+        }
       },
       {
         "name": "loss_given_default",
@@ -1928,19 +2166,26 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Loss given default rate assigned by the wholesale credit risk model.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Loss given default rate assigned by the wholesale credit risk model."
+        }
       }
     ],
     "source_tables": [
       "institutional_lending_core.facilities"
     ],
-    "physical_kind": "",
+    "physical_kind": "table",
     "custom_extensions": [],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ]
   },
   "table.institutional_lending_core.facilities": {
     "id": "table.institutional_lending_core.facilities",
@@ -1952,57 +2197,61 @@ window.CATALOG_DATA = {
       {
         "name": "facility_id",
         "description": "Institutional source identifier for a committed credit facility.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "legal_entity_id",
         "description": "Customer identifier linking the facility to the responsible legal borrower.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "product_code",
         "description": "Product identifier classifying the institutional lending facility.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "booking_date",
         "description": "Date on which the institutional facility was booked.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "date",
+        "nullable": false
       },
       {
         "name": "notional_amount",
         "description": "Notional or committed amount recorded for the institutional facility.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "decimal",
+        "nullable": false
       },
       {
         "name": "exposure_currency",
         "description": "Currency code used for the institutional exposure amount.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "probability_default",
         "description": "Probability of default assigned by the wholesale credit risk model.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "decimal",
+        "nullable": false
       },
       {
         "name": "loss_given_default",
         "description": "Loss given default rate assigned by the wholesale credit risk model.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "decimal",
+        "nullable": false
       }
     ],
     "source_datasets": [
       "institutional_loans",
       "loan_exposure_report_lines"
     ],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology"
   },
   "field.institutional_loans.facility_id": {
     "id": "field.institutional_loans.facility_id",
@@ -2013,6 +2262,14 @@ window.CATALOG_DATA = {
     "dataset": "institutional_loans",
     "field": "facility_id",
     "expression": "facility_id",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "facility_id",
       "expression": {
@@ -2023,11 +2280,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Institutional source identifier for a committed credit facility.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Institutional source identifier for a committed credit facility."
+      }
     }
   },
   "column.institutional_lending_core.facilities.facility_id": {
@@ -2048,6 +2305,14 @@ window.CATALOG_DATA = {
     "dataset": "institutional_loans",
     "field": "legal_entity_id",
     "expression": "legal_entity_id",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "legal_entity_id",
       "expression": {
@@ -2058,11 +2323,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Customer identifier linking the facility to the responsible legal borrower.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Customer identifier linking the facility to the responsible legal borrower."
+      }
     }
   },
   "column.institutional_lending_core.facilities.legal_entity_id": {
@@ -2083,6 +2348,14 @@ window.CATALOG_DATA = {
     "dataset": "institutional_loans",
     "field": "product_code",
     "expression": "product_code",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "product_code",
       "expression": {
@@ -2093,11 +2366,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Product identifier classifying the institutional lending facility.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Product identifier classifying the institutional lending facility."
+      }
     }
   },
   "column.institutional_lending_core.facilities.product_code": {
@@ -2118,6 +2391,14 @@ window.CATALOG_DATA = {
     "dataset": "institutional_loans",
     "field": "booking_date",
     "expression": "booking_date",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "booking_date",
       "expression": {
@@ -2128,11 +2409,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Date on which the institutional facility was booked.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      },
-      "description": "Date on which the institutional facility was booked."
+      }
     }
   },
   "column.institutional_lending_core.facilities.booking_date": {
@@ -2153,6 +2434,14 @@ window.CATALOG_DATA = {
     "dataset": "institutional_loans",
     "field": "notional_amount",
     "expression": "notional_amount",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "notional_amount",
       "expression": {
@@ -2163,11 +2452,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Notional or committed amount recorded for the institutional facility.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Notional or committed amount recorded for the institutional facility."
+      }
     }
   },
   "column.institutional_lending_core.facilities.notional_amount": {
@@ -2188,6 +2477,14 @@ window.CATALOG_DATA = {
     "dataset": "institutional_loans",
     "field": "exposure_currency",
     "expression": "exposure_currency",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "exposure_currency",
       "expression": {
@@ -2198,11 +2495,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Currency code used for the institutional exposure amount.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Currency code used for the institutional exposure amount."
+      }
     }
   },
   "column.institutional_lending_core.facilities.exposure_currency": {
@@ -2223,6 +2520,14 @@ window.CATALOG_DATA = {
     "dataset": "institutional_loans",
     "field": "probability_default",
     "expression": "probability_default",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "probability_default",
       "expression": {
@@ -2233,11 +2538,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Probability of default assigned by the wholesale credit risk model.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Probability of default assigned by the wholesale credit risk model."
+      }
     }
   },
   "column.institutional_lending_core.facilities.probability_default": {
@@ -2258,6 +2563,14 @@ window.CATALOG_DATA = {
     "dataset": "institutional_loans",
     "field": "loss_given_default",
     "expression": "loss_given_default",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "loss_given_default",
       "expression": {
@@ -2268,11 +2581,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Loss given default rate assigned by the wholesale credit risk model.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Loss given default rate assigned by the wholesale credit risk model."
+      }
     }
   },
   "column.institutional_lending_core.facilities.loss_given_default": {
@@ -2304,11 +2617,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Normalized loan or facility identifier reported on the exposure line.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Normalized loan or facility identifier reported on the exposure line."
+        }
       },
       {
         "name": "borrower_id",
@@ -2320,11 +2633,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Borrower identifier reported on the exposure line for reconciliation to customer master.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Borrower identifier reported on the exposure line for reconciliation to customer master."
+        }
       },
       {
         "name": "borrower_country",
@@ -2336,11 +2649,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
+        }
       },
       {
         "name": "product_id",
@@ -2352,11 +2665,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Product identifier reported on the exposure line for product-class aggregation.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Product identifier reported on the exposure line for product-class aggregation."
+        }
       },
       {
         "name": "principal_amount",
@@ -2368,11 +2681,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Principal amount included on the report line for exposure reconciliation.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Principal amount included on the report line for exposure reconciliation."
+        }
       },
       {
         "name": "exposure_at_default_amount",
@@ -2384,11 +2697,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Exposure at default amount reported for regulatory credit risk measurement.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Exposure at default amount reported for regulatory credit risk measurement."
+        }
       },
       {
         "name": "expected_loss_amount",
@@ -2400,11 +2713,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Expected loss amount reported after applying probability of default and loss given default.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Expected loss amount reported after applying probability of default and loss given default."
+        }
       },
       {
         "name": "report_currency",
@@ -2416,11 +2729,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Currency code in which the exposure line amounts are reported.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Currency code in which the exposure line amounts are reported."
+        }
       }
     ],
     "source_tables": [
@@ -2429,24 +2742,21 @@ window.CATALOG_DATA = {
       "customer_master.borrowers",
       "product_master.loan_products"
     ],
-    "physical_kind": "",
+    "physical_kind": "query",
     "custom_extensions": [
       {
-        "name": "physical_source",
-        "value": {
-          "kind": "query",
-          "description": "Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.",
-          "sql": "select loan_id, borrower_id, borrower_country, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency\nfrom credit_risk_engine.loan_exposure_report_lines\nwhere report_date = :report_date\n",
-          "depends_on": [
-            "retail_lending_core.retail_loans",
-            "institutional_lending_core.facilities",
-            "customer_master.borrowers",
-            "product_master.loan_products"
-          ]
-        }
+        "vendor_name": "OSI_KG_UI",
+        "data": "{\"name\": \"physical_source\", \"kind\": \"query\", \"description\": \"Prepared report-line dataset is produced by a documented query that normalizes retail loan and institutional facility source populations before reporting.\", \"sql\": \"select loan_id, borrower_id, borrower_country, product_id, principal_amount, exposure_at_default_amount, expected_loss_amount, report_currency\\nfrom credit_risk_engine.loan_exposure_report_lines\\nwhere report_date = :report_date\\n\", \"depends_on\": [\"retail_lending_core.retail_loans\", \"institutional_lending_core.facilities\", \"customer_master.borrowers\", \"product_master.loan_products\"]}"
       }
     ],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ]
   },
   "table.retail_lending_core.retail_loans": {
     "id": "table.retail_lending_core.retail_loans",
@@ -2458,57 +2768,61 @@ window.CATALOG_DATA = {
       {
         "name": "loan_id",
         "description": "Retail source identifier for an individual consumer loan record.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "borrower_id",
         "description": "Customer identifier linking the retail loan to the responsible borrower.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "product_id",
         "description": "Product identifier classifying the retail lending product.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "origination_date",
         "description": "Date on which the retail loan was originated or booked.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "date",
+        "nullable": false
       },
       {
         "name": "principal_amount",
         "description": "Principal balance or contractual amount recorded for the retail loan.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "decimal",
+        "nullable": false
       },
       {
         "name": "currency",
         "description": "Currency code used for the retail loan amount.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "pd",
         "description": "Probability of default assigned by the retail credit risk model.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "decimal",
+        "nullable": false
       },
       {
         "name": "lgd",
         "description": "Loss given default rate assigned by the retail credit risk model.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "decimal",
+        "nullable": false
       }
     ],
     "source_datasets": [
       "loan_exposure_report_lines",
       "retail_loans"
     ],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology"
   },
   "table.product_master.loan_products": {
     "id": "table.product_master.loan_products",
@@ -2520,27 +2834,31 @@ window.CATALOG_DATA = {
       {
         "name": "product_id",
         "description": "Master product identifier for a lending product.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "product_type",
         "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       },
       {
         "name": "regulatory_product_class",
         "description": "Regulatory product class used for credit exposure aggregation.",
-        "data_type": "",
-        "nullable": ""
+        "data_type": "string",
+        "nullable": false
       }
     ],
     "source_datasets": [
       "loan_exposure_report_lines",
       "loan_products"
     ],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology"
   },
   "field.loan_exposure_report_lines.loan_id": {
     "id": "field.loan_exposure_report_lines.loan_id",
@@ -2551,6 +2869,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_exposure_report_lines",
     "field": "loan_id",
     "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id)",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "loan_id",
       "expression": {
@@ -2561,11 +2887,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Normalized loan or facility identifier reported on the exposure line.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Normalized loan or facility identifier reported on the exposure line."
+      }
     }
   },
   "field.loan_exposure_report_lines.borrower_id": {
@@ -2577,6 +2903,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_exposure_report_lines",
     "field": "borrower_id",
     "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id)",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "borrower_id",
       "expression": {
@@ -2587,11 +2921,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Borrower identifier reported on the exposure line for reconciliation to customer master.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Borrower identifier reported on the exposure line for reconciliation to customer master."
+      }
     }
   },
   "field.loan_exposure_report_lines.borrower_country": {
@@ -2603,6 +2937,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_exposure_report_lines",
     "field": "borrower_country",
     "expression": "borrowers.domicile_country",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "borrower_country",
       "expression": {
@@ -2613,11 +2955,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
+      }
     }
   },
   "field.loan_exposure_report_lines.product_id": {
@@ -2629,6 +2971,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_exposure_report_lines",
     "field": "product_id",
     "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code)",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "product_id",
       "expression": {
@@ -2639,11 +2989,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Product identifier reported on the exposure line for product-class aggregation.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Product identifier reported on the exposure line for product-class aggregation."
+      }
     }
   },
   "field.loan_exposure_report_lines.principal_amount": {
@@ -2655,6 +3005,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_exposure_report_lines",
     "field": "principal_amount",
     "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "principal_amount",
       "expression": {
@@ -2665,11 +3023,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Principal amount included on the report line for exposure reconciliation.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Principal amount included on the report line for exposure reconciliation."
+      }
     }
   },
   "field.loan_exposure_report_lines.exposure_at_default_amount": {
@@ -2681,6 +3039,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_exposure_report_lines",
     "field": "exposure_at_default_amount",
     "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount)",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "exposure_at_default_amount",
       "expression": {
@@ -2691,11 +3057,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Exposure at default amount reported for regulatory credit risk measurement.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Exposure at default amount reported for regulatory credit risk measurement."
+      }
     }
   },
   "field.loan_exposure_report_lines.expected_loss_amount": {
@@ -2707,6 +3073,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_exposure_report_lines",
     "field": "expected_loss_amount",
     "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "expected_loss_amount",
       "expression": {
@@ -2717,11 +3091,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Expected loss amount reported after applying probability of default and loss given default.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Expected loss amount reported after applying probability of default and loss given default."
+      }
     }
   },
   "field.loan_exposure_report_lines.report_currency": {
@@ -2733,6 +3107,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_exposure_report_lines",
     "field": "report_currency",
     "expression": "COALESCE(retail_loans.currency, institutional_loans.exposure_currency)",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "report_currency",
       "expression": {
@@ -2743,11 +3125,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Currency code in which the exposure line amounts are reported.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Currency code in which the exposure line amounts are reported."
+      }
     }
   },
   "dataset.loan_products": {
@@ -2770,11 +3152,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Master product identifier for a lending product.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Master product identifier for a lending product."
+        }
       },
       {
         "name": "product_type",
@@ -2786,11 +3168,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line."
+        }
       },
       {
         "name": "regulatory_product_class",
@@ -2802,19 +3184,26 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Regulatory product class used for credit exposure aggregation.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Regulatory product class used for credit exposure aggregation."
+        }
       }
     ],
     "source_tables": [
       "product_master.loan_products"
     ],
-    "physical_kind": "",
+    "physical_kind": "table",
     "custom_extensions": [],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ]
   },
   "field.loan_products.product_id": {
     "id": "field.loan_products.product_id",
@@ -2825,6 +3214,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_products",
     "field": "product_id",
     "expression": "product_id",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "product_id",
       "expression": {
@@ -2835,11 +3232,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Master product identifier for a lending product.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Master product identifier for a lending product."
+      }
     }
   },
   "column.product_master.loan_products.product_id": {
@@ -2860,6 +3257,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_products",
     "field": "product_type",
     "expression": "product_type",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "product_type",
       "expression": {
@@ -2870,11 +3275,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Lending product type such as mortgage, term loan, revolving credit, or credit line."
+      }
     }
   },
   "column.product_master.loan_products.product_type": {
@@ -2895,6 +3300,14 @@ window.CATALOG_DATA = {
     "dataset": "loan_products",
     "field": "regulatory_product_class",
     "expression": "regulatory_product_class",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "regulatory_product_class",
       "expression": {
@@ -2905,11 +3318,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Regulatory product class used for credit exposure aggregation.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Regulatory product class used for credit exposure aggregation."
+      }
     }
   },
   "column.product_master.loan_products.regulatory_product_class": {
@@ -2941,11 +3354,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Retail source identifier for an individual consumer loan record.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Retail source identifier for an individual consumer loan record."
+        }
       },
       {
         "name": "borrower_id",
@@ -2957,11 +3370,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Customer identifier linking the retail loan to the responsible borrower.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Customer identifier linking the retail loan to the responsible borrower."
+        }
       },
       {
         "name": "product_id",
@@ -2973,11 +3386,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Product identifier classifying the retail lending product.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Product identifier classifying the retail lending product."
+        }
       },
       {
         "name": "origination_date",
@@ -2989,11 +3402,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Date on which the retail loan was originated or booked.",
         "ai_context": {
           "physical_type": "date",
           "nullable": false
-        },
-        "description": "Date on which the retail loan was originated or booked."
+        }
       },
       {
         "name": "principal_amount",
@@ -3005,11 +3418,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Principal balance or contractual amount recorded for the retail loan.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Principal balance or contractual amount recorded for the retail loan."
+        }
       },
       {
         "name": "currency",
@@ -3021,11 +3434,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Currency code used for the retail loan amount.",
         "ai_context": {
           "physical_type": "string",
           "nullable": false
-        },
-        "description": "Currency code used for the retail loan amount."
+        }
       },
       {
         "name": "pd",
@@ -3037,11 +3450,11 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Probability of default assigned by the retail credit risk model.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Probability of default assigned by the retail credit risk model."
+        }
       },
       {
         "name": "lgd",
@@ -3053,19 +3466,26 @@ window.CATALOG_DATA = {
             }
           ]
         },
+        "description": "Loss given default rate assigned by the retail credit risk model.",
         "ai_context": {
           "physical_type": "decimal",
           "nullable": false
-        },
-        "description": "Loss given default rate assigned by the retail credit risk model."
+        }
       }
     ],
     "source_tables": [
       "retail_lending_core.retail_loans"
     ],
-    "physical_kind": "",
+    "physical_kind": "table",
     "custom_extensions": [],
-    "semantic_model": "LoanExposureSemanticModel"
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ]
   },
   "field.retail_loans.loan_id": {
     "id": "field.retail_loans.loan_id",
@@ -3076,6 +3496,14 @@ window.CATALOG_DATA = {
     "dataset": "retail_loans",
     "field": "loan_id",
     "expression": "loan_id",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "loan_id",
       "expression": {
@@ -3086,11 +3514,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Retail source identifier for an individual consumer loan record.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Retail source identifier for an individual consumer loan record."
+      }
     }
   },
   "column.retail_lending_core.retail_loans.loan_id": {
@@ -3111,6 +3539,14 @@ window.CATALOG_DATA = {
     "dataset": "retail_loans",
     "field": "borrower_id",
     "expression": "borrower_id",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "borrower_id",
       "expression": {
@@ -3121,11 +3557,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Customer identifier linking the retail loan to the responsible borrower.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Customer identifier linking the retail loan to the responsible borrower."
+      }
     }
   },
   "column.retail_lending_core.retail_loans.borrower_id": {
@@ -3146,6 +3582,14 @@ window.CATALOG_DATA = {
     "dataset": "retail_loans",
     "field": "product_id",
     "expression": "product_id",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "product_id",
       "expression": {
@@ -3156,11 +3600,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Product identifier classifying the retail lending product.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Product identifier classifying the retail lending product."
+      }
     }
   },
   "column.retail_lending_core.retail_loans.product_id": {
@@ -3181,6 +3625,14 @@ window.CATALOG_DATA = {
     "dataset": "retail_loans",
     "field": "origination_date",
     "expression": "origination_date",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "origination_date",
       "expression": {
@@ -3191,11 +3643,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Date on which the retail loan was originated or booked.",
       "ai_context": {
         "physical_type": "date",
         "nullable": false
-      },
-      "description": "Date on which the retail loan was originated or booked."
+      }
     }
   },
   "column.retail_lending_core.retail_loans.origination_date": {
@@ -3216,6 +3668,14 @@ window.CATALOG_DATA = {
     "dataset": "retail_loans",
     "field": "principal_amount",
     "expression": "principal_amount",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "principal_amount",
       "expression": {
@@ -3226,11 +3686,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Principal balance or contractual amount recorded for the retail loan.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Principal balance or contractual amount recorded for the retail loan."
+      }
     }
   },
   "column.retail_lending_core.retail_loans.principal_amount": {
@@ -3251,6 +3711,14 @@ window.CATALOG_DATA = {
     "dataset": "retail_loans",
     "field": "currency",
     "expression": "currency",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "currency",
       "expression": {
@@ -3261,11 +3729,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Currency code used for the retail loan amount.",
       "ai_context": {
         "physical_type": "string",
         "nullable": false
-      },
-      "description": "Currency code used for the retail loan amount."
+      }
     }
   },
   "column.retail_lending_core.retail_loans.currency": {
@@ -3286,6 +3754,14 @@ window.CATALOG_DATA = {
     "dataset": "retail_loans",
     "field": "pd",
     "expression": "pd",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "pd",
       "expression": {
@@ -3296,11 +3772,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Probability of default assigned by the retail credit risk model.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Probability of default assigned by the retail credit risk model."
+      }
     }
   },
   "column.retail_lending_core.retail_loans.pd": {
@@ -3321,6 +3797,14 @@ window.CATALOG_DATA = {
     "dataset": "retail_loans",
     "field": "lgd",
     "expression": "lgd",
+    "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
+    "ontologies": [
+      "LoanExposureReportingOntology"
+    ],
     "field_definition": {
       "name": "lgd",
       "expression": {
@@ -3331,11 +3815,11 @@ window.CATALOG_DATA = {
           }
         ]
       },
+      "description": "Loss given default rate assigned by the retail credit risk model.",
       "ai_context": {
         "physical_type": "decimal",
         "nullable": false
-      },
-      "description": "Loss given default rate assigned by the retail credit risk model."
+      }
     }
   },
   "column.retail_lending_core.retail_loans.lgd": {
@@ -3353,6 +3837,10 @@ window.CATALOG_DATA = {
     "name": "expected_loss_amount",
     "description": "Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations.",
     "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
     "semantic_metric": "expected_loss_amount",
     "expression": "retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd + institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default",
     "source_fields": [
@@ -3385,6 +3873,10 @@ window.CATALOG_DATA = {
     "name": "risk_weighted_exposure_amount",
     "description": "Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts.",
     "semantic_model": "LoanExposureSemanticModel",
+    "semantic_models": [
+      "LoanExposureSemanticModel"
+    ],
+    "ontology": "LoanExposureReportingOntology",
     "semantic_metric": "risk_weighted_exposure_amount",
     "expression": "retail_loans.principal_amount * retail_loans.pd + institutional_loans.notional_amount * institutional_loans.probability_default",
     "source_fields": [

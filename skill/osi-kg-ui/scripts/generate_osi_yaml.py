@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 from typing import Any
 
@@ -23,8 +24,40 @@ def parse_args() -> argparse.Namespace:
 
 def resolve_path(value: str | Path) -> Path:
     path = Path(value)
-    return path if path.is_absolute() else ROOT / path
+    if path.is_absolute():
+        return path
+    cwd_path = Path.cwd() / path
+    if cwd_path.exists() or cwd_path.parent.exists():
+        return cwd_path
+    return ROOT / path
 
+def normalize_custom_extension(extension: dict[str, Any]) -> dict[str, Any]:
+    """Convert raw authoring extension shapes to strict OSI custom_extensions."""
+    if not isinstance(extension, dict):
+        return {"vendor_name": "OSI_KG_UI", "data": json.dumps({"value": extension}, ensure_ascii=False)}
+    if extension.get("vendor_name"):
+        data = extension.get("data", {})
+        if not isinstance(data, str):
+            data = json.dumps(data, ensure_ascii=False)
+        return {"vendor_name": str(extension["vendor_name"]), "data": data}
+    data: dict[str, Any] = {}
+    if extension.get("name"):
+        data["name"] = extension["name"]
+    value = extension.get("value")
+    if isinstance(value, dict):
+        data.update(value)
+    elif value not in (None, ""):
+        data["value"] = value
+    if extension.get("description") and "description" not in data:
+        data["description"] = extension["description"]
+    for key, value in extension.items():
+        if key not in {"name", "value", "description"} and key not in data and value not in (None, "", [], {}):
+            data[key] = value
+    return {"vendor_name": "OSI_KG_UI", "data": json.dumps(data, ensure_ascii=False)}
+
+
+def normalize_custom_extensions(items: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
+    return [normalize_custom_extension(item) for item in items or []]
 
 def expression(value: str | dict[str, Any]) -> dict[str, Any]:
     if isinstance(value, dict):
@@ -80,24 +113,49 @@ def dataset(item: dict[str, Any]) -> dict[str, Any]:
         "primary_key": item.get("primary_key") or [],
         "description": item.get("description", ""),
         "fields": [],
-        "ai_context": {"physical_kind": item.get("physical_kind", "table")},
     }
+    dataset_ai_context = dict(item.get("ai_context") or {}) if isinstance(item.get("ai_context"), dict) else {}
+    if item.get("physical_kind"):
+        dataset_ai_context.setdefault("physical_kind", item["physical_kind"])
+    elif dataset_ai_context:
+        dataset_ai_context.setdefault("physical_kind", "table")
+    if dataset_ai_context:
+        output["ai_context"] = dataset_ai_context
     for field in item.get("fields") or []:
         field_output = {
             "name": field["name"],
             "expression": field_expression(field),
-            "ai_context": {
-                "physical_type": field.get("type", "string"),
-                "nullable": bool(field.get("nullable", False)),
-            },
         }
         if field.get("description"):
             field_output["description"] = field["description"]
+        field_ai_context = dict(field.get("ai_context") or {}) if isinstance(field.get("ai_context"), dict) else {}
+        if field.get("type"):
+            field_ai_context.setdefault("physical_type", field["type"])
+        if "nullable" in field:
+            field_ai_context.setdefault("nullable", bool(field.get("nullable")))
+        if field_ai_context:
+            field_output["ai_context"] = field_ai_context
         output["fields"].append(field_output)
     if item.get("custom_extensions"):
-        output["custom_extensions"] = item["custom_extensions"]
+        output["custom_extensions"] = normalize_custom_extensions(item["custom_extensions"])
     return output
 
+def dataset_relationship(item: dict[str, Any]) -> dict[str, Any]:
+    allowed = {"name", "from", "to", "from_columns", "to_columns", "ai_context", "custom_extensions"}
+    output = {key: value for key, value in item.items() if key in allowed and value not in (None, [], "")}
+    context_text = item.get("description") or item.get("purpose")
+    if context_text:
+        ai_context = output.get("ai_context")
+        if isinstance(ai_context, dict):
+            ai_context.setdefault("description", context_text)
+        elif ai_context:
+            ai_context = {"description": context_text, "notes": ai_context}
+        else:
+            ai_context = {"description": context_text}
+        output["ai_context"] = ai_context
+    if output.get("custom_extensions"):
+        output["custom_extensions"] = normalize_custom_extensions(output["custom_extensions"])
+    return output
 
 def metric(item: dict[str, Any]) -> dict[str, Any]:
     output = {
@@ -106,7 +164,7 @@ def metric(item: dict[str, Any]) -> dict[str, Any]:
         "expression": expression(item["expression"]),
     }
     if item.get("custom_extensions"):
-        output["custom_extensions"] = item["custom_extensions"]
+        output["custom_extensions"] = normalize_custom_extensions(item["custom_extensions"])
     if item.get("ai_context"):
         output["ai_context"] = item["ai_context"]
     return output
@@ -147,7 +205,7 @@ def build_model(raw: dict[str, Any]) -> dict[str, Any]:
                     "name": scenario["semantic_model_name"],
                     "description": scenario.get("semantic_model_description", ""),
                     "datasets": [dataset(item) for item in semantic_model.get("datasets") or []],
-                    "relationships": semantic_model.get("relationships") or [],
+                    "relationships": [dataset_relationship(item) for item in semantic_model.get("relationships") or []],
                     "metrics": [metric(item) for item in semantic_model.get("metrics") or []],
                 },
                 "concept_mappings": [concept_mapping(item) for item in raw.get("concept_mappings") or []],
@@ -190,3 +248,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

@@ -1,0 +1,44 @@
+name: nostro_accounts
+source: nostro_master.nostro_accounts
+primary_key:
+- account_id
+description: Nostro account master records at account grain, carrying account currency, operational status, and owner counterparty used for settlement routing.
+ai_context:
+  physical_kind: table
+fields:
+- name: account_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: account_id
+  description: Stable account identifier for a nostro settlement account.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: account_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: account_currency
+  description: Currency in which the nostro account settles cash movements.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: account_status
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: account_status
+  description: Operational lifecycle status of the nostro account.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: owner_counterparty_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: owner_counterparty_id
+  description: Counterparty identifier responsible for or owning the nostro account.
+  ai_context:
+    physical_type: string
+    nullable: false

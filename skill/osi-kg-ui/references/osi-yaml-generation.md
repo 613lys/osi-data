@@ -34,6 +34,20 @@ ontology_mappings:
 
 The default strict OSI file path is `knowledge/regulatory-reporting-osi.yaml`. Report Requirement and Report Data Logic UI metadata such as `reporting_requirements` and `report_data_logic` is not OSI schema and belongs in a separate application metadata file, defaulting to `knowledge/regulatory-reporting-app.yaml`.
 
+## Multiple Strict OSI Files
+
+Multiple ontologies should be represented as multiple strict OSI YAML files, or as one strict OSI YAML file containing one ontology plus multiple OSI `ontology_mappings[]` entries when the same ontology maps to multiple semantic models. Do not add top-level UI helper fields such as `summary`, `ontologies`, `semantic_models`, or `source_ontologies` to a strict OSI YAML file. Those fields are generated only in `knowledge/indexes/summary.json` and `frontend/summary-data.js`.
+
+Compile multiple strict OSI files into one UI with:
+
+```powershell
+python <skill-dir>\scripts\build_osi_graph.py --root <scenario-root> --sources knowledge\ontology-a.yaml knowledge\ontology-b.yaml --app-metadata knowledge\regulatory-reporting-app.yaml --copy-frontend-template --overwrite-template
+```
+
+Within one UI compile batch, semantic model names must be globally unique because the UI selector opens one semantic model at a time. EntityType and ValueType concept names may be shared across strict OSI files when they intentionally refer to the same concept. The graph compiler treats the same concept name as one shared node, records all owning ontology names in generated UI metadata, and shows that shared node in each corresponding Ontology View. It must not create ontology-to-ontology edges or any extra relationship just because two ontologies share a concept. If two files declare the same concept with conflicting concept type or conflicting same-named relationship definitions, fix the source YAML instead of letting the UI silently choose one. If shared concept descriptions are both non-empty but different, compilation continues with a warning in `summary.warnings` and on the shared concept node as `definition_warnings`; the first description remains the graph node description.
+
+Semantic datasets and physical tables may also be reused. A dataset with the same `semantic_model.datasets[].name` is treated as the same semantic dataset node and can appear in multiple Semantic Model Views; keep the dataset definition compatible when reusing the name. A physical table/source is reused by its canonical scalar `source` / physical reference; include schema/system qualifiers when two different systems contain the same table name.
+
 ## Generation Order
 
 For complex scenarios, generate in this order:
@@ -134,29 +148,47 @@ ontology_mappings:
   - name: RegulatoryReportingSemanticMapping
     semantic_model:
       name: RegulatoryReportingSemanticModel
+      description: Semantic model for reporting-ready trade and account datasets.
       datasets:
         - name: trades
-          type: table
-          description:
+          source: trading_core.trades
+          description: Trade execution records at trade grain used for exposure reporting.
           primary_key: [trade_id]
           fields:
             - name: trade_id
-              type: string
-              nullable: false
+              description: Stable trade identifier carried on the trade execution record.
+              expression:
+                dialects:
+                  - dialect: ANSI_SQL
+                    expression: trade_id
+              ai_context:
+                physical_type: string
+                nullable: false
+          ai_context:
+            physical_kind: table
         - name: accounts
-          type: table
+          source: account_core.accounts
+          description: Account master records used to classify trade ownership and booking context.
+          primary_key: [account_id]
           fields: []
+          ai_context:
+            physical_kind: table
       relationships:
         - name: join_account
           from: trades
           to: accounts
           from_columns: [account_id]
           to_columns: [account_id]
+          ai_context:
+            description: Trades join to accounts by account_id to attach booking-account context.
 ```
 
 Rules:
 
 - Preserve physical source names, column names, data types, nullability, keys, comments, field descriptions, and explicit OSI field expression objects. Every semantic model field must have a business-readable description and an `expression.dialects[]` object mapping it to a physical column, another semantic dataset field, or a scalar derived expression.
+- Strict OSI dataset fields should use only OSI-supported keys such as `name`, `expression`, `dimension`, `label`, `description`, `ai_context`, and `custom_extensions`. Put display type/nullability in `fields[].ai_context.physical_type` and `fields[].ai_context.nullable`, not top-level `type` or `nullable`.
+- Strict OSI dataset relationships should use only `name`, `from`, `to`, `from_columns`, `to_columns`, `ai_context`, and `custom_extensions`. Put join explanation in `ai_context.description`; do not add `description` to a semantic model relationship.
+- Strict OSI `custom_extensions` entries use `vendor_name` and `data`; `data` is a JSON string. Do not leave raw helper shapes such as `name/value` in generated OSI YAML.
 - Generate the semantic model from table metadata before generating ontology mappings.
 - Generate `semantic_model.relationships[]` from foreign keys, join columns, reference columns, or documented joins.
 - Do not invent physical fields. If a field is required but absent, model it as a requirement or implementation gap.
@@ -196,7 +228,7 @@ Rules:
 
 ## Metrics
 
-OSI metrics are defined at semantic model level. Metrics are not only for regulatory reporting; they can represent calculated value fields that belong to an EntityType. For this KG UI, render metrics as blue semantic-model Metric overlay nodes in Semantic Model View and Mapping View when selected, never as Table child rows. Also render a metric through any EntityType ValueType relationship mapped to `metric.<metric_name>`.
+OSI metrics are defined at semantic model level. Metrics are not only for regulatory reporting; they can represent calculated value fields that belong to an EntityType. For this KG UI, render metrics as blue semantic-model Metric overlay nodes in Semantic Model View when selected, never as Table child rows. Also render a metric through any EntityType ValueType relationship mapped to `metric.<metric_name>`.
 
 Rules:
 
@@ -206,7 +238,7 @@ Rules:
 - Do not add non-OSI fields to metric objects; use `custom_extensions` only when extra KG/UI metadata is required.
 - Parse `dataset.column` references from metric expressions.
 - Do not show semantic metrics under Table nodes. Show them as selected semantic Metric overlay nodes sourced from `semantic_model.metrics[]`.
-- Create node-level `DERIVED_BY` summary edges from each selected semantic Metric node to input Semantic Dataset nodes, field-level `DERIVED_BY` edges from the metric-backed EntityType value field or Metric node to the Dataset Fields used by the metric expression, and a Mapping View `DERIVED_BY` field edge from the EntityType metric-backed value field to the selected Metric node.
+- Create node-level `DERIVED_BY` summary edges from each selected semantic Metric node to input Semantic Dataset nodes, field-level `DERIVED_BY` edges from the metric-backed EntityType value field or Metric node to the Dataset Fields used by the metric expression, and a `DERIVED_BY` field edge from the EntityType metric-backed value field to the selected Metric node in graph views that show that relationship.
 - Only draw field-level metric dependency edges after the user selects the relevant field row. Node-level metric-to-dataset summary edges may be visible in Semantic Model View.
 - If the metric is required by a regulatory report, expose it through an EntityType-owned value field and reference that field from the requirement; do not use `metric.<name>` as the requirement data item or calculation output.
 - If a required/implemented field is calculated from semantic model fields, create or reuse a `semantic_model.metrics[]` entry and map it to the relevant EntityType ValueType relationship. The ValueType is the field domain, such as `MonetaryAmount`; the metric is the calculation source, not a ValueType concept.
@@ -265,4 +297,5 @@ Examples:
 - `type: MAPS_TO_FIELD`, `label: trade_id`, derived from `concept: Trade`, `relationship: trade_id`, and `expression: trades.trade_id`
 - `type: DATASET_JOIN`, `label: trades_to_accounts`
 - `type: SOURCE_FIELD`, `label: trades.trade_id`
+
 

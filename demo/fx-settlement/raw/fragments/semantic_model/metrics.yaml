@@ -1,0 +1,16 @@
+- name: report_currency_exposure_amount
+  description: FX trade notional amount converted into reporting currency using the referenced FX rate.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: fx_trades.notional_amount * fx_rates.rate_value
+  ai_context:
+    metric_type: calculated_settlement_monitoring_measure
+- name: settlement_delay_days
+  description: Settlement delay measured as the day difference between expected and actual settlement completion dates.
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: DATEDIFF(day, settlement_instructions.expected_settlement_date, settlement_instructions.actual_settlement_date)
+  ai_context:
+    metric_type: calculated_settlement_monitoring_measure

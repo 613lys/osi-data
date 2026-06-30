@@ -1,0 +1,271 @@
+{
+  "presets": [
+    {
+      "id": "data-logic-lineage",
+      "kind": "preset",
+      "name": "Data logic lineage",
+      "order": 20,
+      "description": "Start from report data logic and show which requirements it implements and which semantic datasets or source tables it reads.",
+      "center_selector": {
+        "node_type": "report_implementation"
+      },
+      "view": {
+        "viewMode": "traceability",
+        "maxDepth": 2,
+        "nodeTypes": [
+          "report_implementation",
+          "regulatory_requirement",
+          "semantic_dataset",
+          "physical_table",
+          "table"
+        ],
+        "edgeTypes": [
+          "IMPLEMENTS",
+          "IMPLEMENTS_FIELD",
+          "SOURCE_TABLE",
+          "SOURCE_FIELD",
+          "MAPS_TO_FIELD"
+        ]
+      },
+      "source_file": "knowledge/scenarios/presets/data-logic-lineage.yaml"
+    },
+    {
+      "id": "report-requirement-analysis-template",
+      "kind": "preset",
+      "name": "Report Requirement analysis template",
+      "order": 30,
+      "description": "Reusable graph template for Report Requirement centers.",
+      "center_selector": {
+        "node_type": "regulatory_requirement"
+      },
+      "createdAt": "2026-06-30T13:01:19.762Z",
+      "updatedAt": "2026-06-30T13:01:19.762Z",
+      "view": {
+        "viewMode": "traceability",
+        "selectedOntology": "LoanExposureReportingOntology",
+        "selectedSemanticModel": "LoanExposureSemanticModel",
+        "maxDepth": 1,
+        "nodeTypes": [
+          "regulatory_requirement",
+          "report_implementation",
+          "entity_type_concept",
+          "base_entity_concept",
+          "semantic_dataset",
+          "semantic_metric",
+          "physical_table"
+        ],
+        "businessEdgeTypes": [
+          "REFERENCES"
+        ],
+        "edgeTypes": [
+          "REQUIRES_CONCEPT::regulatory_requirement::entity_type_concept",
+          "IMPLEMENTS::report_implementation::regulatory_requirement",
+          "SOURCE_TABLE::report_implementation::semantic_dataset",
+          "MAPS_TO::entity_type_concept::semantic_dataset",
+          "SOURCE_TABLE::semantic_dataset::physical_table",
+          "DATASET_JOIN::semantic_dataset::semantic_dataset",
+          "MAPS_TO::entity_type_concept::semantic_metric",
+          "DERIVED_BY::semantic_metric::semantic_dataset"
+        ],
+        "metricOverlays": []
+      },
+      "source_file": "knowledge/scenarios/presets/report-requirement-analysis-template.yaml"
+    },
+    {
+      "id": "requirement-impact",
+      "kind": "preset",
+      "name": "Requirement impact",
+      "order": 10,
+      "description": "Start from a report requirement and show the ontology concepts and semantic fields required by that scenario.",
+      "center_selector": {
+        "node_type": "regulatory_requirement"
+      },
+      "view": {
+        "viewMode": "traceability",
+        "maxDepth": 2,
+        "nodeTypes": [
+          "regulatory_requirement",
+          "entity_type_concept",
+          "base_entity_concept",
+          "semantic_metric"
+        ],
+        "edgeTypes": [
+          "REQUIRES_CONCEPT",
+          "REQUIRES_SEMANTIC_FIELD",
+          "DERIVED_FROM"
+        ]
+      },
+      "source_file": "knowledge/scenarios/presets/requirement-impact.yaml"
+    }
+  ],
+  "snapshots": [
+    {
+      "id": "test",
+      "kind": "snapshot",
+      "name": "test",
+      "description": "Saved graph state snapshot.",
+      "createdAt": "2026-06-30T11:28:18.663Z",
+      "updatedAt": "2026-06-30T11:28:18.663Z",
+      "view": {
+        "viewMode": "traceability",
+        "focusId": "requirement.item",
+        "selectedNodeId": "requirement.item",
+        "selectedOntology": "LoanExposureReportingOntology",
+        "selectedSemanticModel": "LoanExposureSemanticModel",
+        "maxDepth": 1,
+        "nodeTypes": [
+          "regulatory_requirement",
+          "report_implementation",
+          "entity_type_concept",
+          "base_entity_concept",
+          "semantic_dataset",
+          "semantic_metric",
+          "physical_table"
+        ],
+        "businessEdgeTypes": [
+          "REFERENCES"
+        ],
+        "edgeTypes": [
+          "REQUIRES_CONCEPT::regulatory_requirement::entity_type_concept",
+          "IMPLEMENTS::report_implementation::regulatory_requirement",
+          "SOURCE_TABLE::report_implementation::semantic_dataset",
+          "MAPS_TO::entity_type_concept::semantic_dataset",
+          "SOURCE_TABLE::semantic_dataset::physical_table",
+          "DATASET_JOIN::semantic_dataset::semantic_dataset",
+          "MAPS_TO::entity_type_concept::semantic_metric",
+          "DERIVED_BY::semantic_metric::semantic_dataset"
+        ],
+        "metricOverlays": [],
+        "tags": [],
+        "expanded": [],
+        "autoExpandSuppressed": [],
+        "hiddenNodes": [
+          "report_impl.item"
+        ],
+        "selectedEdgeId": null,
+        "selectedFieldId": null,
+        "selectedFieldIds": [],
+        "positions": [
+          [
+            "requirement.item",
+            {
+              "x": 102,
+              "y": 102
+            }
+          ],
+          [
+            "concept.Borrower",
+            {
+              "x": 442,
+              "y": 327
+            }
+          ],
+          [
+            "concept.Loan",
+            {
+              "x": 782,
+              "y": 102
+            }
+          ],
+          [
+            "concept.LoanProduct",
+            {
+              "x": 442,
+              "y": 143
+            }
+          ]
+        ],
+        "scroll": {
+          "left": 161,
+          "top": 46
+        }
+      },
+      "source_file": "knowledge/scenarios/snapshots/test.json"
+    },
+    {
+      "id": "test1",
+      "kind": "snapshot",
+      "name": "test1",
+      "description": "Saved graph view snapshot.",
+      "createdAt": "2026-06-30T13:03:44.559Z",
+      "updatedAt": "2026-06-30T13:03:45.734Z",
+      "view": {
+        "viewMode": "traceability",
+        "focusId": "requirement.item",
+        "selectedNodeId": "requirement.item",
+        "selectedOntology": "LoanExposureReportingOntology",
+        "selectedSemanticModel": "LoanExposureSemanticModel",
+        "maxDepth": 1,
+        "nodeTypes": [
+          "regulatory_requirement",
+          "report_implementation",
+          "entity_type_concept",
+          "base_entity_concept",
+          "semantic_dataset",
+          "semantic_metric",
+          "physical_table"
+        ],
+        "businessEdgeTypes": [
+          "REFERENCES"
+        ],
+        "edgeTypes": [
+          "REQUIRES_CONCEPT::regulatory_requirement::entity_type_concept",
+          "IMPLEMENTS::report_implementation::regulatory_requirement",
+          "SOURCE_TABLE::report_implementation::semantic_dataset",
+          "MAPS_TO::entity_type_concept::semantic_dataset",
+          "SOURCE_TABLE::semantic_dataset::physical_table",
+          "DATASET_JOIN::semantic_dataset::semantic_dataset",
+          "MAPS_TO::entity_type_concept::semantic_metric",
+          "DERIVED_BY::semantic_metric::semantic_dataset"
+        ],
+        "metricOverlays": [],
+        "tags": [],
+        "expanded": [
+          "concept.LoanProduct"
+        ],
+        "autoExpandSuppressed": [],
+        "hiddenNodes": [
+          "report_impl.item"
+        ],
+        "selectedEdgeId": null,
+        "selectedFieldId": null,
+        "selectedFieldIds": [],
+        "positions": [
+          [
+            "requirement.item",
+            {
+              "x": 136,
+              "y": 89
+            }
+          ],
+          [
+            "concept.Borrower",
+            {
+              "x": 442,
+              "y": 327
+            }
+          ],
+          [
+            "concept.Loan",
+            {
+              "x": 782,
+              "y": 102
+            }
+          ],
+          [
+            "concept.LoanProduct",
+            {
+              "x": 942,
+              "y": 310
+            }
+          ]
+        ],
+        "scroll": {
+          "left": 161,
+          "top": 46
+        }
+      },
+      "source_file": "knowledge/scenarios/snapshots/test1.json"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+id: collateral-requirement-impact
+kind: preset
+name: Collateral - Requirement impact
+order: 210
+description: Start from a report requirement and show the ontology concepts and semantic
+  fields required by that scenario.
+center_selector:
+  node_type: regulatory_requirement
+view:
+  viewMode: traceability
+  maxDepth: 2
+  nodeTypes:
+  - regulatory_requirement
+  - entity_type_concept
+  - base_entity_concept
+  - semantic_metric
+  edgeTypes:
+  - REQUIRES_CONCEPT
+  - REQUIRES_SEMANTIC_FIELD
+  - DERIVED_FROM

@@ -12,7 +12,15 @@
         "identify_by": [
           "has_AccountIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -31,7 +39,14 @@
           "{AccountData} has account identifier {AccountIdentifier}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -50,7 +65,14 @@
           "{AccountData} has account status {StatusCode}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -65,7 +87,15 @@
         "identify_by": [
           "has_CollateralIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -84,7 +114,14 @@
           "{CollateralAssetData} has collateral identifier {CollateralIdentifier}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -103,7 +140,14 @@
           "{CollateralAssetData} has asset type {AssetType}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -122,7 +166,14 @@
           "{CollateralAssetData} has currency {CurrencyCode}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -141,7 +192,14 @@
           "{CollateralAssetData} has issuer country {CountryCode}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -156,7 +214,15 @@
         "identify_by": [
           "has_CounterpartyIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -175,7 +241,14 @@
           "{CounterpartyData} has counterparty identifier {CounterpartyIdentifier}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -194,7 +267,14 @@
           "{CounterpartyData} has legal name {LegalName}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -213,7 +293,14 @@
           "{CounterpartyData} has domicile country {CountryCode}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -232,7 +319,14 @@
           "{CounterpartyData} has regulatory segment {RegulatorySegment}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -247,7 +341,15 @@
         "identify_by": [
           "has_ValuationIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -266,7 +368,14 @@
           "{ValuationData} has valuation identifier {ValuationIdentifier}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -285,7 +394,14 @@
           "{ValuationData} has valuation date {Date}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -302,7 +418,15 @@
         "identify_by": [
           "has_CollateralIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -319,7 +443,15 @@
         "identify_by": [
           "has_AccountIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -336,7 +468,15 @@
         "identify_by": [
           "has_ValuationIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -355,7 +495,14 @@
           "{CollateralValuation} has market value amount {MonetaryAmount}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -374,7 +521,14 @@
           "{CollateralValuation} has haircut rate {Rate}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -394,6 +548,13 @@
         ],
         "source_field": "ontology.relationships",
         "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
         "calculation_type": "metric",
         "semantic_metric": "eligible_collateral_value",
         "semantic_reference": "metric.eligible_collateral_value",
@@ -433,7 +594,15 @@
         "identify_by": [
           "has_CounterpartyIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -452,7 +621,14 @@
           "{MarginAccount} has base currency {CurrencyCode}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -474,7 +650,14 @@
         "inherited": true,
         "inherited_from": "CollateralAssetData",
         "base_relationship_path": "CollateralAssetData.has_CollateralIdentifier",
-        "inheritance_note": "Inherited from CollateralAssetData."
+        "inheritance_note": "Inherited from CollateralAssetData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -496,7 +679,14 @@
         "inherited": true,
         "inherited_from": "CollateralAssetData",
         "base_relationship_path": "CollateralAssetData.has_AssetType",
-        "inheritance_note": "Inherited from CollateralAssetData."
+        "inheritance_note": "Inherited from CollateralAssetData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -518,7 +708,14 @@
         "inherited": true,
         "inherited_from": "CollateralAssetData",
         "base_relationship_path": "CollateralAssetData.has_AssetCurrency",
-        "inheritance_note": "Inherited from CollateralAssetData."
+        "inheritance_note": "Inherited from CollateralAssetData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -540,7 +737,14 @@
         "inherited": true,
         "inherited_from": "CollateralAssetData",
         "base_relationship_path": "CollateralAssetData.has_IssuerCountry",
-        "inheritance_note": "Inherited from CollateralAssetData."
+        "inheritance_note": "Inherited from CollateralAssetData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -562,7 +766,14 @@
         "inherited": true,
         "inherited_from": "ValuationData",
         "base_relationship_path": "ValuationData.has_ValuationIdentifier",
-        "inheritance_note": "Inherited from ValuationData."
+        "inheritance_note": "Inherited from ValuationData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -584,7 +795,14 @@
         "inherited": true,
         "inherited_from": "ValuationData",
         "base_relationship_path": "ValuationData.has_ValuationDate",
-        "inheritance_note": "Inherited from ValuationData."
+        "inheritance_note": "Inherited from ValuationData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -606,7 +824,14 @@
         "inherited": true,
         "inherited_from": "CounterpartyData",
         "base_relationship_path": "CounterpartyData.has_CounterpartyIdentifier",
-        "inheritance_note": "Inherited from CounterpartyData."
+        "inheritance_note": "Inherited from CounterpartyData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -628,7 +853,14 @@
         "inherited": true,
         "inherited_from": "CounterpartyData",
         "base_relationship_path": "CounterpartyData.has_LegalName",
-        "inheritance_note": "Inherited from CounterpartyData."
+        "inheritance_note": "Inherited from CounterpartyData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -650,7 +882,14 @@
         "inherited": true,
         "inherited_from": "CounterpartyData",
         "base_relationship_path": "CounterpartyData.has_DomicileCountry",
-        "inheritance_note": "Inherited from CounterpartyData."
+        "inheritance_note": "Inherited from CounterpartyData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -672,7 +911,14 @@
         "inherited": true,
         "inherited_from": "CounterpartyData",
         "base_relationship_path": "CounterpartyData.has_RegulatorySegment",
-        "inheritance_note": "Inherited from CounterpartyData."
+        "inheritance_note": "Inherited from CounterpartyData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -694,7 +940,14 @@
         "inherited": true,
         "inherited_from": "AccountData",
         "base_relationship_path": "AccountData.has_AccountIdentifier",
-        "inheritance_note": "Inherited from AccountData."
+        "inheritance_note": "Inherited from AccountData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -716,7 +969,14 @@
         "inherited": true,
         "inherited_from": "AccountData",
         "base_relationship_path": "AccountData.has_AccountStatus",
-        "inheritance_note": "Inherited from AccountData."
+        "inheritance_note": "Inherited from AccountData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -731,12 +991,19 @@
           "line_number"
         ],
         "field_count": 7,
-        "physical_kind": "",
+        "physical_kind": "table",
         "source_tables": [
           "reporting.collateral_margin_report_lines"
         ],
         "custom_extensions": [],
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -747,7 +1014,11 @@
         "description": "",
         "source": "reporting.collateral_margin_report_lines",
         "source_dataset": "collateral_margin_report_lines",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology"
       }
     },
     {
@@ -757,12 +1028,19 @@
       "properties": {
         "description": "Identifier of the generated collateral margin report submission.",
         "parent": "dataset.collateral_margin_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "report_id",
         "dataset": "collateral_margin_report_lines",
         "field": "report_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -772,8 +1050,8 @@
       "properties": {
         "description": "Identifier of the generated collateral margin report submission.",
         "parent": "table.reporting.collateral_margin_report_lines",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "report_id",
         "physical_field": "reporting.collateral_margin_report_lines.report_id",
         "dataset_field": "collateral_margin_report_lines.report_id"
@@ -786,12 +1064,19 @@
       "properties": {
         "description": "Line sequence number within a collateral margin report submission.",
         "parent": "dataset.collateral_margin_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "integer",
+        "nullable": false,
         "expression": "line_number",
         "dataset": "collateral_margin_report_lines",
         "field": "line_number",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -801,8 +1086,8 @@
       "properties": {
         "description": "Line sequence number within a collateral margin report submission.",
         "parent": "table.reporting.collateral_margin_report_lines",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "integer",
+        "nullable": false,
         "expression": "line_number",
         "physical_field": "reporting.collateral_margin_report_lines.line_number",
         "dataset_field": "collateral_margin_report_lines.line_number"
@@ -815,12 +1100,19 @@
       "properties": {
         "description": "Margin account identifier reported on the output line.",
         "parent": "dataset.collateral_margin_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_id",
         "dataset": "collateral_margin_report_lines",
         "field": "account_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -830,8 +1122,8 @@
       "properties": {
         "description": "Margin account identifier reported on the output line.",
         "parent": "table.reporting.collateral_margin_report_lines",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_id",
         "physical_field": "reporting.collateral_margin_report_lines.account_id",
         "dataset_field": "collateral_margin_report_lines.account_id"
@@ -844,12 +1136,19 @@
       "properties": {
         "description": "Counterparty identifier reported on the output line.",
         "parent": "dataset.collateral_margin_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "counterparty_id",
         "dataset": "collateral_margin_report_lines",
         "field": "counterparty_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -859,8 +1158,8 @@
       "properties": {
         "description": "Counterparty identifier reported on the output line.",
         "parent": "table.reporting.collateral_margin_report_lines",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "counterparty_id",
         "physical_field": "reporting.collateral_margin_report_lines.counterparty_id",
         "dataset_field": "collateral_margin_report_lines.counterparty_id"
@@ -873,12 +1172,19 @@
       "properties": {
         "description": "Collateral asset identifier reported on the output line.",
         "parent": "dataset.collateral_margin_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "collateral_id",
         "dataset": "collateral_margin_report_lines",
         "field": "collateral_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -888,8 +1194,8 @@
       "properties": {
         "description": "Collateral asset identifier reported on the output line.",
         "parent": "table.reporting.collateral_margin_report_lines",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "collateral_id",
         "physical_field": "reporting.collateral_margin_report_lines.collateral_id",
         "dataset_field": "collateral_margin_report_lines.collateral_id"
@@ -902,12 +1208,19 @@
       "properties": {
         "description": "Valuation date used for the reported collateral amount.",
         "parent": "dataset.collateral_margin_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "date",
+        "nullable": false,
         "expression": "valuation_date",
         "dataset": "collateral_margin_report_lines",
         "field": "valuation_date",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -917,8 +1230,8 @@
       "properties": {
         "description": "Valuation date used for the reported collateral amount.",
         "parent": "table.reporting.collateral_margin_report_lines",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "date",
+        "nullable": false,
         "expression": "valuation_date",
         "physical_field": "reporting.collateral_margin_report_lines.valuation_date",
         "dataset_field": "collateral_margin_report_lines.valuation_date"
@@ -931,12 +1244,19 @@
       "properties": {
         "description": "Reportable collateral value after applying haircut and eligibility calculation.",
         "parent": "dataset.collateral_margin_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "eligible_collateral_value",
         "dataset": "collateral_margin_report_lines",
         "field": "eligible_collateral_value",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -946,8 +1266,8 @@
       "properties": {
         "description": "Reportable collateral value after applying haircut and eligibility calculation.",
         "parent": "table.reporting.collateral_margin_report_lines",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "eligible_collateral_value",
         "physical_field": "reporting.collateral_margin_report_lines.eligible_collateral_value",
         "dataset_field": "collateral_margin_report_lines.eligible_collateral_value"
@@ -964,12 +1284,19 @@
           "collateral_id"
         ],
         "field_count": 5,
-        "physical_kind": "",
+        "physical_kind": "table",
         "source_tables": [
           "collateral_master.collateral_positions"
         ],
         "custom_extensions": [],
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -980,7 +1307,11 @@
         "description": "",
         "source": "collateral_master.collateral_positions",
         "source_dataset": "collateral_positions",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology"
       }
     },
     {
@@ -990,12 +1321,19 @@
       "properties": {
         "description": "Stable identifier for the pledged collateral asset position.",
         "parent": "dataset.collateral_positions",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "collateral_id",
         "dataset": "collateral_positions",
         "field": "collateral_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1005,8 +1343,8 @@
       "properties": {
         "description": "Stable identifier for the pledged collateral asset position.",
         "parent": "table.collateral_master.collateral_positions",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "collateral_id",
         "physical_field": "collateral_master.collateral_positions.collateral_id",
         "dataset_field": "collateral_positions.collateral_id"
@@ -1019,12 +1357,19 @@
       "properties": {
         "description": "Margin account identifier to which the collateral position is assigned.",
         "parent": "dataset.collateral_positions",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_id",
         "dataset": "collateral_positions",
         "field": "account_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1034,8 +1379,8 @@
       "properties": {
         "description": "Margin account identifier to which the collateral position is assigned.",
         "parent": "table.collateral_master.collateral_positions",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_id",
         "physical_field": "collateral_master.collateral_positions.account_id",
         "dataset_field": "collateral_positions.account_id"
@@ -1048,12 +1393,19 @@
       "properties": {
         "description": "Asset classification of the pledged collateral used for eligibility assessment.",
         "parent": "dataset.collateral_positions",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "asset_type",
         "dataset": "collateral_positions",
         "field": "asset_type",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1063,8 +1415,8 @@
       "properties": {
         "description": "Asset classification of the pledged collateral used for eligibility assessment.",
         "parent": "table.collateral_master.collateral_positions",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "asset_type",
         "physical_field": "collateral_master.collateral_positions.asset_type",
         "dataset_field": "collateral_positions.asset_type"
@@ -1077,12 +1429,19 @@
       "properties": {
         "description": "Denomination currency of the pledged collateral position.",
         "parent": "dataset.collateral_positions",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "currency",
         "dataset": "collateral_positions",
         "field": "currency",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1092,8 +1451,8 @@
       "properties": {
         "description": "Denomination currency of the pledged collateral position.",
         "parent": "table.collateral_master.collateral_positions",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "currency",
         "physical_field": "collateral_master.collateral_positions.currency",
         "dataset_field": "collateral_positions.currency"
@@ -1106,12 +1465,19 @@
       "properties": {
         "description": "Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules.",
         "parent": "dataset.collateral_positions",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": true,
         "expression": "issuer_country",
         "dataset": "collateral_positions",
         "field": "issuer_country",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1121,8 +1487,8 @@
       "properties": {
         "description": "Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules.",
         "parent": "table.collateral_master.collateral_positions",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": true,
         "expression": "issuer_country",
         "physical_field": "collateral_master.collateral_positions.issuer_country",
         "dataset_field": "collateral_positions.issuer_country"
@@ -1139,12 +1505,19 @@
           "valuation_id"
         ],
         "field_count": 5,
-        "physical_kind": "",
+        "physical_kind": "table",
         "source_tables": [
           "market_risk.collateral_valuations"
         ],
         "custom_extensions": [],
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1155,7 +1528,11 @@
         "description": "",
         "source": "market_risk.collateral_valuations",
         "source_dataset": "collateral_valuations",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology"
       }
     },
     {
@@ -1165,12 +1542,19 @@
       "properties": {
         "description": "Stable identifier for a collateral valuation record.",
         "parent": "dataset.collateral_valuations",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "valuation_id",
         "dataset": "collateral_valuations",
         "field": "valuation_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1180,8 +1564,8 @@
       "properties": {
         "description": "Stable identifier for a collateral valuation record.",
         "parent": "table.market_risk.collateral_valuations",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "valuation_id",
         "physical_field": "market_risk.collateral_valuations.valuation_id",
         "dataset_field": "collateral_valuations.valuation_id"
@@ -1194,12 +1578,19 @@
       "properties": {
         "description": "Identifier of the pledged collateral asset being valued.",
         "parent": "dataset.collateral_valuations",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "collateral_id",
         "dataset": "collateral_valuations",
         "field": "collateral_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1209,8 +1600,8 @@
       "properties": {
         "description": "Identifier of the pledged collateral asset being valued.",
         "parent": "table.market_risk.collateral_valuations",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "collateral_id",
         "physical_field": "market_risk.collateral_valuations.collateral_id",
         "dataset_field": "collateral_valuations.collateral_id"
@@ -1223,12 +1614,19 @@
       "properties": {
         "description": "Business date on which the collateral market value and haircut are observed.",
         "parent": "dataset.collateral_valuations",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "date",
+        "nullable": false,
         "expression": "valuation_date",
         "dataset": "collateral_valuations",
         "field": "valuation_date",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1238,8 +1636,8 @@
       "properties": {
         "description": "Business date on which the collateral market value and haircut are observed.",
         "parent": "table.market_risk.collateral_valuations",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "date",
+        "nullable": false,
         "expression": "valuation_date",
         "physical_field": "market_risk.collateral_valuations.valuation_date",
         "dataset_field": "collateral_valuations.valuation_date"
@@ -1252,12 +1650,19 @@
       "properties": {
         "description": "Observed market value amount of the collateral before haircut adjustment.",
         "parent": "dataset.collateral_valuations",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "market_value_amount",
         "dataset": "collateral_valuations",
         "field": "market_value_amount",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1267,8 +1672,8 @@
       "properties": {
         "description": "Observed market value amount of the collateral before haircut adjustment.",
         "parent": "table.market_risk.collateral_valuations",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "market_value_amount",
         "physical_field": "market_risk.collateral_valuations.market_value_amount",
         "dataset_field": "collateral_valuations.market_value_amount"
@@ -1281,12 +1686,19 @@
       "properties": {
         "description": "Haircut percentage applied to collateral market value for eligibility calculation.",
         "parent": "dataset.collateral_valuations",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "haircut_rate",
         "dataset": "collateral_valuations",
         "field": "haircut_rate",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1296,8 +1708,8 @@
       "properties": {
         "description": "Haircut percentage applied to collateral market value for eligibility calculation.",
         "parent": "table.market_risk.collateral_valuations",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "haircut_rate",
         "physical_field": "market_risk.collateral_valuations.haircut_rate",
         "dataset_field": "collateral_valuations.haircut_rate"
@@ -1314,12 +1726,19 @@
           "counterparty_id"
         ],
         "field_count": 4,
-        "physical_kind": "",
+        "physical_kind": "table",
         "source_tables": [
           "margin_core.counterparties"
         ],
         "custom_extensions": [],
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1330,7 +1749,11 @@
         "description": "",
         "source": "margin_core.counterparties",
         "source_dataset": "counterparties",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology"
       }
     },
     {
@@ -1340,12 +1763,19 @@
       "properties": {
         "description": "Stable identifier for the legal counterparty reference record.",
         "parent": "dataset.counterparties",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "counterparty_id",
         "dataset": "counterparties",
         "field": "counterparty_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1355,8 +1785,8 @@
       "properties": {
         "description": "Stable identifier for the legal counterparty reference record.",
         "parent": "table.margin_core.counterparties",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "counterparty_id",
         "physical_field": "margin_core.counterparties.counterparty_id",
         "dataset_field": "counterparties.counterparty_id"
@@ -1369,12 +1799,19 @@
       "properties": {
         "description": "Registered legal name of the reporting counterparty.",
         "parent": "dataset.counterparties",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "legal_name",
         "dataset": "counterparties",
         "field": "legal_name",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1384,8 +1821,8 @@
       "properties": {
         "description": "Registered legal name of the reporting counterparty.",
         "parent": "table.margin_core.counterparties",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "legal_name",
         "physical_field": "margin_core.counterparties.legal_name",
         "dataset_field": "counterparties.legal_name"
@@ -1398,12 +1835,19 @@
       "properties": {
         "description": "Country or jurisdiction where the counterparty is domiciled for regulatory classification.",
         "parent": "dataset.counterparties",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "domicile_country",
         "dataset": "counterparties",
         "field": "domicile_country",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1413,8 +1857,8 @@
       "properties": {
         "description": "Country or jurisdiction where the counterparty is domiciled for regulatory classification.",
         "parent": "table.margin_core.counterparties",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "domicile_country",
         "physical_field": "margin_core.counterparties.domicile_country",
         "dataset_field": "counterparties.domicile_country"
@@ -1427,12 +1871,19 @@
       "properties": {
         "description": "Regulatory counterparty segment used for reporting categorization and eligibility rules.",
         "parent": "dataset.counterparties",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": true,
         "expression": "regulatory_segment",
         "dataset": "counterparties",
         "field": "regulatory_segment",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1442,8 +1893,8 @@
       "properties": {
         "description": "Regulatory counterparty segment used for reporting categorization and eligibility rules.",
         "parent": "table.margin_core.counterparties",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": true,
         "expression": "regulatory_segment",
         "physical_field": "margin_core.counterparties.regulatory_segment",
         "dataset_field": "counterparties.regulatory_segment"
@@ -1460,12 +1911,19 @@
           "account_id"
         ],
         "field_count": 4,
-        "physical_kind": "",
+        "physical_kind": "table",
         "source_tables": [
           "margin_core.margin_accounts"
         ],
         "custom_extensions": [],
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1476,7 +1934,11 @@
         "description": "",
         "source": "margin_core.margin_accounts",
         "source_dataset": "margin_accounts",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology"
       }
     },
     {
@@ -1486,12 +1948,19 @@
       "properties": {
         "description": "Stable identifier for a margin account record at account grain.",
         "parent": "dataset.margin_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_id",
         "dataset": "margin_accounts",
         "field": "account_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1501,8 +1970,8 @@
       "properties": {
         "description": "Stable identifier for a margin account record at account grain.",
         "parent": "table.margin_core.margin_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_id",
         "physical_field": "margin_core.margin_accounts.account_id",
         "dataset_field": "margin_accounts.account_id"
@@ -1515,12 +1984,19 @@
       "properties": {
         "description": "Identifier of the legal counterparty responsible for the margin account.",
         "parent": "dataset.margin_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "counterparty_id",
         "dataset": "margin_accounts",
         "field": "counterparty_id",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1530,8 +2006,8 @@
       "properties": {
         "description": "Identifier of the legal counterparty responsible for the margin account.",
         "parent": "table.margin_core.margin_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "counterparty_id",
         "physical_field": "margin_core.margin_accounts.counterparty_id",
         "dataset_field": "margin_accounts.counterparty_id"
@@ -1544,12 +2020,19 @@
       "properties": {
         "description": "Currency in which the margin account obligation is primarily managed and reported.",
         "parent": "dataset.margin_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "base_currency",
         "dataset": "margin_accounts",
         "field": "base_currency",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1559,8 +2042,8 @@
       "properties": {
         "description": "Currency in which the margin account obligation is primarily managed and reported.",
         "parent": "table.margin_core.margin_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "base_currency",
         "physical_field": "margin_core.margin_accounts.base_currency",
         "dataset_field": "margin_accounts.base_currency"
@@ -1573,12 +2056,19 @@
       "properties": {
         "description": "Operational status of the margin account used to determine reporting eligibility.",
         "parent": "dataset.margin_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_status",
         "dataset": "margin_accounts",
         "field": "account_status",
-        "semantic_model": "CollateralMarginSemanticModel"
+        "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ]
       }
     },
     {
@@ -1588,8 +2078,8 @@
       "properties": {
         "description": "Operational status of the margin account used to determine reporting eligibility.",
         "parent": "table.margin_core.margin_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_status",
         "physical_field": "margin_core.margin_accounts.account_status",
         "dataset_field": "margin_accounts.account_status"
@@ -1602,6 +2092,10 @@
       "properties": {
         "description": "Market value after haircut for regulatory eligible collateral reporting.",
         "semantic_model": "CollateralMarginSemanticModel",
+        "semantic_models": [
+          "CollateralMarginSemanticModel"
+        ],
+        "ontology": "CollateralMarginReportingOntology",
         "semantic_metric": "eligible_collateral_value",
         "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)",
         "source_fields": [
@@ -1912,7 +2406,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "AccountIdentifier",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1929,7 +2430,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "StatusCode",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1946,7 +2454,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CollateralIdentifier",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1963,7 +2478,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "AssetType",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1980,7 +2502,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CurrencyCode",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1997,7 +2526,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CountryCode",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2014,7 +2550,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CounterpartyIdentifier",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2031,7 +2574,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "LegalName",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2048,7 +2598,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CountryCode",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2065,7 +2622,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "RegulatorySegment",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2082,7 +2646,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "ValuationIdentifier",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2099,7 +2670,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "Date",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2173,7 +2751,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "MonetaryAmount",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2190,7 +2775,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "Rate",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2207,7 +2799,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "MonetaryAmount",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2298,7 +2897,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CurrencyCode",
-        "inherited": false
+        "inherited": false,
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2318,7 +2924,14 @@
         "inherited": true,
         "inherited_from": "CollateralAssetData",
         "base_relationship_path": "CollateralAssetData.has_CollateralIdentifier",
-        "inheritance_note": "Inherited from CollateralAssetData."
+        "inheritance_note": "Inherited from CollateralAssetData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2338,7 +2951,14 @@
         "inherited": true,
         "inherited_from": "CollateralAssetData",
         "base_relationship_path": "CollateralAssetData.has_AssetType",
-        "inheritance_note": "Inherited from CollateralAssetData."
+        "inheritance_note": "Inherited from CollateralAssetData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2358,7 +2978,14 @@
         "inherited": true,
         "inherited_from": "CollateralAssetData",
         "base_relationship_path": "CollateralAssetData.has_AssetCurrency",
-        "inheritance_note": "Inherited from CollateralAssetData."
+        "inheritance_note": "Inherited from CollateralAssetData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2378,7 +3005,14 @@
         "inherited": true,
         "inherited_from": "CollateralAssetData",
         "base_relationship_path": "CollateralAssetData.has_IssuerCountry",
-        "inheritance_note": "Inherited from CollateralAssetData."
+        "inheritance_note": "Inherited from CollateralAssetData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2398,7 +3032,14 @@
         "inherited": true,
         "inherited_from": "ValuationData",
         "base_relationship_path": "ValuationData.has_ValuationIdentifier",
-        "inheritance_note": "Inherited from ValuationData."
+        "inheritance_note": "Inherited from ValuationData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2418,7 +3059,14 @@
         "inherited": true,
         "inherited_from": "ValuationData",
         "base_relationship_path": "ValuationData.has_ValuationDate",
-        "inheritance_note": "Inherited from ValuationData."
+        "inheritance_note": "Inherited from ValuationData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2438,7 +3086,14 @@
         "inherited": true,
         "inherited_from": "CounterpartyData",
         "base_relationship_path": "CounterpartyData.has_CounterpartyIdentifier",
-        "inheritance_note": "Inherited from CounterpartyData."
+        "inheritance_note": "Inherited from CounterpartyData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2458,7 +3113,14 @@
         "inherited": true,
         "inherited_from": "CounterpartyData",
         "base_relationship_path": "CounterpartyData.has_LegalName",
-        "inheritance_note": "Inherited from CounterpartyData."
+        "inheritance_note": "Inherited from CounterpartyData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2478,7 +3140,14 @@
         "inherited": true,
         "inherited_from": "CounterpartyData",
         "base_relationship_path": "CounterpartyData.has_DomicileCountry",
-        "inheritance_note": "Inherited from CounterpartyData."
+        "inheritance_note": "Inherited from CounterpartyData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2498,7 +3167,14 @@
         "inherited": true,
         "inherited_from": "CounterpartyData",
         "base_relationship_path": "CounterpartyData.has_RegulatorySegment",
-        "inheritance_note": "Inherited from CounterpartyData."
+        "inheritance_note": "Inherited from CounterpartyData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2518,7 +3194,14 @@
         "inherited": true,
         "inherited_from": "AccountData",
         "base_relationship_path": "AccountData.has_AccountIdentifier",
-        "inheritance_note": "Inherited from AccountData."
+        "inheritance_note": "Inherited from AccountData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2538,7 +3221,14 @@
         "inherited": true,
         "inherited_from": "AccountData",
         "base_relationship_path": "AccountData.has_AccountStatus",
-        "inheritance_note": "Inherited from AccountData."
+        "inheritance_note": "Inherited from AccountData.",
+        "ontology": "CollateralMarginReportingOntology",
+        "ontologies": [
+          "CollateralMarginReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -3471,7 +4161,13 @@
           ],
           "to_columns": [
             "counterparty_id"
-          ]
+          ],
+          "ai_context": {
+            "description": "Margin accounts use counterparty_id to attach legal counterparty profile and jurisdiction attributes for collateral reporting."
+          }
+        },
+        "ai_context": {
+          "description": "Margin accounts use counterparty_id to attach legal counterparty profile and jurisdiction attributes for collateral reporting."
         }
       },
       "type": "DATASET_JOIN"
@@ -3492,7 +4188,13 @@
           ],
           "to_columns": [
             "account_id"
-          ]
+          ],
+          "ai_context": {
+            "description": "Collateral positions join to margin accounts through account_id to connect pledged assets with the account obligations they secure."
+          }
+        },
+        "ai_context": {
+          "description": "Collateral positions join to margin accounts through account_id to connect pledged assets with the account obligations they secure."
         }
       },
       "type": "DATASET_JOIN"
@@ -3513,7 +4215,13 @@
           ],
           "to_columns": [
             "collateral_id"
-          ]
+          ],
+          "ai_context": {
+            "description": "Collateral valuations use collateral_id to attach current valuation, haircut, and valuation date to the pledged collateral position."
+          }
+        },
+        "ai_context": {
+          "description": "Collateral valuations use collateral_id to attach current valuation, haircut, and valuation date to the pledged collateral position."
         }
       },
       "type": "DATASET_JOIN"

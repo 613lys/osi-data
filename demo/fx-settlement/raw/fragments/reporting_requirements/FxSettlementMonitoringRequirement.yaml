@@ -1,0 +1,60 @@
+name: 外汇结算监测报送需求
+type: ReportRequirement
+description: >
+  监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。
+source: Treasury FX Settlement Monitoring BRD v1.0 section 2.4
+SLA: Daily T+1 before 10:00 local time; operations review and exception evidence retained for audit.
+semantic_scope:
+  concepts:
+  - name: FxTrade
+    description: 需求需要外汇交易作为监测主对象，用于表达交易标识、交易对手、币种、金额和折算敞口口径。
+  - name: SettlementInstruction
+    description: 需求需要结算指令作为运营执行对象，用于表达结算状态、结算金额、结算币种和结算延迟情况。
+  - name: Counterparty
+    description: 需求需要交易对手信息，用于识别结算风险责任主体并支持分组复核。
+  - name: NostroAccount
+    description: 需求需要nostro账户信息，用于说明结算资金路径和账户可用性复核。
+  required_fields:
+  - name: 交易标识
+    description: 需求需要交易标识，用于唯一识别每笔外汇交易并支持报表行级对账。
+    semantic_reference: FxTrade.has_TransactionIdentifier
+    required: true
+  - name: 结算指令标识
+    description: 需求需要结算指令标识，用于定位执行结算的运营指令并追踪处理状态。
+    semantic_reference: SettlementInstruction.has_InstructionIdentifier
+    required: true
+  - name: 交易对手标识
+    description: 需求需要交易对手标识，用于识别交易责任主体并支持风险分组。
+    semantic_reference: Counterparty.has_CounterpartyIdentifier
+    required: true
+  - name: 结算币种
+    description: 需求需要结算币种，用于说明现金实际交收的币种口径。
+    semantic_reference: SettlementInstruction.has_SettlementCurrency
+    required: true
+  - name: 结算金额
+    description: 需求需要结算金额，用于展示外汇结算现金金额并支持金额级对账。
+    semantic_reference: SettlementInstruction.has_SettlementAmount
+    required: true
+  - name: 结算状态
+    description: 需求需要结算状态，用于识别未完成、失败或已完成的结算指令。
+    semantic_reference: SettlementInstruction.has_SettlementStatus
+    required: true
+  controls:
+  - name: settlement_status_present
+    target: SettlementInstruction.has_SettlementStatus
+    rule: Settlement status must be present for every monitored settlement instruction.
+calculations:
+- name: 折算后报送币种敞口金额
+  description: 需求需要将外汇交易名义金额按汇率折算为报送币种金额，用于衡量结算风险敞口。
+  output: FxTrade.has_ReportCurrencyExposureAmount
+  inputs:
+  - FxTrade.has_NotionalAmount
+  - FxRate.has_RateValue
+  expression: FxTrade.has_NotionalAmount * FxRate.has_RateValue
+- name: 结算延迟天数
+  description: 需求需要计算预计结算日和实际结算日之间的延迟天数，用于识别结算超时风险。
+  output: SettlementInstruction.has_SettlementDelayDays
+  inputs:
+  - SettlementInstruction.has_ExpectedSettlementDate
+  - SettlementInstruction.has_ActualSettlementDate
+  expression: days_between(SettlementInstruction.has_ExpectedSettlementDate, SettlementInstruction.has_ActualSettlementDate)

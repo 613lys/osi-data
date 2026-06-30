@@ -544,6 +544,9 @@ semantic_model:
     - borrower_id
     to_columns:
     - borrower_id
+    ai_context:
+      description: Retail loan records use borrower_id to attach the consumer borrower
+        profile used for customer segment and domicile reporting.
   - name: institutional_loan_borrower
     from: institutional_loans
     to: borrowers
@@ -551,6 +554,9 @@ semantic_model:
     - legal_entity_id
     to_columns:
     - borrower_id
+    ai_context:
+      description: Institutional facility records use legal_entity_id to resolve the
+        legal borrower profile used for wholesale exposure reporting.
   - name: retail_loan_product
     from: retail_loans
     to: loan_products
@@ -558,6 +564,9 @@ semantic_model:
     - product_id
     to_columns:
     - product_id
+    ai_context:
+      description: Retail loan records join to loan product definitions through product_id
+        to classify retail exposure product type and regulatory class.
   - name: institutional_loan_product
     from: institutional_loans
     to: loan_products
@@ -565,6 +574,9 @@ semantic_model:
     - product_code
     to_columns:
     - product_id
+    ai_context:
+      description: Institutional facility product_code resolves to the shared loan
+        product definition used for wholesale exposure classification.
   - name: report_line_borrower_composite
     from: loan_exposure_report_lines
     to: borrowers
@@ -574,6 +586,10 @@ semantic_model:
     to_columns:
     - borrower_id
     - domicile_country
+    ai_context:
+      description: Report lines reconcile to borrower master records using borrower
+        identifier plus reported country to preserve jurisdiction-specific exposure
+        context.
   - name: report_line_product
     from: loan_exposure_report_lines
     to: loan_products
@@ -581,6 +597,10 @@ semantic_model:
     - product_id
     to_columns:
     - product_id
+    ai_context:
+      description: Report lines join to loan product definitions through product_id
+        so reported exposures can be reviewed against product classification reference
+        data.
   metrics:
   - name: expected_loss_amount
     description: Expected credit loss calculated from exposure at default, probability

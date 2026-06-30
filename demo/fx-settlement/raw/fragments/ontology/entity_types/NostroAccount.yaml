@@ -1,0 +1,28 @@
+name: NostroAccount
+description: Cash settlement account used for FX payment and receipt processing.
+extends:
+- AccountData
+identify_by:
+- has_AccountIdentifier
+relationships:
+- name: HELD_BY_Counterparty
+  roles:
+  - concept: Counterparty
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{NostroAccount} is held by {Counterparty}"
+  description: Counterparty or banking entity responsible for the nostro account.
+- name: has_AccountCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{NostroAccount} has account currency {CurrencyCode}"
+  description: Currency in which the nostro account settles cash.
+- name: has_AccountStatus
+  roles:
+  - concept: StatusCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{NostroAccount} has account status {StatusCode}"
+  description: Operational lifecycle status of the nostro account.

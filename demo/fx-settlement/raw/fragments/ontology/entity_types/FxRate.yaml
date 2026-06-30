@@ -1,0 +1,35 @@
+name: FxRate
+description: Reference FX rate used to convert trade amounts for monitoring and reporting.
+extends:
+- ReferenceData
+identify_by:
+- has_ReferenceIdentifier
+relationships:
+- name: has_BaseCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxRate} has base currency {CurrencyCode}"
+  description: Base currency of the FX rate quote.
+- name: has_QuoteCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxRate} has quote currency {CurrencyCode}"
+  description: Quote or reporting currency of the FX rate quote.
+- name: has_RateDate
+  roles:
+  - concept: CalendarDate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxRate} has rate date {CalendarDate}"
+  description: Date on which the FX rate is effective.
+- name: has_RateValue
+  roles:
+  - concept: Rate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{FxRate} has rate value {Rate}"
+  description: Decimal exchange rate value for the currency pair.

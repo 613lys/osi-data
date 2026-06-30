@@ -1,0 +1,13 @@
+ontology_name: FxSettlementMonitoringOntology
+description: OSI scenario for foreign exchange settlement monitoring, built from trade, settlement instruction, counterparty, nostro account, and FX rate source metadata.
+mapping_name: FxSettlementSemanticMapping
+semantic_model_name: FxSettlementSemanticModel
+semantic_model_description: Table-backed semantic model for FX trade settlement monitoring across trading, payments, counterparty master, account master, and market data sources.
+model_version: 1.0.0
+owner: Treasury Operations Data Governance
+source_systems:
+- fx_trading_core
+- payments_core
+- counterparty_master
+- nostro_master
+- market_data

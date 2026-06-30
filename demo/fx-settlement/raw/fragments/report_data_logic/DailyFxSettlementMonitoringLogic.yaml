@@ -1,0 +1,94 @@
+name: 每日外汇结算监测数据逻辑
+type: ReportDataLogic
+description: 说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。
+implements: 外汇结算监测报送需求
+field_mappings:
+- name: 交易标识逻辑
+  dataset: fx_settlement_monitoring_lines
+  dataset_field: trade_id
+  description: 数据逻辑说明监测明细字段 trade_id 如何承载交易标识需求，并从外汇交易数据取得交易主键。
+  requirement_field: 交易标识
+  source_field: fx_trades.trade_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: fx_trades.trade_id
+- name: 结算指令标识逻辑
+  dataset: fx_settlement_monitoring_lines
+  dataset_field: settlement_instruction_id
+  description: 数据逻辑说明监测明细字段 settlement_instruction_id 如何承载结算指令标识需求，并从结算指令数据取得运营指令主键。
+  requirement_field: 结算指令标识
+  source_field: settlement_instructions.settlement_instruction_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instructions.settlement_instruction_id
+- name: 交易对手标识逻辑
+  dataset: fx_settlement_monitoring_lines
+  dataset_field: counterparty_id
+  description: 数据逻辑说明监测明细字段 counterparty_id 如何承载交易对手标识需求，并使用交易上的交易对手引用。
+  requirement_field: 交易对手标识
+  source_field: fx_trades.counterparty_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: fx_trades.counterparty_id
+- name: 结算币种逻辑
+  dataset: fx_settlement_monitoring_lines
+  dataset_field: settlement_currency
+  description: 数据逻辑说明监测明细字段 settlement_currency 如何承载结算币种需求，并从结算指令取得实际交收币种。
+  requirement_field: 结算币种
+  source_field: settlement_instructions.settlement_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instructions.settlement_currency
+- name: 结算金额逻辑
+  dataset: fx_settlement_monitoring_lines
+  dataset_field: settlement_amount
+  description: 数据逻辑说明监测明细字段 settlement_amount 如何承载结算金额需求，并从结算指令取得现金交收金额。
+  requirement_field: 结算金额
+  source_field: settlement_instructions.settlement_amount
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instructions.settlement_amount
+- name: 结算状态逻辑
+  dataset: fx_settlement_monitoring_lines
+  dataset_field: settlement_status
+  description: 数据逻辑说明监测明细字段 settlement_status 如何承载结算状态需求，并从结算指令取得运营处理状态。
+  requirement_field: 结算状态
+  source_field: settlement_instructions.settlement_status
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instructions.settlement_status
+- name: 折算后报送币种敞口金额逻辑
+  dataset: fx_settlement_monitoring_lines
+  dataset_field: exposure_amount_report_currency
+  description: 数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。
+  requirement_field: 折算后报送币种敞口金额
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: fx_trades.notional_amount * fx_rates.rate_value
+- name: 结算延迟天数逻辑
+  dataset: fx_settlement_monitoring_lines
+  dataset_field: settlement_delay_days
+  description: 数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。
+  requirement_field: 结算延迟天数
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: DATEDIFF(day, settlement_instructions.expected_settlement_date, settlement_instructions.actual_settlement_date)
+source_fields:
+- fx_trades.trade_id
+- fx_trades.counterparty_id
+- fx_trades.notional_amount
+- fx_rates.rate_value
+- settlement_instructions.settlement_instruction_id
+- settlement_instructions.settlement_currency
+- settlement_instructions.settlement_amount
+- settlement_instructions.settlement_status
+- settlement_instructions.expected_settlement_date
+- settlement_instructions.actual_settlement_date

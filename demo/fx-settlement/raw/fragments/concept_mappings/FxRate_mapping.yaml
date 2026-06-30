@@ -1,0 +1,31 @@
+concept: FxRate
+object_mappings:
+- referent_mappings:
+  - relationship: has_ReferenceIdentifier
+    expression: fx_rates.rate_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_ReferenceIdentifier
+      expression: fx_rates.rate_id
+  children:
+  - relationship: has_ReferenceIdentifier
+    object_mapping:
+      concept: ReferenceIdentifier
+      expression: fx_rates.rate_id
+  - relationship: has_BaseCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: fx_rates.base_currency
+  - relationship: has_QuoteCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: fx_rates.quote_currency
+  - relationship: has_RateDate
+    object_mapping:
+      concept: CalendarDate
+      expression: fx_rates.rate_date
+  - relationship: has_RateValue
+    object_mapping:
+      concept: Rate
+      expression: fx_rates.rate_value

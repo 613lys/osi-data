@@ -1,0 +1,12 @@
+name: AccountData
+description: Base concept for account-like records with common account identifiers.
+identify_by:
+- has_AccountIdentifier
+relationships:
+- name: has_AccountIdentifier
+  roles:
+  - concept: AccountIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{AccountData} has account identifier {AccountIdentifier}"
+  description: Identifier common to account-like records.

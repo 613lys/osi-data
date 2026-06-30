@@ -12,7 +12,15 @@
         "identify_by": [
           "has_AccountIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -31,7 +39,14 @@
           "{AccountData} has account identifier {AccountIdentifier}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -50,7 +65,14 @@
           "{AccountData} has reporting date {CalendarDate}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -65,7 +87,15 @@
         "identify_by": [
           "has_CustomerIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -84,7 +114,14 @@
           "{CustomerData} has customer identifier {CustomerIdentifier}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -103,7 +140,14 @@
           "{CustomerData} has domicile country {CountryCode}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -118,7 +162,15 @@
         "identify_by": [
           "has_ProductIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -137,7 +189,14 @@
           "{ProductData} has product identifier {ProductIdentifier}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -156,7 +215,14 @@
           "{ProductData} has product type {ProductType}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -173,7 +239,15 @@
         "identify_by": [
           "has_AccountIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -190,7 +264,15 @@
         "identify_by": [
           "has_CustomerIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -207,7 +289,15 @@
         "identify_by": [
           "has_ProductIdentifier"
         ],
-        "requires": []
+        "requires": [],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
+        "definition_warnings": []
       }
     },
     {
@@ -226,7 +316,14 @@
           "{DepositAccount} has deposit balance amount {MonetaryAmount}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -245,7 +342,14 @@
           "{DepositAccount} has deposit currency {CurrencyCode}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -264,7 +368,14 @@
           "{DepositAccount} has liquidity bucket {LiquidityBucket}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -283,7 +394,14 @@
           "{DepositAccount} has runoff rate {Rate}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -303,6 +421,13 @@
         ],
         "source_field": "ontology.relationships",
         "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
         "calculation_type": "metric",
         "semantic_metric": "stable_funding_amount",
         "semantic_reference": "metric.stable_funding_amount",
@@ -346,6 +471,13 @@
         ],
         "source_field": "ontology.relationships",
         "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ],
         "calculation_type": "metric",
         "semantic_metric": "insured_balance_amount",
         "semantic_reference": "metric.insured_balance_amount",
@@ -387,7 +519,14 @@
           "{Depositor} has customer name {PersonOrEntityName}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -406,7 +545,14 @@
           "{Depositor} has customer segment {CustomerSegment}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -425,7 +571,14 @@
           "{DepositProduct} has regulatory class {RegulatoryClass}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -444,7 +597,14 @@
           "{DepositProduct} has insurance limit amount {MonetaryAmount}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -463,7 +623,14 @@
           "{DepositProduct} has standard runoff rate {Rate}"
         ],
         "source_field": "ontology.relationships",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -485,7 +652,14 @@
         "inherited": true,
         "inherited_from": "AccountData",
         "base_relationship_path": "AccountData.has_AccountIdentifier",
-        "inheritance_note": "Inherited from AccountData."
+        "inheritance_note": "Inherited from AccountData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -507,7 +681,14 @@
         "inherited": true,
         "inherited_from": "AccountData",
         "base_relationship_path": "AccountData.has_AsOfDate",
-        "inheritance_note": "Inherited from AccountData."
+        "inheritance_note": "Inherited from AccountData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -529,7 +710,14 @@
         "inherited": true,
         "inherited_from": "CustomerData",
         "base_relationship_path": "CustomerData.has_CustomerIdentifier",
-        "inheritance_note": "Inherited from CustomerData."
+        "inheritance_note": "Inherited from CustomerData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -551,7 +739,14 @@
         "inherited": true,
         "inherited_from": "CustomerData",
         "base_relationship_path": "CustomerData.has_DomicileCountry",
-        "inheritance_note": "Inherited from CustomerData."
+        "inheritance_note": "Inherited from CustomerData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -573,7 +768,14 @@
         "inherited": true,
         "inherited_from": "ProductData",
         "base_relationship_path": "ProductData.has_ProductIdentifier",
-        "inheritance_note": "Inherited from ProductData."
+        "inheritance_note": "Inherited from ProductData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -595,7 +797,14 @@
         "inherited": true,
         "inherited_from": "ProductData",
         "base_relationship_path": "ProductData.has_ProductType",
-        "inheritance_note": "Inherited from ProductData."
+        "inheritance_note": "Inherited from ProductData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       }
     },
     {
@@ -609,12 +818,19 @@
           "account_id"
         ],
         "field_count": 8,
-        "physical_kind": "",
+        "physical_kind": "table",
         "source_tables": [
           "core_deposit.deposit_accounts"
         ],
         "custom_extensions": [],
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -625,7 +841,11 @@
         "description": "",
         "source": "core_deposit.deposit_accounts",
         "source_dataset": "deposit_liquidity_report_lines",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology"
       }
     },
     {
@@ -635,12 +855,19 @@
       "properties": {
         "description": "Source account identifier for a deposit account balance record.",
         "parent": "dataset.deposit_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_id",
         "dataset": "deposit_accounts",
         "field": "account_id",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -650,8 +877,8 @@
       "properties": {
         "description": "Source account identifier for a deposit account balance record.",
         "parent": "table.core_deposit.deposit_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "account_id",
         "physical_field": "core_deposit.deposit_accounts.account_id",
         "dataset_field": "deposit_accounts.account_id"
@@ -664,12 +891,19 @@
       "properties": {
         "description": "Customer identifier linking the deposit account to the depositor master record.",
         "parent": "dataset.deposit_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "customer_id",
         "dataset": "deposit_accounts",
         "field": "customer_id",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -679,8 +913,8 @@
       "properties": {
         "description": "Customer identifier linking the deposit account to the depositor master record.",
         "parent": "table.core_deposit.deposit_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "customer_id",
         "physical_field": "core_deposit.deposit_accounts.customer_id",
         "dataset_field": "deposit_accounts.customer_id"
@@ -693,12 +927,19 @@
       "properties": {
         "description": "Product identifier linking the deposit account to the deposit product definition.",
         "parent": "dataset.deposit_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "product_id",
         "dataset": "deposit_accounts",
         "field": "product_id",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -708,8 +949,8 @@
       "properties": {
         "description": "Product identifier linking the deposit account to the deposit product definition.",
         "parent": "table.core_deposit.deposit_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "product_id",
         "physical_field": "core_deposit.deposit_accounts.product_id",
         "dataset_field": "deposit_accounts.product_id"
@@ -722,12 +963,19 @@
       "properties": {
         "description": "Reporting date for the account balance snapshot.",
         "parent": "dataset.deposit_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "date",
+        "nullable": false,
         "expression": "as_of_date",
         "dataset": "deposit_accounts",
         "field": "as_of_date",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -737,8 +985,8 @@
       "properties": {
         "description": "Reporting date for the account balance snapshot.",
         "parent": "table.core_deposit.deposit_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "date",
+        "nullable": false,
         "expression": "as_of_date",
         "physical_field": "core_deposit.deposit_accounts.as_of_date",
         "dataset_field": "deposit_accounts.as_of_date"
@@ -751,12 +999,19 @@
       "properties": {
         "description": "Deposit balance amount measured on the reporting date.",
         "parent": "dataset.deposit_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "balance_amount",
         "dataset": "deposit_accounts",
         "field": "balance_amount",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -766,8 +1021,8 @@
       "properties": {
         "description": "Deposit balance amount measured on the reporting date.",
         "parent": "table.core_deposit.deposit_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "balance_amount",
         "physical_field": "core_deposit.deposit_accounts.balance_amount",
         "dataset_field": "deposit_accounts.balance_amount"
@@ -780,12 +1035,19 @@
       "properties": {
         "description": "Currency code for the deposit balance amount.",
         "parent": "dataset.deposit_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "currency",
         "dataset": "deposit_accounts",
         "field": "currency",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -795,8 +1057,8 @@
       "properties": {
         "description": "Currency code for the deposit balance amount.",
         "parent": "table.core_deposit.deposit_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "currency",
         "physical_field": "core_deposit.deposit_accounts.currency",
         "dataset_field": "deposit_accounts.currency"
@@ -809,12 +1071,19 @@
       "properties": {
         "description": "Liquidity bucket assigned to the account for reporting classification.",
         "parent": "dataset.deposit_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "liquidity_bucket",
         "dataset": "deposit_accounts",
         "field": "liquidity_bucket",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -824,8 +1093,8 @@
       "properties": {
         "description": "Liquidity bucket assigned to the account for reporting classification.",
         "parent": "table.core_deposit.deposit_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "liquidity_bucket",
         "physical_field": "core_deposit.deposit_accounts.liquidity_bucket",
         "dataset_field": "deposit_accounts.liquidity_bucket"
@@ -838,12 +1107,19 @@
       "properties": {
         "description": "Account-level runoff rate override when treasury has approved an account-specific rate.",
         "parent": "dataset.deposit_accounts",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": true,
         "expression": "rate_override",
         "dataset": "deposit_accounts",
         "field": "rate_override",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -853,8 +1129,8 @@
       "properties": {
         "description": "Account-level runoff rate override when treasury has approved an account-specific rate.",
         "parent": "table.core_deposit.deposit_accounts",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": true,
         "expression": "rate_override",
         "physical_field": "core_deposit.deposit_accounts.rate_override",
         "dataset_field": "deposit_accounts.rate_override"
@@ -871,12 +1147,19 @@
           "customer_id"
         ],
         "field_count": 4,
-        "physical_kind": "",
+        "physical_kind": "table",
         "source_tables": [
           "customer_master.deposit_customers"
         ],
         "custom_extensions": [],
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -887,7 +1170,11 @@
         "description": "",
         "source": "customer_master.deposit_customers",
         "source_dataset": "deposit_liquidity_report_lines",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology"
       }
     },
     {
@@ -897,12 +1184,19 @@
       "properties": {
         "description": "Master customer identifier for a depositor or legal entity.",
         "parent": "dataset.deposit_customers",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "customer_id",
         "dataset": "deposit_customers",
         "field": "customer_id",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -912,8 +1206,8 @@
       "properties": {
         "description": "Master customer identifier for a depositor or legal entity.",
         "parent": "table.customer_master.deposit_customers",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "customer_id",
         "physical_field": "customer_master.deposit_customers.customer_id",
         "dataset_field": "deposit_customers.customer_id"
@@ -926,12 +1220,19 @@
       "properties": {
         "description": "Human-readable depositor or legal entity name.",
         "parent": "dataset.deposit_customers",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "customer_name",
         "dataset": "deposit_customers",
         "field": "customer_name",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -941,8 +1242,8 @@
       "properties": {
         "description": "Human-readable depositor or legal entity name.",
         "parent": "table.customer_master.deposit_customers",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "customer_name",
         "physical_field": "customer_master.deposit_customers.customer_name",
         "dataset_field": "deposit_customers.customer_name"
@@ -955,12 +1256,19 @@
       "properties": {
         "description": "Customer segment used for liquidity classification and management reporting.",
         "parent": "dataset.deposit_customers",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "segment",
         "dataset": "deposit_customers",
         "field": "segment",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -970,8 +1278,8 @@
       "properties": {
         "description": "Customer segment used for liquidity classification and management reporting.",
         "parent": "table.customer_master.deposit_customers",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "segment",
         "physical_field": "customer_master.deposit_customers.segment",
         "dataset_field": "deposit_customers.segment"
@@ -984,12 +1292,19 @@
       "properties": {
         "description": "Country or jurisdiction associated with the depositor.",
         "parent": "dataset.deposit_customers",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "domicile_country",
         "dataset": "deposit_customers",
         "field": "domicile_country",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -999,8 +1314,8 @@
       "properties": {
         "description": "Country or jurisdiction associated with the depositor.",
         "parent": "table.customer_master.deposit_customers",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "domicile_country",
         "physical_field": "customer_master.deposit_customers.domicile_country",
         "dataset_field": "deposit_customers.domicile_country"
@@ -1018,7 +1333,7 @@
           "as_of_date"
         ],
         "field_count": 10,
-        "physical_kind": "",
+        "physical_kind": "query",
         "source_tables": [
           "core_deposit.deposit_accounts",
           "customer_master.deposit_customers",
@@ -1026,20 +1341,18 @@
         ],
         "custom_extensions": [
           {
-            "name": "physical_source",
-            "value": {
-              "kind": "query",
-              "description": "Prepared report-line dataset is produced by a documented query that joins account balances, depositor master data, and deposit product parameters before reporting.",
-              "sql": "select account_id, as_of_date, customer_id, product_id, balance_amount, currency, liquidity_bucket, runoff_rate, stable_funding_amount, insured_balance_amount\nfrom liquidity_risk_engine.deposit_liquidity_report_lines\nwhere as_of_date = :as_of_date\n",
-              "depends_on": [
-                "core_deposit.deposit_accounts",
-                "customer_master.deposit_customers",
-                "product_master.deposit_products"
-              ]
-            }
+            "vendor_name": "OSI_KG_UI",
+            "data": "{\"name\": \"physical_source\", \"kind\": \"query\", \"description\": \"Prepared report-line dataset is produced by a documented query that joins account balances, depositor master data, and deposit product parameters before reporting.\", \"sql\": \"select account_id, as_of_date, customer_id, product_id, balance_amount, currency, liquidity_bucket, runoff_rate, stable_funding_amount, insured_balance_amount\\nfrom liquidity_risk_engine.deposit_liquidity_report_lines\\nwhere as_of_date = :as_of_date\\n\", \"depends_on\": [\"core_deposit.deposit_accounts\", \"customer_master.deposit_customers\", \"product_master.deposit_products\"]}"
           }
         ],
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1050,7 +1363,11 @@
         "description": "",
         "source": "product_master.deposit_products",
         "source_dataset": "deposit_products",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology"
       }
     },
     {
@@ -1060,12 +1377,19 @@
       "properties": {
         "description": "Account identifier reported on the deposit liquidity line.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "deposit_accounts.account_id",
         "dataset": "deposit_liquidity_report_lines",
         "field": "account_id",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1075,12 +1399,19 @@
       "properties": {
         "description": "Reporting date carried on the deposit liquidity line.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "date",
+        "nullable": false,
         "expression": "deposit_accounts.as_of_date",
         "dataset": "deposit_liquidity_report_lines",
         "field": "as_of_date",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1090,12 +1421,19 @@
       "properties": {
         "description": "Depositor identifier reported for account ownership and aggregation.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "deposit_accounts.customer_id",
         "dataset": "deposit_liquidity_report_lines",
         "field": "customer_id",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1105,12 +1443,19 @@
       "properties": {
         "description": "Deposit product identifier reported for product-class aggregation.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "deposit_accounts.product_id",
         "dataset": "deposit_liquidity_report_lines",
         "field": "product_id",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1120,12 +1465,19 @@
       "properties": {
         "description": "Deposit balance amount reported for liquidity measurement.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "deposit_accounts.balance_amount",
         "dataset": "deposit_liquidity_report_lines",
         "field": "balance_amount",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1135,12 +1487,19 @@
       "properties": {
         "description": "Currency code reported for the deposit balance amount.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "deposit_accounts.currency",
         "dataset": "deposit_liquidity_report_lines",
         "field": "currency",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1150,12 +1509,19 @@
       "properties": {
         "description": "Liquidity bucket reported for regulatory classification.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "deposit_accounts.liquidity_bucket",
         "dataset": "deposit_liquidity_report_lines",
         "field": "liquidity_bucket",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1165,12 +1531,19 @@
       "properties": {
         "description": "Runoff rate reported after applying account override or product standard rate.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)",
         "dataset": "deposit_liquidity_report_lines",
         "field": "runoff_rate",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1180,12 +1553,19 @@
       "properties": {
         "description": "Calculated stable funding amount reported after applying the runoff or stability rate.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)",
         "dataset": "deposit_liquidity_report_lines",
         "field": "stable_funding_amount",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1195,12 +1575,19 @@
       "properties": {
         "description": "Insured portion of the deposit balance reported under the product insurance limit.",
         "parent": "dataset.deposit_liquidity_report_lines",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END",
         "dataset": "deposit_liquidity_report_lines",
         "field": "insured_balance_amount",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1214,12 +1601,19 @@
           "product_id"
         ],
         "field_count": 5,
-        "physical_kind": "",
+        "physical_kind": "table",
         "source_tables": [
           "product_master.deposit_products"
         ],
         "custom_extensions": [],
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1229,12 +1623,19 @@
       "properties": {
         "description": "Product identifier for the deposit product definition.",
         "parent": "dataset.deposit_products",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "product_id",
         "dataset": "deposit_products",
         "field": "product_id",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1244,8 +1645,8 @@
       "properties": {
         "description": "Product identifier for the deposit product definition.",
         "parent": "table.product_master.deposit_products",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "product_id",
         "physical_field": "product_master.deposit_products.product_id",
         "dataset_field": "deposit_products.product_id"
@@ -1258,12 +1659,19 @@
       "properties": {
         "description": "Deposit product type such as current account, savings, term deposit, or brokered deposit.",
         "parent": "dataset.deposit_products",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "product_type",
         "dataset": "deposit_products",
         "field": "product_type",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1273,8 +1681,8 @@
       "properties": {
         "description": "Deposit product type such as current account, savings, term deposit, or brokered deposit.",
         "parent": "table.product_master.deposit_products",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "product_type",
         "physical_field": "product_master.deposit_products.product_type",
         "dataset_field": "deposit_products.product_type"
@@ -1287,12 +1695,19 @@
       "properties": {
         "description": "Regulatory liquidity class assigned to the deposit product.",
         "parent": "dataset.deposit_products",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "regulatory_class",
         "dataset": "deposit_products",
         "field": "regulatory_class",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1302,8 +1717,8 @@
       "properties": {
         "description": "Regulatory liquidity class assigned to the deposit product.",
         "parent": "table.product_master.deposit_products",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "string",
+        "nullable": false,
         "expression": "regulatory_class",
         "physical_field": "product_master.deposit_products.regulatory_class",
         "dataset_field": "deposit_products.regulatory_class"
@@ -1316,12 +1731,19 @@
       "properties": {
         "description": "Standard runoff or stability rate assigned by product policy.",
         "parent": "dataset.deposit_products",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "standard_runoff_rate",
         "dataset": "deposit_products",
         "field": "standard_runoff_rate",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1331,8 +1753,8 @@
       "properties": {
         "description": "Standard runoff or stability rate assigned by product policy.",
         "parent": "table.product_master.deposit_products",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "standard_runoff_rate",
         "physical_field": "product_master.deposit_products.standard_runoff_rate",
         "dataset_field": "deposit_products.standard_runoff_rate"
@@ -1345,12 +1767,19 @@
       "properties": {
         "description": "Maximum insured balance amount applicable to the deposit product.",
         "parent": "dataset.deposit_products",
-        "data_type": "field",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "insurance_limit_amount",
         "dataset": "deposit_products",
         "field": "insurance_limit_amount",
-        "semantic_model": "DepositLiquiditySemanticModel"
+        "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ]
       }
     },
     {
@@ -1360,8 +1789,8 @@
       "properties": {
         "description": "Maximum insured balance amount applicable to the deposit product.",
         "parent": "table.product_master.deposit_products",
-        "data_type": "column",
-        "nullable": "",
+        "data_type": "decimal",
+        "nullable": false,
         "expression": "insurance_limit_amount",
         "physical_field": "product_master.deposit_products.insurance_limit_amount",
         "dataset_field": "deposit_products.insurance_limit_amount"
@@ -1374,6 +1803,10 @@
       "properties": {
         "description": "Stable funding amount calculated from deposit balance and the account override or product standard runoff rate.",
         "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
         "semantic_metric": "stable_funding_amount",
         "expression": "deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate)",
         "source_fields": [
@@ -1405,6 +1838,10 @@
       "properties": {
         "description": "Insured balance amount calculated as the lower of account balance and product insurance limit.",
         "semantic_model": "DepositLiquiditySemanticModel",
+        "semantic_models": [
+          "DepositLiquiditySemanticModel"
+        ],
+        "ontology": "DepositLiquidityReportingOntology",
         "semantic_metric": "insured_balance_amount",
         "expression": "CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END",
         "source_fields": [
@@ -1798,7 +2235,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "AccountIdentifier",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1815,7 +2259,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CalendarDate",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1832,7 +2283,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CustomerIdentifier",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1849,7 +2307,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CountryCode",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1866,7 +2331,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "ProductIdentifier",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1883,7 +2355,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "ProductType",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1947,7 +2426,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "MonetaryAmount",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1964,7 +2450,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CurrencyCode",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1981,7 +2474,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "LiquidityBucket",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -1998,7 +2498,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "Rate",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2015,7 +2522,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "MonetaryAmount",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2032,7 +2546,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "MonetaryAmount",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2060,7 +2581,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "PersonOrEntityName",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2077,7 +2605,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "CustomerSegment",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2105,7 +2640,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "RegulatoryClass",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2122,7 +2664,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "MonetaryAmount",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2139,7 +2688,14 @@
         ],
         "source_field": "ontology.relationships",
         "value_concept": "Rate",
-        "inherited": false
+        "inherited": false,
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2159,7 +2715,14 @@
         "inherited": true,
         "inherited_from": "AccountData",
         "base_relationship_path": "AccountData.has_AccountIdentifier",
-        "inheritance_note": "Inherited from AccountData."
+        "inheritance_note": "Inherited from AccountData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2179,7 +2742,14 @@
         "inherited": true,
         "inherited_from": "AccountData",
         "base_relationship_path": "AccountData.has_AsOfDate",
-        "inheritance_note": "Inherited from AccountData."
+        "inheritance_note": "Inherited from AccountData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2199,7 +2769,14 @@
         "inherited": true,
         "inherited_from": "CustomerData",
         "base_relationship_path": "CustomerData.has_CustomerIdentifier",
-        "inheritance_note": "Inherited from CustomerData."
+        "inheritance_note": "Inherited from CustomerData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2219,7 +2796,14 @@
         "inherited": true,
         "inherited_from": "CustomerData",
         "base_relationship_path": "CustomerData.has_DomicileCountry",
-        "inheritance_note": "Inherited from CustomerData."
+        "inheritance_note": "Inherited from CustomerData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2239,7 +2823,14 @@
         "inherited": true,
         "inherited_from": "ProductData",
         "base_relationship_path": "ProductData.has_ProductIdentifier",
-        "inheritance_note": "Inherited from ProductData."
+        "inheritance_note": "Inherited from ProductData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -2259,7 +2850,14 @@
         "inherited": true,
         "inherited_from": "ProductData",
         "base_relationship_path": "ProductData.has_ProductType",
-        "inheritance_note": "Inherited from ProductData."
+        "inheritance_note": "Inherited from ProductData.",
+        "ontology": "DepositLiquidityReportingOntology",
+        "ontologies": [
+          "DepositLiquidityReportingOntology"
+        ],
+        "source_files": [
+          "knowledge/regulatory-reporting-osi.yaml"
+        ]
       },
       "type": "CONTAINS"
     },
@@ -3227,7 +3825,13 @@
           ],
           "to_columns": [
             "customer_id"
-          ]
+          ],
+          "ai_context": {
+            "description": "Deposit account balances use customer_id to attach depositor segment and country attributes required for liquidity classification."
+          }
+        },
+        "ai_context": {
+          "description": "Deposit account balances use customer_id to attach depositor segment and country attributes required for liquidity classification."
         }
       },
       "type": "DATASET_JOIN"
@@ -3248,7 +3852,13 @@
           ],
           "to_columns": [
             "product_id"
-          ]
+          ],
+          "ai_context": {
+            "description": "Deposit account balances join to product definitions through product_id to obtain liquidity class, runoff rate, and insurance limit reference data."
+          }
+        },
+        "ai_context": {
+          "description": "Deposit account balances join to product definitions through product_id to obtain liquidity class, runoff rate, and insurance limit reference data."
         }
       },
       "type": "DATASET_JOIN"
@@ -3269,7 +3879,13 @@
           ],
           "to_columns": [
             "customer_id"
-          ]
+          ],
+          "ai_context": {
+            "description": "Prepared deposit report lines reconcile to depositor master records through customer_id for customer-level liquidity review."
+          }
+        },
+        "ai_context": {
+          "description": "Prepared deposit report lines reconcile to depositor master records through customer_id for customer-level liquidity review."
         }
       },
       "type": "DATASET_JOIN"
@@ -3290,7 +3906,13 @@
           ],
           "to_columns": [
             "product_id"
-          ]
+          ],
+          "ai_context": {
+            "description": "Prepared deposit report lines join to product reference data through product_id to validate reported product liquidity classification."
+          }
+        },
+        "ai_context": {
+          "description": "Prepared deposit report lines join to product reference data through product_id to validate reported product liquidity classification."
         }
       },
       "type": "DATASET_JOIN"

@@ -1,0 +1,62 @@
+concept: FxTrade
+object_mappings:
+- referent_mappings:
+  - relationship: has_TransactionIdentifier
+    expression: fx_trades.trade_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_TransactionIdentifier
+      expression: fx_trades.trade_id
+  children:
+  - relationship: has_TransactionIdentifier
+    object_mapping:
+      concept: TransactionIdentifier
+      expression: fx_trades.trade_id
+  - relationship: has_BookingDate
+    object_mapping:
+      concept: CalendarDate
+      expression: fx_trades.trade_date
+  - relationship: EXECUTED_WITH_Counterparty
+    object_mapping:
+      concept: Counterparty
+      referent_mappings:
+      - relationship: has_CounterpartyIdentifier
+        expression: fx_trades.counterparty_id
+  - relationship: PRICED_BY_FxRate
+    object_mapping:
+      concept: FxRate
+      referent_mappings:
+      - relationship: has_ReferenceIdentifier
+        expression: fx_trades.rate_id
+  - relationship: has_BuyCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: fx_trades.buy_currency
+  - relationship: has_SellCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: fx_trades.sell_currency
+  - relationship: has_NotionalAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: fx_trades.notional_amount
+  - relationship: has_SettlementDate
+    object_mapping:
+      concept: CalendarDate
+      expression: fx_trades.settlement_date
+  - relationship: has_ReportCurrencyExposureAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: metric.report_currency_exposure_amount
+- object_mapping:
+    referent_mappings:
+    - relationship: has_TransactionIdentifier
+      expression: settlement_instructions.trade_id
+  children:
+  - relationship: SETTLED_BY_SettlementInstruction
+    object_mapping:
+      concept: SettlementInstruction
+      referent_mappings:
+      - relationship: has_InstructionIdentifier
+        expression: settlement_instructions.settlement_instruction_id

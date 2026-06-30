@@ -1,0 +1,29 @@
+concept: NostroAccount
+object_mappings:
+- referent_mappings:
+  - relationship: has_AccountIdentifier
+    expression: nostro_accounts.account_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_AccountIdentifier
+      expression: nostro_accounts.account_id
+  children:
+  - relationship: has_AccountIdentifier
+    object_mapping:
+      concept: AccountIdentifier
+      expression: nostro_accounts.account_id
+  - relationship: HELD_BY_Counterparty
+    object_mapping:
+      concept: Counterparty
+      referent_mappings:
+      - relationship: has_CounterpartyIdentifier
+        expression: nostro_accounts.owner_counterparty_id
+  - relationship: has_AccountCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: nostro_accounts.account_currency
+  - relationship: has_AccountStatus
+    object_mapping:
+      concept: StatusCode
+      expression: nostro_accounts.account_status

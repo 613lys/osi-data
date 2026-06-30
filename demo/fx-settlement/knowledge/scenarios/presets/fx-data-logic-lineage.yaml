@@ -1,0 +1,21 @@
+id: fx-data-logic-lineage
+kind: preset
+name: FX data logic lineage
+order: 20
+description: Start from FX settlement monitoring data logic and trace which requirement fields and semantic datasets support the implementation.
+center_selector:
+  node_type: report_implementation
+view:
+  viewMode: traceability
+  maxDepth: 2
+  nodeTypes:
+  - report_implementation
+  - regulatory_requirement
+  - semantic_dataset
+  - physical_table
+  edgeTypes:
+  - Report Data Logic -> Report Requirement
+  - Report Data Logic -> Dataset
+  - Dataset -> Table
+  businessEdgeTypes: []
+  metricOverlays: []

@@ -1,0 +1,34 @@
+id: loan-report-requirement-analysis-template
+kind: preset
+name: Loan - Report Requirement analysis template
+order: 30
+description: Reusable graph template for Report Requirement centers.
+center_selector:
+  node_type: regulatory_requirement
+createdAt: '2026-06-30T13:01:19.762Z'
+updatedAt: '2026-06-30T13:01:19.762Z'
+view:
+  viewMode: traceability
+  selectedOntology: LoanExposureReportingOntology
+  selectedSemanticModel: LoanExposureSemanticModel
+  maxDepth: 1
+  nodeTypes:
+  - regulatory_requirement
+  - report_implementation
+  - entity_type_concept
+  - base_entity_concept
+  - semantic_dataset
+  - semantic_metric
+  - physical_table
+  businessEdgeTypes:
+  - REFERENCES
+  edgeTypes:
+  - REQUIRES_CONCEPT::regulatory_requirement::entity_type_concept
+  - IMPLEMENTS::report_implementation::regulatory_requirement
+  - SOURCE_TABLE::report_implementation::semantic_dataset
+  - MAPS_TO::entity_type_concept::semantic_dataset
+  - SOURCE_TABLE::semantic_dataset::physical_table
+  - DATASET_JOIN::semantic_dataset::semantic_dataset
+  - MAPS_TO::entity_type_concept::semantic_metric
+  - DERIVED_BY::semantic_metric::semantic_dataset
+  metricOverlays: []

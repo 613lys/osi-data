@@ -1,0 +1,23 @@
+id: fx-requirement-impact
+kind: preset
+name: FX requirement impact
+order: 10
+description: Start from an FX settlement monitoring requirement and show the ontology concepts and semantic fields needed for impact review.
+center_selector:
+  node_type: regulatory_requirement
+view:
+  viewMode: traceability
+  maxDepth: 2
+  nodeTypes:
+  - regulatory_requirement
+  - entity_type_concept
+  - base_entity_concept
+  - semantic_dataset
+  - semantic_metric
+  edgeTypes:
+  - REQUIRES_CONCEPT::regulatory_requirement::entity_type_concept
+  - Entity Concept -> Dataset
+  businessEdgeTypes: []
+  metricOverlays:
+  - report_currency_exposure_amount
+  - settlement_delay_days

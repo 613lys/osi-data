@@ -1,0 +1,81 @@
+name: fx_settlement_monitoring_lines
+source: query.fx_settlement_monitoring_lines
+description: Prepared FX settlement monitoring line dataset at trade and settlement-instruction grain, combining trade, settlement, counterparty, account, and FX rate context for operational reporting review.
+ai_context:
+  physical_kind: query
+custom_extensions:
+- vendor_name: OSI_KG_UI
+  data: '{"name":"physical_source","kind":"query","description":"Monitoring lines are produced by a documented query that combines FX trades, settlement instructions, counterparties, nostro accounts, and FX rates for daily review.","sql":"select t.trade_id, s.settlement_instruction_id, t.counterparty_id, s.settlement_currency, s.settlement_amount, r.rate_value, t.notional_amount * r.rate_value as exposure_amount_report_currency, datediff(day, s.expected_settlement_date, s.actual_settlement_date) as settlement_delay_days from fx_trading_core.fx_trades t join payments_core.settlement_instructions s on s.trade_id = t.trade_id join market_data.fx_rates r on r.rate_id = t.rate_id","depends_on":["fx_trading_core.fx_trades","payments_core.settlement_instructions","counterparty_master.counterparties","nostro_master.nostro_accounts","market_data.fx_rates"]}'
+fields:
+- name: trade_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: fx_trades.trade_id
+  description: Trade identifier carried onto the monitoring line for reconciliation.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: settlement_instruction_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instructions.settlement_instruction_id
+  description: Settlement instruction identifier carried onto the monitoring line.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: counterparty_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: fx_trades.counterparty_id
+  description: Counterparty identifier reported for settlement monitoring and aggregation.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: settlement_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instructions.settlement_currency
+  description: Settlement currency reported on the monitoring line.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: settlement_amount
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instructions.settlement_amount
+  description: Settlement amount reported on the monitoring line.
+  ai_context:
+    physical_type: decimal
+    nullable: false
+- name: settlement_status
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instructions.settlement_status
+  description: Settlement status reported on the monitoring line.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: exposure_amount_report_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: fx_trades.notional_amount * fx_rates.rate_value
+  description: Trade notional converted into reporting currency for monitoring review.
+  ai_context:
+    physical_type: decimal
+    nullable: false
+- name: settlement_delay_days
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: DATEDIFF(day, settlement_instructions.expected_settlement_date, settlement_instructions.actual_settlement_date)
+  description: Number of days between expected and actual settlement completion.
+  ai_context:
+    physical_type: integer
+    nullable: true

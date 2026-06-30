@@ -22,32 +22,36 @@ source: margin_core.margin_accounts
 primary_key:
 - account_id
 description: Margin account records that track collateralized account obligations, account status, base currency, and linked counterparties for margin reporting.
-physical_kind: table
+ai_context:
+  physical_kind: table
 fields:
 - name: account_id
-  type: string
-  nullable: false
   expression:
     dialects:
     - dialect: ANSI_SQL
       expression: account_id
   description: Stable identifier for a margin account record at account grain.
+  ai_context:
+    physical_type: string
+    nullable: false
 - name: counterparty_id
-  type: string
-  nullable: false
   expression:
     dialects:
     - dialect: ANSI_SQL
       expression: counterparty_id
   description: Identifier of the legal counterparty responsible for the margin account.
+  ai_context:
+    physical_type: string
+    nullable: false
 - name: base_currency
-  type: string
-  nullable: false
   expression:
     dialects:
     - dialect: ANSI_SQL
       expression: base_currency
   description: Currency in which the margin account obligation is primarily managed and reported.
+  ai_context:
+    physical_type: string
+    nullable: false
 ```
 
 Fields:
@@ -56,12 +60,12 @@ Fields:
 - `source`: Required. Physical or logical source identifier, usually `schema.table`, `query.<name>`, or another system-qualified table/view/query name. Keep it scalar for OSI compatibility. Do not replace it with a nested object.
 - `primary_key`: Optional list of dataset fields that identify rows.
 - `description`: Required for generated demos. Describe the dataset as a business-meaningful row population and grain, not merely as a physical object. Include what kind of records it contains, what business process or reporting use they support, and source-population context such as retail loans versus institutional loans when that distinction is source-level context rather than an EntityType field. Do not use descriptions like `Source table for margin accounts.` or `Physical table for reports.` Optional EntityType-to-dataset edge-profile explanation belongs in `ui_annotations/mapping_edge_annotations.yaml`, not in the dataset and not in concept mappings.
-- `physical_kind`: Optional helper for raw authoring. Usually `table`; use `query` for curated SQL-backed datasets. The generator records this in OSI `ai_context.physical_kind`.
+- `ai_context`: Optional OSI field. Put dataset-level AI/context metadata here, including `physical_kind: table | query` when the UI should distinguish table-backed and query-backed datasets. Do not use top-level `physical_kind` in new fragments.
 - `custom_extensions`: Optional OSI extension list. Use it for complex source metadata that does not fit scalar `source`, such as query SQL and table dependencies. Prefer `custom_extensions` over inventing unsupported dataset fields.
 - `fields`: Required list of dataset fields.
 - `fields[].name`: Required. Column/field name.
-- `fields[].type`: Optional physical/logical type such as `string`, `decimal`, `date`, `integer`.
-- `fields[].nullable`: Optional boolean.
+- `fields[].ai_context.physical_type`: Optional OSI-compatible place for physical/logical type such as `string`, `decimal`, `date`, `integer`. Do not use top-level `fields[].type` in new fragments.
+- `fields[].ai_context.nullable`: Optional OSI-compatible place for field nullability. Do not use top-level `fields[].nullable` in new fragments.
 - `fields[].expression`: Required OSI expression object with `dialects[]`. Defines how the semantic dataset field maps to the physical source field. For a direct physical column mapping, use scalar SQL in the expression object, for example `expression.dialects[0].expression: account_id`. For a computed semantic field, use scalar SQL such as `first_name || ' ' || last_name`. Do not rely on implicit same-name mapping; the UI and lineage builder need explicit evidence.
 - `fields[].description`: Required. Describe the field's dataset-level business meaning, row-level role, and source-specific interpretation. This is especially important when several fields share the same ValueType but differ by business role, such as base currency, settlement currency, reporting currency, valuation currency, or fallback currency. Do not merely restate the column name.
 
@@ -70,22 +74,17 @@ Complex source metadata example:
 ```yaml
 name: loan_exposure_report_lines
 source: query.loan_exposure_report_lines
-physical_kind: query
+ai_context:
+  physical_kind: query
 custom_extensions:
-- name: physical_source
-  value:
-    kind: query
-    sql: |
-      select ...
-    depends_on:
-    - retail_lending_core.retail_loans
-    - institutional_lending_core.facilities
+- vendor_name: OSI_KG_UI
+  data: '{"name":"physical_source","kind":"query","sql":"select ...","depends_on":["retail_lending_core.retail_loans","institutional_lending_core.facilities"]}'
 ```
 
 Rules:
 
 - Keep `source` scalar.
-- Put SQL, query kind, and multiple physical dependencies under `custom_extensions[].value`.
+- Put SQL, query kind, and multiple physical dependencies under strict OSI `custom_extensions[].data` as a JSON string. New fragments should use `vendor_name` + `data`; the generator only tolerates legacy `name`/`value` for old inputs and normalizes it away in strict output.
 - UI may render these dependencies as physical source context in Semantic Model View; concept mappings must still point to dataset fields, not directly to physical tables.
 Field expression rules:
 
@@ -137,8 +136,8 @@ UI effect:
 
 - Each `semantic_model.datasets[]` item renders as a blue `Semantic Dataset` node (`semantic_dataset`). It is the semantic-model object that concept mappings target.
 - Each dataset field renders as a blue `Dataset Field` child row (`dataset_field`) under its dataset. Field descriptions appear in field/profile details and distinguish same-domain values used in different business roles.
-- Physical source tables render separately as green `Table` nodes (`physical_table`) inferred from scalar `source` and from `custom_extensions[].value.depends_on` / `tables` / `source_tables`.
-- A dataset with `source: query.<name>` may map to multiple physical source tables through `custom_extensions`; the UI draws `SOURCE_TABLE` edges from the dataset node to each source table. Put the edge/profile explanation in the extension `description` when the source is query-backed or multi-table.
+- Physical source tables render separately as green `Table` nodes (`physical_table`) inferred from scalar `source` and from parsed `custom_extensions[].data.depends_on` / `tables` / `source_tables`.
+- A dataset with `source: query.<name>` may map to multiple physical source tables through `custom_extensions`; the UI draws `SOURCE_TABLE` edges from the dataset node to each source table. Put the edge/profile explanation inside the parsed extension data, for example `data.description`, when the source is query-backed or multi-table.
 - Dataset field expressions that reference `dataset.field` values create field-level `SOURCE_FIELD` edges between dataset fields. Direct scalar physical column expressions on one-source datasets create field-level `SOURCE_FIELD` edges from the dataset field to the physical table column.
 - Concept mappings create `MAPS_TO` edges from EntityType nodes to semantic dataset nodes, and `MAPS_TO_FIELD` edges from EntityType value fields to semantic dataset field rows. They must not target physical table nodes directly.
 - If one EntityType maps to multiple semantic datasets, the UI shows one `MAPS_TO` edge per dataset and field-level mapping edges to every referenced dataset field. If one semantic ValueType field maps to several dataset fields as a union, the UI keeps one semantic field row and shows multiple `MAPS_TO_FIELD` edges.
@@ -155,6 +154,8 @@ Use this file for joins between datasets.
   - account_id
   to_columns:
   - account_id
+  ai_context:
+    description: Collateral position records join to margin accounts through account_id for account-level collateral reporting.
 ```
 
 Fields:
@@ -164,6 +165,8 @@ Fields:
 - `to`: Required. Target dataset name.
 - `from_columns`: Required list of fields on the `from` dataset.
 - `to_columns`: Required list of fields on the `to` dataset.
+- `ai_context`: Optional OSI field. Put human-readable join context here, for example why the join exists or what evidence supports it. Do not use `description`; it is not an OSI field for semantic model relationships.
+- `custom_extensions`: Optional strict OSI extension list with `vendor_name` and JSON-string `data`.
 
 Rules:
 
@@ -185,6 +188,8 @@ ontology_mappings:
       - account_id
       to_columns:
       - account_id
+      ai_context:
+        description: Collateral position records join to margin accounts through account_id for account-level collateral reporting.
 ```
 
 UI effect:
@@ -192,7 +197,7 @@ UI effect:
 - Creates a `DATASET_JOIN` edge between Semantic Dataset nodes.
 - Physical Table nodes are linked to Semantic Dataset nodes through `SOURCE_TABLE`; physical table-to-table join edges are not generated.
 - Canvas labels are `join <from_columns>`, for example `join account_id`; composite joins display all pairs, for example `join borrower_id = borrower_id, borrower_country = domicile_country`.
-- The semantic join name remains visible in the edge profile as `join_name` / relationship metadata.
+- The semantic join name remains visible in the edge profile as `join_name` / relationship metadata. Join context appears in the edge profile as `ai_context`, matching the OSI field name; the UI should not invent or display a relationship `description` when OSI does not define one.
 ## Metrics Fragment
 
 Use this file for semantic metrics/calculated fields.
@@ -240,8 +245,9 @@ ontology_mappings:
 
 UI effect:
 
-- Metrics do not render as Table child rows. In Semantic Model View and Mapping View, each selected `semantic_model.metrics[]` entry renders as a blue Metric overlay node. The metric overlay control is multi-select, so several metrics can be shown together.
+- Metrics do not render as Table child rows. In Semantic Model View, each selected `semantic_model.metrics[]` entry renders as a blue Metric overlay node. The metric overlay control is multi-select, so several metrics can be shown together.
 - Selected Metric nodes have node-level `DERIVED_BY` edges to their input Semantic Dataset nodes.
 - Metric expressions are parsed for `dataset.field` references. Field-level `DERIVED_BY` edges connect the Metric node to every contributing Dataset Field row; these edges become visible when the metric overlay expands the relevant dataset fields or when the user selects a related field.
-- If an EntityType relationship maps to `metric.<metric_name>`, the EntityType shows that relationship as a metric-backed ValueType field. Mapping View draws an EntityType -> Metric `MAPS_TO` edge and a field-level `DERIVED_BY` edge from that value field to the selected Metric node.
+- If an EntityType relationship maps to `metric.<metric_name>`, the EntityType shows that relationship as a metric-backed ValueType field. The graph can draw an EntityType -> Metric `MAPS_TO` edge and field-level `DERIVED_BY` edges from that value field to metric input fields when those relationships are visible.
 - Metrics do not create or materialize output tables in the UI.
+

@@ -1,0 +1,12 @@
+name: InstructionData
+description: Base concept for operational instruction records with stable instruction identifiers.
+identify_by:
+- has_InstructionIdentifier
+relationships:
+- name: has_InstructionIdentifier
+  roles:
+  - concept: InstructionIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{InstructionData} has instruction identifier {InstructionIdentifier}"
+  description: Identifier common to operational instruction records.

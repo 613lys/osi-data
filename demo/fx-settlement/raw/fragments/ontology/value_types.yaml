@@ -1,0 +1,30 @@
+- name: TransactionIdentifier
+  description: Identifier value assigned to a financial transaction.
+- name: InstructionIdentifier
+  description: Identifier value assigned to an operational instruction.
+- name: CounterpartyIdentifier
+  description: Identifier value assigned to a legal entity or trading counterparty.
+- name: AccountIdentifier
+  description: Identifier value assigned to an account.
+- name: ReferenceIdentifier
+  description: Identifier value assigned to a reference-data record.
+- name: CalendarDate
+  description: Calendar date value used for business events, reporting, and settlement timing.
+- name: CurrencyCode
+  description: Code value identifying a currency.
+- name: MonetaryAmount
+  description: Decimal numeric value representing an amount of money.
+- name: SettlementStatus
+  description: Status value describing operational settlement progress or completion.
+- name: PartyName
+  description: Name value representing a person, organization, or legal entity.
+- name: CountryCode
+  description: Code value identifying a country or jurisdiction.
+- name: RiskSegment
+  description: Classification value identifying risk or client segment.
+- name: StatusCode
+  description: Code value identifying operational lifecycle status.
+- name: Rate
+  description: Decimal ratio or exchange rate value.
+- name: DayCount
+  description: Integer count of calendar or business days.

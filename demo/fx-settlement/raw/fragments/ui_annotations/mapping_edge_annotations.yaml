@@ -1,0 +1,22 @@
+mapping_edge_annotations:
+- concept: FxTrade
+  dataset: fx_trades
+  description: FX trade source records populate FxTrade entities at executed trade grain.
+- concept: FxTrade
+  dataset: settlement_instructions
+  description: Settlement instruction records contribute settlement linkage evidence for FxTrade entities.
+- concept: SettlementInstruction
+  dataset: settlement_instructions
+  description: Settlement instruction source records populate SettlementInstruction entities at operational instruction grain.
+- concept: Counterparty
+  dataset: counterparties
+  description: Counterparty master records populate Counterparty entities at legal entity grain.
+- concept: Counterparty
+  dataset: nostro_accounts
+  description: Nostro account records contribute ownership evidence linking Counterparty entities to account records.
+- concept: NostroAccount
+  dataset: nostro_accounts
+  description: Nostro account master records populate NostroAccount entities at settlement account grain.
+- concept: FxRate
+  dataset: fx_rates
+  description: FX rate reference records populate FxRate entities at rate quote grain.

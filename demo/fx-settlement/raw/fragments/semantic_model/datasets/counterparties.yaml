@@ -1,0 +1,44 @@
+name: counterparties
+source: counterparty_master.counterparties
+primary_key:
+- counterparty_id
+description: Counterparty master records at legal entity grain, providing names, jurisdiction, and risk segment attributes used for FX settlement monitoring.
+ai_context:
+  physical_kind: table
+fields:
+- name: counterparty_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: counterparty_id
+  description: Stable master identifier for a trading or account counterparty.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: counterparty_name
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: counterparty_name
+  description: Legal or trading display name of the counterparty.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: counterparty_country
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: counterparty_country
+  description: Country or jurisdiction associated with the counterparty master record.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: risk_segment
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: risk_segment
+  description: Risk or client segment assigned to the counterparty for monitoring.
+  ai_context:
+    physical_type: string
+    nullable: false

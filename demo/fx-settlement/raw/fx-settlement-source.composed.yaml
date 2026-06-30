@@ -1,0 +1,1271 @@
+scenario:
+  ontology_name: FxSettlementMonitoringOntology
+  description: OSI scenario for foreign exchange settlement monitoring, built from
+    trade, settlement instruction, counterparty, nostro account, and FX rate source
+    metadata.
+  mapping_name: FxSettlementSemanticMapping
+  semantic_model_name: FxSettlementSemanticModel
+  semantic_model_description: Table-backed semantic model for FX trade settlement
+    monitoring across trading, payments, counterparty master, account master, and
+    market data sources.
+  model_version: 1.0.0
+  owner: Treasury Operations Data Governance
+  source_systems:
+  - fx_trading_core
+  - payments_core
+  - counterparty_master
+  - nostro_master
+  - market_data
+ontology:
+  base_entities:
+  - name: AccountData
+    description: Base concept for account-like records with common account identifiers.
+    identify_by:
+    - has_AccountIdentifier
+    relationships:
+    - name: has_AccountIdentifier
+      roles:
+      - concept: AccountIdentifier
+      multiplicity: OneToOne
+      verbalizes:
+      - '{AccountData} has account identifier {AccountIdentifier}'
+      description: Identifier common to account-like records.
+  - name: InstructionData
+    description: Base concept for operational instruction records with stable instruction
+      identifiers.
+    identify_by:
+    - has_InstructionIdentifier
+    relationships:
+    - name: has_InstructionIdentifier
+      roles:
+      - concept: InstructionIdentifier
+      multiplicity: OneToOne
+      verbalizes:
+      - '{InstructionData} has instruction identifier {InstructionIdentifier}'
+      description: Identifier common to operational instruction records.
+  - name: PartyData
+    description: Base concept for counterparty-like records with stable party identifiers.
+    identify_by:
+    - has_CounterpartyIdentifier
+    relationships:
+    - name: has_CounterpartyIdentifier
+      roles:
+      - concept: CounterpartyIdentifier
+      multiplicity: OneToOne
+      verbalizes:
+      - '{PartyData} has counterparty identifier {CounterpartyIdentifier}'
+      description: Identifier common to counterparty or party records.
+  - name: ReferenceData
+    description: Base concept for reference-data records with stable reference identifiers.
+    identify_by:
+    - has_ReferenceIdentifier
+    relationships:
+    - name: has_ReferenceIdentifier
+      roles:
+      - concept: ReferenceIdentifier
+      multiplicity: OneToOne
+      verbalizes:
+      - '{ReferenceData} has reference identifier {ReferenceIdentifier}'
+      description: Identifier common to reference-data records.
+  - name: TransactionData
+    description: Base concept for transaction-like records with stable transaction
+      identifiers and booking dates.
+    identify_by:
+    - has_TransactionIdentifier
+    relationships:
+    - name: has_TransactionIdentifier
+      roles:
+      - concept: TransactionIdentifier
+      multiplicity: OneToOne
+      verbalizes:
+      - '{TransactionData} has transaction identifier {TransactionIdentifier}'
+      description: Identifier common to transaction-like records.
+    - name: has_BookingDate
+      roles:
+      - concept: CalendarDate
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{TransactionData} has booking date {CalendarDate}'
+      description: Business date common to transaction-like records.
+  entity_types:
+  - name: Counterparty
+    description: Legal entity or trading counterparty involved in FX trading or account
+      ownership.
+    extends:
+    - PartyData
+    identify_by:
+    - has_CounterpartyIdentifier
+    relationships:
+    - name: OWNS_NostroAccount
+      roles:
+      - concept: NostroAccount
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{Counterparty} owns or controls {NostroAccount}'
+      description: Counterparty relationship used to connect nostro account ownership
+        or responsibility.
+    - name: has_CounterpartyName
+      roles:
+      - concept: PartyName
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{Counterparty} has counterparty name {PartyName}'
+      description: Human-readable legal or trading name of the counterparty.
+    - name: has_CounterpartyCountry
+      roles:
+      - concept: CountryCode
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{Counterparty} has counterparty country {CountryCode}'
+      description: Country or jurisdiction associated with the counterparty.
+    - name: has_RiskSegment
+      roles:
+      - concept: RiskSegment
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{Counterparty} has risk segment {RiskSegment}'
+      description: Risk or client segment used for settlement monitoring.
+  - name: FxRate
+    description: Reference FX rate used to convert trade amounts for monitoring and
+      reporting.
+    extends:
+    - ReferenceData
+    identify_by:
+    - has_ReferenceIdentifier
+    relationships:
+    - name: has_BaseCurrency
+      roles:
+      - concept: CurrencyCode
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxRate} has base currency {CurrencyCode}'
+      description: Base currency of the FX rate quote.
+    - name: has_QuoteCurrency
+      roles:
+      - concept: CurrencyCode
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxRate} has quote currency {CurrencyCode}'
+      description: Quote or reporting currency of the FX rate quote.
+    - name: has_RateDate
+      roles:
+      - concept: CalendarDate
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxRate} has rate date {CalendarDate}'
+      description: Date on which the FX rate is effective.
+    - name: has_RateValue
+      roles:
+      - concept: Rate
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxRate} has rate value {Rate}'
+      description: Decimal exchange rate value for the currency pair.
+  - name: FxTrade
+    description: Executed foreign exchange trade that must be monitored through settlement
+      completion and exposure reporting.
+    extends:
+    - TransactionData
+    identify_by:
+    - has_TransactionIdentifier
+    relationships:
+    - name: EXECUTED_WITH_Counterparty
+      roles:
+      - concept: Counterparty
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxTrade} is executed with {Counterparty}'
+      description: Counterparty with whom the FX trade was executed.
+    - name: SETTLED_BY_SettlementInstruction
+      roles:
+      - concept: SettlementInstruction
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxTrade} is settled by {SettlementInstruction}'
+      description: Settlement instruction that operationally settles the FX trade.
+    - name: PRICED_BY_FxRate
+      roles:
+      - concept: FxRate
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxTrade} is priced by {FxRate}'
+      description: FX rate reference used to convert the trade amount into reporting
+        currency.
+    - name: has_BuyCurrency
+      roles:
+      - concept: CurrencyCode
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxTrade} has buy currency {CurrencyCode}'
+      description: Currency bought by the FX trade.
+    - name: has_SellCurrency
+      roles:
+      - concept: CurrencyCode
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxTrade} has sell currency {CurrencyCode}'
+      description: Currency sold by the FX trade.
+    - name: has_NotionalAmount
+      roles:
+      - concept: MonetaryAmount
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxTrade} has notional amount {MonetaryAmount}'
+      description: Original trade notional amount before reporting-currency conversion.
+    - name: has_SettlementDate
+      roles:
+      - concept: CalendarDate
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxTrade} has settlement date {CalendarDate}'
+      description: Contractual settlement date for the FX trade.
+    - name: has_ReportCurrencyExposureAmount
+      roles:
+      - concept: MonetaryAmount
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{FxTrade} has report currency exposure amount {MonetaryAmount}'
+      description: Calculated exposure amount after applying the relevant FX rate
+        for monitoring.
+  - name: NostroAccount
+    description: Cash settlement account used for FX payment and receipt processing.
+    extends:
+    - AccountData
+    identify_by:
+    - has_AccountIdentifier
+    relationships:
+    - name: HELD_BY_Counterparty
+      roles:
+      - concept: Counterparty
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{NostroAccount} is held by {Counterparty}'
+      description: Counterparty or banking entity responsible for the nostro account.
+    - name: has_AccountCurrency
+      roles:
+      - concept: CurrencyCode
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{NostroAccount} has account currency {CurrencyCode}'
+      description: Currency in which the nostro account settles cash.
+    - name: has_AccountStatus
+      roles:
+      - concept: StatusCode
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{NostroAccount} has account status {StatusCode}'
+      description: Operational lifecycle status of the nostro account.
+  - name: SettlementInstruction
+    description: Payment or settlement instruction used to settle an FX trade through
+      a nostro account.
+    extends:
+    - InstructionData
+    identify_by:
+    - has_InstructionIdentifier
+    relationships:
+    - name: SETTLES_FxTrade
+      roles:
+      - concept: FxTrade
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} settles {FxTrade}'
+      description: FX trade whose cash movements are controlled by the settlement
+        instruction.
+    - name: USES_NostroAccount
+      roles:
+      - concept: NostroAccount
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} uses {NostroAccount}'
+      description: Nostro account used to process the settlement cash movement.
+    - name: has_SettlementCurrency
+      roles:
+      - concept: CurrencyCode
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} has settlement currency {CurrencyCode}'
+      description: Currency in which the settlement instruction is executed.
+    - name: has_SettlementAmount
+      roles:
+      - concept: MonetaryAmount
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} has settlement amount {MonetaryAmount}'
+      description: Cash amount instructed for FX settlement.
+    - name: has_SettlementValueDate
+      roles:
+      - concept: CalendarDate
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} has settlement value date {CalendarDate}'
+      description: Value date on which the settlement instruction is expected to settle.
+    - name: has_SettlementStatus
+      roles:
+      - concept: SettlementStatus
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} has settlement status {SettlementStatus}'
+      description: Operational status of the settlement instruction.
+    - name: has_ExpectedSettlementDate
+      roles:
+      - concept: CalendarDate
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} has expected settlement date {CalendarDate}'
+      description: Date by which settlement is expected to complete.
+    - name: has_ActualSettlementDate
+      roles:
+      - concept: CalendarDate
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} has actual settlement date {CalendarDate}'
+      description: Date on which settlement actually completed.
+    - name: has_SettlementDelayDays
+      roles:
+      - concept: DayCount
+      multiplicity: ManyToOne
+      verbalizes:
+      - '{SettlementInstruction} has settlement delay days {DayCount}'
+      description: Calculated number of days between expected and actual settlement
+        completion.
+  value_types:
+  - name: TransactionIdentifier
+    description: Identifier value assigned to a financial transaction.
+  - name: InstructionIdentifier
+    description: Identifier value assigned to an operational instruction.
+  - name: CounterpartyIdentifier
+    description: Identifier value assigned to a legal entity or trading counterparty.
+  - name: AccountIdentifier
+    description: Identifier value assigned to an account.
+  - name: ReferenceIdentifier
+    description: Identifier value assigned to a reference-data record.
+  - name: CalendarDate
+    description: Calendar date value used for business events, reporting, and settlement
+      timing.
+  - name: CurrencyCode
+    description: Code value identifying a currency.
+  - name: MonetaryAmount
+    description: Decimal numeric value representing an amount of money.
+  - name: SettlementStatus
+    description: Status value describing operational settlement progress or completion.
+  - name: PartyName
+    description: Name value representing a person, organization, or legal entity.
+  - name: CountryCode
+    description: Code value identifying a country or jurisdiction.
+  - name: RiskSegment
+    description: Classification value identifying risk or client segment.
+  - name: StatusCode
+    description: Code value identifying operational lifecycle status.
+  - name: Rate
+    description: Decimal ratio or exchange rate value.
+  - name: DayCount
+    description: Integer count of calendar or business days.
+semantic_model:
+  datasets:
+  - name: counterparties
+    source: counterparty_master.counterparties
+    primary_key:
+    - counterparty_id
+    description: Counterparty master records at legal entity grain, providing names,
+      jurisdiction, and risk segment attributes used for FX settlement monitoring.
+    ai_context:
+      physical_kind: table
+    fields:
+    - name: counterparty_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: counterparty_id
+      description: Stable master identifier for a trading or account counterparty.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: counterparty_name
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: counterparty_name
+      description: Legal or trading display name of the counterparty.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: counterparty_country
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: counterparty_country
+      description: Country or jurisdiction associated with the counterparty master
+        record.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: risk_segment
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: risk_segment
+      description: Risk or client segment assigned to the counterparty for monitoring.
+      ai_context:
+        physical_type: string
+        nullable: false
+  - name: fx_rates
+    source: market_data.fx_rates
+    primary_key:
+    - rate_id
+    description: FX rate reference records at currency-pair and rate-date grain, used
+      to convert trade notional amounts into reporting currency.
+    ai_context:
+      physical_kind: table
+    fields:
+    - name: rate_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: rate_id
+      description: Stable identifier for an FX rate reference record.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: base_currency
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: base_currency
+      description: Base currency of the FX quote.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: quote_currency
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: quote_currency
+      description: Quote or reporting currency of the FX quote.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: rate_date
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: rate_date
+      description: Effective date of the FX rate.
+      ai_context:
+        physical_type: date
+        nullable: false
+    - name: rate_value
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: rate_value
+      description: Decimal rate value used for currency conversion.
+      ai_context:
+        physical_type: decimal
+        nullable: false
+  - name: fx_settlement_monitoring_lines
+    source: query.fx_settlement_monitoring_lines
+    description: Prepared FX settlement monitoring line dataset at trade and settlement-instruction
+      grain, combining trade, settlement, counterparty, account, and FX rate context
+      for operational reporting review.
+    ai_context:
+      physical_kind: query
+    custom_extensions:
+    - vendor_name: OSI_KG_UI
+      data: '{"name":"physical_source","kind":"query","description":"Monitoring lines
+        are produced by a documented query that combines FX trades, settlement instructions,
+        counterparties, nostro accounts, and FX rates for daily review.","sql":"select
+        t.trade_id, s.settlement_instruction_id, t.counterparty_id, s.settlement_currency,
+        s.settlement_amount, r.rate_value, t.notional_amount * r.rate_value as exposure_amount_report_currency,
+        datediff(day, s.expected_settlement_date, s.actual_settlement_date) as settlement_delay_days
+        from fx_trading_core.fx_trades t join payments_core.settlement_instructions
+        s on s.trade_id = t.trade_id join market_data.fx_rates r on r.rate_id = t.rate_id","depends_on":["fx_trading_core.fx_trades","payments_core.settlement_instructions","counterparty_master.counterparties","nostro_master.nostro_accounts","market_data.fx_rates"]}'
+    fields:
+    - name: trade_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: fx_trades.trade_id
+      description: Trade identifier carried onto the monitoring line for reconciliation.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: settlement_instruction_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_instructions.settlement_instruction_id
+      description: Settlement instruction identifier carried onto the monitoring line.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: counterparty_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: fx_trades.counterparty_id
+      description: Counterparty identifier reported for settlement monitoring and
+        aggregation.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: settlement_currency
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_instructions.settlement_currency
+      description: Settlement currency reported on the monitoring line.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: settlement_amount
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_instructions.settlement_amount
+      description: Settlement amount reported on the monitoring line.
+      ai_context:
+        physical_type: decimal
+        nullable: false
+    - name: settlement_status
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_instructions.settlement_status
+      description: Settlement status reported on the monitoring line.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: exposure_amount_report_currency
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: fx_trades.notional_amount * fx_rates.rate_value
+      description: Trade notional converted into reporting currency for monitoring
+        review.
+      ai_context:
+        physical_type: decimal
+        nullable: false
+    - name: settlement_delay_days
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: DATEDIFF(day, settlement_instructions.expected_settlement_date,
+            settlement_instructions.actual_settlement_date)
+      description: Number of days between expected and actual settlement completion.
+      ai_context:
+        physical_type: integer
+        nullable: true
+  - name: fx_trades
+    source: fx_trading_core.fx_trades
+    primary_key:
+    - trade_id
+    description: Executed FX trade records at trade grain, carrying counterparty,
+      currencies, notional amount, settlement date, and pricing reference used for
+      settlement monitoring.
+    ai_context:
+      physical_kind: table
+    fields:
+    - name: trade_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: trade_id
+      description: Stable source trade identifier for an executed FX trade.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: trade_date
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: trade_date
+      description: Business booking date of the FX trade.
+      ai_context:
+        physical_type: date
+        nullable: false
+    - name: counterparty_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: counterparty_id
+      description: Counterparty identifier captured at trade execution.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: buy_currency
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: buy_currency
+      description: Currency bought by the FX trade.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: sell_currency
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: sell_currency
+      description: Currency sold by the FX trade.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: notional_amount
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: notional_amount
+      description: Trade notional amount before reporting-currency conversion.
+      ai_context:
+        physical_type: decimal
+        nullable: false
+    - name: settlement_date
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_date
+      description: Contractual settlement date agreed for the FX trade.
+      ai_context:
+        physical_type: date
+        nullable: false
+    - name: rate_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: rate_id
+      description: Reference identifier of the FX rate used for reporting conversion.
+      ai_context:
+        physical_type: string
+        nullable: false
+  - name: nostro_accounts
+    source: nostro_master.nostro_accounts
+    primary_key:
+    - account_id
+    description: Nostro account master records at account grain, carrying account
+      currency, operational status, and owner counterparty used for settlement routing.
+    ai_context:
+      physical_kind: table
+    fields:
+    - name: account_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: account_id
+      description: Stable account identifier for a nostro settlement account.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: account_currency
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: account_currency
+      description: Currency in which the nostro account settles cash movements.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: account_status
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: account_status
+      description: Operational lifecycle status of the nostro account.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: owner_counterparty_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: owner_counterparty_id
+      description: Counterparty identifier responsible for or owning the nostro account.
+      ai_context:
+        physical_type: string
+        nullable: false
+  - name: settlement_instructions
+    source: payments_core.settlement_instructions
+    primary_key:
+    - settlement_instruction_id
+    description: FX settlement instruction records at instruction grain, carrying
+      the linked trade, nostro account, settlement currency, amount, value dates,
+      and operational status.
+    ai_context:
+      physical_kind: table
+    fields:
+    - name: settlement_instruction_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_instruction_id
+      description: Stable operational identifier for the FX settlement instruction.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: trade_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: trade_id
+      description: Trade identifier whose cash movement is governed by the settlement
+        instruction.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: nostro_account_id
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: nostro_account_id
+      description: Nostro account identifier used to settle the instruction.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: settlement_currency
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_currency
+      description: Currency in which the instruction settles.
+      ai_context:
+        physical_type: string
+        nullable: false
+    - name: settlement_amount
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_amount
+      description: Monetary cash obligation that the instruction must settle in the
+        stated settlement currency.
+      ai_context:
+        physical_type: decimal
+        nullable: false
+    - name: settlement_value_date
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_value_date
+      description: Value date expected for settlement posting.
+      ai_context:
+        physical_type: date
+        nullable: false
+    - name: expected_settlement_date
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: expected_settlement_date
+      description: Date by which the instruction should complete settlement.
+      ai_context:
+        physical_type: date
+        nullable: false
+    - name: actual_settlement_date
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: actual_settlement_date
+      description: Date on which the instruction actually completed settlement.
+      ai_context:
+        physical_type: date
+        nullable: true
+    - name: settlement_status
+      expression:
+        dialects:
+        - dialect: ANSI_SQL
+          expression: settlement_status
+      description: Operational status assigned to the settlement instruction.
+      ai_context:
+        physical_type: string
+        nullable: false
+  relationships:
+  - name: fx_trade_counterparty
+    from: fx_trades
+    to: counterparties
+    from_columns:
+    - counterparty_id
+    to_columns:
+    - counterparty_id
+    ai_context:
+      description: FX trades use counterparty_id to attach the legal entity profile
+        needed for settlement exposure monitoring.
+  - name: fx_trade_rate
+    from: fx_trades
+    to: fx_rates
+    from_columns:
+    - rate_id
+    to_columns:
+    - rate_id
+    ai_context:
+      description: FX trades use rate_id to resolve the rate record used to convert
+        trade notional into reporting currency.
+  - name: settlement_trade
+    from: settlement_instructions
+    to: fx_trades
+    from_columns:
+    - trade_id
+    to_columns:
+    - trade_id
+    ai_context:
+      description: Settlement instructions use trade_id to connect operational settlement
+        status to the executed FX trade.
+  - name: settlement_nostro_account
+    from: settlement_instructions
+    to: nostro_accounts
+    from_columns:
+    - nostro_account_id
+    to_columns:
+    - account_id
+    ai_context:
+      description: Settlement instructions use nostro_account_id to identify the cash
+        account used for settlement routing.
+  - name: account_owner_counterparty
+    from: nostro_accounts
+    to: counterparties
+    from_columns:
+    - owner_counterparty_id
+    to_columns:
+    - counterparty_id
+    ai_context:
+      description: Nostro accounts use owner_counterparty_id to identify the responsible
+        counterparty or banking entity.
+  - name: monitoring_line_trade
+    from: fx_settlement_monitoring_lines
+    to: fx_trades
+    from_columns:
+    - trade_id
+    to_columns:
+    - trade_id
+    ai_context:
+      description: Monitoring lines reconcile to FX trades through trade_id to preserve
+        row-level trade traceability.
+  - name: monitoring_line_instruction
+    from: fx_settlement_monitoring_lines
+    to: settlement_instructions
+    from_columns:
+    - settlement_instruction_id
+    to_columns:
+    - settlement_instruction_id
+    ai_context:
+      description: Monitoring lines reconcile to settlement instructions through settlement_instruction_id
+        for operational status traceability.
+  metrics:
+  - name: report_currency_exposure_amount
+    description: FX trade notional amount converted into reporting currency using
+      the referenced FX rate.
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: fx_trades.notional_amount * fx_rates.rate_value
+    ai_context:
+      metric_type: calculated_settlement_monitoring_measure
+  - name: settlement_delay_days
+    description: Settlement delay measured as the day difference between expected
+      and actual settlement completion dates.
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DATEDIFF(day, settlement_instructions.expected_settlement_date,
+          settlement_instructions.actual_settlement_date)
+    ai_context:
+      metric_type: calculated_settlement_monitoring_measure
+concept_mappings:
+- concept: Counterparty
+  object_mappings:
+  - referent_mappings:
+    - relationship: has_CounterpartyIdentifier
+      expression: counterparties.counterparty_id
+  link_mappings:
+  - object_mapping:
+      referent_mappings:
+      - relationship: has_CounterpartyIdentifier
+        expression: counterparties.counterparty_id
+    children:
+    - relationship: has_CounterpartyIdentifier
+      object_mapping:
+        concept: CounterpartyIdentifier
+        expression: counterparties.counterparty_id
+    - relationship: has_CounterpartyName
+      object_mapping:
+        concept: PartyName
+        expression: counterparties.counterparty_name
+    - relationship: has_CounterpartyCountry
+      object_mapping:
+        concept: CountryCode
+        expression: counterparties.counterparty_country
+    - relationship: has_RiskSegment
+      object_mapping:
+        concept: RiskSegment
+        expression: counterparties.risk_segment
+  - object_mapping:
+      referent_mappings:
+      - relationship: has_CounterpartyIdentifier
+        expression: nostro_accounts.owner_counterparty_id
+    children:
+    - relationship: OWNS_NostroAccount
+      object_mapping:
+        concept: NostroAccount
+        referent_mappings:
+        - relationship: has_AccountIdentifier
+          expression: nostro_accounts.account_id
+- concept: FxRate
+  object_mappings:
+  - referent_mappings:
+    - relationship: has_ReferenceIdentifier
+      expression: fx_rates.rate_id
+  link_mappings:
+  - object_mapping:
+      referent_mappings:
+      - relationship: has_ReferenceIdentifier
+        expression: fx_rates.rate_id
+    children:
+    - relationship: has_ReferenceIdentifier
+      object_mapping:
+        concept: ReferenceIdentifier
+        expression: fx_rates.rate_id
+    - relationship: has_BaseCurrency
+      object_mapping:
+        concept: CurrencyCode
+        expression: fx_rates.base_currency
+    - relationship: has_QuoteCurrency
+      object_mapping:
+        concept: CurrencyCode
+        expression: fx_rates.quote_currency
+    - relationship: has_RateDate
+      object_mapping:
+        concept: CalendarDate
+        expression: fx_rates.rate_date
+    - relationship: has_RateValue
+      object_mapping:
+        concept: Rate
+        expression: fx_rates.rate_value
+- concept: FxTrade
+  object_mappings:
+  - referent_mappings:
+    - relationship: has_TransactionIdentifier
+      expression: fx_trades.trade_id
+  link_mappings:
+  - object_mapping:
+      referent_mappings:
+      - relationship: has_TransactionIdentifier
+        expression: fx_trades.trade_id
+    children:
+    - relationship: has_TransactionIdentifier
+      object_mapping:
+        concept: TransactionIdentifier
+        expression: fx_trades.trade_id
+    - relationship: has_BookingDate
+      object_mapping:
+        concept: CalendarDate
+        expression: fx_trades.trade_date
+    - relationship: EXECUTED_WITH_Counterparty
+      object_mapping:
+        concept: Counterparty
+        referent_mappings:
+        - relationship: has_CounterpartyIdentifier
+          expression: fx_trades.counterparty_id
+    - relationship: PRICED_BY_FxRate
+      object_mapping:
+        concept: FxRate
+        referent_mappings:
+        - relationship: has_ReferenceIdentifier
+          expression: fx_trades.rate_id
+    - relationship: has_BuyCurrency
+      object_mapping:
+        concept: CurrencyCode
+        expression: fx_trades.buy_currency
+    - relationship: has_SellCurrency
+      object_mapping:
+        concept: CurrencyCode
+        expression: fx_trades.sell_currency
+    - relationship: has_NotionalAmount
+      object_mapping:
+        concept: MonetaryAmount
+        expression: fx_trades.notional_amount
+    - relationship: has_SettlementDate
+      object_mapping:
+        concept: CalendarDate
+        expression: fx_trades.settlement_date
+    - relationship: has_ReportCurrencyExposureAmount
+      object_mapping:
+        concept: MonetaryAmount
+        expression: metric.report_currency_exposure_amount
+  - object_mapping:
+      referent_mappings:
+      - relationship: has_TransactionIdentifier
+        expression: settlement_instructions.trade_id
+    children:
+    - relationship: SETTLED_BY_SettlementInstruction
+      object_mapping:
+        concept: SettlementInstruction
+        referent_mappings:
+        - relationship: has_InstructionIdentifier
+          expression: settlement_instructions.settlement_instruction_id
+- concept: NostroAccount
+  object_mappings:
+  - referent_mappings:
+    - relationship: has_AccountIdentifier
+      expression: nostro_accounts.account_id
+  link_mappings:
+  - object_mapping:
+      referent_mappings:
+      - relationship: has_AccountIdentifier
+        expression: nostro_accounts.account_id
+    children:
+    - relationship: has_AccountIdentifier
+      object_mapping:
+        concept: AccountIdentifier
+        expression: nostro_accounts.account_id
+    - relationship: HELD_BY_Counterparty
+      object_mapping:
+        concept: Counterparty
+        referent_mappings:
+        - relationship: has_CounterpartyIdentifier
+          expression: nostro_accounts.owner_counterparty_id
+    - relationship: has_AccountCurrency
+      object_mapping:
+        concept: CurrencyCode
+        expression: nostro_accounts.account_currency
+    - relationship: has_AccountStatus
+      object_mapping:
+        concept: StatusCode
+        expression: nostro_accounts.account_status
+- concept: SettlementInstruction
+  object_mappings:
+  - referent_mappings:
+    - relationship: has_InstructionIdentifier
+      expression: settlement_instructions.settlement_instruction_id
+  link_mappings:
+  - object_mapping:
+      referent_mappings:
+      - relationship: has_InstructionIdentifier
+        expression: settlement_instructions.settlement_instruction_id
+    children:
+    - relationship: has_InstructionIdentifier
+      object_mapping:
+        concept: InstructionIdentifier
+        expression: settlement_instructions.settlement_instruction_id
+    - relationship: SETTLES_FxTrade
+      object_mapping:
+        concept: FxTrade
+        referent_mappings:
+        - relationship: has_TransactionIdentifier
+          expression: settlement_instructions.trade_id
+    - relationship: USES_NostroAccount
+      object_mapping:
+        concept: NostroAccount
+        referent_mappings:
+        - relationship: has_AccountIdentifier
+          expression: settlement_instructions.nostro_account_id
+    - relationship: has_SettlementCurrency
+      object_mapping:
+        concept: CurrencyCode
+        expression: settlement_instructions.settlement_currency
+    - relationship: has_SettlementAmount
+      object_mapping:
+        concept: MonetaryAmount
+        expression: settlement_instructions.settlement_amount
+    - relationship: has_SettlementValueDate
+      object_mapping:
+        concept: CalendarDate
+        expression: settlement_instructions.settlement_value_date
+    - relationship: has_SettlementStatus
+      object_mapping:
+        concept: SettlementStatus
+        expression: settlement_instructions.settlement_status
+    - relationship: has_ExpectedSettlementDate
+      object_mapping:
+        concept: CalendarDate
+        expression: settlement_instructions.expected_settlement_date
+    - relationship: has_ActualSettlementDate
+      object_mapping:
+        concept: CalendarDate
+        expression: settlement_instructions.actual_settlement_date
+    - relationship: has_SettlementDelayDays
+      object_mapping:
+        concept: DayCount
+        expression: metric.settlement_delay_days
+mapping_edge_annotations:
+- concept: FxTrade
+  dataset: fx_trades
+  description: FX trade source records populate FxTrade entities at executed trade
+    grain.
+- concept: FxTrade
+  dataset: settlement_instructions
+  description: Settlement instruction records contribute settlement linkage evidence
+    for FxTrade entities.
+- concept: SettlementInstruction
+  dataset: settlement_instructions
+  description: Settlement instruction source records populate SettlementInstruction
+    entities at operational instruction grain.
+- concept: Counterparty
+  dataset: counterparties
+  description: Counterparty master records populate Counterparty entities at legal
+    entity grain.
+- concept: Counterparty
+  dataset: nostro_accounts
+  description: Nostro account records contribute ownership evidence linking Counterparty
+    entities to account records.
+- concept: NostroAccount
+  dataset: nostro_accounts
+  description: Nostro account master records populate NostroAccount entities at settlement
+    account grain.
+- concept: FxRate
+  dataset: fx_rates
+  description: FX rate reference records populate FxRate entities at rate quote grain.
+reporting_requirements:
+- name: 外汇结算监测报送需求
+  type: ReportRequirement
+  description: '监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。
+
+    '
+  source: Treasury FX Settlement Monitoring BRD v1.0 section 2.4
+  SLA: Daily T+1 before 10:00 local time; operations review and exception evidence
+    retained for audit.
+  semantic_scope:
+    concepts:
+    - name: FxTrade
+      description: 需求需要外汇交易作为监测主对象，用于表达交易标识、交易对手、币种、金额和折算敞口口径。
+    - name: SettlementInstruction
+      description: 需求需要结算指令作为运营执行对象，用于表达结算状态、结算金额、结算币种和结算延迟情况。
+    - name: Counterparty
+      description: 需求需要交易对手信息，用于识别结算风险责任主体并支持分组复核。
+    - name: NostroAccount
+      description: 需求需要nostro账户信息，用于说明结算资金路径和账户可用性复核。
+    required_fields:
+    - name: 交易标识
+      description: 需求需要交易标识，用于唯一识别每笔外汇交易并支持报表行级对账。
+      semantic_reference: FxTrade.has_TransactionIdentifier
+      required: true
+    - name: 结算指令标识
+      description: 需求需要结算指令标识，用于定位执行结算的运营指令并追踪处理状态。
+      semantic_reference: SettlementInstruction.has_InstructionIdentifier
+      required: true
+    - name: 交易对手标识
+      description: 需求需要交易对手标识，用于识别交易责任主体并支持风险分组。
+      semantic_reference: Counterparty.has_CounterpartyIdentifier
+      required: true
+    - name: 结算币种
+      description: 需求需要结算币种，用于说明现金实际交收的币种口径。
+      semantic_reference: SettlementInstruction.has_SettlementCurrency
+      required: true
+    - name: 结算金额
+      description: 需求需要结算金额，用于展示外汇结算现金金额并支持金额级对账。
+      semantic_reference: SettlementInstruction.has_SettlementAmount
+      required: true
+    - name: 结算状态
+      description: 需求需要结算状态，用于识别未完成、失败或已完成的结算指令。
+      semantic_reference: SettlementInstruction.has_SettlementStatus
+      required: true
+    controls:
+    - name: settlement_status_present
+      target: SettlementInstruction.has_SettlementStatus
+      rule: Settlement status must be present for every monitored settlement instruction.
+  calculations:
+  - name: 折算后报送币种敞口金额
+    description: 需求需要将外汇交易名义金额按汇率折算为报送币种金额，用于衡量结算风险敞口。
+    output: FxTrade.has_ReportCurrencyExposureAmount
+    inputs:
+    - FxTrade.has_NotionalAmount
+    - FxRate.has_RateValue
+    expression: FxTrade.has_NotionalAmount * FxRate.has_RateValue
+  - name: 结算延迟天数
+    description: 需求需要计算预计结算日和实际结算日之间的延迟天数，用于识别结算超时风险。
+    output: SettlementInstruction.has_SettlementDelayDays
+    inputs:
+    - SettlementInstruction.has_ExpectedSettlementDate
+    - SettlementInstruction.has_ActualSettlementDate
+    expression: days_between(SettlementInstruction.has_ExpectedSettlementDate, SettlementInstruction.has_ActualSettlementDate)
+report_data_logic:
+- name: 每日外汇结算监测数据逻辑
+  type: ReportDataLogic
+  description: 说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。
+  implements: 外汇结算监测报送需求
+  field_mappings:
+  - name: 交易标识逻辑
+    dataset: fx_settlement_monitoring_lines
+    dataset_field: trade_id
+    description: 数据逻辑说明监测明细字段 trade_id 如何承载交易标识需求，并从外汇交易数据取得交易主键。
+    requirement_field: 交易标识
+    source_field: fx_trades.trade_id
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: fx_trades.trade_id
+  - name: 结算指令标识逻辑
+    dataset: fx_settlement_monitoring_lines
+    dataset_field: settlement_instruction_id
+    description: 数据逻辑说明监测明细字段 settlement_instruction_id 如何承载结算指令标识需求，并从结算指令数据取得运营指令主键。
+    requirement_field: 结算指令标识
+    source_field: settlement_instructions.settlement_instruction_id
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: settlement_instructions.settlement_instruction_id
+  - name: 交易对手标识逻辑
+    dataset: fx_settlement_monitoring_lines
+    dataset_field: counterparty_id
+    description: 数据逻辑说明监测明细字段 counterparty_id 如何承载交易对手标识需求，并使用交易上的交易对手引用。
+    requirement_field: 交易对手标识
+    source_field: fx_trades.counterparty_id
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: fx_trades.counterparty_id
+  - name: 结算币种逻辑
+    dataset: fx_settlement_monitoring_lines
+    dataset_field: settlement_currency
+    description: 数据逻辑说明监测明细字段 settlement_currency 如何承载结算币种需求，并从结算指令取得实际交收币种。
+    requirement_field: 结算币种
+    source_field: settlement_instructions.settlement_currency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: settlement_instructions.settlement_currency
+  - name: 结算金额逻辑
+    dataset: fx_settlement_monitoring_lines
+    dataset_field: settlement_amount
+    description: 数据逻辑说明监测明细字段 settlement_amount 如何承载结算金额需求，并从结算指令取得现金交收金额。
+    requirement_field: 结算金额
+    source_field: settlement_instructions.settlement_amount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: settlement_instructions.settlement_amount
+  - name: 结算状态逻辑
+    dataset: fx_settlement_monitoring_lines
+    dataset_field: settlement_status
+    description: 数据逻辑说明监测明细字段 settlement_status 如何承载结算状态需求，并从结算指令取得运营处理状态。
+    requirement_field: 结算状态
+    source_field: settlement_instructions.settlement_status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: settlement_instructions.settlement_status
+  - name: 折算后报送币种敞口金额逻辑
+    dataset: fx_settlement_monitoring_lines
+    dataset_field: exposure_amount_report_currency
+    description: 数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。
+    requirement_field: 折算后报送币种敞口金额
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: fx_trades.notional_amount * fx_rates.rate_value
+  - name: 结算延迟天数逻辑
+    dataset: fx_settlement_monitoring_lines
+    dataset_field: settlement_delay_days
+    description: 数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。
+    requirement_field: 结算延迟天数
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DATEDIFF(day, settlement_instructions.expected_settlement_date,
+          settlement_instructions.actual_settlement_date)
+  source_fields:
+  - fx_trades.trade_id
+  - fx_trades.counterparty_id
+  - fx_trades.notional_amount
+  - fx_rates.rate_value
+  - settlement_instructions.settlement_instruction_id
+  - settlement_instructions.settlement_currency
+  - settlement_instructions.settlement_amount
+  - settlement_instructions.settlement_status
+  - settlement_instructions.expected_settlement_date
+  - settlement_instructions.actual_settlement_date

@@ -1,0 +1,70 @@
+name: SettlementInstruction
+description: Payment or settlement instruction used to settle an FX trade through a nostro account.
+extends:
+- InstructionData
+identify_by:
+- has_InstructionIdentifier
+relationships:
+- name: SETTLES_FxTrade
+  roles:
+  - concept: FxTrade
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} settles {FxTrade}"
+  description: FX trade whose cash movements are controlled by the settlement instruction.
+- name: USES_NostroAccount
+  roles:
+  - concept: NostroAccount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} uses {NostroAccount}"
+  description: Nostro account used to process the settlement cash movement.
+- name: has_SettlementCurrency
+  roles:
+  - concept: CurrencyCode
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} has settlement currency {CurrencyCode}"
+  description: Currency in which the settlement instruction is executed.
+- name: has_SettlementAmount
+  roles:
+  - concept: MonetaryAmount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} has settlement amount {MonetaryAmount}"
+  description: Cash amount instructed for FX settlement.
+- name: has_SettlementValueDate
+  roles:
+  - concept: CalendarDate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} has settlement value date {CalendarDate}"
+  description: Value date on which the settlement instruction is expected to settle.
+- name: has_SettlementStatus
+  roles:
+  - concept: SettlementStatus
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} has settlement status {SettlementStatus}"
+  description: Operational status of the settlement instruction.
+- name: has_ExpectedSettlementDate
+  roles:
+  - concept: CalendarDate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} has expected settlement date {CalendarDate}"
+  description: Date by which settlement is expected to complete.
+- name: has_ActualSettlementDate
+  roles:
+  - concept: CalendarDate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} has actual settlement date {CalendarDate}"
+  description: Date on which settlement actually completed.
+- name: has_SettlementDelayDays
+  roles:
+  - concept: DayCount
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{SettlementInstruction} has settlement delay days {DayCount}"
+  description: Calculated number of days between expected and actual settlement completion.

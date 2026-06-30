@@ -1,0 +1,19 @@
+name: TransactionData
+description: Base concept for transaction-like records with stable transaction identifiers and booking dates.
+identify_by:
+- has_TransactionIdentifier
+relationships:
+- name: has_TransactionIdentifier
+  roles:
+  - concept: TransactionIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{TransactionData} has transaction identifier {TransactionIdentifier}"
+  description: Identifier common to transaction-like records.
+- name: has_BookingDate
+  roles:
+  - concept: CalendarDate
+  multiplicity: ManyToOne
+  verbalizes:
+  - "{TransactionData} has booking date {CalendarDate}"
+  description: Business date common to transaction-like records.

@@ -1,0 +1,89 @@
+name: settlement_instructions
+source: payments_core.settlement_instructions
+primary_key:
+- settlement_instruction_id
+description: FX settlement instruction records at instruction grain, carrying the linked trade, nostro account, settlement currency, amount, value dates, and operational status.
+ai_context:
+  physical_kind: table
+fields:
+- name: settlement_instruction_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_instruction_id
+  description: Stable operational identifier for the FX settlement instruction.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: trade_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: trade_id
+  description: Trade identifier whose cash movement is governed by the settlement instruction.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: nostro_account_id
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: nostro_account_id
+  description: Nostro account identifier used to settle the instruction.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: settlement_currency
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_currency
+  description: Currency in which the instruction settles.
+  ai_context:
+    physical_type: string
+    nullable: false
+- name: settlement_amount
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_amount
+  description: Monetary cash obligation that the instruction must settle in the stated settlement currency.
+  ai_context:
+    physical_type: decimal
+    nullable: false
+- name: settlement_value_date
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_value_date
+  description: Value date expected for settlement posting.
+  ai_context:
+    physical_type: date
+    nullable: false
+- name: expected_settlement_date
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: expected_settlement_date
+  description: Date by which the instruction should complete settlement.
+  ai_context:
+    physical_type: date
+    nullable: false
+- name: actual_settlement_date
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: actual_settlement_date
+  description: Date on which the instruction actually completed settlement.
+  ai_context:
+    physical_type: date
+    nullable: true
+- name: settlement_status
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: settlement_status
+  description: Operational status assigned to the settlement instruction.
+  ai_context:
+    physical_type: string
+    nullable: false

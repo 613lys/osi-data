@@ -1,30 +1,45 @@
 const graph = window.GRAPH_DATA || window.OSI_GRAPH_DATA || { nodes: [], edges: [] };
 const catalog = window.CATALOG_DATA || window.OSI_CATALOG_DATA || {};
+const summary = window.OSI_SUMMARY || window.SUMMARY_DATA || {};
+const scenarioData = window.SCENARIO_DATA || { presets: [], snapshots: [] };
 const DEFAULT_GRAPH_SIZE = { width: 1800, height: 1300 };
 const GRAPH_PADDING = 90;
 const DEFAULT_UNCHECKED_GRAPH_EDGE_TYPES = new Set(["EXTENDS"]);
 const STRUCTURAL_EDGE_TYPES = new Set(["CONTAINS"]);
 const FALLBACK_BUSINESS_EDGE_TYPE = "RELATIONSHIP";
-const SCENARIO_STORAGE_KEY = "metadata-catalog-explorer:graph-scenarios:v1";
-let scenarioMemoryStore = "[]";
+const BUSINESS_ENTITY_ROUTE_VALUE = "__business_entity_route__";
 const elkLayoutEngine = window.ELK ? new window.ELK() : null;
 
 const els = {
   stats: document.getElementById("stats"),
+  homeTab: document.getElementById("homeTab"),
   catalogTab: document.getElementById("catalogTab"),
   graphTab: document.getElementById("graphTab"),
   ontologyTab: document.getElementById("ontologyTab"),
   semanticTab: document.getElementById("semanticTab"),
-  mappingTab: document.getElementById("mappingTab"),
-  requirementTab: document.getElementById("requirementTab"),
-  dataLogicTab: document.getElementById("dataLogicTab"),
+  scenarioTab: document.getElementById("scenarioTab"),
+  homePage: document.getElementById("homePage"),
   catalogPage: document.getElementById("catalogPage"),
   graphPage: document.getElementById("graphPage"),
+  scenarioPage: document.getElementById("scenarioPage"),
   scenarioSelect: document.getElementById("scenarioSelect"),
-  scenarioName: document.getElementById("scenarioNameInput"),
-  saveScenario: document.getElementById("saveScenarioButton"),
-  deleteScenario: document.getElementById("deleteScenarioButton"),
+  scenarioCenterSelect: document.getElementById("scenarioCenterSelect"),
   scenarioHint: document.getElementById("scenarioHint"),
+  openScenarioSave: document.getElementById("openScenarioSaveButton"),
+  scenarioSaveModal: document.getElementById("scenarioSaveModal"),
+  scenarioModalName: document.getElementById("scenarioModalNameInput"),
+  scenarioModalDescription: document.getElementById("scenarioModalDescriptionInput"),
+  scenarioModalSaveKind: document.getElementById("scenarioModalSaveKindSelect"),
+  scenarioModalHint: document.getElementById("scenarioModalHint"),
+  scenarioModalSave: document.getElementById("scenarioModalSaveButton"),
+  scenarioModalCancel: document.getElementById("scenarioModalCancelButton"),
+  scenarioModalClose: document.getElementById("scenarioModalCloseButton"),
+  homeOntologyList: document.getElementById("homeOntologyList"),
+  homeSemanticModelList: document.getElementById("homeSemanticModelList"),
+  homeScenarioList: document.getElementById("homeScenarioList"),
+  presetScenarioList: document.getElementById("presetScenarioList"),
+  savedScenarioList: document.getElementById("savedScenarioList"),
+  scenarioDetailPanel: document.getElementById("scenarioDetailPanel"),
 
   catalogSearch: document.getElementById("catalogSearchInput"),
   catalogNodeTypes: document.getElementById("catalogNodeTypeFilters"),
@@ -47,12 +62,18 @@ const els = {
   graphViewSelectorSection: document.getElementById("graphViewSelectorSection"),
   graphViewSelectorTitle: document.getElementById("graphViewSelectorTitle"),
   graphViewSelector: document.getElementById("graphViewSelector"),
+  graphScopeSelectorHost: document.getElementById("graphScopeSelectorHost"),
+  graphScopeSelectorLabel: document.getElementById("graphScopeSelectorLabel"),
+  graphScopeSelector: document.getElementById("graphScopeSelector"),
   graphDepthSection: document.getElementById("graphDepthSection"),
   graphHiddenSection: document.getElementById("graphHiddenSection"),
   graphNodeTypeSection: document.getElementById("graphNodeTypeSection"),
   graphMetricSection: document.getElementById("graphMetricSection"),
   graphEdgeTypeSection: document.getElementById("graphEdgeTypeSection"),
   graphScenarioSection: document.getElementById("graphScenarioSection"),
+  graphScenarioSidebarHost: document.getElementById("graphScenarioSidebarHost"),
+  graphScenarioTopHost: document.getElementById("graphScenarioTopHost"),
+  graphToolbar: document.querySelector(".graph-toolbar"),
   hiddenNodes: document.getElementById("hiddenNodeList"),
   restoreHidden: document.getElementById("restoreHiddenButton"),
   graphNodeTypes: document.getElementById("graphNodeTypeFilters"),
@@ -118,7 +139,7 @@ const typeLabels = {
   ontology: "Ontology",
   ontology_mapping: "Mapping",
   semantic_model: "Semantic Model",
-  semantic_dataset: "Semantic Dataset",
+  semantic_dataset: "Dataset",
   semantic_metric: "Metric",
   base_entity_concept: "Base Entity Concept",
   entity_type_concept: "Entity Concept",
@@ -193,14 +214,14 @@ function compareEdgeFilter(a, b) {
 }
 
 function edgeRouteItems(businessTypes, businessSelected, businessKind, edgeKeys, edgeSelected, edgeKind) {
-  const businessItems = businessTypes.map(type => ({
+  const businessItems = businessTypes.length ? [{
     sourceType: "entity_type_concept",
     targetType: "entity_type_concept",
-    active: businessSelected.has(type),
+    active: businessTypes.some(type => businessSelected.has(type)),
     kind: businessKind,
-    value: type,
+    value: BUSINESS_ENTITY_ROUTE_VALUE,
     label: `${routeTypeName("entity_type_concept")} -> ${routeTypeName("entity_type_concept")}`,
-  }));
+  }] : [];
   const edgeItems = edgeKeys.map(key => ({
     sourceType: edgeFilterSourceType(key),
     targetType: edgeFilterTargetType(key),
@@ -241,6 +262,7 @@ const graphState = {
   viewMode: "traceability",
   selectedNodeId: catalogState.selectedId,
   selectedEdgeId: null,
+  showScenarioProfile: false,
   selectedFieldId: null,
   selectedFieldIds: new Set(),
   maxDepth: 1,
@@ -248,6 +270,8 @@ const graphState = {
   businessEdgeTypes: new Set(businessEdgeTypes()),
   edgeTypes: defaultGraphEdgeTypesForFocus(catalogState.selectedId),
   metricOverlays: new Set(),
+  selectedOntology: "",
+  selectedSemanticModel: "",
   tags: new Set(allTags()),
   expanded: new Set(),
   autoExpandSuppressed: new Set(),
@@ -260,8 +284,17 @@ const graphState = {
 };
 
 const scenarioState = {
-  selectedId: "",
-  scenarios: loadSavedScenarios(),
+  selectedKey: "",
+  centerByKey: new Map(),
+  presets: normalizeScenarioList(scenarioData.presets, "preset"),
+  snapshots: normalizeScenarioList(scenarioData.snapshots, "snapshot"),
+  serverAvailable: false,
+  serverLoading: false,
+  serverError: "",
+};
+
+const appState = {
+  currentPage: "home",
 };
 
 function node(id) {
@@ -379,10 +412,11 @@ const GRAPH_VIEW_CONFIG = {
     minDepth: 2,
     autoExpandFields: false,
     usesFocus: false,
+    selectorKind: "ontology",
   },
   semantic: {
     title: "Semantic Model View",
-    description: "Semantic-model view: semantic datasets, physical source tables, dataset joins, metric overlays, and query source extensions.",
+    description: "Semantic-model view: datasets, physical source tables, dataset joins, metric overlays, and query source extensions.",
     nodeTypes: ["semantic_dataset", "semantic_metric", "physical_table", "table", "view"],
     edgeTypes: ["DATASET_JOIN", "SOURCE_TABLE", "DERIVED_BY"],
     businessEdgeTypes: [],
@@ -390,17 +424,7 @@ const GRAPH_VIEW_CONFIG = {
     minDepth: 2,
     autoExpandFields: false,
     usesFocus: false,
-  },
-  mapping: {
-    title: "Mapping View",
-    description: "Ontology-to-semantic-model mappings: Entity fields connect to dataset fields and metric-backed fields. Hide nodes to keep the mapping slice focused.",
-    nodeTypes: ["entity_type_concept", "base_entity_concept", "semantic_dataset", "semantic_metric"],
-    edgeTypes: ["MAPS_TO", "MAPS_TO_FIELD", "DERIVED_BY"],
-    businessEdgeTypes: [],
-    childEdgeTypes: ["MAPS_TO_FIELD", "DERIVED_BY"],
-    minDepth: 2,
-    autoExpandFields: false,
-    usesFocus: false,
+    selectorKind: "semantic_model",
   },
   requirement: {
     title: "Requirement View",
@@ -432,16 +456,13 @@ const PAGE_VIEW_MODE = {
   graph: "traceability",
   ontology: "ontology",
   semantic: "semantic",
-  mapping: "mapping",
-  requirement: "requirement",
-  dataLogic: "data_logic",
+  scenarios: "traceability",
 };
 
 const GRAPH_CONTROL_SECTIONS = {
-  traceability: ["focus", "hidden", "depth", "nodeTypes", "edgeTypes", "scenario"],
-  ontology: ["hidden", "nodeTypes", "businessEdges", "edgeTypes"],
-  semantic: ["hidden", "nodeTypes", "metrics", "edgeTypes"],
-  mapping: ["hidden", "nodeTypes", "metrics", "edgeTypes"],
+  traceability: ["focus", "hidden", "depth", "nodeTypes", "edgeTypes"],
+  ontology: ["selector", "hidden", "nodeTypes", "businessEdges", "edgeTypes"],
+  semantic: ["selector", "hidden", "nodeTypes", "metrics", "edgeTypes"],
   requirement: ["selector", "hidden", "edgeTypes"],
   data_logic: ["selector", "hidden", "edgeTypes"],
 };
@@ -456,7 +477,12 @@ function graphViewConfig(mode = graphState?.viewMode || "traceability") {
 }
 
 function graphControlSet(mode = graphState?.viewMode || "traceability") {
-  return new Set(GRAPH_CONTROL_SECTIONS[mode] || GRAPH_CONTROL_SECTIONS.traceability);
+  const controls = new Set(GRAPH_CONTROL_SECTIONS[mode] || GRAPH_CONTROL_SECTIONS.traceability);
+  if (appState?.currentPage === "scenarios") {
+    controls.delete("focus");
+    controls.add("scenario");
+  }
+  return controls;
 }
 
 function graphNodeTypeOptions(mode = graphState?.viewMode || "traceability") {
@@ -479,6 +505,7 @@ function graphBusinessEdgeTypeOptions(mode = graphState?.viewMode || "traceabili
 function metricOverlayOptions() {
   return topLevelNodes
     .filter(item => item.type === "semantic_metric")
+    .filter(item => graphState.viewMode !== "semantic" || !graphState.selectedSemanticModel || nodeSemanticModels(item.id).includes(graphState.selectedSemanticModel))
     .map(item => item.properties?.semantic_metric || item.label || item.id)
     .filter(Boolean)
     .sort();
@@ -496,19 +523,221 @@ function graphViewUsesFocus(mode = graphState?.viewMode || "traceability") {
   return graphViewConfig(mode).usesFocus !== false;
 }
 
+function graphViewSelectorKind(mode = graphState?.viewMode || "traceability") {
+  const config = graphViewConfig(mode);
+  if (config.selectorKind) return config.selectorKind;
+  return config.selectorNodeType ? "node" : "";
+}
+
 function graphViewSelectorType(mode = graphState?.viewMode || "traceability") {
   return graphViewConfig(mode).selectorNodeType || "";
 }
 
+function uniqueStrings(values) {
+  return [...new Set((values || []).map(value => String(value || "").trim()).filter(Boolean))];
+}
+
+function displayModelName(value) {
+  return String(value || "")
+    .replace(/[_-]+/g, " ")
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function optionLabel(value) {
+  return displayModelName(value) || String(value || "");
+}
+
+
+function nodeOntologies(id) {
+  const item = node(id);
+  const data = raw(id);
+  const parent = parentOf(id);
+  const values = uniqueStrings([
+    item?.properties?.ontology,
+    ...(item?.properties?.ontologies || []),
+    data.ontology,
+    ...(data.ontologies || []),
+  ]);
+  if (!values.length && parent && parent !== id) return nodeOntologies(parent);
+  return values.length ? values : uniqueStrings(summary.ontologies || (summary.ontology ? [summary.ontology] : []));
+}
+
+function nodeOntologyName(id) {
+  return nodeOntologies(id)[0] || "";
+}
+
+function nodeBelongsToOntology(id, ontologyId) {
+  return !ontologyId || nodeOntologies(id).includes(ontologyId);
+}
+
+function nodeSemanticModels(id) {
+  const item = node(id);
+  const data = raw(id);
+  const parent = parentOf(id);
+  const values = uniqueStrings([
+    item?.properties?.semantic_model,
+    ...(item?.properties?.semantic_models || []),
+    data.semantic_model,
+    ...(data.semantic_models || []),
+  ]);
+  if (!values.length && parent && parent !== id) return nodeSemanticModels(parent);
+  return values;
+}
+
+function ontologyOptions() {
+  const sourceOntologies = Array.isArray(summary.source_ontologies) ? summary.source_ontologies.map(item => item?.name).filter(Boolean) : [];
+  if (sourceOntologies.length) return uniqueStrings(sourceOntologies).map(name => ({ id: name, label: optionLabel(name) }));
+  const fromSummary = uniqueStrings(summary.ontologies || (summary.ontology ? [summary.ontology] : []));
+  const fromNodes = uniqueStrings(topLevelNodes.flatMap(item => nodeOntologies(item.id)));
+  return uniqueStrings([...fromSummary, ...fromNodes]).map(name => ({ id: name, label: optionLabel(name) }));
+}
+
+function semanticModelOptions() {
+  const sourceModels = Array.isArray(summary.source_semantic_models) ? summary.source_semantic_models.map(item => item?.name).filter(Boolean) : [];
+  if (sourceModels.length) return uniqueStrings(sourceModels).map(name => ({ id: name, label: optionLabel(name) }));
+  const fromSummary = uniqueStrings(summary.semantic_models || []);
+  const fromNodes = uniqueStrings(topLevelNodes.flatMap(item => nodeSemanticModels(item.id)));
+  return uniqueStrings([...fromSummary, ...fromNodes]).map(name => ({ id: name, label: optionLabel(name) }));
+}
+
+function aiContextSummary(value) {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value.map(aiContextSummary).filter(Boolean).join(" · ");
+  if (typeof value === "object") {
+    const keys = ["description", "purpose", "context", "summary", "notes", "owner", "model_version", "source_systems"];
+    const parts = keys
+      .filter(key => value[key] !== undefined && value[key] !== null && value[key] !== "")
+      .map(key => Array.isArray(value[key]) ? value[key].join(", ") : String(value[key]));
+    return parts.join(" · ");
+  }
+  return String(value);
+}
+
+function scopeHeaderText(info) {
+  return info?.description || aiContextSummary(info?.ai_context) || "";
+}
+
+function renderAiContextSection(value) {
+  if (!value) return "";
+  return `
+    <section class="detail-section">
+      <h3>ai_context</h3>
+      <pre class="raw-block">${escapeHtml(typeof value === "string" ? value : JSON.stringify(value, null, 2))}</pre>
+    </section>
+  `;
+}
+
+function rawYamlSection(payload) {
+  return `
+    <section class="detail-section">
+      <h3>Raw YAML</h3>
+      <pre class="raw-block">${escapeHtml(JSON.stringify(payload || {}, null, 2))}</pre>
+    </section>
+  `;
+}
+
+function ontologyInfo(ontologyId = graphState.selectedOntology) {
+  const entry = (summary.source_ontologies || []).find(item => item.name === ontologyId) || {};
+  return {
+    id: ontologyId,
+    type: "Ontology",
+    displayName: optionLabel(ontologyId),
+    description: entry.description || aiContextSummary(entry.ai_context) || "",
+    ai_context: entry.ai_context || null,
+    version: entry.version || "",
+    sourceFile: entry.source_file || "",
+    nodeCount: ontologyNodeCount(ontologyId),
+    raw: entry,
+  };
+}
+
+function semanticModelInfo(modelId = graphState.selectedSemanticModel) {
+  const entries = summary.source_semantic_models || summary.semantic_model_entries || [];
+  const entry = entries.find(item => item.name === modelId) || {};
+  return {
+    id: modelId,
+    type: "Semantic Model",
+    displayName: optionLabel(modelId),
+    description: entry.description || aiContextSummary(entry.ai_context) || "",
+    ai_context: entry.ai_context || null,
+    sourceFile: entry.source_file || "",
+    mappingName: entry.mapping_name || "",
+    ontology: entry.ontology || "",
+    datasetCount: entry.dataset_count ?? topLevelNodes.filter(item => item.type === "semantic_dataset" && nodeSemanticModels(item.id).includes(modelId)).length,
+    metricCount: entry.metric_count ?? topLevelNodes.filter(item => item.type === "semantic_metric" && nodeSemanticModels(item.id).includes(modelId)).length,
+    nodeCount: semanticModelNodeCount(modelId),
+    raw: entry,
+  };
+}
+
+function currentGraphScopeInfo() {
+  const kind = graphViewSelectorKind();
+  if (kind === "ontology") return ontologyInfo(graphState.selectedOntology);
+  if (kind === "semantic_model") return semanticModelInfo(graphState.selectedSemanticModel);
+  return null;
+}
+
+function ensureGraphScopeSelection(mode = graphState?.viewMode || "traceability") {
+  if (mode === "ontology") {
+    const options = ontologyOptions();
+    if (!options.some(item => item.id === graphState.selectedOntology)) graphState.selectedOntology = options[0]?.id || "";
+  }
+  if (mode === "semantic") {
+    const options = semanticModelOptions();
+    if (!options.some(item => item.id === graphState.selectedSemanticModel)) graphState.selectedSemanticModel = options[0]?.id || "";
+  }
+}
+
 function graphViewSelectorOptions(mode = graphState?.viewMode || "traceability") {
+  const kind = graphViewSelectorKind(mode);
+  if (kind === "ontology") return ontologyOptions();
+  if (kind === "semantic_model") return semanticModelOptions();
   const selectorType = graphViewSelectorType(mode);
   if (!selectorType) return [];
   return topLevelNodes
     .filter(item => item.type === selectorType && !graphState.hiddenNodes.has(item.id))
-    .sort((a, b) => label(a.id).localeCompare(label(b.id)));
+    .sort((a, b) => label(a.id).localeCompare(label(b.id)))
+    .map(item => ({ id: item.id, label: label(item.id) }));
 }
 
-function selectGraphViewObject(id) {
+function currentGraphSelectorValue(mode = graphState?.viewMode || "traceability") {
+  const kind = graphViewSelectorKind(mode);
+  if (kind === "ontology") return graphState.selectedOntology;
+  if (kind === "semantic_model") return graphState.selectedSemanticModel;
+  return graphState.focusId;
+}
+
+function graphViewSelectorTitle() {
+  const kind = graphViewSelectorKind();
+  if (kind === "ontology") return "Ontology";
+  if (kind === "semantic_model") return "Semantic Model";
+  return graphState.viewMode === "data_logic" ? "Report Data Logic" : "Report Requirement";
+}
+
+function selectGraphViewObject(value) {
+  const kind = graphViewSelectorKind();
+  if (kind === "ontology") {
+    graphState.selectedOntology = value;
+    graphState.selectedNodeId = null;
+    graphState.selectedEdgeId = null;
+    clearSelectedFields();
+    renderGraphPage({ fitAfter: true });
+    return;
+  }
+  if (kind === "semantic_model") {
+    graphState.selectedSemanticModel = value;
+    graphState.metricOverlays.clear();
+    graphState.selectedNodeId = null;
+    graphState.selectedEdgeId = null;
+    clearSelectedFields();
+    renderGraphPage({ fitAfter: true });
+    return;
+  }
+  const id = value;
   if (!id || !node(id) || isChildNode(id)) return;
   setGraphFocus(id, { resetEdgeTypes: false, applyDefaultEdgeTypes: false });
   graphState.selectedEdgeId = null;
@@ -576,7 +805,6 @@ function preferredFocusPredicate(mode = graphState?.viewMode || "traceability") 
   const preferredByMode = {
     ontology: item => isEntityConceptNodeType(item.type),
     semantic: item => ["semantic_dataset", "semantic_metric", "physical_table", "table", "view"].includes(item.type),
-    mapping: item => parentEdges().some(edge => edge.type === "MAPS_TO" && (edge.source === item.id || edge.target === item.id)),
     requirement: item => item.type === "regulatory_requirement",
     data_logic: item => item.type === "report_implementation",
   };
@@ -596,6 +824,7 @@ function applyGraphViewMode(mode, options = {}) {
   const normalizedMode = GRAPH_VIEW_CONFIG[mode] ? mode : "traceability";
   const previousMode = graphState.viewMode;
   graphState.viewMode = normalizedMode;
+  ensureGraphScopeSelection(normalizedMode);
   const shouldReset = options.resetFilters || previousMode !== normalizedMode;
   if (shouldReset) {
     graphState.nodeTypes = defaultNodeTypesForMode(normalizedMode);
@@ -805,7 +1034,8 @@ function normalizedEdge(edge, sourceParent = parentOf(edge.source), targetParent
     derivedBy: edge.properties?.derived_by || [],
     requires: edge.properties?.requires || [],
     constraints: edge.properties?.constraints || [],
-    aiContext: edge.properties?.ai_context || null,
+    ai_context: edge.properties?.ai_context || null,
+    aiContextText: aiContextSummary(edge.properties?.ai_context),
     isFieldLevel: sourceParent !== edge.source || targetParent !== edge.target,
     raw: edge,
   };
@@ -969,70 +1199,355 @@ function nodePassesCatalogFilters(item) {
 
 function renderAll() {
   renderStats();
+  renderHomePage();
   renderCatalog();
-  if (!els.graphPage.classList.contains("hidden")) renderGraphPage();
+  renderScenarioLibrary();
+  if (els.graphPage && !els.graphPage.classList.contains("hidden")) renderGraphPage();
 }
 
 function renderStats() {
   els.stats.textContent = `${topLevelNodes.length} catalog nodes · ${graph.edges.length} graph edges`;
 }
 
-function loadSavedScenarios() {
+function normalizeScenarioList(items, kind) {
+  return (Array.isArray(items) ? items : [])
+    .map((item, index) => {
+      if (!item || typeof item !== "object") return null;
+      const id = String(item.id || item.name || `${kind}.${index + 1}`).trim();
+      const name = String(item.name || id).trim();
+      if (!id || !name) return null;
+      return {
+        ...item,
+        id,
+        name,
+        kind: normalizeScenarioKind(item.kind || item.type, kind),
+      };
+    })
+    .filter(Boolean)
+    .sort(compareScenarioRows);
+}
+
+function normalizeScenarioKind(value, fallback = "snapshot") {
+  const text = String(value || fallback || "snapshot").toLowerCase().replace(/_/g, "-");
+  if (text === "preset" || text === "preset-scenario" || text === "scenario-template" || text === "template") return "preset";
+  return "snapshot";
+}
+
+function compareScenarioRows(a, b) {
+  if (a.kind !== b.kind) return a.kind === "preset" ? -1 : 1;
+  if (a.kind === "snapshot") return String(b.updatedAt || b.updated_at || "").localeCompare(String(a.updatedAt || a.updated_at || "")) || a.name.localeCompare(b.name);
+  return Number(a.order ?? 999) - Number(b.order ?? 999) || a.name.localeCompare(b.name);
+}
+
+function scenarioKindLabel(kind, short = false) {
+  return normalizeScenarioKind(kind) === "preset" ? (short ? "Template" : "Scenario Template") : (short ? "Snapshot" : "View Snapshot");
+}
+
+function scenarioKey(kind, id) {
+  return `${normalizeScenarioKind(kind)}:${id}`;
+}
+
+function parseScenarioKey(value) {
+  const text = String(value || "");
+  if (!text) return { kind: "", id: "" };
+  const index = text.indexOf(":");
+  if (index < 0) return { kind: "snapshot", id: text };
+  return { kind: normalizeScenarioKind(text.slice(0, index)), id: text.slice(index + 1) };
+}
+
+function allScenarios() {
+  return [...scenarioState.presets, ...scenarioState.snapshots].sort(compareScenarioRows);
+}
+
+function scenarioByKey(key) {
+  const parsed = parseScenarioKey(key);
+  if (!parsed.id) return null;
+  const list = parsed.kind === "preset" ? scenarioState.presets : scenarioState.snapshots;
+  return list.find(item => item.id === parsed.id) || null;
+}
+
+function scenarioArray(...values) {
+  for (const value of values) {
+    if (Array.isArray(value)) return value;
+  }
+  return null;
+}
+
+function scenarioSlug(value) {
+  const slugValue = String(value || "scenario")
+    .trim()
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .toLowerCase()
+    .replace(/[^a-z0-9_.-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slugValue || `scenario-${Date.now()}`;
+}
+
+function scenarioApiAvailable() {
+  return window.location.protocol === "http:" || window.location.protocol === "https:";
+}
+
+async function loadServerScenarios() {
+  if (!scenarioApiAvailable()) {
+    scenarioState.serverAvailable = false;
+    scenarioState.serverError = "Open this UI through the local scenario server to save and reload scenario files.";
+    renderScenarioControls();
+    renderScenarioLibrary();
+    return;
+  }
+  scenarioState.serverLoading = true;
+  scenarioState.serverError = "";
+  renderScenarioLibrary();
   try {
-    const parsed = JSON.parse(readScenarioStorage() || "[]");
-    if (!Array.isArray(parsed)) return [];
-    return parsed
-      .filter(item => item && item.id && item.name && item.view)
-      .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
-  } catch {
-    return [];
+    const response = await fetch("./api/scenarios", { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    scenarioState.presets = normalizeScenarioList(payload.presets, "preset");
+    scenarioState.snapshots = normalizeScenarioList(payload.snapshots, "snapshot");
+    scenarioState.serverAvailable = true;
+    scenarioState.serverError = "";
+  } catch (error) {
+    scenarioState.serverAvailable = false;
+    scenarioState.serverError = "Scenario server is not available at ./api/scenarios. Static templates and snapshots can still be opened, but saving requires the local server.";
+  } finally {
+    scenarioState.serverLoading = false;
+    renderScenarioControls();
+    renderScenarioLibrary();
+    renderHomePage();
   }
 }
 
-function persistSavedScenarios() {
-  writeScenarioStorage(JSON.stringify(scenarioState.scenarios));
+function renderHomePage() {
+  if (!els.homePage) return;
+  const ontologyRows = ontologyOptions();
+  if (!ontologyRows.some(item => item.id === graphState.selectedOntology)) graphState.selectedOntology = ontologyRows[0]?.id || "";
+  if (els.homeOntologyList) {
+    els.homeOntologyList.innerHTML = ontologyRows.length
+      ? ontologyRows.map(item => renderHomeEntryCard({
+          id: item.id,
+          title: item.label || item.id,
+          badge: "Ontology",
+          colorType: "ontology",
+          count: `${ontologyNodeCount(item.id)} nodes`,
+          description: ontologyDescription(item.id),
+          actionLabel: "Open Ontology",
+          actionAttr: `data-open-ontology="${escapeAttr(item.id)}"`,
+        })).join("")
+      : `<div class="empty-state">No ontology entries found.</div>`;
+  }
+
+  const semanticRows = semanticModelOptions();
+  if (!semanticRows.some(item => item.id === graphState.selectedSemanticModel)) graphState.selectedSemanticModel = semanticRows[0]?.id || "";
+  if (els.homeSemanticModelList) {
+    els.homeSemanticModelList.innerHTML = semanticRows.length
+      ? semanticRows.map(item => renderHomeEntryCard({
+          id: item.id,
+          title: item.label || item.id,
+          badge: "Semantic Model",
+          colorType: "semantic_dataset",
+          count: `${semanticModelNodeCount(item.id)} nodes`,
+          description: semanticModelDescription(item.id),
+          actionLabel: "Open Model",
+          actionAttr: `data-open-semantic="${escapeAttr(item.id)}"`,
+        })).join("")
+      : `<div class="empty-state">No semantic model entries found.</div>`;
+  }
+
+  if (els.homeScenarioList) {
+    els.homeScenarioList.innerHTML = renderHomeScenarioList();
+  }
 }
 
-function readScenarioStorage() {
-  try {
-    if (typeof localStorage !== "undefined") return localStorage.getItem(SCENARIO_STORAGE_KEY);
-  } catch {
-    return scenarioMemoryStore;
-  }
-  return scenarioMemoryStore;
+function ontologyNodeCount(ontologyId) {
+  return topLevelNodes.filter(item => nodeBelongsToOntology(item.id, ontologyId)).length;
 }
 
-function writeScenarioStorage(value) {
-  scenarioMemoryStore = value;
-  try {
-    if (typeof localStorage !== "undefined") localStorage.setItem(SCENARIO_STORAGE_KEY, value);
-  } catch {
-    // Some embedded browser contexts disable localStorage; keep scenarios for the current page session.
-  }
+function semanticModelNodeCount(modelId) {
+  return topLevelNodes.filter(item => nodeSemanticModels(item.id).includes(modelId)).length;
 }
 
-function scenarioStorageIsPersistent() {
-  try {
-    return typeof localStorage !== "undefined";
-  } catch {
-    return false;
+function ontologyDescription(ontologyId) {
+  const entry = (summary.source_ontologies || []).find(item => item.name === ontologyId);
+  return entry?.description || aiContextSummary(entry?.ai_context) || "Business ontology scope compiled from strict OSI YAML.";
+}
+
+function semanticModelDescription(modelId) {
+  const datasetCount = topLevelNodes.filter(item => item.type === "semantic_dataset" && nodeSemanticModels(item.id).includes(modelId)).length;
+  const metricCount = topLevelNodes.filter(item => item.type === "semantic_metric" && nodeSemanticModels(item.id).includes(modelId)).length;
+  const entry = semanticModelInfo(modelId);
+  return entry.description || aiContextSummary(entry.ai_context) || `${datasetCount} datasets · ${metricCount} metrics`;
+}
+
+function renderHomeEntryCard({ id, title, badge, colorType, count, description, actionLabel, actionAttr, pillClass = "", secondaryActionLabel = "", secondaryActionAttr = "", secondaryDisabled = false }) {
+  const pillStyle = pillClass ? "" : ` style="background:${colorFor(colorType)}18;color:${colorFor(colorType)}"`;
+  const secondaryTitle = secondaryActionLabel ? `${secondaryActionLabel} ${title || id}` : "";
+  return `
+    <article class="home-card home-entry-card ${secondaryActionLabel ? "has-delete" : ""}" data-home-entry="${escapeAttr(id)}">
+      ${secondaryActionLabel ? `<button class="home-card-delete-button" type="button" ${secondaryActionAttr} ${secondaryDisabled ? "disabled" : ""} aria-label="${escapeAttr(secondaryTitle)}" title="${escapeAttr(secondaryActionLabel)}">&times;</button>` : ""}
+      <div class="home-card-main">
+        <span class="type-pill ${escapeAttr(pillClass)}"${pillStyle}>${escapeHtml(badge)}</span>
+        <h4>${escapeHtml(title || id)}</h4>
+        <p>${escapeHtml(description || id)}</p>
+      </div>
+      <div class="home-card-action">
+        ${count ? `<span class="home-count">${escapeHtml(count)}</span>` : ""}
+        <div class="home-entry-actions">
+          <button class="primary compact-button" type="button" ${actionAttr}>${escapeHtml(actionLabel)}</button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderHomeScenarioList() {
+  const scenarios = allScenarios();
+  if (!scenarios.length) {
+    const serverText = scenarioState.serverAvailable
+      ? "No scenario templates or view snapshots found."
+      : scenarioState.serverError || "Open through the local scenario server to load and save scenario files.";
+    return `<div class="empty-state compact">${escapeHtml(serverText)}</div>`;
   }
+  return scenarios.map(item => renderHomeEntryCard({
+    id: scenarioKey(item.kind, item.id),
+    title: item.name,
+    badge: scenarioKindLabel(item.kind, true),
+    colorType: item.kind === "preset" ? "regulatory_requirement" : "report_implementation",
+    count: scenarioMode(item),
+    description: item.description || scenarioSummaryText(item),
+    actionLabel: "Open Scenario",
+    actionAttr: `data-open-scenario="${escapeAttr(scenarioKey(item.kind, item.id))}" data-open-scenario-page="scenarios"`,
+    secondaryActionLabel: "Delete scenario",
+    secondaryActionAttr: `data-delete-scenario="${escapeAttr(item.id)}" data-delete-scenario-kind="${escapeAttr(item.kind)}"`,
+    secondaryDisabled: !scenarioState.serverAvailable,
+    pillClass: item.kind === "preset" ? "preset-pill" : "snapshot-pill",
+  })).join("");
+}
+function scenarioSummaryText(item) {
+  const view = item.view || item.filters || {};
+  const bits = [];
+  if (view.viewMode) bits.push(typeTitle(view.viewMode));
+  if (Array.isArray(view.nodeTypes || view.node_types)) bits.push(`${(view.nodeTypes || view.node_types).length} node filters`);
+  if (Array.isArray(view.edgeTypes || view.edge_types)) bits.push(`${(view.edgeTypes || view.edge_types).length} edge filters`);
+  if (item.updatedAt || item.updated_at) bits.push(`Updated ${String(item.updatedAt || item.updated_at).slice(0, 10)}`);
+  return bits.join(" · ") || "Open this scenario in the graph.";
+}
+
+function typeTitle(value) {
+  return String(value || "").replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
+}
+
+function renderScenarioLibrary() {
+  if (!els.scenarioPage) return;
+  if (els.presetScenarioList) {
+    els.presetScenarioList.innerHTML = scenarioState.presets.length
+      ? scenarioState.presets.map(item => scenarioListCard(item)).join("")
+      : `<div class="empty-state compact">No scenario templates found.</div>`;
+  }
+  if (els.savedScenarioList) {
+    els.savedScenarioList.innerHTML = scenarioState.snapshots.length
+      ? scenarioState.snapshots.map(item => scenarioListCard(item)).join("")
+      : `<div class="empty-state compact">No view snapshots yet. Run the local server, open Graph Explorer, then save a snapshot.</div>`;
+  }
+  renderScenarioDetailPanel();
+}
+
+function scenarioListCard(item) {
+  const key = scenarioKey(item.kind, item.id);
+  const active = scenarioState.selectedKey === key;
+  return `
+    <button class="scenario-list-card ${active ? "active" : ""}" type="button" data-select-scenario="${escapeAttr(key)}">
+      <span class="type-pill ${item.kind === "preset" ? "preset-pill" : "snapshot-pill"}">${scenarioKindLabel(item.kind, true)}</span>
+      <strong>${escapeHtml(item.name)}</strong>
+      <small>${escapeHtml(scenarioSummaryText(item))}</small>
+    </button>
+  `;
+}
+
+function renderScenarioDetailPanel() {
+  if (!els.scenarioDetailPanel) return;
+  const selected = scenarioByKey(scenarioState.selectedKey) || scenarioState.presets[0] || scenarioState.snapshots[0];
+  const serverStatus = scenarioState.serverLoading
+    ? "Loading scenario files..."
+    : scenarioState.serverAvailable
+      ? "Local scenario server is active; templates are written to knowledge/scenarios/presets and snapshots to knowledge/scenarios/snapshots."
+      : scenarioState.serverError || "Static mode: open through the local scenario server to save templates or snapshots.";
+  if (!selected) {
+    els.scenarioDetailPanel.innerHTML = `
+      <div class="scenario-detail-empty">
+        <h3>No scenario selected</h3>
+        <p>${escapeHtml(serverStatus)}</p>
+      </div>
+    `;
+    return;
+  }
+  const view = selected.view || selected.filters || {};
+  const nodeFilterText = (view.nodeTypes || view.node_types || []).map(typeName).join(", ") || "Default for selected view";
+  const edgeFilterText = (view.edgeTypes || view.edge_types || []).join(", ") || "Default for selected view";
+  const center = selected.center_selector || selected.centerSelector || selected.focus || {};
+  els.scenarioDetailPanel.innerHTML = `
+    <div class="scenario-detail-heading">
+      <span class="type-pill ${selected.kind === "preset" ? "preset-pill" : "snapshot-pill"}">${scenarioKindLabel(selected.kind)}</span>
+      <h3>${escapeHtml(selected.name)}</h3>
+      <p>${escapeHtml(selected.description || scenarioSummaryText(selected))}</p>
+    </div>
+    <div class="detail-table compact-table">
+      ${kv("View", typeTitle(view.viewMode || selected.viewMode || "Graph Explorer"))}
+      ${kv("Center", center.node_id || center.nodeId || center.node_type || center.nodeType || view.focusId || "Chosen at open time")}
+      ${kv("Depth", view.maxDepth || view.max_depth || "Default")}
+      ${kv("Node Filters", nodeFilterText)}
+      ${kv("Edge Filters", edgeFilterText)}
+      ${kv("Source File", selected.source_file || selected.sourceFile || "Generated/static data")}
+    </div>
+    <div class="scenario-detail-actions">
+      <button class="primary" type="button" data-open-scenario="${escapeAttr(scenarioKey(selected.kind, selected.id))}">Open in graph</button>
+      <button type="button" data-delete-scenario="${escapeAttr(selected.id)}" data-delete-scenario-kind="${escapeAttr(selected.kind)}" ${scenarioState.serverAvailable ? "" : "disabled"}>Delete ${escapeHtml(scenarioKindLabel(selected.kind, true).toLowerCase())}</button>
+    </div>
+    <p class="filter-help scenario-status">${escapeHtml(serverStatus)}</p>
+  `;
 }
 
 function renderScenarioControls() {
   if (!els.scenarioSelect) return;
-  const selected = scenarioState.scenarios.find(item => item.id === scenarioState.selectedId);
+  const selected = scenarioByKey(scenarioState.selectedKey);
+  const presetOptions = scenarioState.presets.map(item => `<option value="${escapeAttr(scenarioKey(item.kind, item.id))}">${escapeHtml(item.name)}</option>`).join("");
+  const snapshotOptions = scenarioState.snapshots.map(item => `<option value="${escapeAttr(scenarioKey(item.kind, item.id))}">${escapeHtml(item.name)}</option>`).join("");
   els.scenarioSelect.innerHTML = [
-    `<option value="">Unsaved current graph</option>`,
-    ...scenarioState.scenarios.map(item => `<option value="${escapeAttr(item.id)}">${escapeHtml(item.name)}</option>`),
+    `<option value="">Current graph state</option>`,
+    presetOptions ? `<optgroup label="Scenario Template">${presetOptions}</optgroup>` : "",
+    snapshotOptions ? `<optgroup label="View Snapshot">${snapshotOptions}</optgroup>` : "",
   ].join("");
-  els.scenarioSelect.value = selected ? selected.id : "";
-  if (document.activeElement !== els.scenarioName) {
-    els.scenarioName.value = selected?.name || "";
-  }
-  els.deleteScenario.disabled = !selected;
-}
+  els.scenarioSelect.value = selected ? scenarioKey(selected.kind, selected.id) : "";
 
+  if (els.scenarioCenterSelect) {
+    if (selected?.kind === "preset") {
+      const mode = scenarioMode(selected);
+      const candidates = scenarioCenterCandidates(selected, mode);
+      const centerId = scenarioSelectedCenterId(selected, mode);
+      els.scenarioCenterSelect.disabled = candidates.length === 0;
+      els.scenarioCenterSelect.classList.remove("hidden");
+      els.scenarioCenterSelect.innerHTML = candidates.length
+        ? candidates.map(item => `<option value="${escapeAttr(item.id)}" ${item.id === centerId ? "selected" : ""}>${escapeHtml(label(item.id))} · ${escapeHtml(typeName(item.type))}</option>`).join("")
+        : `<option value="">No matching center nodes</option>`;
+      els.scenarioCenterSelect.value = candidates.some(item => item.id === centerId) ? centerId : "";
+    } else if (selected?.kind === "snapshot") {
+      els.scenarioCenterSelect.disabled = true;
+      els.scenarioCenterSelect.classList.remove("hidden");
+      const focusId = selected.view?.focusId || "";
+      els.scenarioCenterSelect.innerHTML = `<option value="">Snapshot center: ${escapeHtml(focusId ? label(focusId) : "saved graph state")}</option>`;
+    } else {
+      els.scenarioCenterSelect.disabled = true;
+      els.scenarioCenterSelect.classList.add("hidden");
+      els.scenarioCenterSelect.innerHTML = `<option value="">Choose a scenario first</option>`;
+    }
+  }
+
+  const message = selected
+    ? ""
+    : (scenarioState.serverAvailable
+      ? "Use Save scenario to store a reusable template or an exact view snapshot."
+      : scenarioState.serverError || "Open through the local scenario server to save templates or snapshots as files.");
+  setScenarioHint(message);
+}
 function collectScenarioPositions() {
   const positions = new Map(graphState.visible.positions || []);
   graphState.manualPositions.forEach((value, id) => positions.set(id, value));
@@ -1043,8 +1558,11 @@ function collectScenarioPositions() {
 
 function currentScenarioView() {
   return {
+    viewMode: graphState.viewMode,
     focusId: graphState.focusId,
     selectedNodeId: graphState.selectedNodeId,
+    selectedOntology: graphState.selectedOntology,
+    selectedSemanticModel: graphState.selectedSemanticModel,
     maxDepth: graphState.maxDepth,
     nodeTypes: [...graphState.nodeTypes],
     businessEdgeTypes: [...graphState.businessEdgeTypes],
@@ -1065,41 +1583,50 @@ function currentScenarioView() {
   };
 }
 
-function saveCurrentScenario() {
-  const existing = scenarioState.scenarios.find(item => item.id === scenarioState.selectedId);
-  const now = new Date().toISOString();
-  const name = els.scenarioName.value.trim() || existing?.name || `${label(graphState.focusId)} depth ${graphState.maxDepth}`;
-  const scenario = {
-    id: existing?.id || `scenario.${Date.now()}`,
-    name,
-    createdAt: existing?.createdAt || now,
-    updatedAt: now,
-    view: currentScenarioView(),
-  };
-  scenarioState.scenarios = [
-    scenario,
-    ...scenarioState.scenarios.filter(item => item.id !== scenario.id),
-  ].sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
-  scenarioState.selectedId = scenario.id;
-  persistSavedScenarios();
-  renderScenarioControls();
-  setScenarioHint(`Saved "${name}"${scenarioStorageIsPersistent() ? "." : " for this page session."}`);
+function scenarioSaveKindValue() {
+  return els.scenarioModalSaveKind?.value === "snapshot" ? "snapshot" : "template";
 }
 
-function applyScenario(id) {
-  const scenario = scenarioState.scenarios.find(item => item.id === id);
-  if (!scenario) {
-    scenarioState.selectedId = "";
-    renderScenarioControls();
-    return;
-  }
-  const view = scenario.view || {};
-  graphState.focusId = node(view.focusId) && !isChildNode(view.focusId) ? view.focusId : chooseInitialNode();
+function currentScenarioTemplate(name, existingPreset = null, now = new Date().toISOString(), descriptionText = "") {
+  const centerId = (graphState.focusId && node(graphState.focusId) && !isChildNode(graphState.focusId))
+    ? graphState.focusId
+    : (graphState.selectedNodeId && node(graphState.selectedNodeId) && !isChildNode(graphState.selectedNodeId) ? graphState.selectedNodeId : focusCandidateForMode(graphState.viewMode));
+  const centerType = nodeType(centerId) || "entity_type_concept";
+  return {
+    id: existingPreset?.id || scenarioSlug(name),
+    kind: "preset",
+    name,
+    order: existingPreset?.order ?? ((scenarioState.presets.length + 1) * 10),
+    description: descriptionText || existingPreset?.description || `Reusable graph template for ${typeName(centerType)} centers.`,
+    center_selector: {
+      node_type: centerType,
+    },
+    createdAt: existingPreset?.createdAt || existingPreset?.created_at || now,
+    updatedAt: now,
+    view: {
+      viewMode: graphState.viewMode,
+      selectedOntology: graphState.selectedOntology || undefined,
+      selectedSemanticModel: graphState.selectedSemanticModel || undefined,
+      maxDepth: graphState.maxDepth,
+      nodeTypes: [...graphState.nodeTypes],
+      businessEdgeTypes: [...graphState.businessEdgeTypes],
+      edgeTypes: [...graphState.edgeTypes],
+      metricOverlays: [...graphState.metricOverlays],
+    },
+  };
+}
+function restoreScenarioView(view = {}) {
+  const mode = GRAPH_VIEW_CONFIG[view.viewMode] ? view.viewMode : "traceability";
+  graphState.viewMode = mode;
+  ensureGraphScopeSelection(mode);
+  if (view.selectedOntology) graphState.selectedOntology = view.selectedOntology;
+  if (view.selectedSemanticModel) graphState.selectedSemanticModel = view.selectedSemanticModel;
+  graphState.focusId = node(view.focusId) && !isChildNode(view.focusId) ? view.focusId : focusCandidateForMode(mode);
   graphState.selectedNodeId = node(view.selectedNodeId) && !isChildNode(view.selectedNodeId) ? view.selectedNodeId : graphState.focusId;
-  graphState.maxDepth = clamp(Number(view.maxDepth) || 1, Number(els.depth.min) || 1, Number(els.depth.max) || 4);
-  graphState.nodeTypes = restoredSet(view.nodeTypes, nodeTypes());
-  graphState.businessEdgeTypes = restoredSet(view.businessEdgeTypes, businessEdgeTypes());
-  graphState.edgeTypes = restoredSet(view.edgeTypes, [...defaultGraphEdgeTypesForFocus(graphState.focusId)]);
+  graphState.maxDepth = clamp(Number(view.maxDepth) || graphViewConfig(mode).minDepth || 1, Number(els.depth.min) || 1, Number(els.depth.max) || 4);
+  graphState.nodeTypes = restoredSet(view.nodeTypes, [...graphNodeTypeOptions(mode)]);
+  graphState.businessEdgeTypes = restoredSet(view.businessEdgeTypes, [...graphBusinessEdgeTypeOptions(mode)]);
+  graphState.edgeTypes = restoredEdgeFilterSet(view.edgeTypes, [...defaultEdgeTypesForMode(mode, graphState.focusId)]);
   graphState.metricOverlays = restoredSet(view.metricOverlays, metricOverlayOptions());
   graphState.tags = restoredSet(view.tags, allTags());
   graphState.expanded = new Set((view.expanded || []).filter(id => node(id)));
@@ -1111,25 +1638,19 @@ function applyScenario(id) {
   graphState.selectedFieldId = view.selectedFieldId && graphState.selectedFieldIds.has(view.selectedFieldId) ? view.selectedFieldId : null;
   syncSelectedFieldId();
   graphState.manualPositions = restoredPositions(view.positions);
-  scenarioState.selectedId = scenario.id;
-  renderGraphPage({ scrollAfter: view.scroll });
-  setScenarioHint(`Loaded "${scenario.name}".`);
-}
-
-function deleteSelectedScenario() {
-  const selected = scenarioState.scenarios.find(item => item.id === scenarioState.selectedId);
-  if (!selected) return;
-  scenarioState.scenarios = scenarioState.scenarios.filter(item => item.id !== selected.id);
-  scenarioState.selectedId = "";
-  persistSavedScenarios();
-  renderScenarioControls();
-  setScenarioHint(`Deleted "${selected.name}".`);
 }
 
 function restoredSet(values, allowedValues) {
   if (!Array.isArray(values)) return new Set(allowedValues);
   const allowed = new Set(allowedValues);
   return new Set(values.filter(value => allowed.has(value)));
+}
+
+function restoredEdgeFilterSet(values, fallback) {
+  if (!Array.isArray(values)) return new Set(fallback);
+  const selected = new Set(values);
+  const keys = edgeTypes().filter(key => selected.has(key) || selected.has(edgeFilterTypeFromKey(key)));
+  return new Set(keys.length ? keys : fallback);
 }
 
 function restoredPositions(rows) {
@@ -1142,11 +1663,244 @@ function restoredPositions(rows) {
   return positions;
 }
 
-function setScenarioHint(message) {
-  if (!els.scenarioHint) return;
-  els.scenarioHint.textContent = message;
+function pageForGraphMode(mode) {
+  if (mode === "ontology") return "ontology";
+  if (mode === "semantic") return "semantic";
+  return "graph";
 }
 
+function scenarioMode(scenario) {
+  const view = scenario?.view || scenario?.filters || {};
+  return GRAPH_VIEW_CONFIG[view.viewMode || scenario?.viewMode] ? (view.viewMode || scenario?.viewMode) : "traceability";
+}
+
+function scenarioCenterSelector(scenario) {
+  return scenario?.center_selector || scenario?.centerSelector || scenario?.focus || {};
+}
+
+function scenarioCenterCandidates(scenario, mode = scenarioMode(scenario)) {
+  const view = scenario?.view || scenario?.filters || {};
+  const selector = scenarioCenterSelector(scenario);
+  const explicit = selector.node_id || selector.nodeId || view.focusId;
+  if (explicit && node(explicit) && !isChildNode(explicit)) return [node(explicit)];
+  const requestedType = selector.node_type || selector.nodeType || view.centerNodeType || view.center_node_type;
+  const requestedName = selector.name || selector.label || "";
+  const allowed = nodeTypesForMode(mode);
+  let candidates = topLevelNodes.filter(item => allowed.has(item.type) && (!requestedType || item.type === requestedType));
+  if (requestedName) candidates = candidates.filter(item => label(item.id) === requestedName || item.id === requestedName);
+  return candidates.sort((a, b) => label(a.id).localeCompare(label(b.id)) || a.id.localeCompare(b.id));
+}
+
+function scenarioSelectedCenterId(scenario, mode = scenarioMode(scenario)) {
+  const key = scenarioKey(scenario.kind, scenario.id);
+  const candidates = scenarioCenterCandidates(scenario, mode);
+  const remembered = scenarioState.centerByKey.get(key);
+  if (remembered && candidates.some(item => item.id === remembered)) return remembered;
+  const fallback = candidates[0]?.id || focusCandidateForMode(mode);
+  if (fallback) scenarioState.centerByKey.set(key, fallback);
+  return fallback;
+}
+
+function scenarioFocusCandidate(scenario, mode, preferredCenterId = "") {
+  if (preferredCenterId && node(preferredCenterId) && !isChildNode(preferredCenterId)) return preferredCenterId;
+  const selectedCenter = scenarioSelectedCenterId(scenario, mode);
+  if (selectedCenter && node(selectedCenter) && !isChildNode(selectedCenter)) return selectedCenter;
+  return focusCandidateForMode(mode);
+}
+
+function applyPresetScenario(scenario, options = {}) {
+  const view = scenario.view || scenario.filters || {};
+  const mode = GRAPH_VIEW_CONFIG[view.viewMode || scenario.viewMode] ? (view.viewMode || scenario.viewMode) : "traceability";
+  applyGraphViewMode(mode, { resetFilters: true });
+  if (view.selectedOntology) graphState.selectedOntology = view.selectedOntology;
+  if (view.selectedSemanticModel) graphState.selectedSemanticModel = view.selectedSemanticModel;
+  if (graphViewUsesFocus(mode)) setGraphFocus(scenarioFocusCandidate(scenario, mode, options.centerId), { resetEdgeTypes: false, applyDefaultEdgeTypes: false });
+  const nodeTypeFilters = scenarioArray(view.nodeTypes, view.node_types);
+  if (nodeTypeFilters) graphState.nodeTypes = restoredSet(nodeTypeFilters, [...graphNodeTypeOptions(mode)]);
+  const businessFilters = scenarioArray(view.businessEdgeTypes, view.business_edge_types);
+  if (businessFilters) graphState.businessEdgeTypes = restoredSet(businessFilters, [...graphBusinessEdgeTypeOptions(mode)]);
+  const edgeFilters = scenarioArray(view.edgeTypes, view.edge_types);
+  if (edgeFilters) graphState.edgeTypes = restoredEdgeFilterSet(edgeFilters, [...defaultEdgeTypesForMode(mode, graphState.focusId)]);
+  const metricFilters = scenarioArray(view.metricOverlays, view.metric_overlays, view.metrics);
+  if (metricFilters) graphState.metricOverlays = restoredSet(metricFilters, metricOverlayOptions());
+  graphState.maxDepth = clamp(Number(view.maxDepth || view.max_depth) || graphViewConfig(mode).minDepth || graphState.maxDepth, Number(els.depth.min) || 1, Number(els.depth.max) || 4);
+  graphState.expanded = new Set((view.expanded || []).filter(id => node(id)));
+  graphState.autoExpandSuppressed = new Set((view.autoExpandSuppressed || view.auto_expand_suppressed || []).filter(id => node(id)));
+  graphState.hiddenNodes = new Set((view.hiddenNodes || view.hidden_nodes || []).filter(id => node(id) && !isChildNode(id)));
+  graphState.selectedNodeId = graphViewUsesFocus(mode) ? graphState.focusId : null;
+  graphState.selectedEdgeId = null;
+  clearSelectedFields();
+  graphState.manualPositions = new Map();
+  scenarioState.selectedKey = scenarioKey(scenario.kind, scenario.id);
+  graphState.showScenarioProfile = true;
+  openPage(options.page || pageForGraphMode(mode));
+  renderGraphPage({ fitAfter: true });
+  setScenarioHint("");
+}
+
+function applySnapshotScenario(scenario, options = {}) {
+  restoreScenarioView(scenario.view || {});
+  scenarioState.selectedKey = scenarioKey(scenario.kind, scenario.id);
+  graphState.showScenarioProfile = true;
+  openPage(options.page || pageForGraphMode(graphState.viewMode));
+  renderGraphPage({ scrollAfter: scenario.view?.scroll });
+  setScenarioHint("");
+}
+
+function applyScenario(key, options = {}) {
+  const scenario = scenarioByKey(key);
+  if (!scenario) {
+    scenarioState.selectedKey = "";
+    renderScenarioControls();
+    renderScenarioLibrary();
+    return;
+  }
+  if (scenario.kind === "preset") applyPresetScenario(scenario, options);
+  else applySnapshotScenario(scenario, options);
+  renderScenarioControls();
+  renderScenarioLibrary();
+  renderHomePage();
+}
+
+function defaultScenarioSaveKind() {
+  const selected = scenarioByKey(scenarioState.selectedKey);
+  return selected?.kind === "snapshot" ? "snapshot" : "template";
+}
+
+function fallbackScenarioName(saveKind = defaultScenarioSaveKind()) {
+  const existing = scenarioByKey(scenarioState.selectedKey);
+  if (saveKind === "template" && existing?.kind === "preset") return existing.name;
+  if (saveKind === "snapshot" && existing?.kind === "snapshot") return existing.name;
+  return saveKind === "template"
+    ? `${typeName(nodeType(graphState.focusId))} analysis template`
+    : `${label(graphState.focusId)} depth ${graphState.maxDepth}`;
+}
+
+function fallbackScenarioDescription(saveKind = defaultScenarioSaveKind()) {
+  const existing = scenarioByKey(scenarioState.selectedKey);
+  if (saveKind === "template" && existing?.kind === "preset") return existing.description || "";
+  if (saveKind === "snapshot" && existing?.kind === "snapshot") return existing.description || "";
+  return saveKind === "template"
+    ? `Reusable graph template for ${typeName(nodeType(graphState.focusId))} centers.`
+    : "Saved graph view snapshot.";
+}
+
+function renderScenarioSaveModalState() {
+  const saveKind = scenarioSaveKindValue();
+  if (els.scenarioModalSave) {
+    els.scenarioModalSave.textContent = saveKind === "template" ? "Save template" : "Save snapshot";
+    els.scenarioModalSave.disabled = !scenarioState.serverAvailable;
+  }
+  if (els.scenarioModalHint) {
+    els.scenarioModalHint.textContent = scenarioState.serverAvailable
+      ? (saveKind === "template"
+        ? "Scenario Template saves reusable center-node type and filters. It does not save node positions or expanded fields."
+        : "View Snapshot saves the exact current graph state, including selected fields, hidden nodes, scroll, and manual positions.")
+      : scenarioState.serverError || "Saving requires the local scenario server. Open the http://127.0.0.1 URL served by serve_osi_ui.py.";
+  }
+}
+
+function openScenarioSaveModal() {
+  if (!els.scenarioSaveModal) return;
+  const saveKind = defaultScenarioSaveKind();
+  if (els.scenarioModalSaveKind) els.scenarioModalSaveKind.value = saveKind;
+  if (els.scenarioModalName) els.scenarioModalName.value = fallbackScenarioName(saveKind);
+  if (els.scenarioModalDescription) els.scenarioModalDescription.value = fallbackScenarioDescription(saveKind);
+  renderScenarioSaveModalState();
+  els.scenarioSaveModal.classList.remove("hidden");
+  window.setTimeout(() => els.scenarioModalSaveKind?.focus(), 0);
+}
+
+function closeScenarioSaveModal() {
+  els.scenarioSaveModal?.classList.add("hidden");
+}
+async function saveCurrentScenario(options = {}) {
+  const existing = scenarioByKey(scenarioState.selectedKey);
+  const saveKind = options.saveKind === "snapshot" ? "snapshot" : "template";
+  const now = new Date().toISOString();
+  const name = String(options.name || fallbackScenarioName(saveKind)).trim() || fallbackScenarioName(saveKind);
+  const descriptionText = String(options.description ?? fallbackScenarioDescription(saveKind)).trim();
+  const requestedId = scenarioSlug(name);
+  const existingTemplate = saveKind === "template" && existing?.kind === "preset" && (name === existing.name || requestedId === existing.id) ? existing : null;
+  const existingSnapshot = saveKind === "snapshot" && existing?.kind === "snapshot" && (name === existing.name || requestedId === existing.id) ? existing : null;
+  const payload = saveKind === "template"
+    ? currentScenarioTemplate(name, existingTemplate, now, descriptionText)
+    : {
+        id: existingSnapshot?.id || requestedId,
+        kind: "snapshot",
+        name,
+        description: descriptionText || existingSnapshot?.description || "Saved graph view snapshot.",
+        createdAt: existingSnapshot?.createdAt || existingSnapshot?.created_at || now,
+        updatedAt: now,
+        view: currentScenarioView(),
+      };
+  if (!scenarioState.serverAvailable) {
+    const message = "Saving requires the local scenario server. Start it from the scenario root and open the http://127.0.0.1 URL.";
+    setScenarioHint(message);
+    if (els.scenarioModalHint) els.scenarioModalHint.textContent = message;
+    return false;
+  }
+  const endpoint = saveKind === "template" ? "./api/scenarios/presets" : "./api/scenarios/snapshots";
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const saved = await response.json();
+    const row = normalizeScenarioList([saved.scenario || saved], saveKind === "template" ? "preset" : "snapshot")[0] || payload;
+    let saveMessage = "";
+    if (saveKind === "template") {
+      scenarioState.presets = [row, ...scenarioState.presets.filter(item => item.id !== row.id)].sort(compareScenarioRows);
+      scenarioState.selectedKey = scenarioKey("preset", row.id);
+      scenarioState.centerByKey.set(scenarioState.selectedKey, graphState.focusId);
+      saveMessage = `Saved scenario template "${row.name}" to ${row.source_file || "knowledge/scenarios/presets"}.`;
+    } else {
+      scenarioState.snapshots = [row, ...scenarioState.snapshots.filter(item => item.id !== row.id)].sort(compareScenarioRows);
+      scenarioState.selectedKey = scenarioKey("snapshot", row.id);
+      saveMessage = `Saved view snapshot "${row.name}" to ${row.source_file || "knowledge/scenarios/snapshots"}.`;
+    }
+    renderScenarioControls();
+    renderScenarioLibrary();
+    renderHomePage();
+    setScenarioHint(saveMessage);
+    return true;
+  } catch (error) {
+    const message = `Could not save ${saveKind === "template" ? "scenario template" : "view snapshot"}: ${error.message}`;
+    setScenarioHint(message);
+    if (els.scenarioModalHint) els.scenarioModalHint.textContent = message;
+    return false;
+  }
+}
+
+async function deleteSelectedScenario() {
+  const selected = scenarioByKey(scenarioState.selectedKey);
+  if (!selected) return;
+  if (!scenarioState.serverAvailable) {
+    setScenarioHint(`Deleting ${scenarioKindLabel(selected.kind).toLowerCase()} files requires the local scenario server.`);
+    return;
+  }
+  const collection = selected.kind === "preset" ? "presets" : "snapshots";
+  try {
+    const response = await fetch(`./api/scenarios/${collection}/${encodeURIComponent(selected.id)}`, { method: "DELETE" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (selected.kind === "preset") scenarioState.presets = scenarioState.presets.filter(item => item.id !== selected.id);
+    else scenarioState.snapshots = scenarioState.snapshots.filter(item => item.id !== selected.id);
+    scenarioState.selectedKey = "";
+    renderScenarioControls();
+    renderScenarioLibrary();
+    renderHomePage();
+    setScenarioHint(`Deleted ${scenarioKindLabel(selected.kind).toLowerCase()} "${selected.name}".`);
+  } catch (error) {
+    setScenarioHint(`Could not delete ${scenarioKindLabel(selected.kind).toLowerCase()}: ${error.message}`);
+  }
+}
+function setScenarioHint(message) {
+  if (!els.scenarioHint) return;
+  els.scenarioHint.textContent = message || "";
+  els.scenarioHint.classList.toggle("hidden", !message);
+}
 function renderCatalog() {
   renderCatalogFilters();
   const nodeRows = topLevelNodes
@@ -1170,8 +1924,9 @@ function renderCatalogFilters() {
   els.catalogNodeTypes.innerHTML = nodeTypes()
     .map(type => chip(typeName(type), catalogState.nodeTypes.has(type), "catalog-node-type", type))
     .join("");
+  const catalogBusinessOptions = businessEdgeTypes();
   const catalogRouteItems = edgeRouteItems(
-    businessEdgeTypes(),
+    catalogBusinessOptions,
     catalogState.businessEdgeTypes,
     "catalog-business-edge-type",
     edgeTypes(),
@@ -1183,7 +1938,11 @@ function renderCatalogFilters() {
       ? renderEdgeRouteItems(catalogRouteItems)
       : `<div class="empty-state">No node-level edge filters in current data.</div>`;
   }
-  if (els.catalogEdgeTypes) els.catalogEdgeTypes.innerHTML = "";
+  if (els.catalogEdgeTypes) {
+    els.catalogEdgeTypes.innerHTML = catalogBusinessOptions.length
+      ? `<div class="filter-subtitle">Business Relationship</div>${multiSelect(catalogBusinessOptions, catalogState.businessEdgeTypes, "catalog-business-edge-type", "Business relationships")}`
+      : "";
+  }
   if (els.catalogTags) {
     const tags = allTags();
     els.catalogTags.innerHTML = tags.length
@@ -1290,7 +2049,7 @@ function renderEdgeDetail(edge) {
       ${edge.sourceField ? kv("Source Field", edge.sourceField) : ""}
       ${edge.requirementField ? kv("Requirement Field", edge.requirementField) : ""}
       ${edge.expression ? kv("Expression", edge.expression) : ""}
-      ${kv("Description", edge.description || "No description.")}
+      ${edge.description ? kv("Description", edge.description) : ""}
     </section>
     ${verbalizes.length ? `
       <section class="detail-section">
@@ -1311,16 +2070,8 @@ function renderEdgeDetail(edge) {
       </section>
     ` : ""}
     ${renderConstraints(edge.constraints, "Relationship Constraints")}
-    ${edge.aiContext ? `
-      <section class="detail-section">
-        <h3>AI Context</h3>
-        <pre class="raw-block">${escapeHtml(typeof edge.aiContext === "string" ? edge.aiContext : JSON.stringify(edge.aiContext, null, 2))}</pre>
-      </section>
-    ` : ""}
-    <section class="detail-section">
-      <h3>Raw Edge</h3>
-      <pre class="raw-block">${escapeHtml(JSON.stringify(rawEdge, null, 2))}</pre>
-    </section>
+    ${renderAiContextSection(edge.ai_context)}
+    ${rawYamlSection(rawEdge)}
   `;
 }
 
@@ -1358,12 +2109,8 @@ function renderNodeDetail(item, data, includeRaw) {
       <h3>Direct Relationships</h3>
       ${relationships.length ? `<div class="mini-list">${relationships.map(edge => renderMiniEdgeCard(edge, item.id)).join("")}</div>` : `<div class="empty-state">No direct node-level relationships.</div>`}
     </section>
-    ${includeRaw ? `
-      <section class="detail-section">
-        <h3>Raw Catalog Record</h3>
-        <pre class="raw-block">${escapeHtml(JSON.stringify(data, null, 2))}</pre>
-      </section>
-    ` : ""}
+    ${renderAiContextSection(data.ai_context || item.properties?.ai_context)}
+    ${rawYamlSection(Object.keys(data || {}).length ? data : item)}
   `;
 }
 
@@ -1515,6 +2262,21 @@ function renderMiniEdgeCard(edge, baseId = graphState.focusId) {
   `;
 }
 
+function clearGraphSelectionToViewProfile() {
+  graphState.selectedEdgeId = null;
+  clearSelectedFields();
+  if (appState.currentPage === "scenarios") {
+    graphState.selectedNodeId = null;
+    graphState.showScenarioProfile = true;
+  } else if (!graphViewUsesFocus()) {
+    graphState.selectedNodeId = null;
+    graphState.showScenarioProfile = false;
+  } else {
+    graphState.selectedNodeId = graphState.focusId;
+    graphState.showScenarioProfile = false;
+  }
+  renderGraphPage();
+}
 function renderGraphPage(options = {}) {
   if (graphViewUsesFocus()) {
     if (!graphState.focusId || !node(graphState.focusId)) graphState.focusId = focusCandidateForMode(graphState.viewMode);
@@ -1528,6 +2290,7 @@ function renderGraphPage(options = {}) {
   if (graphViewConfig().autoExpandFields) expandVisibleViewNodes();
   expandSelectedMetricValueParents();
   renderScenarioControls();
+  renderScenarioSaveButton();
   renderGraphFilters();
   renderGraphFocus();
   renderHiddenNodes();
@@ -1535,6 +2298,11 @@ function renderGraphPage(options = {}) {
   renderGraphDetail();
 }
 
+function renderScenarioSaveButton() {
+  if (!els.openScenarioSave) return;
+  const visible = appState.currentPage === "graph" || appState.currentPage === "scenarios";
+  els.openScenarioSave.classList.toggle("hidden", !visible);
+}
 function expandVisibleViewNodes() {
   graphState.visible.nodes.forEach(item => {
     if (childItems(item.id).length && !graphState.autoExpandSuppressed.has(item.id)) graphState.expanded.add(item.id);
@@ -1542,7 +2310,7 @@ function expandVisibleViewNodes() {
 }
 
 function expandSelectedMetricValueParents() {
-  if (!["semantic", "mapping"].includes(graphState.viewMode) || !graphState.metricOverlays.size) return;
+  if (graphState.viewMode !== "semantic" || !graphState.metricOverlays.size) return;
   const parentTypes = new Set(["semantic_dataset", "entity_type_concept", "base_entity_concept"]);
   [...selectedMetricValueEdges(), ...selectedMetricDependencyEdges()].forEach(edge => {
     [edge.sourceOriginal, edge.targetOriginal].forEach(id => {
@@ -1554,6 +2322,7 @@ function expandSelectedMetricValueParents() {
   });
 }
 function renderGraphFilters() {
+  placeScenarioControls();
   const controls = graphControlSet();
   if (els.graphFocusSection) els.graphFocusSection.classList.toggle("hidden", !controls.has("focus"));
   if (els.graphDepthSection) els.graphDepthSection.classList.toggle("hidden", !controls.has("depth"));
@@ -1575,8 +2344,9 @@ function renderGraphFilters() {
       ? multiSelect(metricOptions, graphState.metricOverlays, "graph-metric-overlay", "Metrics")
       : `<div class="empty-state compact">No semantic metrics in current data.</div>`;
   }
+  const graphBusinessOptions = controls.has("businessEdges") ? graphBusinessEdgeTypeOptions() : [];
   const graphRouteItems = edgeRouteItems(
-    controls.has("businessEdges") ? graphBusinessEdgeTypeOptions() : [],
+    graphBusinessOptions,
     graphState.businessEdgeTypes,
     "graph-business-edge-type",
     controls.has("edgeTypes") ? graphEdgeTypeOptions() : [],
@@ -1588,7 +2358,11 @@ function renderGraphFilters() {
       ? renderEdgeRouteItems(graphRouteItems)
       : `<div class="empty-state">No node-level edge filters for this view.</div>`;
   }
-  if (els.graphEdgeTypes) els.graphEdgeTypes.innerHTML = "";
+  if (els.graphEdgeTypes) {
+    els.graphEdgeTypes.innerHTML = graphBusinessOptions.length
+      ? `<div class="filter-subtitle">Business Relationship</div>${multiSelect(graphBusinessOptions, graphState.businessEdgeTypes, "graph-business-edge-type", "Business relationships")}`
+      : "";
+  }
   if (els.graphTags) {
     const tags = allTags();
     els.graphTags.innerHTML = tags.length
@@ -1597,31 +2371,94 @@ function renderGraphFilters() {
   }
 }
 
+function placeScenarioControls() {
+  if (!els.graphScenarioSection) return;
+  const useTopScenario = appState.currentPage === "scenarios";
+  const targetHost = useTopScenario ? els.graphScenarioTopHost : els.graphScenarioSidebarHost;
+  if (targetHost && els.graphScenarioSection.parentElement !== targetHost) {
+    targetHost.appendChild(els.graphScenarioSection);
+  }
+  if (els.graphScenarioTopHost) els.graphScenarioTopHost.classList.toggle("hidden", !useTopScenario);
+  els.graphScenarioSection.classList.toggle("scenario-section-top", useTopScenario);
+}
+
+function renderSelectorOptions(select, options, currentValue) {
+  select.innerHTML = options
+    .map(item => `<option value="${escapeAttr(item.id)}" ${item.id === currentValue ? "selected" : ""}>${escapeHtml(item.label || optionLabel(item.id))}</option>`)
+    .join("");
+}
+
 function renderGraphViewSelector() {
   if (!els.graphViewSelectorSection || !els.graphViewSelector) return;
-  const selectorType = graphViewSelectorType();
+  const kind = graphViewSelectorKind();
   const options = graphViewSelectorOptions();
-  const visible = graphControlSet().has("selector") && Boolean(selectorType && options.length);
-  els.graphViewSelectorSection.classList.toggle("hidden", !visible);
-  if (!visible) {
+  const visible = graphControlSet().has("selector") && Boolean(kind && options.length);
+  const useToolbarSelector = visible && (kind === "ontology" || kind === "semantic_model");
+
+  if (els.graphScopeSelectorHost && els.graphScopeSelector) {
+    els.graphScopeSelectorHost.classList.toggle("hidden", !useToolbarSelector);
+    if (useToolbarSelector) {
+      els.graphScopeSelectorLabel.textContent = graphViewSelectorTitle();
+      renderSelectorOptions(els.graphScopeSelector, options, currentGraphSelectorValue());
+    } else {
+      els.graphScopeSelector.innerHTML = "";
+    }
+  }
+
+  els.graphViewSelectorSection.classList.toggle("hidden", !visible || useToolbarSelector);
+  if (!visible || useToolbarSelector) {
     els.graphViewSelector.innerHTML = "";
     return;
   }
-  els.graphViewSelectorTitle.textContent = graphState.viewMode === "data_logic" ? "Report Data Logic" : "Report Requirement";
-  els.graphViewSelector.innerHTML = options
-    .map(item => `<option value="${escapeAttr(item.id)}" ${item.id === graphState.focusId ? "selected" : ""}>${escapeHtml(label(item.id))}</option>`)
-    .join("");
+  els.graphViewSelectorTitle.textContent = graphViewSelectorTitle();
+  renderSelectorOptions(els.graphViewSelector, options, currentGraphSelectorValue());
 }
+function setTitleAreaMode(mode = "default") {
+  const titleArea = els.focusTitle?.closest(".graph-title-area");
+  titleArea?.classList.toggle("model-scope-title", mode === "model");
+  titleArea?.classList.toggle("scenario-scope-title", mode === "scenario");
+  els.graphToolbar?.classList.toggle("scenario-toolbar", mode === "scenario");
+  els.focusTitle?.classList.toggle("hidden", mode === "model" || mode === "scenario");
+}
+
+function setCompactScopeHeader(enabled) {
+  setTitleAreaMode(enabled ? "model" : "default");
+}
+
+function setScenarioScopeHeader(enabled) {
+  setTitleAreaMode(enabled ? "scenario" : "default");
+}
+
 function renderGraphFocus() {
+  if (appState.currentPage === "scenarios") {
+    setScenarioScopeHeader(true);
+    const selected = scenarioByKey(scenarioState.selectedKey) || allScenarios()[0];
+    els.focusType.textContent = "Customized Scenario";
+    els.focusType.style.background = "#eef2f7";
+    els.focusType.style.color = "#475467";
+    els.focusTitle.textContent = selected?.name || "Customized Scenario";
+    els.focusDescription.textContent = selected?.description || "Choose a scenario template or view snapshot, then select the center node to render the graph.";
+    els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
+    if (graphState.focusId && node(graphState.focusId)) {
+      els.graphFocusCard.innerHTML = `
+        <strong>${escapeHtml(label(graphState.focusId))}</strong>
+        <small>${escapeHtml(typeName(nodeType(graphState.focusId)))} · ${escapeHtml(graphState.focusId)}</small>
+      `;
+    }
+    return;
+  }
   if (!graphViewUsesFocus()) {
+    const scopeInfo = currentGraphScopeInfo();
+    setCompactScopeHeader(true);
     els.focusType.textContent = graphViewTitle();
     els.focusType.style.background = "#eef2f7";
     els.focusType.style.color = "#475467";
-    els.focusTitle.textContent = graphViewTitle();
-    els.focusDescription.textContent = graphViewDescription();
+    els.focusTitle.textContent = scopeInfo?.displayName || graphViewTitle();
+    els.focusDescription.textContent = scopeHeaderText(scopeInfo) || graphViewDescription();
     els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
     return;
   }
+  setCompactScopeHeader(false);
   const focus = node(graphState.focusId);
   els.graphFocusCard.innerHTML = `
     <strong>${escapeHtml(label(graphState.focusId))}</strong>
@@ -1631,8 +2468,8 @@ function renderGraphFocus() {
   els.focusType.style.background = `${colorFor(focus?.type)}18`;
   els.focusType.style.color = colorFor(focus?.type);
   const selectorType = graphViewSelectorType();
-  els.focusTitle.textContent = selectorType ? `${graphViewTitle()}: ${label(graphState.focusId)}` : graphState.viewMode === "mapping" ? `${graphViewTitle()}: ${label(graphState.focusId)}` : label(graphState.focusId);
-  els.focusDescription.textContent = selectorType || graphState.viewMode === "mapping" ? graphViewDescription() : (description(graphState.focusId) || "No description.");
+  els.focusTitle.textContent = selectorType ? `${graphViewTitle()}: ${label(graphState.focusId)}` : label(graphState.focusId);
+  els.focusDescription.textContent = selectorType ? graphViewDescription() : (description(graphState.focusId) || "No description.");
   els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
 }
 
@@ -1779,7 +2616,9 @@ function graphNodeTypeAllowed(id) {
 
 function graphNodeVisible(id) {
   if (graphState.hiddenNodes.has(id)) return false;
-  if (["semantic", "mapping"].includes(graphState.viewMode) && !metricOverlaySelected(id)) return false;
+  if (graphState.viewMode === "ontology" && graphState.selectedOntology && !nodeBelongsToOntology(id, graphState.selectedOntology)) return false;
+  if (graphState.viewMode === "semantic" && graphState.selectedSemanticModel && !nodeSemanticModels(id).includes(graphState.selectedSemanticModel)) return false;
+  if (graphState.viewMode === "semantic" && !metricOverlaySelected(id)) return false;
   return true;
 }
 
@@ -1853,16 +2692,11 @@ function selectedFieldEdges() {
 }
 
 function selectedMetricValueEdges() {
-  if (graphState.viewMode !== "mapping" || !graphState.metricOverlays.size) return [];
-  return childEdges().filter(edge => {
-    if (!edge.raw?.properties?.metric_value_binding) return false;
-    const metricName = edge.raw?.properties?.semantic_metric || "";
-    return metricName && graphState.metricOverlays.has(metricName);
-  });
+  return [];
 }
 
 function selectedMetricDependencyEdges() {
-  if (!["semantic", "mapping"].includes(graphState.viewMode) || !graphState.metricOverlays.size) return [];
+  if (graphState.viewMode !== "semantic" || !graphState.metricOverlays.size) return [];
   return childEdges().filter(edge => {
     const metricName = edge.raw?.properties?.semantic_metric || "";
     if (!metricName || !graphState.metricOverlays.has(metricName)) return false;
@@ -1909,7 +2743,6 @@ function expandNodeSetFromChildEdges(nodeSet, childEdgeCandidates) {
   }
 }
 async function graphLayout(nodes, depthById, edges = [], childEdgesForLayout = []) {
-  if (graphState.viewMode === "mapping") return mappingGraphLayout(nodes);
   if (elkLayoutEngine) {
     try {
       return await elkGraphLayout(nodes, edges, childEdgesForLayout);
@@ -2304,7 +3137,21 @@ async function renderGraph(options = {}) {
       if (event.target.closest("button, [data-child-id], .field-row")) return;
       event.preventDefault();
       event.stopPropagation();
-      selectGraphNode(item.id);
+      if (event.detail > 1) return;
+      window.clearTimeout(graphState.nodeClickTimer);
+      graphState.nodeClickTimer = window.setTimeout(() => {
+        graphState.nodeClickTimer = null;
+        selectGraphNode(item.id);
+      }, 180);
+    });
+    div.addEventListener("dblclick", event => {
+      if (graphState.suppressNextClick) return;
+      if (event.target.closest("button, [data-child-id], .field-row")) return;
+      event.preventDefault();
+      event.stopPropagation();
+      window.clearTimeout(graphState.nodeClickTimer);
+      graphState.nodeClickTimer = null;
+      openNodeInGraphExplorer(item.id);
     });
     els.board.appendChild(div);
   });
@@ -2568,6 +3415,52 @@ function leftMiddle(el) {
   return { x: r.left, y: r.top + r.height / 2 };
 }
 
+function renderScenarioGraphProfile() {
+  const selected = scenarioByKey(scenarioState.selectedKey) || allScenarios()[0];
+  const serverStatus = scenarioState.serverLoading
+    ? "Loading scenario files..."
+    : scenarioState.serverAvailable
+      ? "Local scenario server is active."
+      : scenarioState.serverError || "Static mode: open through the local scenario server to save templates or snapshots.";
+  if (!selected) {
+    els.graphDetailBadge.textContent = "Customized Scenario";
+    els.graphDetailBadge.style.background = "#eef2f7";
+    els.graphDetailBadge.style.color = "#475467";
+    els.graphDetailTitle.textContent = "No scenario selected";
+    els.graphDetailDescription.textContent = serverStatus;
+    els.graphDetailBody.innerHTML = `<div class="empty-state">No scenario template or view snapshot is available.</div>`;
+    return;
+  }
+  const view = selected.view || selected.filters || {};
+  const mode = scenarioMode(selected);
+  const centerId = selected.kind === "preset" ? scenarioSelectedCenterId(selected, mode) : (view.focusId || "");
+  const nodeFilterText = (view.nodeTypes || view.node_types || []).map(typeName).join(", ") || "Default for selected view";
+  const edgeFilterText = (view.edgeTypes || view.edge_types || []).map(edgeFilterTypeFromKey).join(", ") || "Default for selected view";
+  const businessText = (view.businessEdgeTypes || view.business_edge_types || []).join(", ") || "Default for selected view";
+  els.graphDetailBadge.textContent = scenarioKindLabel(selected.kind);
+  els.graphDetailBadge.style.background = selected.kind === "preset" ? "#fff3e8" : "#f3e8ff";
+  els.graphDetailBadge.style.color = selected.kind === "preset" ? "#c2410c" : "#9333ea";
+  els.graphDetailTitle.textContent = selected.name;
+  els.graphDetailDescription.textContent = selected.description || scenarioSummaryText(selected);
+  els.graphDetailBody.innerHTML = `
+    <section class="detail-section">
+      <h3>Scenario Profile</h3>
+      ${kv("ID", selected.id)}
+      ${kv("Kind", scenarioKindLabel(selected.kind))}
+      ${kv("View", typeTitle(mode))}
+      ${kv("Center", centerId ? `${label(centerId)} (${typeName(nodeType(centerId))})` : "Current graph state")}
+      ${kv("Depth", view.maxDepth || view.max_depth || graphState.maxDepth || "Default")}
+      ${kv("Node Filters", nodeFilterText)}
+      ${kv("Edge Filters", edgeFilterText)}
+      ${kv("Business Relationships", businessText)}
+      ${kv("Source File", selected.source_file || selected.sourceFile || "Generated/static data")}
+    </section>
+    <section class="detail-section">
+      <h3>Status</h3>
+      <p class="profile-note">${escapeHtml(serverStatus)}</p>
+    </section>
+  `;
+}
 function renderGraphDetail() {
   const selectedField = selectedGraphField();
   if (selectedField) {
@@ -2581,13 +3474,18 @@ function renderGraphDetail() {
     els.graphDetailBadge.style.background = "#eef2f7";
     els.graphDetailBadge.style.color = "#475467";
     els.graphDetailTitle.textContent = selectedEdge.displayName;
-    els.graphDetailDescription.textContent = selectedEdge.description || "No edge description.";
+    els.graphDetailDescription.textContent = selectedEdge.description || selectedEdge.aiContextText || "No edge description.";
     els.graphDetailBody.innerHTML = renderEdgeDetail(selectedEdge);
     return;
   }
 
   if (!graphViewUsesFocus() && !graphState.selectedNodeId) {
     renderViewProfile();
+    return;
+  }
+
+  if (appState.currentPage === "scenarios" && graphState.showScenarioProfile) {
+    renderScenarioGraphProfile();
     return;
   }
   const selectedNodeId = graphState.selectedNodeId && node(graphState.selectedNodeId) ? graphState.selectedNodeId : graphState.focusId;
@@ -2598,10 +3496,15 @@ function renderGraphDetail() {
   els.graphDetailBadge.style.color = colorFor(focus?.type);
   els.graphDetailTitle.textContent = label(selectedNodeId);
   els.graphDetailDescription.textContent = description(selectedNodeId) || "No description.";
-  els.graphDetailBody.innerHTML = renderNodeDetail(focus, data, false);
+  els.graphDetailBody.innerHTML = renderNodeDetail(focus, data, true);
 }
 
 function renderViewProfile() {
+  const scopeInfo = currentGraphScopeInfo();
+  if (scopeInfo) {
+    renderScopeProfile(scopeInfo);
+    return;
+  }
   const visibleNodes = graphState.visible?.nodes || [];
   const visibleEdges = graphState.visible?.edges || [];
   const visibleChildEdges = graphState.visible?.childEdges || [];
@@ -2623,20 +3526,48 @@ function renderViewProfile() {
     </section>
   `;
 }
+
+function renderScopeProfile(info) {
+  const visibleNodes = graphState.visible?.nodes || [];
+  const visibleEdges = graphState.visible?.edges || [];
+  const visibleChildEdges = graphState.visible?.childEdges || [];
+  els.graphDetailBadge.textContent = info.type;
+  els.graphDetailBadge.style.background = "#eef2f7";
+  els.graphDetailBadge.style.color = "#475467";
+  els.graphDetailTitle.textContent = info.displayName || info.id;
+  els.graphDetailDescription.textContent = scopeHeaderText(info) || "No description.";
+  els.graphDetailBody.innerHTML = `
+    <section class="detail-section">
+      <h3>${escapeHtml(info.type)} Profile</h3>
+      ${kv("ID", info.id)}
+      ${kv("Display Name", info.displayName || info.id)}
+      ${info.description ? kv("description", info.description) : ""}
+      ${info.version ? kv("version", info.version) : ""}
+      ${info.ontology ? kv("ontology", optionLabel(info.ontology)) : ""}
+      ${info.mappingName ? kv("mapping_name", optionLabel(info.mappingName)) : ""}
+      ${info.sourceFile ? kv("source_file", info.sourceFile) : ""}
+      ${info.type === "Semantic Model" ? kv("datasets", info.datasetCount) : ""}
+      ${info.type === "Semantic Model" ? kv("metrics", info.metricCount) : ""}
+      ${kv("Visible Nodes", visibleNodes.length)}
+      ${kv("Node Edges", visibleEdges.length)}
+      ${kv("Field Edges", visibleChildEdges.length)}
+    </section>
+    ${renderAiContextSection(info.ai_context)}
+    ${rawYamlSection(info.raw || info)}
+    <section class="detail-section">
+      <h3>Visible Node Types</h3>
+      <div class="tag-list">${[...new Set(visibleNodes.map(item => item.type))].sort(compareNodeType).map(type => `<span class="tag-pill">${escapeHtml(typeName(type))}</span>`).join("")}</div>
+    </section>
+  `;
+}
 function selectGraphNode(id, options = {}) {
   if (!node(id) || isChildNode(id)) return;
+  graphState.showScenarioProfile = false;
   if (nodeType(id) === "semantic_metric") {
     const metricName = metricNameForNode(id);
     if (metricName) graphState.metricOverlays.add(metricName);
   }
-  if (!graphViewUsesFocus()) {
-    graphState.selectedNodeId = id;
-    graphState.selectedEdgeId = null;
-    clearSelectedFields();
-    renderGraphPage(options);
-    return;
-  }
-  setGraphFocus(id);
+  graphState.selectedNodeId = id;
   graphState.selectedEdgeId = null;
   clearSelectedFields();
   if (options.render === false) {
@@ -2646,6 +3577,15 @@ function selectGraphNode(id, options = {}) {
   renderGraphPage(options);
 }
 
+function openNodeInGraphExplorer(id) {
+  if (!node(id) || isChildNode(id)) return;
+  graphState.showScenarioProfile = false;
+  applyGraphViewMode("traceability", { resetFilters: true });
+  setGraphFocus(id, { resetEdgeTypes: true });
+  graphState.selectedEdgeId = null;
+  clearSelectedFields();
+  openPage("graph");
+}
 function selectedGraphField() {
   if (!graphState.selectedFieldId) return null;
   const parentId = parentOf(graphState.selectedFieldId);
@@ -2712,7 +3652,7 @@ function renderFieldProfile(field) {
       ${relationships.length ? `<div class="mini-list">${relationships.map(renderFieldRelationCard).join("")}</div>` : `<div class="empty-state">No field-level relationships are visible for this field.</div>`}
     </section>
     <section class="detail-section">
-      <h3>Raw Field</h3>
+      <h3>Raw YAML</h3>
       <pre class="raw-block">${escapeHtml(JSON.stringify(field.raw || field, null, 2))}</pre>
     </section>
   `;
@@ -2969,23 +3909,38 @@ function kv(key, value) {
   return `<div class="kv"><span>${escapeHtml(key)}</span><strong>${escapeHtml(String(value || ""))}</strong></div>`;
 }
 
+function defaultScenarioKey() {
+  const first = allScenarios()[0];
+  return first ? scenarioKey(first.kind, first.id) : "";
+}
+
+function openScenarioWorkspace() {
+  const key = scenarioState.selectedKey || defaultScenarioKey();
+  if (key) applyScenario(key, { page: "scenarios" });
+  else openPage("scenarios");
+}
 function openPage(page) {
-  const viewMode = PAGE_VIEW_MODE[page];
+  const normalizedPage = page || "home";
+  appState.currentPage = normalizedPage;
+  const viewMode = PAGE_VIEW_MODE[normalizedPage];
   const showGraph = Boolean(viewMode);
-  if (showGraph) applyGraphViewMode(viewMode, { resetFilters: page === "graph" && graphState.viewMode !== "traceability" });
-  els.catalogPage.classList.toggle("hidden", showGraph);
-  els.graphPage.classList.toggle("hidden", !showGraph);
-  els.catalogTab.classList.toggle("active", !showGraph);
-  els.graphTab.classList.toggle("active", page === "graph");
-  if (els.ontologyTab) els.ontologyTab.classList.toggle("active", page === "ontology");
-  if (els.semanticTab) els.semanticTab.classList.toggle("active", page === "semantic");
-  if (els.mappingTab) els.mappingTab.classList.toggle("active", page === "mapping");
-  if (els.requirementTab) els.requirementTab.classList.toggle("active", page === "requirement");
-  if (els.dataLogicTab) els.dataLogicTab.classList.toggle("active", page === "dataLogic");
+  if (showGraph) applyGraphViewMode(viewMode, { resetFilters: normalizedPage === "graph" && graphState.viewMode !== "traceability" });
+  if (els.homePage) els.homePage.classList.toggle("hidden", normalizedPage !== "home");
+  if (els.catalogPage) els.catalogPage.classList.toggle("hidden", normalizedPage !== "catalog");
+  if (els.scenarioPage) els.scenarioPage.classList.add("hidden");
+  if (els.graphPage) els.graphPage.classList.toggle("hidden", !showGraph);
+  if (els.homeTab) els.homeTab.classList.toggle("active", normalizedPage === "home");
+  if (els.catalogTab) els.catalogTab.classList.toggle("active", normalizedPage === "catalog");
+  if (els.graphTab) els.graphTab.classList.toggle("active", normalizedPage === "graph");
+  if (els.ontologyTab) els.ontologyTab.classList.toggle("active", normalizedPage === "ontology");
+  if (els.semanticTab) els.semanticTab.classList.toggle("active", normalizedPage === "semantic");
+  if (els.scenarioTab) els.scenarioTab.classList.toggle("active", normalizedPage === "scenarios");
   if (showGraph) {
     renderGraphPage({ fitAfter: true });
-  } else {
+  } else if (normalizedPage === "catalog") {
     renderCatalog();
+  } else {
+    renderHomePage();
   }
 }
 
@@ -2999,10 +3954,10 @@ function applyUrlState() {
     setGraphFocus(selectedNode, { resetEdgeTypes: true });
   }
   const view = params.get("view");
-  if (["graph", "ontology", "semantic", "mapping", "requirement", "dataLogic"].includes(view)) openPage(view);
+  if (view === "scenarios") openScenarioWorkspace();
+  else if (["home", "catalog", "graph", "ontology", "semantic"].includes(view)) openPage(view);
   else renderAll();
 }
-
 function openSelectionInGraph() {
   if (catalogState.selectedKind === "edge") {
     const edge = graphEdge(catalogState.selectedId);
@@ -3055,6 +4010,15 @@ function resetGraphFilters() {
 function toggleSet(set, value) {
   if (set.has(value)) set.delete(value);
   else set.add(value);
+}
+function toggleBusinessEdgeRoute(state, values) {
+  const options = values || [];
+  if (!options.length) return;
+  const allSelected = options.every(value => state.businessEdgeTypes.has(value));
+  options.forEach(value => {
+    if (allSelected) state.businessEdgeTypes.delete(value);
+    else state.businessEdgeTypes.add(value);
+  });
 }
 
 function updateMultiFilter(kind, value, checked) {
@@ -3244,6 +4208,53 @@ document.addEventListener("click", event => {
     return;
   }
 
+  const openPageAction = event.target.closest("[data-open-page]");
+  if (openPageAction) {
+    if (openPageAction.dataset.openPage === "scenarios") openScenarioWorkspace();
+    else openPage(openPageAction.dataset.openPage);
+    event.stopPropagation();
+    return;
+  }
+
+  const openOntology = event.target.closest("[data-open-ontology]");
+  if (openOntology) {
+    graphState.selectedOntology = openOntology.dataset.openOntology;
+    openPage("ontology");
+    event.stopPropagation();
+    return;
+  }
+
+  const openSemantic = event.target.closest("[data-open-semantic]");
+  if (openSemantic) {
+    graphState.selectedSemanticModel = openSemantic.dataset.openSemantic;
+    openPage("semantic");
+    event.stopPropagation();
+    return;
+  }
+
+  const openScenario = event.target.closest("[data-open-scenario]");
+  if (openScenario) {
+    applyScenario(openScenario.dataset.openScenario, (appState.currentPage === "scenarios" || openScenario.dataset.openScenarioPage === "scenarios") ? { page: "scenarios" } : {});
+    event.stopPropagation();
+    return;
+  }
+
+  const selectScenario = event.target.closest("[data-select-scenario]");
+  if (selectScenario) {
+    scenarioState.selectedKey = selectScenario.dataset.selectScenario;
+    renderScenarioLibrary();
+    renderScenarioControls();
+    event.stopPropagation();
+    return;
+  }
+
+  const deleteScenarioAction = event.target.closest("[data-delete-scenario]");
+  if (deleteScenarioAction) {
+    scenarioState.selectedKey = scenarioKey(deleteScenarioAction.dataset.deleteScenarioKind || "snapshot", deleteScenarioAction.dataset.deleteScenario);
+    deleteSelectedScenario();
+    event.stopPropagation();
+    return;
+  }
   const openNode = event.target.closest("[data-open-graph-node]");
   if (openNode) {
     catalogState.selectedKind = "node";
@@ -3338,16 +4349,30 @@ document.addEventListener("click", event => {
     return;
   }
 
+  const graphBlank = event.target.closest("#graphViewport")
+    && !event.target.closest("[data-graph-node], [data-child-id], [data-graph-edge], button, select, input, textarea, a, [data-filter-dropdown], [data-filter-kind]");
+  if (graphBlank) {
+    clearGraphSelectionToViewProfile();
+    event.stopPropagation();
+    return;
+  }
+
   const filter = event.target.closest("[data-filter-kind]");
   if (!filter) return;
   const kind = filter.dataset.filterKind;
   const value = filter.dataset.filterValue;
   if (kind === "catalog-node-type") toggleSet(catalogState.nodeTypes, value);
-  if (kind === "catalog-business-edge-type") toggleSet(catalogState.businessEdgeTypes, value);
+  if (kind === "catalog-business-edge-type") {
+    if (value === BUSINESS_ENTITY_ROUTE_VALUE) toggleBusinessEdgeRoute(catalogState, businessEdgeTypes());
+    else toggleSet(catalogState.businessEdgeTypes, value);
+  }
   if (kind === "catalog-edge-type") toggleSet(catalogState.edgeTypes, value);
   if (kind === "catalog-tag") toggleSet(catalogState.tags, value);
   if (kind === "graph-node-type") toggleSet(graphState.nodeTypes, value);
-  if (kind === "graph-business-edge-type") toggleSet(graphState.businessEdgeTypes, value);
+  if (kind === "graph-business-edge-type") {
+    if (value === BUSINESS_ENTITY_ROUTE_VALUE) toggleBusinessEdgeRoute(graphState, graphBusinessEdgeTypeOptions());
+    else toggleSet(graphState.businessEdgeTypes, value);
+  }
   if (kind === "graph-edge-type") toggleSet(graphState.edgeTypes, value);
   if (kind === "graph-tag") toggleSet(graphState.tags, value);
   renderAll();
@@ -3366,18 +4391,46 @@ els.catalogSearch.addEventListener("input", event => {
 });
 els.catalogReset.addEventListener("click", resetCatalogFilters);
 els.openGraph.addEventListener("click", openSelectionInGraph);
+if (els.homeTab) els.homeTab.addEventListener("click", () => openPage("home"));
 els.catalogTab.addEventListener("click", () => openPage("catalog"));
 els.graphTab.addEventListener("click", () => openPage("graph"));
 if (els.ontologyTab) els.ontologyTab.addEventListener("click", () => openPage("ontology"));
 if (els.semanticTab) els.semanticTab.addEventListener("click", () => openPage("semantic"));
-if (els.mappingTab) els.mappingTab.addEventListener("click", () => openPage("mapping"));
-if (els.requirementTab) els.requirementTab.addEventListener("click", () => openPage("requirement"));
-if (els.dataLogicTab) els.dataLogicTab.addEventListener("click", () => openPage("dataLogic"));
+if (els.scenarioTab) els.scenarioTab.addEventListener("click", openScenarioWorkspace);
 if (els.graphViewSelector) els.graphViewSelector.addEventListener("change", event => selectGraphViewObject(event.target.value));
+if (els.graphScopeSelector) els.graphScopeSelector.addEventListener("change", event => selectGraphViewObject(event.target.value));
 els.backToCatalog.addEventListener("click", () => openPage("catalog"));
-els.scenarioSelect.addEventListener("change", event => applyScenario(event.target.value));
-els.saveScenario.addEventListener("click", saveCurrentScenario);
-els.deleteScenario.addEventListener("click", deleteSelectedScenario);
+if (els.scenarioSelect) els.scenarioSelect.addEventListener("change", event => applyScenario(event.target.value, appState.currentPage === "scenarios" ? { page: "scenarios" } : {}));
+if (els.scenarioCenterSelect) els.scenarioCenterSelect.addEventListener("change", event => {
+  const selected = scenarioByKey(scenarioState.selectedKey);
+  if (!selected || selected.kind !== "preset") return;
+  const key = scenarioKey(selected.kind, selected.id);
+  scenarioState.centerByKey.set(key, event.target.value);
+  applyScenario(key, { centerId: event.target.value, page: appState.currentPage === "scenarios" ? "scenarios" : undefined });
+});
+if (els.openScenarioSave) els.openScenarioSave.addEventListener("click", openScenarioSaveModal);
+if (els.scenarioModalClose) els.scenarioModalClose.addEventListener("click", closeScenarioSaveModal);
+if (els.scenarioModalCancel) els.scenarioModalCancel.addEventListener("click", closeScenarioSaveModal);
+if (els.scenarioModalSaveKind) els.scenarioModalSaveKind.addEventListener("change", () => {
+  const saveKind = scenarioSaveKindValue();
+  if (els.scenarioModalName) els.scenarioModalName.value = fallbackScenarioName(saveKind);
+  if (els.scenarioModalDescription) els.scenarioModalDescription.value = fallbackScenarioDescription(saveKind);
+  renderScenarioSaveModalState();
+});
+if (els.scenarioModalSave) els.scenarioModalSave.addEventListener("click", async () => {
+  const ok = await saveCurrentScenario({
+    saveKind: scenarioSaveKindValue(),
+    name: els.scenarioModalName?.value || "",
+    description: els.scenarioModalDescription?.value || "",
+  });
+  if (ok) closeScenarioSaveModal();
+});
+if (els.scenarioSaveModal) els.scenarioSaveModal.addEventListener("click", event => {
+  if (event.target === els.scenarioSaveModal) closeScenarioSaveModal();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && els.scenarioSaveModal && !els.scenarioSaveModal.classList.contains("hidden")) closeScenarioSaveModal();
+});
 els.restoreHidden.addEventListener("click", restoreAllHiddenNodes);
 els.depth.addEventListener("input", event => {
   graphState.maxDepth = Number(event.target.value);
@@ -3403,3 +4456,10 @@ document.addEventListener("mousemove", dragGraphNode);
 document.addEventListener("mouseup", endGraphNodeDrag);
 
 applyUrlState();
+loadServerScenarios();
+
+
+
+
+
+

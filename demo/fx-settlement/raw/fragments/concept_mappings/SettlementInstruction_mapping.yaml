@@ -1,0 +1,55 @@
+concept: SettlementInstruction
+object_mappings:
+- referent_mappings:
+  - relationship: has_InstructionIdentifier
+    expression: settlement_instructions.settlement_instruction_id
+link_mappings:
+- object_mapping:
+    referent_mappings:
+    - relationship: has_InstructionIdentifier
+      expression: settlement_instructions.settlement_instruction_id
+  children:
+  - relationship: has_InstructionIdentifier
+    object_mapping:
+      concept: InstructionIdentifier
+      expression: settlement_instructions.settlement_instruction_id
+  - relationship: SETTLES_FxTrade
+    object_mapping:
+      concept: FxTrade
+      referent_mappings:
+      - relationship: has_TransactionIdentifier
+        expression: settlement_instructions.trade_id
+  - relationship: USES_NostroAccount
+    object_mapping:
+      concept: NostroAccount
+      referent_mappings:
+      - relationship: has_AccountIdentifier
+        expression: settlement_instructions.nostro_account_id
+  - relationship: has_SettlementCurrency
+    object_mapping:
+      concept: CurrencyCode
+      expression: settlement_instructions.settlement_currency
+  - relationship: has_SettlementAmount
+    object_mapping:
+      concept: MonetaryAmount
+      expression: settlement_instructions.settlement_amount
+  - relationship: has_SettlementValueDate
+    object_mapping:
+      concept: CalendarDate
+      expression: settlement_instructions.settlement_value_date
+  - relationship: has_SettlementStatus
+    object_mapping:
+      concept: SettlementStatus
+      expression: settlement_instructions.settlement_status
+  - relationship: has_ExpectedSettlementDate
+    object_mapping:
+      concept: CalendarDate
+      expression: settlement_instructions.expected_settlement_date
+  - relationship: has_ActualSettlementDate
+    object_mapping:
+      concept: CalendarDate
+      expression: settlement_instructions.actual_settlement_date
+  - relationship: has_SettlementDelayDays
+    object_mapping:
+      concept: DayCount
+      expression: metric.settlement_delay_days

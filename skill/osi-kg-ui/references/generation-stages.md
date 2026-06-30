@@ -44,7 +44,7 @@ Constraints:
 - Put every physical or logical table that should appear in the UI in `semantic_model.datasets`; report-line tables are normal datasets, not Report Data Logic outputs.
 - Generate `semantic_model.relationships[]` from known table foreign keys, join columns, reference columns, and source metadata.
 - Use stable dataset names so later concept mappings can refer to `dataset.column` expressions.
-- Keep semantic metrics in `semantic_model.metrics[]`; render them as selected blue semantic Metric overlay nodes in Semantic Model View and Mapping View, not as child rows under referenced datasets/tables.
+- Keep semantic metrics in `semantic_model.metrics[]`; render them as selected blue semantic Metric overlay nodes in Semantic Model View, not as child rows under referenced datasets/tables.
 - Do not create `physical_view`.
 
 Stage gate:
@@ -258,16 +258,4 @@ UI behavior wrong -> Stage 6
 ```
 
 Do not patch symptoms in graph JSON. Fix the YAML or builder rule that generated the wrong graph.
-
-
-
-
-
-
-
-
-
-
-
-
 

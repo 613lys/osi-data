@@ -1,0 +1,23 @@
+id: loan-data-logic-lineage
+kind: preset
+name: Loan - Data logic lineage
+order: 20
+description: Start from report data logic and show which requirements it implements
+  and which semantic datasets or source tables it reads.
+center_selector:
+  node_type: report_implementation
+view:
+  viewMode: traceability
+  maxDepth: 2
+  nodeTypes:
+  - report_implementation
+  - regulatory_requirement
+  - semantic_dataset
+  - physical_table
+  - table
+  edgeTypes:
+  - IMPLEMENTS
+  - IMPLEMENTS_FIELD
+  - SOURCE_TABLE
+  - SOURCE_FIELD
+  - MAPS_TO_FIELD

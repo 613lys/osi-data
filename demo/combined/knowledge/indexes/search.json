@@ -1,0 +1,1582 @@
+[
+  {
+    "id": "concept.CustomerData",
+    "type": "base_entity_concept",
+    "text": "concept.CustomerData base_entity_concept CustomerData Base concept for customer-like records with common identifiers and segmentation fields. Base concept for customer-like records with common identifiers and segmentation fields."
+  },
+  {
+    "id": "value.CustomerData.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "text": "value.CustomerData.has_CustomerIdentifier value_type_property CustomerIdentifier Customer identifier common to customer-like records. Customer identifier common to customer-like records."
+  },
+  {
+    "id": "value.CustomerData.has_CustomerSegment",
+    "type": "value_type_property",
+    "text": "value.CustomerData.has_CustomerSegment value_type_property CustomerSegment Customer segment common to customer-like records. Customer segment common to customer-like records."
+  },
+  {
+    "id": "value.CustomerData.has_DomicileCountry",
+    "type": "value_type_property",
+    "text": "value.CustomerData.has_DomicileCountry value_type_property CountryCode Country or jurisdiction associated with a customer record. Country or jurisdiction associated with a customer record."
+  },
+  {
+    "id": "concept.LoanData",
+    "type": "base_entity_concept",
+    "text": "concept.LoanData base_entity_concept LoanData Base concept for loan-like records with common identifiers and origination timing. Base concept for loan-like records with common identifiers and origination timing."
+  },
+  {
+    "id": "value.LoanData.has_LoanIdentifier",
+    "type": "value_type_property",
+    "text": "value.LoanData.has_LoanIdentifier value_type_property LoanIdentifier Loan identifier common to loan-like records. Loan identifier common to loan-like records."
+  },
+  {
+    "id": "value.LoanData.has_OriginationDate",
+    "type": "value_type_property",
+    "text": "value.LoanData.has_OriginationDate value_type_property CalendarDate Origination or booking date common to loan-like records. Origination or booking date common to loan-like records."
+  },
+  {
+    "id": "concept.ProductData",
+    "type": "base_entity_concept",
+    "text": "concept.ProductData base_entity_concept ProductData Base concept for product-like records with common product identifiers. Base concept for product-like records with common product identifiers."
+  },
+  {
+    "id": "value.ProductData.has_ProductIdentifier",
+    "type": "value_type_property",
+    "text": "value.ProductData.has_ProductIdentifier value_type_property ProductIdentifier Product identifier common to product-like records. Product identifier common to product-like records."
+  },
+  {
+    "id": "value.ProductData.has_ProductType",
+    "type": "value_type_property",
+    "text": "value.ProductData.has_ProductType value_type_property ProductType Classification value identifying the product family or instrument type. Classification value identifying the product family or instrument type."
+  },
+  {
+    "id": "concept.Borrower",
+    "type": "entity_type_concept",
+    "text": "concept.Borrower entity_type_concept Borrower Person or legal entity that is responsible for one or more loan exposures. Person or legal entity that is responsible for one or more loan exposures. borrowers borrowers.borrower_id borrowers.borrower_name borrowers.borrower_segment borrowers.domicile_country"
+  },
+  {
+    "id": "value.Borrower.has_BorrowerName",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_BorrowerName value_type_property PersonOrEntityName Display name of the borrower or legal entity. Display name of the borrower or legal entity."
+  },
+  {
+    "id": "value.Borrower.has_BorrowerCountry",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_BorrowerCountry value_type_property CountryCode Country or jurisdiction associated with the borrower. Country or jurisdiction associated with the borrower."
+  },
+  {
+    "id": "concept.Loan",
+    "type": "entity_type_concept",
+    "text": "concept.Loan entity_type_concept Loan Credit exposure contract or facility that can be reported for regulatory credit risk monitoring. Credit exposure contract or facility that can be reported for regulatory credit risk monitoring. institutional_loans loan_exposure_report_lines retail_loans institutional_loans.booking_date institutional_loans.exposure_currency institutional_loans.facility_id institutional_loans.loss_given_default institutional_loans.notional_amount institutional_loans.probability_default loan_exposure_report_lines.expected_loss_amount loan_exposure_report_lines.exposure_at_default_amount loan_exposure_report_lines.loan_id loan_exposure_report_lines.principal_amount loan_exposure_report_lines.report_currency retail_loans.currency retail_loans.lgd retail_loans.loan_id retail_loans.origination_date retail_loans.pd retail_loans.principal_amount"
+  },
+  {
+    "id": "concept.LoanProduct",
+    "type": "entity_type_concept",
+    "text": "concept.LoanProduct entity_type_concept LoanProduct Lending product definition used to classify loan exposures for credit risk reporting. Lending product definition used to classify loan exposures for credit risk reporting. loan_products loan_products.product_id loan_products.product_type loan_products.regulatory_product_class"
+  },
+  {
+    "id": "value.Loan.has_PrincipalAmount",
+    "type": "value_type_property",
+    "text": "value.Loan.has_PrincipalAmount value_type_property MonetaryAmount Contractual principal or notional amount of the loan exposure. Contractual principal or notional amount of the loan exposure."
+  },
+  {
+    "id": "value.Loan.has_LoanCurrency",
+    "type": "value_type_property",
+    "text": "value.Loan.has_LoanCurrency value_type_property CurrencyCode Currency in which the loan exposure is booked or managed. Currency in which the loan exposure is booked or managed."
+  },
+  {
+    "id": "value.Loan.has_ExposureAtDefaultAmount",
+    "type": "value_type_property",
+    "text": "value.Loan.has_ExposureAtDefaultAmount value_type_property MonetaryAmount Exposure amount used for regulatory credit risk calculations. Exposure amount used for regulatory credit risk calculations."
+  },
+  {
+    "id": "value.Loan.has_ProbabilityOfDefault",
+    "type": "value_type_property",
+    "text": "value.Loan.has_ProbabilityOfDefault value_type_property Rate Probability of default assigned to the loan exposure. Probability of default assigned to the loan exposure."
+  },
+  {
+    "id": "value.Loan.has_LossGivenDefault",
+    "type": "value_type_property",
+    "text": "value.Loan.has_LossGivenDefault value_type_property Rate Loss given default rate assigned to the loan exposure. Loss given default rate assigned to the loan exposure."
+  },
+  {
+    "id": "value.Loan.has_ExpectedLossAmount",
+    "type": "value_type_property",
+    "text": "value.Loan.has_ExpectedLossAmount value_type_property MonetaryAmount Calculated expected loss amount for the loan exposure. Calculated expected loss amount for the loan exposure."
+  },
+  {
+    "id": "value.Loan.has_RiskWeightedExposureAmount",
+    "type": "value_type_property",
+    "text": "value.Loan.has_RiskWeightedExposureAmount value_type_property MonetaryAmount Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring. Calculated exposure amount weighted by credit risk probability for portfolio risk monitoring."
+  },
+  {
+    "id": "value.LoanProduct.has_ProductType",
+    "type": "value_type_property",
+    "text": "value.LoanProduct.has_ProductType value_type_property ProductType Product type used to group lending exposures. Product type used to group lending exposures."
+  },
+  {
+    "id": "value.LoanProduct.has_RegulatoryProductClass",
+    "type": "value_type_property",
+    "text": "value.LoanProduct.has_RegulatoryProductClass value_type_property RegulatoryClass Regulatory classification applied to the loan product. Regulatory classification applied to the loan product."
+  },
+  {
+    "id": "concept.AccountData",
+    "type": "base_entity_concept",
+    "text": "concept.AccountData base_entity_concept AccountData Base concept for account-like records with common account identifiers and reporting dates. Base concept for account-like records with common account identifiers and reporting dates."
+  },
+  {
+    "id": "value.AccountData.has_AccountIdentifier",
+    "type": "value_type_property",
+    "text": "value.AccountData.has_AccountIdentifier value_type_property AccountIdentifier Stable account identifier common to account-like records. Stable account identifier common to account-like records."
+  },
+  {
+    "id": "value.AccountData.has_AsOfDate",
+    "type": "value_type_property",
+    "text": "value.AccountData.has_AsOfDate value_type_property CalendarDate Reporting or snapshot date common to account-like records. Reporting or snapshot date common to account-like records."
+  },
+  {
+    "id": "value.AccountData.has_AccountStatus",
+    "type": "value_type_property",
+    "text": "value.AccountData.has_AccountStatus value_type_property StatusCode Status common to account-like records. Status common to account-like records."
+  },
+  {
+    "id": "concept.DepositAccount",
+    "type": "entity_type_concept",
+    "text": "concept.DepositAccount entity_type_concept DepositAccount Deposit account balance position that can be assessed for liquidity reporting and stable funding treatment. Deposit account balance position that can be assessed for liquidity reporting and stable funding treatment. deposit_accounts deposit_liquidity_report_lines deposit_accounts.account_id deposit_accounts.as_of_date deposit_accounts.balance_amount deposit_accounts.currency deposit_accounts.liquidity_bucket deposit_accounts.rate_override deposit_liquidity_report_lines.account_id deposit_liquidity_report_lines.as_of_date deposit_liquidity_report_lines.balance_amount deposit_liquidity_report_lines.currency deposit_liquidity_report_lines.liquidity_bucket deposit_liquidity_report_lines.runoff_rate"
+  },
+  {
+    "id": "concept.Depositor",
+    "type": "entity_type_concept",
+    "text": "concept.Depositor entity_type_concept Depositor Customer or legal entity that owns deposit account balances included in liquidity reporting. Customer or legal entity that owns deposit account balances included in liquidity reporting. deposit_customers deposit_liquidity_report_lines deposit_customers.customer_id deposit_customers.customer_name deposit_customers.domicile_country deposit_customers.segment deposit_liquidity_report_lines.customer_id"
+  },
+  {
+    "id": "concept.DepositProduct",
+    "type": "entity_type_concept",
+    "text": "concept.DepositProduct entity_type_concept DepositProduct Product definition that classifies deposit balances for liquidity runoff and insurance treatment. Product definition that classifies deposit balances for liquidity runoff and insurance treatment. deposit_liquidity_report_lines deposit_products deposit_liquidity_report_lines.product_id deposit_products.insurance_limit_amount deposit_products.product_id deposit_products.product_type deposit_products.regulatory_class deposit_products.standard_runoff_rate"
+  },
+  {
+    "id": "value.DepositAccount.has_DepositBalanceAmount",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_DepositBalanceAmount value_type_property MonetaryAmount Booked deposit balance amount measured for liquidity reporting. Booked deposit balance amount measured for liquidity reporting."
+  },
+  {
+    "id": "value.DepositAccount.has_DepositCurrency",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_DepositCurrency value_type_property CurrencyCode Currency in which the deposit account balance is maintained. Currency in which the deposit account balance is maintained."
+  },
+  {
+    "id": "value.DepositAccount.has_LiquidityBucket",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_LiquidityBucket value_type_property LiquidityBucket Liquidity classification bucket applied to the deposit account balance. Liquidity classification bucket applied to the deposit account balance."
+  },
+  {
+    "id": "value.DepositAccount.has_RunoffRate",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_RunoffRate value_type_property Rate Liquidity runoff rate applied to the deposit balance for stable funding analysis. Liquidity runoff rate applied to the deposit balance for stable funding analysis."
+  },
+  {
+    "id": "value.DepositAccount.has_StableFundingAmount",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_StableFundingAmount value_type_property MonetaryAmount Calculated stable funding contribution after applying the applicable runoff or stability rate. Calculated stable funding contribution after applying the applicable runoff or stability rate."
+  },
+  {
+    "id": "value.DepositAccount.has_InsuredBalanceAmount",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_InsuredBalanceAmount value_type_property MonetaryAmount Portion of the deposit balance covered by product-level deposit insurance limits. Portion of the deposit balance covered by product-level deposit insurance limits."
+  },
+  {
+    "id": "value.Depositor.has_CustomerName",
+    "type": "value_type_property",
+    "text": "value.Depositor.has_CustomerName value_type_property PersonOrEntityName Display name of the customer or legal entity holding deposit accounts. Display name of the customer or legal entity holding deposit accounts."
+  },
+  {
+    "id": "value.Depositor.has_CustomerSegment",
+    "type": "value_type_property",
+    "text": "value.Depositor.has_CustomerSegment value_type_property CustomerSegment Customer segment used for liquidity reporting and runoff classification. Customer segment used for liquidity reporting and runoff classification."
+  },
+  {
+    "id": "value.DepositProduct.has_RegulatoryClass",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_RegulatoryClass value_type_property RegulatoryClass Regulatory product class used for liquidity reporting aggregation. Regulatory product class used for liquidity reporting aggregation."
+  },
+  {
+    "id": "value.DepositProduct.has_InsuranceLimitAmount",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_InsuranceLimitAmount value_type_property MonetaryAmount Product-level insured balance limit applied to eligible customer deposits. Product-level insured balance limit applied to eligible customer deposits."
+  },
+  {
+    "id": "value.DepositProduct.has_StandardRunoffRate",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_StandardRunoffRate value_type_property Rate Standard runoff or stability rate assigned to the deposit product class. Standard runoff or stability rate assigned to the deposit product class."
+  },
+  {
+    "id": "concept.CollateralAssetData",
+    "type": "base_entity_concept",
+    "text": "concept.CollateralAssetData base_entity_concept CollateralAssetData Base concept for collateral asset records with common collateral identifiers and classification fields. Base concept for collateral asset records with common collateral identifiers and classification fields."
+  },
+  {
+    "id": "value.CollateralAssetData.has_CollateralIdentifier",
+    "type": "value_type_property",
+    "text": "value.CollateralAssetData.has_CollateralIdentifier value_type_property CollateralIdentifier Identifier common to collateral asset records. Identifier common to collateral asset records."
+  },
+  {
+    "id": "value.CollateralAssetData.has_AssetType",
+    "type": "value_type_property",
+    "text": "value.CollateralAssetData.has_AssetType value_type_property AssetType Asset type common to collateral asset records. Asset type common to collateral asset records."
+  },
+  {
+    "id": "value.CollateralAssetData.has_AssetCurrency",
+    "type": "value_type_property",
+    "text": "value.CollateralAssetData.has_AssetCurrency value_type_property CurrencyCode Currency common to collateral asset records. Currency common to collateral asset records."
+  },
+  {
+    "id": "value.CollateralAssetData.has_IssuerCountry",
+    "type": "value_type_property",
+    "text": "value.CollateralAssetData.has_IssuerCountry value_type_property CountryCode Issuer country common to collateral asset records. Issuer country common to collateral asset records."
+  },
+  {
+    "id": "concept.CounterpartyData",
+    "type": "base_entity_concept",
+    "text": "concept.CounterpartyData base_entity_concept CounterpartyData Base concept for counterparty-like records with legal identity and regulatory classification fields. Base concept for counterparty-like records with legal identity and regulatory classification fields."
+  },
+  {
+    "id": "value.CounterpartyData.has_CounterpartyIdentifier",
+    "type": "value_type_property",
+    "text": "value.CounterpartyData.has_CounterpartyIdentifier value_type_property CounterpartyIdentifier Identifier common to counterparty-like records. Identifier common to counterparty-like records."
+  },
+  {
+    "id": "value.CounterpartyData.has_LegalName",
+    "type": "value_type_property",
+    "text": "value.CounterpartyData.has_LegalName value_type_property LegalName Legal name common to counterparty-like records. Legal name common to counterparty-like records."
+  },
+  {
+    "id": "value.CounterpartyData.has_DomicileCountry",
+    "type": "value_type_property",
+    "text": "value.CounterpartyData.has_DomicileCountry value_type_property CountryCode Domicile country common to counterparty-like records. Domicile country common to counterparty-like records."
+  },
+  {
+    "id": "value.CounterpartyData.has_RegulatorySegment",
+    "type": "value_type_property",
+    "text": "value.CounterpartyData.has_RegulatorySegment value_type_property RegulatorySegment Regulatory segment common to counterparty-like records. Regulatory segment common to counterparty-like records."
+  },
+  {
+    "id": "concept.ValuationData",
+    "type": "base_entity_concept",
+    "text": "concept.ValuationData base_entity_concept ValuationData Base concept for valuation records with common valuation identity and date fields. Base concept for valuation records with common valuation identity and date fields."
+  },
+  {
+    "id": "value.ValuationData.has_ValuationIdentifier",
+    "type": "value_type_property",
+    "text": "value.ValuationData.has_ValuationIdentifier value_type_property ValuationIdentifier Identifier common to valuation records. Identifier common to valuation records."
+  },
+  {
+    "id": "value.ValuationData.has_ValuationDate",
+    "type": "value_type_property",
+    "text": "value.ValuationData.has_ValuationDate value_type_property Date Date common to valuation records. Date common to valuation records."
+  },
+  {
+    "id": "concept.CollateralAsset",
+    "type": "entity_type_concept",
+    "text": "concept.CollateralAsset entity_type_concept CollateralAsset Asset pledged as collateral for margin obligations. Asset pledged as collateral for margin obligations. collateral_margin_report_lines collateral_positions collateral_margin_report_lines.collateral_id collateral_positions.asset_type collateral_positions.collateral_id collateral_positions.currency collateral_positions.issuer_country"
+  },
+  {
+    "id": "concept.MarginAccount",
+    "type": "entity_type_concept",
+    "text": "concept.MarginAccount entity_type_concept MarginAccount Account used to hold margin obligations and pledged collateral. Account used to hold margin obligations and pledged collateral. collateral_margin_report_lines margin_accounts collateral_margin_report_lines.account_id margin_accounts.account_id margin_accounts.account_status margin_accounts.base_currency"
+  },
+  {
+    "id": "concept.CollateralValuation",
+    "type": "entity_type_concept",
+    "text": "concept.CollateralValuation entity_type_concept CollateralValuation Daily valuation record for collateral after market close. Daily valuation record for collateral after market close. collateral_valuations collateral_valuations.haircut_rate collateral_valuations.market_value_amount collateral_valuations.valuation_date collateral_valuations.valuation_id"
+  },
+  {
+    "id": "value.CollateralValuation.has_MarketValueAmount",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.has_MarketValueAmount value_type_property MonetaryAmount Gross market value before haircut. Gross market value before haircut."
+  },
+  {
+    "id": "value.CollateralValuation.has_HaircutRate",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.has_HaircutRate value_type_property Rate Haircut rate applied to the collateral valuation. Haircut rate applied to the collateral valuation."
+  },
+  {
+    "id": "value.CollateralValuation.has_EligibleCollateralValue",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.has_EligibleCollateralValue value_type_property MonetaryAmount Market value after haircut represented as an entity-level calculated collateral valuation amount. Market value after haircut represented as an entity-level calculated collateral valuation amount."
+  },
+  {
+    "id": "concept.Counterparty",
+    "type": "entity_type_concept",
+    "text": "concept.Counterparty entity_type_concept Counterparty Legal entity that owns margin accounts and posts collateral. Legal entity that owns margin accounts and posts collateral. collateral_margin_report_lines counterparties collateral_margin_report_lines.counterparty_id counterparties.counterparty_id counterparties.domicile_country counterparties.legal_name counterparties.regulatory_segment"
+  },
+  {
+    "id": "value.MarginAccount.has_BaseCurrency",
+    "type": "value_type_property",
+    "text": "value.MarginAccount.has_BaseCurrency value_type_property CurrencyCode Currency used as the margin account base currency. Currency used as the margin account base currency."
+  },
+  {
+    "id": "value.Borrower.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_CustomerIdentifier value_type_property CustomerIdentifier Customer identifier common to customer-like records. Customer identifier common to customer-like records."
+  },
+  {
+    "id": "value.Borrower.has_CustomerSegment",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_CustomerSegment value_type_property CustomerSegment Customer segment common to customer-like records. Customer segment common to customer-like records."
+  },
+  {
+    "id": "value.Borrower.has_DomicileCountry",
+    "type": "value_type_property",
+    "text": "value.Borrower.has_DomicileCountry value_type_property CountryCode Country or jurisdiction associated with a customer record. Country or jurisdiction associated with a customer record."
+  },
+  {
+    "id": "value.Loan.has_LoanIdentifier",
+    "type": "value_type_property",
+    "text": "value.Loan.has_LoanIdentifier value_type_property LoanIdentifier Loan identifier common to loan-like records. Loan identifier common to loan-like records."
+  },
+  {
+    "id": "value.Loan.has_OriginationDate",
+    "type": "value_type_property",
+    "text": "value.Loan.has_OriginationDate value_type_property CalendarDate Origination or booking date common to loan-like records. Origination or booking date common to loan-like records."
+  },
+  {
+    "id": "value.LoanProduct.has_ProductIdentifier",
+    "type": "value_type_property",
+    "text": "value.LoanProduct.has_ProductIdentifier value_type_property ProductIdentifier Product identifier common to product-like records. Product identifier common to product-like records."
+  },
+  {
+    "id": "value.DepositAccount.has_AccountIdentifier",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_AccountIdentifier value_type_property AccountIdentifier Stable account identifier common to account-like records. Stable account identifier common to account-like records."
+  },
+  {
+    "id": "value.DepositAccount.has_AsOfDate",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_AsOfDate value_type_property CalendarDate Reporting or snapshot date common to account-like records. Reporting or snapshot date common to account-like records."
+  },
+  {
+    "id": "value.DepositAccount.has_AccountStatus",
+    "type": "value_type_property",
+    "text": "value.DepositAccount.has_AccountStatus value_type_property StatusCode Status common to account-like records. Status common to account-like records."
+  },
+  {
+    "id": "value.Depositor.has_CustomerIdentifier",
+    "type": "value_type_property",
+    "text": "value.Depositor.has_CustomerIdentifier value_type_property CustomerIdentifier Customer identifier common to customer-like records. Customer identifier common to customer-like records."
+  },
+  {
+    "id": "value.Depositor.has_DomicileCountry",
+    "type": "value_type_property",
+    "text": "value.Depositor.has_DomicileCountry value_type_property CountryCode Country or jurisdiction associated with a customer record. Country or jurisdiction associated with a customer record."
+  },
+  {
+    "id": "value.DepositProduct.has_ProductIdentifier",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_ProductIdentifier value_type_property ProductIdentifier Product identifier common to product-like records. Product identifier common to product-like records."
+  },
+  {
+    "id": "value.DepositProduct.has_ProductType",
+    "type": "value_type_property",
+    "text": "value.DepositProduct.has_ProductType value_type_property ProductType Classification value identifying the product family or instrument type. Classification value identifying the product family or instrument type."
+  },
+  {
+    "id": "value.CollateralAsset.has_CollateralIdentifier",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.has_CollateralIdentifier value_type_property CollateralIdentifier Identifier common to collateral asset records. Identifier common to collateral asset records."
+  },
+  {
+    "id": "value.CollateralAsset.has_AssetType",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.has_AssetType value_type_property AssetType Asset type common to collateral asset records. Asset type common to collateral asset records."
+  },
+  {
+    "id": "value.CollateralAsset.has_AssetCurrency",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.has_AssetCurrency value_type_property CurrencyCode Currency common to collateral asset records. Currency common to collateral asset records."
+  },
+  {
+    "id": "value.CollateralAsset.has_IssuerCountry",
+    "type": "value_type_property",
+    "text": "value.CollateralAsset.has_IssuerCountry value_type_property CountryCode Issuer country common to collateral asset records. Issuer country common to collateral asset records."
+  },
+  {
+    "id": "value.CollateralValuation.has_ValuationIdentifier",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.has_ValuationIdentifier value_type_property ValuationIdentifier Identifier common to valuation records. Identifier common to valuation records."
+  },
+  {
+    "id": "value.CollateralValuation.has_ValuationDate",
+    "type": "value_type_property",
+    "text": "value.CollateralValuation.has_ValuationDate value_type_property Date Date common to valuation records. Date common to valuation records."
+  },
+  {
+    "id": "value.Counterparty.has_CounterpartyIdentifier",
+    "type": "value_type_property",
+    "text": "value.Counterparty.has_CounterpartyIdentifier value_type_property CounterpartyIdentifier Identifier common to counterparty-like records. Identifier common to counterparty-like records."
+  },
+  {
+    "id": "value.Counterparty.has_LegalName",
+    "type": "value_type_property",
+    "text": "value.Counterparty.has_LegalName value_type_property LegalName Legal name common to counterparty-like records. Legal name common to counterparty-like records."
+  },
+  {
+    "id": "value.Counterparty.has_DomicileCountry",
+    "type": "value_type_property",
+    "text": "value.Counterparty.has_DomicileCountry value_type_property CountryCode Domicile country common to counterparty-like records. Domicile country common to counterparty-like records."
+  },
+  {
+    "id": "value.Counterparty.has_RegulatorySegment",
+    "type": "value_type_property",
+    "text": "value.Counterparty.has_RegulatorySegment value_type_property RegulatorySegment Regulatory segment common to counterparty-like records. Regulatory segment common to counterparty-like records."
+  },
+  {
+    "id": "value.MarginAccount.has_AccountIdentifier",
+    "type": "value_type_property",
+    "text": "value.MarginAccount.has_AccountIdentifier value_type_property AccountIdentifier Stable account identifier common to account-like records. Stable account identifier common to account-like records."
+  },
+  {
+    "id": "value.MarginAccount.has_AsOfDate",
+    "type": "value_type_property",
+    "text": "value.MarginAccount.has_AsOfDate value_type_property CalendarDate Reporting or snapshot date common to account-like records. Reporting or snapshot date common to account-like records."
+  },
+  {
+    "id": "value.MarginAccount.has_AccountStatus",
+    "type": "value_type_property",
+    "text": "value.MarginAccount.has_AccountStatus value_type_property StatusCode Status common to account-like records. Status common to account-like records."
+  },
+  {
+    "id": "dataset.borrowers",
+    "type": "semantic_dataset",
+    "text": "dataset.borrowers semantic_dataset borrowers Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting. Borrower master records at customer or legal entity grain, providing borrower names, segments, and domicile jurisdictions used by loan exposure reporting. customer_master.borrowers"
+  },
+  {
+    "id": "table.customer_master.borrowers",
+    "type": "physical_table",
+    "text": "table.customer_master.borrowers physical_table borrowers customer_master.borrowers"
+  },
+  {
+    "id": "field.borrowers.borrower_id",
+    "type": "dataset_field",
+    "text": "field.borrowers.borrower_id dataset_field borrower_id Master customer identifier for a borrower or legal entity. Master customer identifier for a borrower or legal entity."
+  },
+  {
+    "id": "column.customer_master.borrowers.borrower_id",
+    "type": "column",
+    "text": "column.customer_master.borrowers.borrower_id column borrower_id Master customer identifier for a borrower or legal entity. Master customer identifier for a borrower or legal entity."
+  },
+  {
+    "id": "field.borrowers.borrower_segment",
+    "type": "dataset_field",
+    "text": "field.borrowers.borrower_segment dataset_field borrower_segment Segment classification such as retail, SME, corporate, or financial institution. Segment classification such as retail, SME, corporate, or financial institution."
+  },
+  {
+    "id": "column.customer_master.borrowers.borrower_segment",
+    "type": "column",
+    "text": "column.customer_master.borrowers.borrower_segment column borrower_segment Segment classification such as retail, SME, corporate, or financial institution. Segment classification such as retail, SME, corporate, or financial institution."
+  },
+  {
+    "id": "field.borrowers.borrower_name",
+    "type": "dataset_field",
+    "text": "field.borrowers.borrower_name dataset_field borrower_name Human-readable borrower or legal entity name. Human-readable borrower or legal entity name."
+  },
+  {
+    "id": "column.customer_master.borrowers.borrower_name",
+    "type": "column",
+    "text": "column.customer_master.borrowers.borrower_name column borrower_name Human-readable borrower or legal entity name. Human-readable borrower or legal entity name."
+  },
+  {
+    "id": "field.borrowers.domicile_country",
+    "type": "dataset_field",
+    "text": "field.borrowers.domicile_country dataset_field domicile_country Borrower domicile country used for jurisdictional reporting and composite report joins. Borrower domicile country used for jurisdictional reporting and composite report joins."
+  },
+  {
+    "id": "column.customer_master.borrowers.domicile_country",
+    "type": "column",
+    "text": "column.customer_master.borrowers.domicile_country column domicile_country Borrower domicile country used for jurisdictional reporting and composite report joins. Borrower domicile country used for jurisdictional reporting and composite report joins."
+  },
+  {
+    "id": "dataset.institutional_loans",
+    "type": "semantic_dataset",
+    "text": "dataset.institutional_loans semantic_dataset institutional_loans Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting. Institutional credit facility records at legal entity facility grain, carrying borrower, product, booking, notional, currency, and credit risk parameter fields for wholesale exposure reporting. institutional_lending_core.facilities"
+  },
+  {
+    "id": "table.institutional_lending_core.facilities",
+    "type": "physical_table",
+    "text": "table.institutional_lending_core.facilities physical_table facilities institutional_lending_core.facilities"
+  },
+  {
+    "id": "field.institutional_loans.facility_id",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.facility_id dataset_field facility_id Institutional source identifier for a committed credit facility. Institutional source identifier for a committed credit facility."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.facility_id",
+    "type": "column",
+    "text": "column.institutional_lending_core.facilities.facility_id column facility_id Institutional source identifier for a committed credit facility. Institutional source identifier for a committed credit facility."
+  },
+  {
+    "id": "field.institutional_loans.legal_entity_id",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.legal_entity_id dataset_field legal_entity_id Customer identifier linking the facility to the responsible legal borrower. Customer identifier linking the facility to the responsible legal borrower."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.legal_entity_id",
+    "type": "column",
+    "text": "column.institutional_lending_core.facilities.legal_entity_id column legal_entity_id Customer identifier linking the facility to the responsible legal borrower. Customer identifier linking the facility to the responsible legal borrower."
+  },
+  {
+    "id": "field.institutional_loans.product_code",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.product_code dataset_field product_code Product identifier classifying the institutional lending facility. Product identifier classifying the institutional lending facility."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.product_code",
+    "type": "column",
+    "text": "column.institutional_lending_core.facilities.product_code column product_code Product identifier classifying the institutional lending facility. Product identifier classifying the institutional lending facility."
+  },
+  {
+    "id": "field.institutional_loans.booking_date",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.booking_date dataset_field booking_date Date on which the institutional facility was booked. Date on which the institutional facility was booked."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.booking_date",
+    "type": "column",
+    "text": "column.institutional_lending_core.facilities.booking_date column booking_date Date on which the institutional facility was booked. Date on which the institutional facility was booked."
+  },
+  {
+    "id": "field.institutional_loans.notional_amount",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.notional_amount dataset_field notional_amount Notional or committed amount recorded for the institutional facility. Notional or committed amount recorded for the institutional facility."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.notional_amount",
+    "type": "column",
+    "text": "column.institutional_lending_core.facilities.notional_amount column notional_amount Notional or committed amount recorded for the institutional facility. Notional or committed amount recorded for the institutional facility."
+  },
+  {
+    "id": "field.institutional_loans.exposure_currency",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.exposure_currency dataset_field exposure_currency Currency code used for the institutional exposure amount. Currency code used for the institutional exposure amount."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.exposure_currency",
+    "type": "column",
+    "text": "column.institutional_lending_core.facilities.exposure_currency column exposure_currency Currency code used for the institutional exposure amount. Currency code used for the institutional exposure amount."
+  },
+  {
+    "id": "field.institutional_loans.probability_default",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.probability_default dataset_field probability_default Probability of default assigned by the wholesale credit risk model. Probability of default assigned by the wholesale credit risk model."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.probability_default",
+    "type": "column",
+    "text": "column.institutional_lending_core.facilities.probability_default column probability_default Probability of default assigned by the wholesale credit risk model. Probability of default assigned by the wholesale credit risk model."
+  },
+  {
+    "id": "field.institutional_loans.loss_given_default",
+    "type": "dataset_field",
+    "text": "field.institutional_loans.loss_given_default dataset_field loss_given_default Loss given default rate assigned by the wholesale credit risk model. Loss given default rate assigned by the wholesale credit risk model."
+  },
+  {
+    "id": "column.institutional_lending_core.facilities.loss_given_default",
+    "type": "column",
+    "text": "column.institutional_lending_core.facilities.loss_given_default column loss_given_default Loss given default rate assigned by the wholesale credit risk model. Loss given default rate assigned by the wholesale credit risk model."
+  },
+  {
+    "id": "dataset.loan_exposure_report_lines",
+    "type": "semantic_dataset",
+    "text": "dataset.loan_exposure_report_lines semantic_dataset loan_exposure_report_lines Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. Prepared loan exposure report line records at reportable loan grain, carrying normalized borrower, product, amount, currency, and expected loss fields consumed by regulatory reporting logic. query.loan_exposure_report_lines"
+  },
+  {
+    "id": "table.retail_lending_core.retail_loans",
+    "type": "physical_table",
+    "text": "table.retail_lending_core.retail_loans physical_table retail_loans retail_lending_core.retail_loans"
+  },
+  {
+    "id": "table.product_master.loan_products",
+    "type": "physical_table",
+    "text": "table.product_master.loan_products physical_table loan_products product_master.loan_products"
+  },
+  {
+    "id": "field.loan_exposure_report_lines.loan_id",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.loan_id dataset_field loan_id Normalized loan or facility identifier reported on the exposure line. Normalized loan or facility identifier reported on the exposure line."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.borrower_id",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.borrower_id dataset_field borrower_id Borrower identifier reported on the exposure line for reconciliation to customer master. Borrower identifier reported on the exposure line for reconciliation to customer master."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.borrower_country",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.borrower_country dataset_field borrower_country Borrower country carried on the report line to support jurisdictional aggregation and composite joins. Borrower country carried on the report line to support jurisdictional aggregation and composite joins."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.product_id",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.product_id dataset_field product_id Product identifier reported on the exposure line for product-class aggregation. Product identifier reported on the exposure line for product-class aggregation."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.principal_amount",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.principal_amount dataset_field principal_amount Principal amount included on the report line for exposure reconciliation. Principal amount included on the report line for exposure reconciliation."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.exposure_at_default_amount",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.exposure_at_default_amount dataset_field exposure_at_default_amount Exposure at default amount reported for regulatory credit risk measurement. Exposure at default amount reported for regulatory credit risk measurement."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.expected_loss_amount",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.expected_loss_amount dataset_field expected_loss_amount Expected loss amount reported after applying probability of default and loss given default. Expected loss amount reported after applying probability of default and loss given default."
+  },
+  {
+    "id": "field.loan_exposure_report_lines.report_currency",
+    "type": "dataset_field",
+    "text": "field.loan_exposure_report_lines.report_currency dataset_field report_currency Currency code in which the exposure line amounts are reported. Currency code in which the exposure line amounts are reported."
+  },
+  {
+    "id": "dataset.loan_products",
+    "type": "semantic_dataset",
+    "text": "dataset.loan_products semantic_dataset loan_products Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures. Loan product reference records at product definition grain, carrying product type and regulatory product class used to classify loan exposures. product_master.loan_products"
+  },
+  {
+    "id": "field.loan_products.product_id",
+    "type": "dataset_field",
+    "text": "field.loan_products.product_id dataset_field product_id Master product identifier for a lending product. Master product identifier for a lending product."
+  },
+  {
+    "id": "column.product_master.loan_products.product_id",
+    "type": "column",
+    "text": "column.product_master.loan_products.product_id column product_id Master product identifier for a lending product. Master product identifier for a lending product."
+  },
+  {
+    "id": "field.loan_products.product_type",
+    "type": "dataset_field",
+    "text": "field.loan_products.product_type dataset_field product_type Lending product type such as mortgage, term loan, revolving credit, or credit line. Lending product type such as mortgage, term loan, revolving credit, or credit line."
+  },
+  {
+    "id": "column.product_master.loan_products.product_type",
+    "type": "column",
+    "text": "column.product_master.loan_products.product_type column product_type Lending product type such as mortgage, term loan, revolving credit, or credit line. Lending product type such as mortgage, term loan, revolving credit, or credit line."
+  },
+  {
+    "id": "field.loan_products.regulatory_product_class",
+    "type": "dataset_field",
+    "text": "field.loan_products.regulatory_product_class dataset_field regulatory_product_class Regulatory product class used for credit exposure aggregation. Regulatory product class used for credit exposure aggregation."
+  },
+  {
+    "id": "column.product_master.loan_products.regulatory_product_class",
+    "type": "column",
+    "text": "column.product_master.loan_products.regulatory_product_class column regulatory_product_class Regulatory product class used for credit exposure aggregation. Regulatory product class used for credit exposure aggregation."
+  },
+  {
+    "id": "dataset.retail_loans",
+    "type": "semantic_dataset",
+    "text": "dataset.retail_loans semantic_dataset retail_loans Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting. Retail loan records at individual consumer loan grain, carrying borrower, product, booking, amount, currency, and credit risk parameter fields for retail exposure reporting. retail_lending_core.retail_loans"
+  },
+  {
+    "id": "field.retail_loans.loan_id",
+    "type": "dataset_field",
+    "text": "field.retail_loans.loan_id dataset_field loan_id Retail source identifier for an individual consumer loan record. Retail source identifier for an individual consumer loan record."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.loan_id",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.loan_id column loan_id Retail source identifier for an individual consumer loan record. Retail source identifier for an individual consumer loan record."
+  },
+  {
+    "id": "field.retail_loans.borrower_id",
+    "type": "dataset_field",
+    "text": "field.retail_loans.borrower_id dataset_field borrower_id Customer identifier linking the retail loan to the responsible borrower. Customer identifier linking the retail loan to the responsible borrower."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.borrower_id",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.borrower_id column borrower_id Customer identifier linking the retail loan to the responsible borrower. Customer identifier linking the retail loan to the responsible borrower."
+  },
+  {
+    "id": "field.retail_loans.product_id",
+    "type": "dataset_field",
+    "text": "field.retail_loans.product_id dataset_field product_id Product identifier classifying the retail lending product. Product identifier classifying the retail lending product."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.product_id",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.product_id column product_id Product identifier classifying the retail lending product. Product identifier classifying the retail lending product."
+  },
+  {
+    "id": "field.retail_loans.origination_date",
+    "type": "dataset_field",
+    "text": "field.retail_loans.origination_date dataset_field origination_date Date on which the retail loan was originated or booked. Date on which the retail loan was originated or booked."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.origination_date",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.origination_date column origination_date Date on which the retail loan was originated or booked. Date on which the retail loan was originated or booked."
+  },
+  {
+    "id": "field.retail_loans.principal_amount",
+    "type": "dataset_field",
+    "text": "field.retail_loans.principal_amount dataset_field principal_amount Principal balance or contractual amount recorded for the retail loan. Principal balance or contractual amount recorded for the retail loan."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.principal_amount",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.principal_amount column principal_amount Principal balance or contractual amount recorded for the retail loan. Principal balance or contractual amount recorded for the retail loan."
+  },
+  {
+    "id": "field.retail_loans.currency",
+    "type": "dataset_field",
+    "text": "field.retail_loans.currency dataset_field currency Currency code used for the retail loan amount. Currency code used for the retail loan amount."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.currency",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.currency column currency Currency code used for the retail loan amount. Currency code used for the retail loan amount."
+  },
+  {
+    "id": "field.retail_loans.pd",
+    "type": "dataset_field",
+    "text": "field.retail_loans.pd dataset_field pd Probability of default assigned by the retail credit risk model. Probability of default assigned by the retail credit risk model."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.pd",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.pd column pd Probability of default assigned by the retail credit risk model. Probability of default assigned by the retail credit risk model."
+  },
+  {
+    "id": "field.retail_loans.lgd",
+    "type": "dataset_field",
+    "text": "field.retail_loans.lgd dataset_field lgd Loss given default rate assigned by the retail credit risk model. Loss given default rate assigned by the retail credit risk model."
+  },
+  {
+    "id": "column.retail_lending_core.retail_loans.lgd",
+    "type": "column",
+    "text": "column.retail_lending_core.retail_loans.lgd column lgd Loss given default rate assigned by the retail credit risk model. Loss given default rate assigned by the retail credit risk model."
+  },
+  {
+    "id": "metric.expected_loss_amount",
+    "type": "semantic_metric",
+    "text": "metric.expected_loss_amount semantic_metric expected_loss_amount Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations. Expected credit loss calculated from exposure at default, probability of default, and loss given default across loan source populations."
+  },
+  {
+    "id": "metric.risk_weighted_exposure_amount",
+    "type": "semantic_metric",
+    "text": "metric.risk_weighted_exposure_amount semantic_metric risk_weighted_exposure_amount Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts. Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts."
+  },
+  {
+    "id": "dataset.deposit_accounts",
+    "type": "semantic_dataset",
+    "text": "dataset.deposit_accounts semantic_dataset deposit_accounts Deposit account balance records at account and reporting-date grain, carrying customer, product, amount, currency, liquidity bucket, and optional runoff override fields for liquidity reporting. Deposit account balance records at account and reporting-date grain, carrying customer, product, amount, currency, liquidity bucket, and optional runoff override fields for liquidity reporting. core_deposit.deposit_accounts"
+  },
+  {
+    "id": "table.core_deposit.deposit_accounts",
+    "type": "physical_table",
+    "text": "table.core_deposit.deposit_accounts physical_table deposit_accounts core_deposit.deposit_accounts"
+  },
+  {
+    "id": "field.deposit_accounts.account_id",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.account_id dataset_field account_id Source account identifier for a deposit account balance record. Source account identifier for a deposit account balance record."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.account_id",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.account_id column account_id Source account identifier for a deposit account balance record. Source account identifier for a deposit account balance record."
+  },
+  {
+    "id": "field.deposit_accounts.customer_id",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.customer_id dataset_field customer_id Customer identifier linking the deposit account to the depositor master record. Customer identifier linking the deposit account to the depositor master record."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.customer_id",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.customer_id column customer_id Customer identifier linking the deposit account to the depositor master record. Customer identifier linking the deposit account to the depositor master record."
+  },
+  {
+    "id": "field.deposit_accounts.product_id",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.product_id dataset_field product_id Product identifier linking the deposit account to the deposit product definition. Product identifier linking the deposit account to the deposit product definition."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.product_id",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.product_id column product_id Product identifier linking the deposit account to the deposit product definition. Product identifier linking the deposit account to the deposit product definition."
+  },
+  {
+    "id": "field.deposit_accounts.as_of_date",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.as_of_date dataset_field as_of_date Reporting date for the account balance snapshot. Reporting date for the account balance snapshot."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.as_of_date",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.as_of_date column as_of_date Reporting date for the account balance snapshot. Reporting date for the account balance snapshot."
+  },
+  {
+    "id": "field.deposit_accounts.balance_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.balance_amount dataset_field balance_amount Deposit balance amount measured on the reporting date. Deposit balance amount measured on the reporting date."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.balance_amount",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.balance_amount column balance_amount Deposit balance amount measured on the reporting date. Deposit balance amount measured on the reporting date."
+  },
+  {
+    "id": "field.deposit_accounts.currency",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.currency dataset_field currency Currency code for the deposit balance amount. Currency code for the deposit balance amount."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.currency",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.currency column currency Currency code for the deposit balance amount. Currency code for the deposit balance amount."
+  },
+  {
+    "id": "field.deposit_accounts.liquidity_bucket",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.liquidity_bucket dataset_field liquidity_bucket Liquidity bucket assigned to the account for reporting classification. Liquidity bucket assigned to the account for reporting classification."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.liquidity_bucket",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.liquidity_bucket column liquidity_bucket Liquidity bucket assigned to the account for reporting classification. Liquidity bucket assigned to the account for reporting classification."
+  },
+  {
+    "id": "field.deposit_accounts.rate_override",
+    "type": "dataset_field",
+    "text": "field.deposit_accounts.rate_override dataset_field rate_override Account-level runoff rate override when treasury has approved an account-specific rate. Account-level runoff rate override when treasury has approved an account-specific rate."
+  },
+  {
+    "id": "column.core_deposit.deposit_accounts.rate_override",
+    "type": "column",
+    "text": "column.core_deposit.deposit_accounts.rate_override column rate_override Account-level runoff rate override when treasury has approved an account-specific rate. Account-level runoff rate override when treasury has approved an account-specific rate."
+  },
+  {
+    "id": "dataset.deposit_customers",
+    "type": "semantic_dataset",
+    "text": "dataset.deposit_customers semantic_dataset deposit_customers Depositor master records carrying names, customer segments, and domicile countries used to classify deposit liquidity reporting populations. Depositor master records carrying names, customer segments, and domicile countries used to classify deposit liquidity reporting populations. customer_master.deposit_customers"
+  },
+  {
+    "id": "table.customer_master.deposit_customers",
+    "type": "physical_table",
+    "text": "table.customer_master.deposit_customers physical_table deposit_customers customer_master.deposit_customers"
+  },
+  {
+    "id": "field.deposit_customers.customer_id",
+    "type": "dataset_field",
+    "text": "field.deposit_customers.customer_id dataset_field customer_id Master customer identifier for a depositor or legal entity. Master customer identifier for a depositor or legal entity."
+  },
+  {
+    "id": "column.customer_master.deposit_customers.customer_id",
+    "type": "column",
+    "text": "column.customer_master.deposit_customers.customer_id column customer_id Master customer identifier for a depositor or legal entity. Master customer identifier for a depositor or legal entity."
+  },
+  {
+    "id": "field.deposit_customers.customer_name",
+    "type": "dataset_field",
+    "text": "field.deposit_customers.customer_name dataset_field customer_name Human-readable depositor or legal entity name. Human-readable depositor or legal entity name."
+  },
+  {
+    "id": "column.customer_master.deposit_customers.customer_name",
+    "type": "column",
+    "text": "column.customer_master.deposit_customers.customer_name column customer_name Human-readable depositor or legal entity name. Human-readable depositor or legal entity name."
+  },
+  {
+    "id": "field.deposit_customers.segment",
+    "type": "dataset_field",
+    "text": "field.deposit_customers.segment dataset_field segment Customer segment used for liquidity classification and management reporting. Customer segment used for liquidity classification and management reporting."
+  },
+  {
+    "id": "column.customer_master.deposit_customers.segment",
+    "type": "column",
+    "text": "column.customer_master.deposit_customers.segment column segment Customer segment used for liquidity classification and management reporting. Customer segment used for liquidity classification and management reporting."
+  },
+  {
+    "id": "field.deposit_customers.domicile_country",
+    "type": "dataset_field",
+    "text": "field.deposit_customers.domicile_country dataset_field domicile_country Country or jurisdiction associated with the depositor. Country or jurisdiction associated with the depositor."
+  },
+  {
+    "id": "column.customer_master.deposit_customers.domicile_country",
+    "type": "column",
+    "text": "column.customer_master.deposit_customers.domicile_country column domicile_country Country or jurisdiction associated with the depositor. Country or jurisdiction associated with the depositor."
+  },
+  {
+    "id": "dataset.deposit_liquidity_report_lines",
+    "type": "semantic_dataset",
+    "text": "dataset.deposit_liquidity_report_lines semantic_dataset deposit_liquidity_report_lines Prepared deposit liquidity report line records at account and reporting-date grain, carrying normalized depositor, product, balance, runoff, insured amount, and stable funding fields consumed by reporting logic. Prepared deposit liquidity report line records at account and reporting-date grain, carrying normalized depositor, product, balance, runoff, insured amount, and stable funding fields consumed by reporting logic. query.deposit_liquidity_report_lines"
+  },
+  {
+    "id": "table.product_master.deposit_products",
+    "type": "physical_table",
+    "text": "table.product_master.deposit_products physical_table deposit_products product_master.deposit_products"
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.account_id",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.account_id dataset_field account_id Account identifier reported on the deposit liquidity line. Account identifier reported on the deposit liquidity line."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.as_of_date",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.as_of_date dataset_field as_of_date Reporting date carried on the deposit liquidity line. Reporting date carried on the deposit liquidity line."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.customer_id",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.customer_id dataset_field customer_id Depositor identifier reported for account ownership and aggregation. Depositor identifier reported for account ownership and aggregation."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.product_id",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.product_id dataset_field product_id Deposit product identifier reported for product-class aggregation. Deposit product identifier reported for product-class aggregation."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.balance_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.balance_amount dataset_field balance_amount Deposit balance amount reported for liquidity measurement. Deposit balance amount reported for liquidity measurement."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.currency",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.currency dataset_field currency Currency code reported for the deposit balance amount. Currency code reported for the deposit balance amount."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.liquidity_bucket",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.liquidity_bucket dataset_field liquidity_bucket Liquidity bucket reported for regulatory classification. Liquidity bucket reported for regulatory classification."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.runoff_rate",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.runoff_rate dataset_field runoff_rate Runoff rate reported after applying account override or product standard rate. Runoff rate reported after applying account override or product standard rate."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.stable_funding_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.stable_funding_amount dataset_field stable_funding_amount Calculated stable funding amount reported after applying the runoff or stability rate. Calculated stable funding amount reported after applying the runoff or stability rate."
+  },
+  {
+    "id": "field.deposit_liquidity_report_lines.insured_balance_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_liquidity_report_lines.insured_balance_amount dataset_field insured_balance_amount Insured portion of the deposit balance reported under the product insurance limit. Insured portion of the deposit balance reported under the product insurance limit."
+  },
+  {
+    "id": "dataset.deposit_products",
+    "type": "semantic_dataset",
+    "text": "dataset.deposit_products semantic_dataset deposit_products Deposit product reference records defining product type, regulatory class, standard runoff rate, and insurance limit used in liquidity calculations. Deposit product reference records defining product type, regulatory class, standard runoff rate, and insurance limit used in liquidity calculations. product_master.deposit_products"
+  },
+  {
+    "id": "field.deposit_products.product_id",
+    "type": "dataset_field",
+    "text": "field.deposit_products.product_id dataset_field product_id Product identifier for the deposit product definition. Product identifier for the deposit product definition."
+  },
+  {
+    "id": "column.product_master.deposit_products.product_id",
+    "type": "column",
+    "text": "column.product_master.deposit_products.product_id column product_id Product identifier for the deposit product definition. Product identifier for the deposit product definition."
+  },
+  {
+    "id": "field.deposit_products.product_type",
+    "type": "dataset_field",
+    "text": "field.deposit_products.product_type dataset_field product_type Deposit product type such as current account, savings, term deposit, or brokered deposit. Deposit product type such as current account, savings, term deposit, or brokered deposit."
+  },
+  {
+    "id": "column.product_master.deposit_products.product_type",
+    "type": "column",
+    "text": "column.product_master.deposit_products.product_type column product_type Deposit product type such as current account, savings, term deposit, or brokered deposit. Deposit product type such as current account, savings, term deposit, or brokered deposit."
+  },
+  {
+    "id": "field.deposit_products.regulatory_class",
+    "type": "dataset_field",
+    "text": "field.deposit_products.regulatory_class dataset_field regulatory_class Regulatory liquidity class assigned to the deposit product. Regulatory liquidity class assigned to the deposit product."
+  },
+  {
+    "id": "column.product_master.deposit_products.regulatory_class",
+    "type": "column",
+    "text": "column.product_master.deposit_products.regulatory_class column regulatory_class Regulatory liquidity class assigned to the deposit product. Regulatory liquidity class assigned to the deposit product."
+  },
+  {
+    "id": "field.deposit_products.standard_runoff_rate",
+    "type": "dataset_field",
+    "text": "field.deposit_products.standard_runoff_rate dataset_field standard_runoff_rate Standard runoff or stability rate assigned by product policy. Standard runoff or stability rate assigned by product policy."
+  },
+  {
+    "id": "column.product_master.deposit_products.standard_runoff_rate",
+    "type": "column",
+    "text": "column.product_master.deposit_products.standard_runoff_rate column standard_runoff_rate Standard runoff or stability rate assigned by product policy. Standard runoff or stability rate assigned by product policy."
+  },
+  {
+    "id": "field.deposit_products.insurance_limit_amount",
+    "type": "dataset_field",
+    "text": "field.deposit_products.insurance_limit_amount dataset_field insurance_limit_amount Maximum insured balance amount applicable to the deposit product. Maximum insured balance amount applicable to the deposit product."
+  },
+  {
+    "id": "column.product_master.deposit_products.insurance_limit_amount",
+    "type": "column",
+    "text": "column.product_master.deposit_products.insurance_limit_amount column insurance_limit_amount Maximum insured balance amount applicable to the deposit product. Maximum insured balance amount applicable to the deposit product."
+  },
+  {
+    "id": "metric.stable_funding_amount",
+    "type": "semantic_metric",
+    "text": "metric.stable_funding_amount semantic_metric stable_funding_amount Stable funding amount calculated from deposit balance and the account override or product standard runoff rate. Stable funding amount calculated from deposit balance and the account override or product standard runoff rate."
+  },
+  {
+    "id": "metric.insured_balance_amount",
+    "type": "semantic_metric",
+    "text": "metric.insured_balance_amount semantic_metric insured_balance_amount Insured balance amount calculated as the lower of account balance and product insurance limit. Insured balance amount calculated as the lower of account balance and product insurance limit."
+  },
+  {
+    "id": "dataset.collateral_margin_report_lines",
+    "type": "semantic_dataset",
+    "text": "dataset.collateral_margin_report_lines semantic_dataset collateral_margin_report_lines Produced collateral margin report line records at report-line grain, carrying the account, counterparty, collateral, valuation date, and eligible collateral value submitted for reporting. Produced collateral margin report line records at report-line grain, carrying the account, counterparty, collateral, valuation date, and eligible collateral value submitted for reporting. reporting.collateral_margin_report_lines"
+  },
+  {
+    "id": "table.reporting.collateral_margin_report_lines",
+    "type": "physical_table",
+    "text": "table.reporting.collateral_margin_report_lines physical_table collateral_margin_report_lines reporting.collateral_margin_report_lines"
+  },
+  {
+    "id": "field.collateral_margin_report_lines.report_id",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.report_id dataset_field report_id Identifier of the generated collateral margin report submission. Identifier of the generated collateral margin report submission."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.report_id",
+    "type": "column",
+    "text": "column.reporting.collateral_margin_report_lines.report_id column report_id Identifier of the generated collateral margin report submission. Identifier of the generated collateral margin report submission."
+  },
+  {
+    "id": "field.collateral_margin_report_lines.line_number",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.line_number dataset_field line_number Line sequence number within a collateral margin report submission. Line sequence number within a collateral margin report submission."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.line_number",
+    "type": "column",
+    "text": "column.reporting.collateral_margin_report_lines.line_number column line_number Line sequence number within a collateral margin report submission. Line sequence number within a collateral margin report submission."
+  },
+  {
+    "id": "field.collateral_margin_report_lines.account_id",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.account_id dataset_field account_id Margin account identifier reported on the output line. Margin account identifier reported on the output line."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.account_id",
+    "type": "column",
+    "text": "column.reporting.collateral_margin_report_lines.account_id column account_id Margin account identifier reported on the output line. Margin account identifier reported on the output line."
+  },
+  {
+    "id": "field.collateral_margin_report_lines.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.counterparty_id dataset_field counterparty_id Counterparty identifier reported on the output line. Counterparty identifier reported on the output line."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.counterparty_id",
+    "type": "column",
+    "text": "column.reporting.collateral_margin_report_lines.counterparty_id column counterparty_id Counterparty identifier reported on the output line. Counterparty identifier reported on the output line."
+  },
+  {
+    "id": "field.collateral_margin_report_lines.collateral_id",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.collateral_id dataset_field collateral_id Collateral asset identifier reported on the output line. Collateral asset identifier reported on the output line."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.collateral_id",
+    "type": "column",
+    "text": "column.reporting.collateral_margin_report_lines.collateral_id column collateral_id Collateral asset identifier reported on the output line. Collateral asset identifier reported on the output line."
+  },
+  {
+    "id": "field.collateral_margin_report_lines.valuation_date",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.valuation_date dataset_field valuation_date Valuation date used for the reported collateral amount. Valuation date used for the reported collateral amount."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.valuation_date",
+    "type": "column",
+    "text": "column.reporting.collateral_margin_report_lines.valuation_date column valuation_date Valuation date used for the reported collateral amount. Valuation date used for the reported collateral amount."
+  },
+  {
+    "id": "field.collateral_margin_report_lines.eligible_collateral_value",
+    "type": "dataset_field",
+    "text": "field.collateral_margin_report_lines.eligible_collateral_value dataset_field eligible_collateral_value Reportable collateral value after applying haircut and eligibility calculation. Reportable collateral value after applying haircut and eligibility calculation."
+  },
+  {
+    "id": "column.reporting.collateral_margin_report_lines.eligible_collateral_value",
+    "type": "column",
+    "text": "column.reporting.collateral_margin_report_lines.eligible_collateral_value column eligible_collateral_value Reportable collateral value after applying haircut and eligibility calculation. Reportable collateral value after applying haircut and eligibility calculation."
+  },
+  {
+    "id": "dataset.collateral_positions",
+    "type": "semantic_dataset",
+    "text": "dataset.collateral_positions semantic_dataset collateral_positions Collateral position records that describe pledged collateral assets assigned to margin accounts, including asset classification, currency, and issuer jurisdiction. Collateral position records that describe pledged collateral assets assigned to margin accounts, including asset classification, currency, and issuer jurisdiction. collateral_master.collateral_positions"
+  },
+  {
+    "id": "table.collateral_master.collateral_positions",
+    "type": "physical_table",
+    "text": "table.collateral_master.collateral_positions physical_table collateral_positions collateral_master.collateral_positions"
+  },
+  {
+    "id": "field.collateral_positions.collateral_id",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.collateral_id dataset_field collateral_id Stable identifier for the pledged collateral asset position. Stable identifier for the pledged collateral asset position."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.collateral_id",
+    "type": "column",
+    "text": "column.collateral_master.collateral_positions.collateral_id column collateral_id Stable identifier for the pledged collateral asset position. Stable identifier for the pledged collateral asset position."
+  },
+  {
+    "id": "field.collateral_positions.account_id",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.account_id dataset_field account_id Margin account identifier to which the collateral position is assigned. Margin account identifier to which the collateral position is assigned."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.account_id",
+    "type": "column",
+    "text": "column.collateral_master.collateral_positions.account_id column account_id Margin account identifier to which the collateral position is assigned. Margin account identifier to which the collateral position is assigned."
+  },
+  {
+    "id": "field.collateral_positions.asset_type",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.asset_type dataset_field asset_type Asset classification of the pledged collateral used for eligibility assessment. Asset classification of the pledged collateral used for eligibility assessment."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.asset_type",
+    "type": "column",
+    "text": "column.collateral_master.collateral_positions.asset_type column asset_type Asset classification of the pledged collateral used for eligibility assessment. Asset classification of the pledged collateral used for eligibility assessment."
+  },
+  {
+    "id": "field.collateral_positions.currency",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.currency dataset_field currency Denomination currency of the pledged collateral position. Denomination currency of the pledged collateral position."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.currency",
+    "type": "column",
+    "text": "column.collateral_master.collateral_positions.currency column currency Denomination currency of the pledged collateral position. Denomination currency of the pledged collateral position."
+  },
+  {
+    "id": "field.collateral_positions.issuer_country",
+    "type": "dataset_field",
+    "text": "field.collateral_positions.issuer_country dataset_field issuer_country Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules. Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules."
+  },
+  {
+    "id": "column.collateral_master.collateral_positions.issuer_country",
+    "type": "column",
+    "text": "column.collateral_master.collateral_positions.issuer_country column issuer_country Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules. Issuer jurisdiction of the pledged collateral asset when applicable for eligibility rules."
+  },
+  {
+    "id": "dataset.collateral_valuations",
+    "type": "semantic_dataset",
+    "text": "dataset.collateral_valuations semantic_dataset collateral_valuations Daily collateral valuation records that capture market value and haircut inputs for pledged assets at valuation-date grain. Daily collateral valuation records that capture market value and haircut inputs for pledged assets at valuation-date grain. market_risk.collateral_valuations"
+  },
+  {
+    "id": "table.market_risk.collateral_valuations",
+    "type": "physical_table",
+    "text": "table.market_risk.collateral_valuations physical_table collateral_valuations market_risk.collateral_valuations"
+  },
+  {
+    "id": "field.collateral_valuations.valuation_id",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.valuation_id dataset_field valuation_id Stable identifier for a collateral valuation record. Stable identifier for a collateral valuation record."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.valuation_id",
+    "type": "column",
+    "text": "column.market_risk.collateral_valuations.valuation_id column valuation_id Stable identifier for a collateral valuation record. Stable identifier for a collateral valuation record."
+  },
+  {
+    "id": "field.collateral_valuations.collateral_id",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.collateral_id dataset_field collateral_id Identifier of the pledged collateral asset being valued. Identifier of the pledged collateral asset being valued."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.collateral_id",
+    "type": "column",
+    "text": "column.market_risk.collateral_valuations.collateral_id column collateral_id Identifier of the pledged collateral asset being valued. Identifier of the pledged collateral asset being valued."
+  },
+  {
+    "id": "field.collateral_valuations.valuation_date",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.valuation_date dataset_field valuation_date Business date on which the collateral market value and haircut are observed. Business date on which the collateral market value and haircut are observed."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.valuation_date",
+    "type": "column",
+    "text": "column.market_risk.collateral_valuations.valuation_date column valuation_date Business date on which the collateral market value and haircut are observed. Business date on which the collateral market value and haircut are observed."
+  },
+  {
+    "id": "field.collateral_valuations.market_value_amount",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.market_value_amount dataset_field market_value_amount Observed market value amount of the collateral before haircut adjustment. Observed market value amount of the collateral before haircut adjustment."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.market_value_amount",
+    "type": "column",
+    "text": "column.market_risk.collateral_valuations.market_value_amount column market_value_amount Observed market value amount of the collateral before haircut adjustment. Observed market value amount of the collateral before haircut adjustment."
+  },
+  {
+    "id": "field.collateral_valuations.haircut_rate",
+    "type": "dataset_field",
+    "text": "field.collateral_valuations.haircut_rate dataset_field haircut_rate Haircut percentage applied to collateral market value for eligibility calculation. Haircut percentage applied to collateral market value for eligibility calculation."
+  },
+  {
+    "id": "column.market_risk.collateral_valuations.haircut_rate",
+    "type": "column",
+    "text": "column.market_risk.collateral_valuations.haircut_rate column haircut_rate Haircut percentage applied to collateral market value for eligibility calculation. Haircut percentage applied to collateral market value for eligibility calculation."
+  },
+  {
+    "id": "dataset.counterparties",
+    "type": "semantic_dataset",
+    "text": "dataset.counterparties semantic_dataset counterparties Legal counterparty reference records used to identify reporting counterparties, domicile, and regulatory segmentation for collateral margin obligations. Legal counterparty reference records used to identify reporting counterparties, domicile, and regulatory segmentation for collateral margin obligations. margin_core.counterparties"
+  },
+  {
+    "id": "table.margin_core.counterparties",
+    "type": "physical_table",
+    "text": "table.margin_core.counterparties physical_table counterparties margin_core.counterparties"
+  },
+  {
+    "id": "field.counterparties.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.counterparties.counterparty_id dataset_field counterparty_id Stable identifier for the legal counterparty reference record. Stable identifier for the legal counterparty reference record."
+  },
+  {
+    "id": "column.margin_core.counterparties.counterparty_id",
+    "type": "column",
+    "text": "column.margin_core.counterparties.counterparty_id column counterparty_id Stable identifier for the legal counterparty reference record. Stable identifier for the legal counterparty reference record."
+  },
+  {
+    "id": "field.counterparties.legal_name",
+    "type": "dataset_field",
+    "text": "field.counterparties.legal_name dataset_field legal_name Registered legal name of the reporting counterparty. Registered legal name of the reporting counterparty."
+  },
+  {
+    "id": "column.margin_core.counterparties.legal_name",
+    "type": "column",
+    "text": "column.margin_core.counterparties.legal_name column legal_name Registered legal name of the reporting counterparty. Registered legal name of the reporting counterparty."
+  },
+  {
+    "id": "field.counterparties.domicile_country",
+    "type": "dataset_field",
+    "text": "field.counterparties.domicile_country dataset_field domicile_country Country or jurisdiction where the counterparty is domiciled for regulatory classification. Country or jurisdiction where the counterparty is domiciled for regulatory classification."
+  },
+  {
+    "id": "column.margin_core.counterparties.domicile_country",
+    "type": "column",
+    "text": "column.margin_core.counterparties.domicile_country column domicile_country Country or jurisdiction where the counterparty is domiciled for regulatory classification. Country or jurisdiction where the counterparty is domiciled for regulatory classification."
+  },
+  {
+    "id": "field.counterparties.regulatory_segment",
+    "type": "dataset_field",
+    "text": "field.counterparties.regulatory_segment dataset_field regulatory_segment Regulatory counterparty segment used for reporting categorization and eligibility rules. Regulatory counterparty segment used for reporting categorization and eligibility rules."
+  },
+  {
+    "id": "column.margin_core.counterparties.regulatory_segment",
+    "type": "column",
+    "text": "column.margin_core.counterparties.regulatory_segment column regulatory_segment Regulatory counterparty segment used for reporting categorization and eligibility rules. Regulatory counterparty segment used for reporting categorization and eligibility rules."
+  },
+  {
+    "id": "dataset.margin_accounts",
+    "type": "semantic_dataset",
+    "text": "dataset.margin_accounts semantic_dataset margin_accounts Margin account records that track collateralized account obligations, account status, base currency, and the linked counterparty used for margin reporting. Margin account records that track collateralized account obligations, account status, base currency, and the linked counterparty used for margin reporting. margin_core.margin_accounts"
+  },
+  {
+    "id": "table.margin_core.margin_accounts",
+    "type": "physical_table",
+    "text": "table.margin_core.margin_accounts physical_table margin_accounts margin_core.margin_accounts"
+  },
+  {
+    "id": "field.margin_accounts.account_id",
+    "type": "dataset_field",
+    "text": "field.margin_accounts.account_id dataset_field account_id Stable identifier for a margin account record at account grain. Stable identifier for a margin account record at account grain."
+  },
+  {
+    "id": "column.margin_core.margin_accounts.account_id",
+    "type": "column",
+    "text": "column.margin_core.margin_accounts.account_id column account_id Stable identifier for a margin account record at account grain. Stable identifier for a margin account record at account grain."
+  },
+  {
+    "id": "field.margin_accounts.counterparty_id",
+    "type": "dataset_field",
+    "text": "field.margin_accounts.counterparty_id dataset_field counterparty_id Identifier of the legal counterparty responsible for the margin account. Identifier of the legal counterparty responsible for the margin account."
+  },
+  {
+    "id": "column.margin_core.margin_accounts.counterparty_id",
+    "type": "column",
+    "text": "column.margin_core.margin_accounts.counterparty_id column counterparty_id Identifier of the legal counterparty responsible for the margin account. Identifier of the legal counterparty responsible for the margin account."
+  },
+  {
+    "id": "field.margin_accounts.base_currency",
+    "type": "dataset_field",
+    "text": "field.margin_accounts.base_currency dataset_field base_currency Currency in which the margin account obligation is primarily managed and reported. Currency in which the margin account obligation is primarily managed and reported."
+  },
+  {
+    "id": "column.margin_core.margin_accounts.base_currency",
+    "type": "column",
+    "text": "column.margin_core.margin_accounts.base_currency column base_currency Currency in which the margin account obligation is primarily managed and reported. Currency in which the margin account obligation is primarily managed and reported."
+  },
+  {
+    "id": "field.margin_accounts.account_status",
+    "type": "dataset_field",
+    "text": "field.margin_accounts.account_status dataset_field account_status Operational status of the margin account used to determine reporting eligibility. Operational status of the margin account used to determine reporting eligibility."
+  },
+  {
+    "id": "column.margin_core.margin_accounts.account_status",
+    "type": "column",
+    "text": "column.margin_core.margin_accounts.account_status column account_status Operational status of the margin account used to determine reporting eligibility. Operational status of the margin account used to determine reporting eligibility."
+  },
+  {
+    "id": "metric.eligible_collateral_value",
+    "type": "semantic_metric",
+    "text": "metric.eligible_collateral_value semantic_metric eligible_collateral_value Market value after haircut for regulatory eligible collateral reporting. Market value after haircut for regulatory eligible collateral reporting."
+  },
+  {
+    "id": "requirement.item",
+    "type": "regulatory_requirement",
+    "text": "requirement.item regulatory_requirement 贷款风险暴露报送需求 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n Collateral Margin Reporting BRD v1.0 section 3.2"
+  },
+  {
+    "id": "requirement_item..Loan.has_LoanIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Loan.has_LoanIdentifier requirement_semantic_item 贷款标识 需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。 需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。"
+  },
+  {
+    "id": "requirement_item..Borrower.has_CustomerIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Borrower.has_CustomerIdentifier requirement_semantic_item 借款人标识 需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。 需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。"
+  },
+  {
+    "id": "requirement_item..LoanProduct.has_ProductIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..LoanProduct.has_ProductIdentifier requirement_semantic_item 产品标识 需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。 需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。"
+  },
+  {
+    "id": "requirement_item..Loan.has_PrincipalAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Loan.has_PrincipalAmount requirement_semantic_item 本金金额 需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。 需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。"
+  },
+  {
+    "id": "requirement_item..Loan.has_ExposureAtDefaultAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Loan.has_ExposureAtDefaultAmount requirement_semantic_item 风险暴露金额 需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。 需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。"
+  },
+  {
+    "id": "requirement_item..Loan.has_ExpectedLossAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Loan.has_ExpectedLossAmount requirement_semantic_item 预期损失金额 需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_AccountIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_AccountIdentifier requirement_semantic_item 账户标识 需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。 需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_AsOfDate",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_AsOfDate requirement_semantic_item 报告日期 需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。 需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。"
+  },
+  {
+    "id": "requirement_item..Depositor.has_CustomerIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..Depositor.has_CustomerIdentifier requirement_semantic_item 客户标识 需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。 需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。"
+  },
+  {
+    "id": "requirement_item..DepositProduct.has_ProductIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositProduct.has_ProductIdentifier requirement_semantic_item 产品标识 需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。 需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_DepositBalanceAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_DepositBalanceAmount requirement_semantic_item 存款余额 需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。 需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_DepositCurrency",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_DepositCurrency requirement_semantic_item 存款币种 需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。 需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_LiquidityBucket",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_LiquidityBucket requirement_semantic_item 流动性分组 需求需要流动性分组，用于按监管流动性桶分类展示存款余额。 需求需要流动性分组，用于按监管流动性桶分类展示存款余额。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_StableFundingAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_StableFundingAmount requirement_semantic_item 稳定资金金额 需求需要稳定资金金额，用于根据存款余额和适用流失率计算可计入稳定资金的金额。"
+  },
+  {
+    "id": "requirement_item..DepositAccount.has_InsuredBalanceAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..DepositAccount.has_InsuredBalanceAmount requirement_semantic_item 受保存款金额 需求需要受保存款金额，用于展示存款余额中受产品保险限额覆盖的部分。"
+  },
+  {
+    "id": "concept.CollateralCounterparty",
+    "type": "external_concept",
+    "text": "concept.CollateralCounterparty external_concept CollateralCounterparty Referenced concept not declared in this ontology."
+  },
+  {
+    "id": "concept.CollateralMarginAccount",
+    "type": "external_concept",
+    "text": "concept.CollateralMarginAccount external_concept CollateralMarginAccount Referenced concept not declared in this ontology."
+  },
+  {
+    "id": "requirement_item..CollateralMarginAccount.has_AccountIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..CollateralMarginAccount.has_AccountIdentifier requirement_semantic_item 保证金账户标识 需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。 需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。"
+  },
+  {
+    "id": "requirement_item..CollateralCounterparty.has_CounterpartyIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..CollateralCounterparty.has_CounterpartyIdentifier requirement_semantic_item 交易对手标识 需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。 需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。"
+  },
+  {
+    "id": "requirement_item..CollateralAsset.has_CollateralIdentifier",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..CollateralAsset.has_CollateralIdentifier requirement_semantic_item 抵质押品标识 需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。 需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。"
+  },
+  {
+    "id": "requirement_item..CollateralValuation.has_ValuationDate",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..CollateralValuation.has_ValuationDate requirement_semantic_item 估值日期 需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。 需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。"
+  },
+  {
+    "id": "requirement_item..CollateralValuation.has_MarketValueAmount",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..CollateralValuation.has_MarketValueAmount requirement_semantic_item 抵质押品折扣前市场价值 需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。 需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。"
+  },
+  {
+    "id": "requirement_item..CollateralValuation.has_HaircutRate",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..CollateralValuation.has_HaircutRate requirement_semantic_item 监管折扣率 需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。 需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。"
+  },
+  {
+    "id": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
+    "type": "requirement_semantic_item",
+    "text": "requirement_item..CollateralValuation.has_EligibleCollateralValue requirement_semantic_item 折扣后合格抵质押品价值 需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。"
+  },
+  {
+    "id": "report_impl.item",
+    "type": "report_implementation",
+    "text": "report_impl.item report_implementation 每日贷款风险暴露报表数据逻辑 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.loan_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.loan_id implementation_field_binding 贷款标识逻辑 数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。 数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.borrower_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.borrower_id implementation_field_binding 借款人标识逻辑 数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。 数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.product_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.product_id implementation_field_binding 产品标识逻辑 数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。 数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.principal_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.principal_amount implementation_field_binding 本金金额逻辑 数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。 数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount implementation_field_binding 风险暴露金额逻辑 数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。 数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。"
+  },
+  {
+    "id": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.loan_exposure_report_lines.expected_loss_amount implementation_field_binding 预期损失金额逻辑 数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。 数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.account_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.account_id implementation_field_binding 账户标识逻辑 数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。 数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.as_of_date",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.as_of_date implementation_field_binding 报告日期逻辑 数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。 数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.customer_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.customer_id implementation_field_binding 客户标识逻辑 数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。 数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.product_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.product_id implementation_field_binding 产品标识逻辑 数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。 数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.balance_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.balance_amount implementation_field_binding 存款余额逻辑 数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。 数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.currency",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.currency implementation_field_binding 存款币种逻辑 数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。 数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket implementation_field_binding 流动性分组逻辑 数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。 数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount implementation_field_binding 稳定资金金额逻辑 数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。 数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。"
+  },
+  {
+    "id": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount implementation_field_binding 受保存款金额逻辑 数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。 数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。"
+  },
+  {
+    "id": "implementation_field.collateral_margin_report_lines.account_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.collateral_margin_report_lines.account_id implementation_field_binding 保证金账户标识逻辑 数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。 数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。"
+  },
+  {
+    "id": "implementation_field.collateral_margin_report_lines.counterparty_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.collateral_margin_report_lines.counterparty_id implementation_field_binding 交易对手标识逻辑 数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。 数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。"
+  },
+  {
+    "id": "implementation_field.collateral_margin_report_lines.collateral_id",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.collateral_margin_report_lines.collateral_id implementation_field_binding 抵质押品标识逻辑 数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。 数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。"
+  },
+  {
+    "id": "implementation_field.collateral_margin_report_lines.valuation_date",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.collateral_margin_report_lines.valuation_date implementation_field_binding 估值日期逻辑 数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。 数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。"
+  },
+  {
+    "id": "implementation_field.collateral_valuations.market_value_amount",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.collateral_valuations.market_value_amount implementation_field_binding 抵质押品折扣前市场价值逻辑 数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。 数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。"
+  },
+  {
+    "id": "implementation_field.collateral_valuations.haircut_rate",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.collateral_valuations.haircut_rate implementation_field_binding 监管折扣率逻辑 数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。 数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。"
+  },
+  {
+    "id": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+    "type": "implementation_field_binding",
+    "text": "implementation_field.collateral_margin_report_lines.eligible_collateral_value implementation_field_binding 折扣后合格抵质押品价值逻辑 数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。 数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。"
+  }
+]

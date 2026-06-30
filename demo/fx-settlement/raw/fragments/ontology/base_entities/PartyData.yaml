@@ -1,0 +1,12 @@
+name: PartyData
+description: Base concept for counterparty-like records with stable party identifiers.
+identify_by:
+- has_CounterpartyIdentifier
+relationships:
+- name: has_CounterpartyIdentifier
+  roles:
+  - concept: CounterpartyIdentifier
+  multiplicity: OneToOne
+  verbalizes:
+  - "{PartyData} has counterparty identifier {CounterpartyIdentifier}"
+  description: Identifier common to counterparty or party records.

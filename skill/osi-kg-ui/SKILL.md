@@ -31,6 +31,7 @@ Do not use the older `business_entity` or `term` model for this skill. Generate 
    - If the task is a regulatory report, also read `references/report-requirement-data-logic.md`.
    - For complex scenarios, read `references/generation-stages.md` and generate the YAML in stages instead of trying to complete the whole model in one pass.
    - Write strict OSI YAML by default at `knowledge/regulatory-reporting-osi.yaml` and app metadata by default at `knowledge/regulatory-reporting-app.yaml`.
+   - For multiple ontologies, keep each strict OSI document strict and independent, then compile them together with `build_osi_graph.py --sources ...`. Do not add UI-only top-level keys such as `summary`, `ontologies`, `semantic_models`, or `source_ontologies` to strict OSI YAML.
    - Keep IDs stable, deterministic, and business-readable.
 
 3. Compile YAML to graph data and JS files.
@@ -39,6 +40,8 @@ Do not use the older `business_entity` or `term` model for this skill. Generate 
 
 ```powershell
 python <skill-dir>\scripts\build_osi_graph.py --root <scenario-root> --source knowledge\regulatory-reporting-osi.yaml --app-metadata knowledge\regulatory-reporting-app.yaml --copy-frontend-template --overwrite-template
+# For multiple strict OSI YAML files in one UI:
+python <skill-dir>\scripts\build_osi_graph.py --root <scenario-root> --sources knowledge\ontology-a.yaml knowledge\ontology-b.yaml --app-metadata knowledge\regulatory-reporting-app.yaml --copy-frontend-template --overwrite-template
 ```
 
 The script emits:
@@ -51,12 +54,14 @@ knowledge/indexes/summary.json
 frontend/graph-data.js
 frontend/catalog-data.js
 frontend/summary-data.js
+frontend/scenario-data.js
 ```
 
 4. Verify and render.
    - Run `node --check frontend/app.js`.
-   - Run `python -m http.server 8766 -d frontend`.
-   - Open `http://127.0.0.1:8766/index.html`.
+   - For read-only static review, open `frontend/index.html` directly or serve `frontend/` with a static server.
+   - For persistent Saved Scenario support, run `python SKILL_DIR\scripts\serve_osi_ui.py --root SCENARIO_ROOT --port 8766`.
+   - Open `http://127.0.0.1:8766/index.html`. The server writes snapshots to `knowledge/scenarios/snapshots/*.json` and reads presets from `knowledge/scenarios/presets/*.yaml`.
    - For UI behavior, read `references/ui-rendering-rules.md`.
 
 ## Required Modeling Rules
@@ -80,7 +85,7 @@ frontend/summary-data.js
 ## References
 
 - `references/raw-fragment-authoring.md`: Raw fragment directory layout, where each kind of data belongs, generation pipeline, and validation checklist.
-- `references/raw-scenario.md`: `scenario.yaml` fields, meaning, generated OSI placement, and UI effect.
+- `references/raw-scenario.md`: `scenario.yaml` package fields plus UI scenario preset/snapshot file formats and persistence rules.
 - `references/raw-ontology-concepts.md`: Lightweight index, shared naming rules, and non-negotiable mapping coverage rules.
 - `references/raw-ontology-base-entities.md`: Base Entity fragment format.
 - `references/raw-ontology-entity-types.md`: Concrete EntityType and relationship fragment format.
@@ -99,14 +104,15 @@ frontend/summary-data.js
 
 - ``scripts/compose_source_fragments.py``: Merges authoring fragments into one raw source YAML. It does not create strict OSI YAML.
 - ``scripts/generate_osi_yaml.py``: Converts composed raw source YAML into strict OSI YAML plus separate application metadata. This is the reusable scenario generator for new demos.
-- ``scripts/build_osi_graph.py``: The skill generator. It is not part of OSI; it compiles strict OSI YAML plus optional application metadata into `knowledge/indexes/*.json`, copies the frontend template when requested, and emits `frontend/*-data.js` for the static UI.
-- ``assets/frontend-template/``: Static HTML/CSS/JS UI template for catalog search and graph exploration.
+- ``scripts/build_osi_graph.py``: The skill generator. It is not part of OSI; it compiles strict OSI YAML plus optional application metadata and `knowledge/scenarios/*` into `knowledge/indexes/*.json`, copies the frontend template when requested, and emits `frontend/*-data.js` for the static UI.
+- ``scripts/serve_osi_ui.py``: Local read/write server for the static UI. It serves `frontend/`, exposes `/api/scenarios`, and persists saved graph snapshots as local JSON files under `knowledge/scenarios/snapshots/`.
+- ``assets/frontend-template/``: Static HTML/CSS/JS UI template for Home, Ontology View, Semantic Model View, Customized Scenario, Catalog Search, and Graph Explorer.
 
 ## Validation Checklist
 
 After generating a scenario:
 
-- Strict OSI YAML has `version`, ontology, semantic model datasets, semantic model relationships, ontology mappings, and metrics for calculated semantic fields when needed. Report Requirement and Report Data Logic metadata live in the separate app metadata file.
+- Strict OSI YAML has `version`, ontology, semantic model datasets, semantic model relationships, ontology mappings, and metrics for calculated semantic fields when needed. Report Requirement and Report Data Logic metadata live in the separate app metadata file. Multiple strict OSI YAML files may be compiled into one UI. Semantic model names must be globally unique for selection, while concept names may be reused when they intentionally represent the same shared concept; the UI reuses the node in each corresponding Ontology View without drawing ontology-to-ontology relationships.
 - OSI YAML objects strictly use fields accepted by OSI. UI-only metadata and app-layer reporting structures must not be inserted into OSI objects; use a separate application metadata file or OSI `custom_extensions` when extra per-object metadata is unavoidable.
 - EntityType relationships use globally unique OSI relationship `name` values in `<action>_<role>` form, such as `HELD_BY_Depositor`, `USES_DepositProduct`, `DEPENDS_ON_CollateralAsset`, or `REFERENCES_Counterparty`; choose the action from the relationship semantics, not from a fixed list. The generated business graph edge id is exactly that relationship name, while the UI edge type and canvas label are the action prefix before the final underscore.
 - EntityType field/property relationships point to ValueType concepts using OSI role objects that usually contain only `concept`; use role `name` only for disambiguation.
@@ -120,3 +126,6 @@ After generating a scenario:
 - Field-level edges draw only after selecting a concrete field row.
 - Field-level edges have no graph labels; click the edge to view details in the profile.
 - Node, edge, and field clicks update the right-side profile.
+
+
+

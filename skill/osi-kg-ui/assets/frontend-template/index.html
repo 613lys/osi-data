@@ -3,31 +3,96 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OSI Regulatory Reporting Explorer</title>
-    <link rel="stylesheet" href="./style.css?v=osi-reg-report-skill-v9" />
+    <title>OSI Data Knowledge Graph Explorer</title>
+    <link rel="stylesheet" href="./style.css?v=osi-scenario-home-v1" />
   </head>
   <body>
     <header class="topbar">
       <div class="brand">
         <div class="mark">OSI</div>
         <div>
-          <h1>OSI Regulatory Reporting Explorer</h1>
-          <p>Search OSI concepts, physical tables, and ontology mappings.</p>
+          <h1>OSI Data Knowledge Graph Explorer</h1>
+          <p>Explore ontologies, semantic models, mappings, scenario templates, and view snapshots.</p>
         </div>
       </div>
       <nav class="page-tabs" aria-label="Main views">
-        <button id="catalogTab" class="tab-button active" type="button">Catalog Search</button>
-        <button id="graphTab" class="tab-button" type="button">Graph Explorer</button>
+        <button id="homeTab" class="tab-button active" type="button">Home</button>
         <button id="ontologyTab" class="tab-button" type="button">Ontology View</button>
         <button id="semanticTab" class="tab-button" type="button">Semantic Model View</button>
-        <button id="mappingTab" class="tab-button" type="button">Mapping View</button>
-        <button id="requirementTab" class="tab-button" type="button">Requirement View</button>
-        <button id="dataLogicTab" class="tab-button" type="button">Data Logic View</button>
+        <button id="scenarioTab" class="tab-button" type="button">Customized Scenario</button>
+        <button id="catalogTab" class="tab-button" type="button">Catalog Search</button>
+        <button id="graphTab" class="tab-button" type="button">Graph Explorer</button>
       </nav>
       <div id="stats" class="stats"></div>
     </header>
 
-    <main id="catalogPage" class="page catalog-page">
+    <main id="homePage" class="page home-page">
+      <section class="home-shell">
+        <div class="home-header">
+          <span class="type-pill">Data Knowledge Graph</span>
+          <h2>Home</h2>
+          <p>Choose an ontology, a semantic model, a scenario template, or a view snapshot to enter the graph with useful context already applied.</p>
+        </div>
+        <div class="home-grid">
+          <section class="home-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Ontology</h3>
+                <p>Select which ontology to inspect when multiple strict OSI ontology files are compiled together.</p>
+              </div>
+            </div>
+            <div id="homeOntologyList" class="home-card-list home-scroll-list"></div>
+          </section>
+
+          <section class="home-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Semantic Model</h3>
+                <p>Select the semantic model whose datasets, joins, source tables, and metrics should be explored.</p>
+              </div>
+            </div>
+            <div id="homeSemanticModelList" class="home-card-list home-scroll-list"></div>
+          </section>
+
+          <section class="home-panel wide">
+            <div class="panel-heading">
+              <div>
+                <h3>Customized Scenario</h3>
+                <p>Select a scenario template or view snapshot, then open it in the graph workspace.</p>
+              </div>
+            </div>
+            <div id="homeScenarioList" class="home-card-list home-scroll-list scenario-home-list"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <main id="scenarioPage" class="page scenario-page hidden">
+      <section class="scenario-page-shell">
+        <div class="home-header compact-header">
+          <span class="type-pill">Scenario Library</span>
+          <h2>Customized Scenario</h2>
+          <p>Scenario templates apply reusable graph filters and a selectable center node type. View snapshots capture the exact graph state, including selected nodes, expanded fields, selected field links, hidden nodes, scroll, and dragged positions.</p>
+        </div>
+        <div class="scenario-layout">
+          <aside class="scenario-list-column">
+            <section class="scenario-block">
+              <div class="section-title">Scenario Template</div>
+              <div id="presetScenarioList" class="scenario-list"></div>
+            </section>
+            <section class="scenario-block">
+              <div class="section-title">View Snapshot</div>
+              <div id="savedScenarioList" class="scenario-list"></div>
+            </section>
+          </aside>
+          <section class="scenario-detail-panel">
+            <div id="scenarioDetailPanel" class="scenario-detail-content"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <main id="catalogPage" class="page catalog-page hidden">
       <section class="search-sidebar">
         <label class="field">
           <span>Node name / keyword</span>
@@ -127,37 +192,43 @@
 
         <button id="graphResetButton" class="secondary" type="button">Reset graph filters</button>
 
-        <section id="graphScenarioSection" class="filter-section scenario-section">
+        <div id="graphScenarioSidebarHost">
+          <section id="graphScenarioSection" class="filter-section scenario-section">
           <div class="section-title">Scenario</div>
           <div class="scenario-controls">
-            <select id="scenarioSelect" aria-label="Saved scenario"></select>
-            <input id="scenarioNameInput" type="text" placeholder="Scenario name" autocomplete="off" />
-            <div class="scenario-actions">
-              <button id="saveScenarioButton" class="primary" type="button">Save</button>
-              <button id="deleteScenarioButton" type="button">Delete</button>
-            </div>
-            <p id="scenarioHint" class="filter-help">Save focus, filters, depth, expanded fields, selected field/edge, scroll, and dragged node positions.</p>
+            <select id="scenarioSelect" aria-label="Scenario template or view snapshot"></select>
+            <select id="scenarioCenterSelect" aria-label="Scenario center node"></select>
+            <p id="scenarioHint" class="filter-help">Use Save scenario to store reusable templates or exact view snapshots.</p>
           </div>
         </section>
+        </div>
       </aside>
 
       <section class="graph-shell">
         <div class="graph-toolbar">
-          <div>
+          <div class="graph-title-area">
             <span id="focusType" class="type-pill">node</span>
+            <div id="graphScopeSelectorHost" class="graph-scope-selector hidden">
+              <label>
+                <span id="graphScopeSelectorLabel">Model</span>
+                <select id="graphScopeSelector" aria-label="Graph view scope selector"></select>
+              </label>
+            </div>
+            <div id="graphScenarioTopHost" class="scenario-top-host hidden"></div>
             <h2 id="focusTitle">Graph Explorer</h2>
             <p id="focusDescription">Choose max depth and filters to decide which nodes and edges are visible.</p>
           </div>
-        <div class="toolbar-actions">
+          <div class="toolbar-actions">
             <button id="fitButton" type="button">Fit graph</button>
             <button id="expandSelectedButton" type="button">Expand fields</button>
+            <button id="openScenarioSaveButton" class="primary" type="button">Save scenario</button>
+          </div>
         </div>
-      </div>
-      <div id="graphViewport" class="graph-viewport">
+        <div id="graphViewport" class="graph-viewport">
           <svg id="edgeLayer" aria-hidden="true"></svg>
           <div id="graphBoard" class="graph-board"></div>
           <svg id="fieldEdgeLayer" aria-hidden="true"></svg>
-      </div>
+        </div>
       </section>
 
       <aside class="detail-panel graph-detail">
@@ -170,9 +241,46 @@
       </aside>
     </main>
 
+
+    <div id="scenarioSaveModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="scenarioSaveModalTitle">
+      <section class="modal-card scenario-save-modal">
+        <div class="modal-header">
+          <div>
+            <span class="type-pill">Scenario</span>
+            <h2 id="scenarioSaveModalTitle">Save scenario</h2>
+          </div>
+          <button id="scenarioModalCloseButton" class="icon-button" type="button" aria-label="Close save scenario dialog">&times;</button>
+        </div>
+        <div class="modal-body">
+          <label class="field">
+            <span>Save Type</span>
+            <select id="scenarioModalSaveKindSelect" aria-label="Scenario save type">
+              <option value="template">Scenario Template</option>
+              <option value="snapshot">View Snapshot</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Name</span>
+            <input id="scenarioModalNameInput" type="text" placeholder="Scenario name" autocomplete="off" />
+          </label>
+          <label class="field">
+            <span>Description</span>
+            <textarea id="scenarioModalDescriptionInput" rows="4" placeholder="Describe when this scenario should be used"></textarea>
+          </label>
+          <p id="scenarioModalHint" class="filter-help">Scenario Template saves reusable filters. View Snapshot saves the exact current graph state.</p>
+        </div>
+        <div class="modal-actions">
+          <button id="scenarioModalCancelButton" type="button">Cancel</button>
+          <button id="scenarioModalSaveButton" class="primary" type="button">Save scenario</button>
+        </div>
+      </section>
+    </div>
     <script src="./vendor/elk.bundled.js?v=0.9.3"></script>
-    <script src="./graph-data.js?v=osi-requirement-implementation-v30"></script>
-    <script src="./catalog-data.js?v=osi-requirement-implementation-v30"></script>
-    <script src="./app.js?v=osi-requirement-implementation-v30"></script>
+    <script src="./graph-data.js?v=osi-scenario-home-v1"></script>
+    <script src="./catalog-data.js?v=osi-scenario-home-v1"></script>
+    <script src="./summary-data.js?v=osi-scenario-home-v1"></script>
+    <script src="./scenario-data.js?v=osi-scenario-home-v1"></script>
+    <script src="./app.js?v=osi-scenario-home-v1"></script>
   </body>
 </html>
+
