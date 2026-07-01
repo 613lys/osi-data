@@ -1484,7 +1484,7 @@ function semanticModelDescription(modelId) {
   return entry.description || aiContextSummary(entry.ai_context) || `${datasetCount} datasets · ${metricCount} metrics`;
 }
 
-function renderHomeEntryCard({ id, title, badge, colorType, count, description, actionLabel, actionAttr, pillClass = "", secondaryActionLabel = "", secondaryActionAttr = "", secondaryDisabled = false, showBadge = true }) {
+function renderHomeEntryCard({ id, title, badge, colorType, count, countClass = "", description, actionLabel, actionAttr, pillClass = "", secondaryActionLabel = "", secondaryActionAttr = "", secondaryDisabled = false, showBadge = true }) {
   const pillStyle = pillClass ? "" : ` style="background:${colorFor(colorType)}18;color:${colorFor(colorType)}"`;
   const secondaryTitle = secondaryActionLabel ? `${secondaryActionLabel} ${title || id}` : "";
   return `
@@ -1496,7 +1496,7 @@ function renderHomeEntryCard({ id, title, badge, colorType, count, description, 
         <p>${escapeHtml(description || id)}</p>
       </div>
       <div class="home-card-action">
-        ${count ? `<span class="home-count">${escapeHtml(count)}</span>` : ""}
+        ${count ? `<span class="home-count ${escapeAttr(countClass)}">${escapeHtml(count)}</span>` : ""}
         <div class="home-entry-actions">
           <button class="primary compact-button" type="button" ${actionAttr}>${escapeHtml(actionLabel)}</button>
         </div>
@@ -1518,7 +1518,8 @@ function renderHomeScenarioList() {
     title: item.name,
     badge: scenarioKindLabel(item.kind, true),
     colorType: item.kind === "preset" ? "regulatory_requirement" : "report_implementation",
-    count: scenarioMode(item),
+    count: scenarioKindLabel(item.kind, true),
+    countClass: item.kind === "preset" ? "preset-pill" : "snapshot-pill",
     description: item.description || scenarioSummaryText(item),
     actionLabel: "Open Scenario",
     actionAttr: `data-open-scenario="${escapeAttr(scenarioKey(item.kind, item.id))}" data-open-scenario-page="scenarios"`,

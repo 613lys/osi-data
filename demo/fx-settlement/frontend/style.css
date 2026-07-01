@@ -1667,6 +1667,16 @@ p {
   font-weight: 800;
 }
 
+.home-count.preset-pill {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.home-count.snapshot-pill {
+  background: #faf5ff;
+  color: #7e22ce;
+}
+
 @media (max-width: 760px) {
   .home-entry-card {
     grid-template-columns: 1fr;
