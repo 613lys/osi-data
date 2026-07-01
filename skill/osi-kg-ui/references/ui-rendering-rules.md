@@ -68,6 +68,7 @@ Rules:
 - Do not render semantic metrics as child fields under Table nodes.
 - Selecting an EntityType metric-backed value field should draw `DERIVED_BY` edges directly to every Dataset Field referenced by the metric expression. Do not collapse multiple source fields into one edge.
 - Report Data Logic can connect to Metric nodes with `IMPLEMENTS_METRIC` when a data-logic field implements a requirement calculation whose semantic output is mapped to `metric.<metric_name>` in OSI concept mapping. This is a graph edge derived from app metadata plus OSI mapping; it must not add non-OSI fields to strict OSI YAML.
+- For Report Data Logic to Metric lineage, collapsed Data Logic nodes show node-level `IMPLEMENTS_METRIC`; after the Data Logic node is expanded, hide the node-level edge and show only concrete Data Logic field row -> Metric `IMPLEMENTS_METRIC` edges.
 - Field-level edges should not show labels on the graph canvas.
 - Field-level edge type, relationship name, expression, and description should appear only after clicking the edge and reading the right-side profile.
 - All graph and field edge anchors must attach to the left or right midpoint of the node or field row. Never use top or bottom anchor points, even when nodes are vertically aligned.

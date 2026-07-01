@@ -2845,9 +2845,18 @@ function selectedMetricDependencyEdges() {
   });
 }
 
+function expandedDataLogicMetricEdges() {
+  return childEdges().filter(edge =>
+    edge.type === "IMPLEMENTS_METRIC" &&
+    nodeType(edge.sourceOriginal) === "implementation_field_binding" &&
+    nodeType(edge.targetOriginal) === "semantic_metric" &&
+    isExpandedNode(parentOf(edge.sourceOriginal))
+  );
+}
+
 function childEdgesForCurrentView() {
   const selectedEdges = selectedFieldEdges();
-  const overlayEdges = [...selectedMetricValueEdges(), ...selectedMetricDependencyEdges()];
+  const overlayEdges = [...selectedMetricValueEdges(), ...selectedMetricDependencyEdges(), ...expandedDataLogicMetricEdges()];
   if (graphState.viewMode === "traceability") return dedupeEdges([...selectedEdges, ...overlayEdges]);
   const allowedChildTypes = childEdgeTypesForMode();
   if (!allowedChildTypes.size) return [];
@@ -2859,7 +2868,7 @@ function childEdgeEndpointsVisible(edge) {
 }
 
 function nodeEdgeCoveredByFieldEdge(edge, childEdgesInView) {
-  if (edge.type !== "DERIVED_BY") return false;
+  if (!["DERIVED_BY", "IMPLEMENTS_METRIC"].includes(edge.type)) return false;
   return childEdgesInView.some(childEdge =>
     childEdge.type === edge.type &&
     childEdge.source === edge.source &&
