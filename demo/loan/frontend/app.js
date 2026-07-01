@@ -3684,9 +3684,6 @@ function renderScenarioGraphProfile() {
   els.graphDetailBody.innerHTML = `
     <section class="detail-section">
       <h3>Scenario Profile</h3>
-      ${kv("ID", selected.id)}
-      ${kv("Kind", scenarioKindLabel(selected.kind))}
-      ${kv("View", typeTitle(mode))}
       ${kv("Center", centerId ? `${label(centerId)} (${typeName(nodeType(centerId))})` : "Current graph state")}
       ${kv("Depth", view.maxDepth || view.max_depth || graphState.maxDepth || "Default")}
       ${kv("Node Filters", nodeFilterText)}
