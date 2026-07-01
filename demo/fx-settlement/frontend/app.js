@@ -417,9 +417,9 @@ const GRAPH_VIEW_CONFIG = {
   },
   semantic: {
     title: "Semantic Model",
-    description: "Semantic-model view: datasets, physical source tables, dataset joins, metric overlays, and query source extensions.",
-    nodeTypes: ["semantic_dataset", "semantic_metric", "physical_table", "table", "view"],
-    edgeTypes: ["DATASET_JOIN", "SOURCE_TABLE", "DERIVED_BY"],
+    description: "Semantic-model view: datasets, dataset relationships, and metric dependencies.",
+    nodeTypes: ["semantic_dataset", "semantic_metric"],
+    edgeTypes: ["DATASET_JOIN", "DERIVED_BY"],
     businessEdgeTypes: [],
     childEdgeTypes: ["SOURCE_FIELD", "DERIVED_BY"],
     minDepth: 2,
@@ -493,7 +493,12 @@ function graphNodeTypeOptions(mode = graphState?.viewMode || "traceability") {
 function graphEdgeTypeOptions(mode = graphState?.viewMode || "traceability") {
   const configured = graphViewConfig(mode).edgeTypes;
   const options = edgeTypes();
-  return configured ? options.filter(key => edgeFilterMatchesTypes(key, configured)).sort(compareEdgeFilter) : options;
+  if (!configured) return options;
+  const allowedNodeTypes = nodeTypesForMode(mode);
+  return options
+    .filter(key => edgeFilterMatchesTypes(key, configured))
+    .filter(key => allowedNodeTypes.has(edgeFilterSourceType(key)) && allowedNodeTypes.has(edgeFilterTargetType(key)))
+    .sort(compareEdgeFilter);
 }
 
 function graphBusinessEdgeTypeOptions(mode = graphState?.viewMode || "traceability") {
@@ -936,7 +941,7 @@ function nodeAllowedForMode(id, mode = graphState?.viewMode || "traceability") {
 function preferredFocusPredicate(mode = graphState?.viewMode || "traceability") {
   const preferredByMode = {
     ontology: item => isEntityConceptNodeType(item.type),
-    semantic: item => ["semantic_dataset", "semantic_metric", "physical_table", "table", "view"].includes(item.type),
+    semantic: item => ["semantic_dataset", "semantic_metric"].includes(item.type),
     requirement: item => item.type === "regulatory_requirement",
     data_logic: item => item.type === "report_implementation",
   };
@@ -1461,7 +1466,8 @@ function ontologyNodeCount(ontologyId) {
 }
 
 function semanticModelNodeCount(modelId) {
-  return topLevelNodes.filter(item => nodeSemanticModels(item.id).includes(modelId)).length;
+  const semanticTypes = new Set(["semantic_dataset", "semantic_metric"]);
+  return topLevelNodes.filter(item => semanticTypes.has(item.type) && nodeSemanticModels(item.id).includes(modelId)).length;
 }
 
 function ontologyDescription(ontologyId) {
@@ -3045,7 +3051,7 @@ function mappingGraphLayout(nodes) {
     size: { width, height },
     bands: [
       { title: "Ontology", subtitle: "Entity concepts", kind: "ontology", x: panelX.ontology, y: panelTop, width: leftWidth, height: contentHeight },
-      { title: "Semantic Model", subtitle: "Datasets, tables, fields, and metrics", kind: "semantic", x: panelX.semantic, y: panelTop, width: rightWidth, height: contentHeight },
+      { title: "Semantic Model", subtitle: "Datasets, fields, and metrics", kind: "semantic", x: panelX.semantic, y: panelTop, width: rightWidth, height: contentHeight },
     ],
   };
 }
