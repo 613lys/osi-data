@@ -1104,6 +1104,39 @@ function label(id) {
   return node(id)?.label || raw(id).name || id;
 }
 
+function bilingualTitleParts(value) {
+  const text = String(value || "").trim();
+  if (!text || !/[\u3400-\u9fff]/.test(text) || !/[A-Za-z]/.test(text)) return null;
+  const separators = [" · ", " - ", " – ", " — ", " / ", "：", ":"];
+  for (const separator of separators) {
+    const index = text.indexOf(separator);
+    if (index <= 0) continue;
+    const left = text.slice(0, index).trim();
+    const right = text.slice(index + separator.length).trim();
+    if (!left || !right) continue;
+    const leftCjk = /[\u3400-\u9fff]/.test(left);
+    const rightCjk = /[\u3400-\u9fff]/.test(right);
+    const leftLatin = /[A-Za-z]/.test(left);
+    const rightLatin = /[A-Za-z]/.test(right);
+    if (leftCjk && rightLatin) return { primary: left, secondary: right };
+    if (rightCjk && leftLatin) return { primary: right, secondary: left };
+  }
+  const boundary = text.match(/^(.+?[\u3400-\u9fff][\u3400-\u9fff\s，。、；：（）()《》]+)\s+([A-Za-z].+)$/);
+  if (boundary) return { primary: boundary[1].trim(), secondary: boundary[2].trim() };
+  return null;
+}
+
+function bilingualTitleHtml(value) {
+  const parts = bilingualTitleParts(value);
+  if (!parts) return escapeHtml(value || "");
+  return `<span class="bilingual-title"><span class="bilingual-title-primary">${escapeHtml(parts.primary)}</span><span class="bilingual-title-secondary">${escapeHtml(parts.secondary)}</span></span>`;
+}
+
+function setBilingualTitle(element, value) {
+  if (!element) return;
+  element.innerHTML = bilingualTitleHtml(value || "");
+}
+
 function nodeType(id) {
   return node(id)?.type || raw(id).type || "node";
 }
@@ -1492,7 +1525,7 @@ function renderHomeEntryCard({ id, title, badge, colorType, count, countClass = 
       ${secondaryActionLabel ? `<button class="home-card-delete-button" type="button" ${secondaryActionAttr} ${secondaryDisabled ? "disabled" : ""} aria-label="${escapeAttr(secondaryTitle)}" title="${escapeAttr(secondaryActionLabel)}">&times;</button>` : ""}
       <div class="home-card-main">
         ${showBadge ? `<span class="type-pill ${escapeAttr(pillClass)}"${pillStyle}>${escapeHtml(badge)}</span>` : ""}
-        <h4>${escapeHtml(title || id)}</h4>
+        <h4>${bilingualTitleHtml(title || id)}</h4>
         <p>${escapeHtml(description || id)}</p>
       </div>
       <div class="home-card-action">
@@ -1565,7 +1598,7 @@ function scenarioListCard(item) {
   return `
     <button class="scenario-list-card ${active ? "active" : ""}" type="button" data-select-scenario="${escapeAttr(key)}">
       <span class="type-pill ${item.kind === "preset" ? "preset-pill" : "snapshot-pill"}">${scenarioKindLabel(item.kind, true)}</span>
-      <strong>${escapeHtml(item.name)}</strong>
+      <strong>${bilingualTitleHtml(item.name)}</strong>
       <small>${escapeHtml(scenarioSummaryText(item))}</small>
     </button>
   `;
@@ -1595,7 +1628,7 @@ function renderScenarioDetailPanel() {
   els.scenarioDetailPanel.innerHTML = `
     <div class="scenario-detail-heading">
       <span class="type-pill ${selected.kind === "preset" ? "preset-pill" : "snapshot-pill"}">${scenarioKindLabel(selected.kind)}</span>
-      <h3>${escapeHtml(selected.name)}</h3>
+      <h3>${bilingualTitleHtml(selected.name)}</h3>
       <p>${escapeHtml(selected.description || scenarioSummaryText(selected))}</p>
     </div>
     <div class="detail-table compact-table">
@@ -2133,7 +2166,7 @@ function renderCatalogDetail() {
   els.catalogDetailBadge.textContent = "Profile";
   els.catalogDetailBadge.style.background = `${colorFor(selectedNode.type)}18`;
   els.catalogDetailBadge.style.color = colorFor(selectedNode.type);
-  els.catalogDetailTitle.textContent = selectedNode.label;
+  setBilingualTitle(els.catalogDetailTitle, selectedNode.label);
   els.catalogDetailDescription.textContent = "";
   els.catalogDetailBody.innerHTML = renderNodeDetail(selectedNode, data, true);
 }
@@ -2283,7 +2316,7 @@ function renderRequirementSemantics(data) {
         <h3>Required Semantic Data</h3>
         <div class="mini-list">${requiredFields.map(field => `
           <div class="mini-card">
-            <strong>${escapeHtml(field.semantic_reference || field.name)}</strong>
+            <strong>${bilingualTitleHtml(field.semantic_reference || field.name)}</strong>
             <small>${escapeHtml([field.value_concept, field.required ? "required" : ""].filter(Boolean).join(" · "))}</small>
             ${field.description ? `<p>${escapeHtml(field.description)}</p>` : ""}
             ${field.purpose && field.purpose !== field.description ? `<small>${escapeHtml(field.purpose)}</small>` : ""}
@@ -2319,7 +2352,7 @@ function renderImplementationSemantics(data) {
         <h3>Field Mappings</h3>
         <div class="mini-list">${fieldMappings.map(field => `
           <div class="mini-card">
-            <strong>${escapeHtml(field.name || field.requirement_field || "Field mapping")}</strong>
+            <strong>${bilingualTitleHtml(field.name || field.requirement_field || "Field mapping")}</strong>
             ${field.requirement_field ? `<small>${escapeHtml(`requirement: ${field.requirement_field}`)}</small>` : ""}
             ${field.description ? `<p>${escapeHtml(field.description)}</p>` : ""}
           </div>
@@ -2577,7 +2610,7 @@ function renderGraphFocusResults(query = els.graphFocusInput?.value || "", force
   els.graphFocusResults.innerHTML = matches.length
     ? matches.map(item => `
       <button class="focus-search-option" type="button" data-focus-node="${escapeAttr(item.id)}">
-        <strong>${escapeHtml(label(item.id))}</strong>
+        <strong>${bilingualTitleHtml(label(item.id))}</strong>
         <small>${escapeHtml(typeName(nodeType(item.id)))} · ${escapeHtml(item.id)}</small>
       </button>
     `).join("")
@@ -2618,12 +2651,12 @@ function renderGraphFocus() {
     els.focusType.textContent = "Scenario";
     els.focusType.style.background = "#eef2f7";
     els.focusType.style.color = "#475467";
-    els.focusTitle.textContent = selected?.name || "Scenario";
+    setBilingualTitle(els.focusTitle, selected?.name || "Scenario");
     els.focusDescription.textContent = selected?.description || "Choose a scenario template or view snapshot, then select the center node to render the graph.";
     els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
     if (graphState.focusId && node(graphState.focusId)) {
       els.graphFocusCard.innerHTML = `
-        <strong>${escapeHtml(label(graphState.focusId))}</strong>
+        <strong>${bilingualTitleHtml(label(graphState.focusId))}</strong>
         <small>${escapeHtml(typeName(nodeType(graphState.focusId)))} · ${escapeHtml(graphState.focusId)}</small>
       `;
     }
@@ -2637,7 +2670,7 @@ function renderGraphFocus() {
     els.focusType.textContent = graphViewTitle();
     els.focusType.style.background = "#eef2f7";
     els.focusType.style.color = "#475467";
-    els.focusTitle.textContent = scopeInfo?.displayName || graphViewTitle();
+    setBilingualTitle(els.focusTitle, scopeInfo?.displayName || graphViewTitle());
     els.focusDescription.textContent = scopeHeaderText(scopeInfo) || graphViewDescription();
     els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
     return;
@@ -2645,7 +2678,7 @@ function renderGraphFocus() {
   setCompactScopeHeader(false);
   const focus = node(graphState.focusId);
   els.graphFocusCard.innerHTML = `
-    <strong>${escapeHtml(label(graphState.focusId))}</strong>
+    <strong>${bilingualTitleHtml(label(graphState.focusId))}</strong>
     <small>${escapeHtml(typeName(focus?.type))}</small>
   `;
   renderGraphFocusSearch();
@@ -2653,7 +2686,7 @@ function renderGraphFocus() {
   els.focusType.style.background = `${colorFor(focus?.type)}18`;
   els.focusType.style.color = colorFor(focus?.type);
   const selectorType = graphViewSelectorType();
-  els.focusTitle.textContent = selectorType ? `${graphViewTitle()}: ${label(graphState.focusId)}` : label(graphState.focusId);
+  setBilingualTitle(els.focusTitle, selectorType ? `${graphViewTitle()}: ${label(graphState.focusId)}` : label(graphState.focusId));
   els.focusDescription.textContent = selectorType ? graphViewDescription() : (description(graphState.focusId) || "No description.");
   els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
 }
@@ -2665,7 +2698,7 @@ function renderHiddenNodes() {
     ? rows.map(id => `
       <div class="hidden-node-row">
         <span>
-          <strong>${escapeHtml(label(id))}</strong>
+          <strong>${bilingualTitleHtml(label(id))}</strong>
           <small>${escapeHtml(typeName(nodeType(id)))}</small>
         </span>
         <button type="button" data-restore-graph-node="${escapeAttr(id)}">Restore</button>
@@ -3299,7 +3332,7 @@ async function renderGraph(options = {}) {
           <div class="node-title">
             <div class="node-title-text">
               <span class="node-kind-badge ${nodeFamily(item.type)}">${escapeHtml(nodeFamilyLabel(item.type))}</span>
-              <strong>${escapeHtml(item.label)}</strong>
+              <strong>${bilingualTitleHtml(item.label)}</strong>
               <small>${escapeHtml(typeName(item.type))}</small>
             </div>
           </div>
@@ -3426,7 +3459,7 @@ function renderChildRow(item) {
   return `
     <div class="field-row ${fieldIsSelected(item.id) ? "selected" : ""}" data-child-id="${escapeAttr(item.id)}" title="${escapeAttr(item.description || item.id)}">
       <div>
-        <strong>${escapeHtml(item.name)}</strong>
+        <strong>${bilingualTitleHtml(item.name)}</strong>
         <small>${escapeHtml(item.description || item.term || "No field description.")}</small>
       </div>
       <em>${escapeHtml(item.semanticRole || item.dataType || typeName(item.type))}</em>
@@ -3649,7 +3682,7 @@ function renderScenarioGraphProfile() {
   els.graphDetailBadge.textContent = scenarioKindLabel(selected.kind);
   els.graphDetailBadge.style.background = selected.kind === "preset" ? "#fff3e8" : "#f3e8ff";
   els.graphDetailBadge.style.color = selected.kind === "preset" ? "#c2410c" : "#9333ea";
-  els.graphDetailTitle.textContent = selected.name;
+  setBilingualTitle(els.graphDetailTitle, selected.name);
   els.graphDetailDescription.textContent = selected.description || scenarioSummaryText(selected);
   els.graphDetailBody.innerHTML = `
     <section class="detail-section">
@@ -3703,7 +3736,7 @@ function renderGraphDetail() {
   els.graphDetailBadge.textContent = "Profile";
   els.graphDetailBadge.style.background = `${colorFor(focus?.type)}18`;
   els.graphDetailBadge.style.color = colorFor(focus?.type);
-  els.graphDetailTitle.textContent = label(selectedNodeId);
+  setBilingualTitle(els.graphDetailTitle, label(selectedNodeId));
   els.graphDetailDescription.textContent = "";
   els.graphDetailBody.innerHTML = renderNodeDetail(focus, data, true);
 }
@@ -3743,7 +3776,7 @@ function renderScopeProfile(info) {
   els.graphDetailBadge.textContent = info.type;
   els.graphDetailBadge.style.background = "#eef2f7";
   els.graphDetailBadge.style.color = "#475467";
-  els.graphDetailTitle.textContent = info.displayName || info.id;
+  setBilingualTitle(els.graphDetailTitle, info.displayName || info.id);
   els.graphDetailDescription.textContent = scopeHeaderText(info) || "No description.";
   els.graphDetailBody.innerHTML = `
     <section class="detail-section">
@@ -3810,7 +3843,7 @@ function renderFieldProfile(field) {
   els.graphDetailBadge.textContent = "Field Profile";
   els.graphDetailBadge.style.background = `${colorFor(field.type)}18`;
   els.graphDetailBadge.style.color = colorFor(field.type);
-  els.graphDetailTitle.textContent = field.name;
+  setBilingualTitle(els.graphDetailTitle, field.name);
   els.graphDetailDescription.textContent = "";
   els.graphDetailBody.innerHTML = `
     <section class="detail-section">
@@ -4048,7 +4081,7 @@ function renderFieldTable(children) {
       ${children.map(item => `
         <div class="field-table-row">
           <div>
-            <strong>${escapeHtml(item.name)}</strong>
+            <strong>${bilingualTitleHtml(item.name)}</strong>
             <small>${escapeHtml(item.description || item.term || item.fieldName || item.id)}</small>
           </div>
           <span class="muted">${escapeHtml(item.semanticRole || item.dataType || typeName(item.type))}</span>

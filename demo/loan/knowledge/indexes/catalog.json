@@ -2,10 +2,10 @@
   "concept.CustomerData": {
     "id": "concept.CustomerData",
     "type": "base_entity_concept",
-    "name": "CustomerData",
+    "name": "客户数据 - Customer Data",
     "description": "Base concept for customer-like records with common identifiers and segmentation fields.",
     "concept": {
-      "name": "CustomerData",
+      "name": "客户数据 - Customer Data",
       "type": "EntityType",
       "description": "Base concept for customer-like records with common identifiers and segmentation fields.",
       "extends": [
@@ -132,10 +132,10 @@
   "concept.LoanData": {
     "id": "concept.LoanData",
     "type": "base_entity_concept",
-    "name": "LoanData",
+    "name": "贷款数据 - Loan Data",
     "description": "Base concept for loan-like records with common identifiers and origination timing.",
     "concept": {
-      "name": "LoanData",
+      "name": "贷款数据 - Loan Data",
       "type": "EntityType",
       "description": "Base concept for loan-like records with common identifiers and origination timing.",
       "extends": [
@@ -262,10 +262,10 @@
   "concept.ProductData": {
     "id": "concept.ProductData",
     "type": "base_entity_concept",
-    "name": "ProductData",
+    "name": "产品数据 - Product Data",
     "description": "Base concept for product-like records with common product identifiers.",
     "concept": {
-      "name": "ProductData",
+      "name": "产品数据 - Product Data",
       "type": "EntityType",
       "description": "Base concept for product-like records with common product identifiers.",
       "extends": [
@@ -342,10 +342,10 @@
   "concept.Borrower": {
     "id": "concept.Borrower",
     "type": "entity_type_concept",
-    "name": "Borrower",
+    "name": "借款人 - Borrower",
     "description": "Person or legal entity that is responsible for one or more loan exposures.",
     "concept": {
-      "name": "Borrower",
+      "name": "借款人 - Borrower",
       "type": "EntityType",
       "description": "Person or legal entity that is responsible for one or more loan exposures.",
       "extends": [
@@ -555,10 +555,10 @@
   "concept.Loan": {
     "id": "concept.Loan",
     "type": "entity_type_concept",
-    "name": "Loan",
+    "name": "贷款 - Loan",
     "description": "Credit exposure contract or facility that can be reported for regulatory credit risk monitoring.",
     "concept": {
-      "name": "Loan",
+      "name": "贷款 - Loan",
       "type": "EntityType",
       "description": "Credit exposure contract or facility that can be reported for regulatory credit risk monitoring.",
       "extends": [
@@ -1460,10 +1460,10 @@
   "concept.LoanProduct": {
     "id": "concept.LoanProduct",
     "type": "entity_type_concept",
-    "name": "LoanProduct",
+    "name": "贷款产品 - Loan Product",
     "description": "Lending product definition used to classify loan exposures for credit risk reporting.",
     "concept": {
-      "name": "LoanProduct",
+      "name": "贷款产品 - Loan Product",
       "type": "EntityType",
       "description": "Lending product definition used to classify loan exposures for credit risk reporting.",
       "extends": [
@@ -4438,7 +4438,7 @@
   "requirement.item_91da9d8e75": {
     "id": "requirement.item_91da9d8e75",
     "type": "regulatory_requirement",
-    "name": "贷款风险暴露报送需求",
+    "name": "贷款风险暴露报送需求 - Loan Exposure Reporting Requirement",
     "description": "监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。",
     "source": "Loan Credit Exposure Reporting BRD v1.0 section 5.2",
     "SLA": "Daily EOD before 22:00 local time; credit risk review completed before regulatory submission.",
@@ -4552,7 +4552,7 @@
   "requirement_item..Loan.has_LoanIdentifier": {
     "id": "requirement_item..Loan.has_LoanIdentifier",
     "type": "requirement_semantic_item",
-    "name": "贷款标识",
+    "name": "贷款标识 - Loan Identifier",
     "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
     "parent": "requirement.item_91da9d8e75",
     "semantic_reference": "Loan.has_LoanIdentifier",
@@ -4566,7 +4566,7 @@
   "requirement_item..Borrower.has_CustomerIdentifier": {
     "id": "requirement_item..Borrower.has_CustomerIdentifier",
     "type": "requirement_semantic_item",
-    "name": "借款人标识",
+    "name": "借款人标识 - Borrower Identifier",
     "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
     "parent": "requirement.item_91da9d8e75",
     "semantic_reference": "Borrower.has_CustomerIdentifier",
@@ -4580,7 +4580,7 @@
   "requirement_item..LoanProduct.has_ProductIdentifier": {
     "id": "requirement_item..LoanProduct.has_ProductIdentifier",
     "type": "requirement_semantic_item",
-    "name": "产品标识",
+    "name": "产品标识 - Product Identifier",
     "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
     "parent": "requirement.item_91da9d8e75",
     "semantic_reference": "LoanProduct.has_ProductIdentifier",
@@ -4594,7 +4594,7 @@
   "requirement_item..Loan.has_PrincipalAmount": {
     "id": "requirement_item..Loan.has_PrincipalAmount",
     "type": "requirement_semantic_item",
-    "name": "本金金额",
+    "name": "本金金额 - Principal Amount",
     "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
     "parent": "requirement.item_91da9d8e75",
     "semantic_reference": "Loan.has_PrincipalAmount",
@@ -4608,7 +4608,7 @@
   "requirement_item..Loan.has_ExposureAtDefaultAmount": {
     "id": "requirement_item..Loan.has_ExposureAtDefaultAmount",
     "type": "requirement_semantic_item",
-    "name": "风险暴露金额",
+    "name": "风险暴露金额 - Exposure At Default Amount",
     "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
     "parent": "requirement.item_91da9d8e75",
     "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
@@ -4622,7 +4622,7 @@
   "report_impl.item_1059227048": {
     "id": "report_impl.item_1059227048",
     "type": "report_implementation",
-    "name": "每日贷款风险暴露报表数据逻辑",
+    "name": "每日贷款风险暴露报表数据逻辑 - Daily Loan Exposure Report Data Logic",
     "description": "说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。",
     "implements": "贷款风险暴露报送需求",
     "field_mappings": [
