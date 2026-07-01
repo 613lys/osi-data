@@ -816,6 +816,23 @@ p {
   overflow-wrap: anywhere;
 }
 
+.detail-header p:empty {
+  display: none;
+}
+
+.compact-field {
+  margin-top: 8px;
+}
+
+.compact-field input {
+  min-height: 34px;
+  font-size: 12px;
+}
+
+.home-page .home-panel.wide {
+  grid-column: 1 / -1;
+}
+
 .depth-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 32px;

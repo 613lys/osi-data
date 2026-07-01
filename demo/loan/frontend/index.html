@@ -12,16 +12,15 @@
         <div class="mark">OSI</div>
         <div>
           <h1>OSI Data Knowledge Graph Explorer</h1>
-          <p>Explore ontologies, semantic models, mappings, scenario templates, and view snapshots.</p>
+          <p>Explore scenario templates, graph neighborhoods, ontologies, and semantic models.</p>
         </div>
       </div>
       <nav class="page-tabs" aria-label="Main views">
         <button id="homeTab" class="tab-button active" type="button">Home</button>
-        <button id="ontologyTab" class="tab-button" type="button">Ontology View</button>
-        <button id="semanticTab" class="tab-button" type="button">Semantic Model View</button>
-        <button id="scenarioTab" class="tab-button" type="button">Customized Scenario</button>
-        <button id="catalogTab" class="tab-button" type="button">Catalog Search</button>
-        <button id="graphTab" class="tab-button" type="button">Graph Explorer</button>
+        <button id="scenarioTab" class="tab-button" type="button">Scenario</button>
+        <button id="graphTab" class="tab-button" type="button">Explorer</button>
+        <button id="ontologyTab" class="tab-button" type="button">Ontology</button>
+        <button id="semanticTab" class="tab-button" type="button">Semantic model</button>
       </nav>
       <div id="stats" class="stats"></div>
     </header>
@@ -31,33 +30,13 @@
         <div class="home-header">
           <span class="type-pill">Data Knowledge Graph</span>
           <h2>Home</h2>
-          <p>Choose an ontology, a semantic model, a scenario template, or a view snapshot to enter the graph with useful context already applied.</p>
+          <p>Choose a scenario template or view snapshot to enter the graph with useful context already applied.</p>
         </div>
         <div class="home-grid">
-          <section class="home-panel">
-            <div class="panel-heading">
-              <div>
-                <h3>Ontology</h3>
-                <p>Select which ontology to inspect when multiple strict OSI ontology files are compiled together.</p>
-              </div>
-            </div>
-            <div id="homeOntologyList" class="home-card-list home-scroll-list"></div>
-          </section>
-
-          <section class="home-panel">
-            <div class="panel-heading">
-              <div>
-                <h3>Semantic Model</h3>
-                <p>Select the semantic model whose datasets, joins, source tables, and metrics should be explored.</p>
-              </div>
-            </div>
-            <div id="homeSemanticModelList" class="home-card-list home-scroll-list"></div>
-          </section>
-
           <section class="home-panel wide">
             <div class="panel-heading">
               <div>
-                <h3>Customized Scenario</h3>
+                <h3>Scenario</h3>
                 <p>Select a scenario template or view snapshot, then open it in the graph workspace.</p>
               </div>
             </div>
@@ -70,8 +49,8 @@
     <main id="scenarioPage" class="page scenario-page hidden">
       <section class="scenario-page-shell">
         <div class="home-header compact-header">
-          <span class="type-pill">Scenario Library</span>
-          <h2>Customized Scenario</h2>
+          <span class="type-pill">Scenario</span>
+          <h2>Scenario</h2>
           <p>Scenario templates apply reusable graph filters and a selectable center node type. View snapshots capture the exact graph state, including selected nodes, expanded fields, selected field links, hidden nodes, scroll, and dragged positions.</p>
         </div>
         <div class="scenario-layout">
@@ -92,7 +71,7 @@
       </section>
     </main>
 
-    <main id="catalogPage" class="page catalog-page hidden">
+    <main id="catalogPage" class="page catalog-page hidden" aria-hidden="true">
       <section class="search-sidebar">
         <label class="field">
           <span>Node name / keyword</span>
@@ -146,11 +125,16 @@
 
     <main id="graphPage" class="page graph-page hidden">
       <aside class="graph-controls">
-        <button id="backToCatalogButton" class="secondary" type="button">Back to catalog</button>
+        <button id="backToCatalogButton" class="secondary hidden" type="button">Back to catalog</button>
 
         <section id="graphFocusSection" class="filter-section">
           <div class="section-title">Focus</div>
           <div id="graphFocusCard" class="focus-card"></div>
+          <label class="field compact-field">
+            <span>Focus node</span>
+            <input id="graphFocusInput" type="search" list="graphFocusDatalist" placeholder="Search node name, type, or id..." autocomplete="off" />
+            <datalist id="graphFocusDatalist"></datalist>
+          </label>
         </section>
 
         <section id="graphViewSelectorSection" class="filter-section hidden">
@@ -215,7 +199,7 @@
               </label>
             </div>
             <div id="graphScenarioTopHost" class="scenario-top-host hidden"></div>
-            <h2 id="focusTitle">Graph Explorer</h2>
+            <h2 id="focusTitle">Explorer</h2>
             <p id="focusDescription">Choose max depth and filters to decide which nodes and edges are visible.</p>
           </div>
           <div class="toolbar-actions">

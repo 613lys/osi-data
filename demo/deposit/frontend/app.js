@@ -392,8 +392,8 @@ function edgeTypeAllowed(edge, state) {
 }
 const GRAPH_VIEW_CONFIG = {
   traceability: {
-    title: "Graph Explorer",
-    description: "Choose max depth and filters to decide which nodes and edges are visible.",
+    title: "Explorer",
+    description: "Choose a focus node, max depth, and filters to decide which nodes and edges are visible.",
     nodeTypes: null,
     edgeTypes: null,
     businessEdgeTypes: null,
@@ -403,7 +403,7 @@ const GRAPH_VIEW_CONFIG = {
     usesFocus: true,
   },
   ontology: {
-    title: "Ontology View",
+    title: "Ontology",
     description: "Ontology-only view: Entity concepts, Base Entity concepts, inherited fields, and business relationships.",
     nodeTypes: ["entity_type_concept", "base_entity_concept"],
     defaultNodeTypes: ["entity_type_concept"],
@@ -416,7 +416,7 @@ const GRAPH_VIEW_CONFIG = {
     selectorKind: "ontology",
   },
   semantic: {
-    title: "Semantic Model View",
+    title: "Semantic Model",
     description: "Semantic-model view: datasets, physical source tables, dataset joins, metric overlays, and query source extensions.",
     nodeTypes: ["semantic_dataset", "semantic_metric", "physical_table", "table", "view"],
     edgeTypes: ["DATASET_JOIN", "SOURCE_TABLE", "DERIVED_BY"],
@@ -1451,40 +1451,6 @@ async function loadServerScenarios() {
 
 function renderHomePage() {
   if (!els.homePage) return;
-  const ontologyRows = ontologyOptions();
-  if (!ontologyRows.some(item => item.id === graphState.selectedOntology)) graphState.selectedOntology = ontologyRows[0]?.id || "";
-  if (els.homeOntologyList) {
-    els.homeOntologyList.innerHTML = ontologyRows.length
-      ? ontologyRows.map(item => renderHomeEntryCard({
-          id: item.id,
-          title: item.label || item.id,
-          badge: "Ontology",
-          colorType: "ontology",
-          count: `${ontologyNodeCount(item.id)} nodes`,
-          description: ontologyDescription(item.id),
-          actionLabel: "Open Ontology",
-          actionAttr: `data-open-ontology="${escapeAttr(item.id)}"`,
-        })).join("")
-      : `<div class="empty-state">No ontology entries found.</div>`;
-  }
-
-  const semanticRows = semanticModelOptions();
-  if (!semanticRows.some(item => item.id === graphState.selectedSemanticModel)) graphState.selectedSemanticModel = semanticRows[0]?.id || "";
-  if (els.homeSemanticModelList) {
-    els.homeSemanticModelList.innerHTML = semanticRows.length
-      ? semanticRows.map(item => renderHomeEntryCard({
-          id: item.id,
-          title: item.label || item.id,
-          badge: "Semantic Model",
-          colorType: "semantic_dataset",
-          count: `${semanticModelNodeCount(item.id)} nodes`,
-          description: semanticModelDescription(item.id),
-          actionLabel: "Open Model",
-          actionAttr: `data-open-semantic="${escapeAttr(item.id)}"`,
-        })).join("")
-      : `<div class="empty-state">No semantic model entries found.</div>`;
-  }
-
   if (els.homeScenarioList) {
     els.homeScenarioList.innerHTML = renderHomeScenarioList();
   }
@@ -1578,7 +1544,7 @@ function renderScenarioLibrary() {
   if (els.savedScenarioList) {
     els.savedScenarioList.innerHTML = scenarioState.snapshots.length
       ? scenarioState.snapshots.map(item => scenarioListCard(item)).join("")
-      : `<div class="empty-state compact">No view snapshots yet. Run the local server, open Graph Explorer, then save a snapshot.</div>`;
+      : `<div class="empty-state compact">No view snapshots yet. Run the local server, open Explorer, then save a snapshot.</div>`;
   }
   renderScenarioDetailPanel();
 }
@@ -1623,7 +1589,7 @@ function renderScenarioDetailPanel() {
       <p>${escapeHtml(selected.description || scenarioSummaryText(selected))}</p>
     </div>
     <div class="detail-table compact-table">
-      ${kv("View", typeTitle(view.viewMode || selected.viewMode || "Graph Explorer"))}
+      ${kv("View", typeTitle(view.viewMode || selected.viewMode || "Explorer"))}
       ${kv("Center", center.node_id || center.nodeId || center.node_type || center.nodeType || view.focusId || "Chosen at open time")}
       ${kv("Depth", view.maxDepth || view.max_depth || "Default")}
       ${kv("Node Filters", nodeFilterText)}
@@ -2158,7 +2124,7 @@ function renderCatalogDetail() {
   els.catalogDetailBadge.style.background = `${colorFor(selectedNode.type)}18`;
   els.catalogDetailBadge.style.color = colorFor(selectedNode.type);
   els.catalogDetailTitle.textContent = selectedNode.label;
-  els.catalogDetailDescription.textContent = description(selectedNode.id) || "No description.";
+  els.catalogDetailDescription.textContent = "";
   els.catalogDetailBody.innerHTML = renderNodeDetail(selectedNode, data, true);
 }
 
@@ -2568,14 +2534,50 @@ function setScenarioScopeHeader(enabled) {
   setTitleAreaMode(enabled ? "scenario" : "default");
 }
 
+function focusSearchOptions() {
+  return topLevelNodes
+    .filter(item => nodeAllowedForMode(item.id, graphState.viewMode))
+    .sort((a, b) => typeRank(a.type) - typeRank(b.type) || label(a.id).localeCompare(label(b.id)))
+    .map(item => ({ id: item.id, text: `${label(item.id)} · ${typeName(item.type)} · ${item.id}` }));
+}
+
+function renderGraphFocusSearch() {
+  if (!els.graphFocusInput || !els.graphFocusDatalist) return;
+  const options = focusSearchOptions();
+  els.graphFocusDatalist.innerHTML = options
+    .map(item => `<option value="${escapeAttr(item.text)}" data-node-id="${escapeAttr(item.id)}"></option>`)
+    .join("");
+  const current = options.find(item => item.id === graphState.focusId);
+  if (document.activeElement !== els.graphFocusInput) {
+    els.graphFocusInput.value = current?.text || "";
+  }
+}
+
+function applyGraphFocusSearchValue(value) {
+  const text = String(value || "").trim();
+  if (!text) return;
+  const options = focusSearchOptions();
+  const match = options.find(item => item.text === text || item.id === text)
+    || options.find(item => item.text.toLowerCase().includes(text.toLowerCase()));
+  if (!match || !node(match.id)) return;
+  setGraphFocus(match.id, { resetEdgeTypes: true });
+  graphState.selectedNodeId = match.id;
+  graphState.selectedEdgeId = null;
+  clearSelectedFields();
+  graphState.showScenarioProfile = false;
+  renderGraphPage({ fitAfter: true });
+}
+
 function renderGraphFocus() {
   if (appState.currentPage === "scenarios") {
+    if (els.graphFocusInput) els.graphFocusInput.value = "";
+    if (els.graphFocusDatalist) els.graphFocusDatalist.innerHTML = "";
     setScenarioScopeHeader(true);
     const selected = scenarioByKey(scenarioState.selectedKey) || allScenarios()[0];
-    els.focusType.textContent = "Customized Scenario";
+    els.focusType.textContent = "Scenario";
     els.focusType.style.background = "#eef2f7";
     els.focusType.style.color = "#475467";
-    els.focusTitle.textContent = selected?.name || "Customized Scenario";
+    els.focusTitle.textContent = selected?.name || "Scenario";
     els.focusDescription.textContent = selected?.description || "Choose a scenario template or view snapshot, then select the center node to render the graph.";
     els.expandSelected.textContent = allVisibleFieldNodesExpanded() ? "Hide all fields" : "Show all fields";
     if (graphState.focusId && node(graphState.focusId)) {
@@ -2587,6 +2589,8 @@ function renderGraphFocus() {
     return;
   }
   if (!graphViewUsesFocus()) {
+    if (els.graphFocusInput) els.graphFocusInput.value = "";
+    if (els.graphFocusDatalist) els.graphFocusDatalist.innerHTML = "";
     const scopeInfo = currentGraphScopeInfo();
     setCompactScopeHeader(true);
     els.focusType.textContent = graphViewTitle();
@@ -2601,8 +2605,9 @@ function renderGraphFocus() {
   const focus = node(graphState.focusId);
   els.graphFocusCard.innerHTML = `
     <strong>${escapeHtml(label(graphState.focusId))}</strong>
-    <small>${escapeHtml(typeName(focus?.type))} · ${escapeHtml(graphState.focusId)}</small>
+    <small>${escapeHtml(typeName(focus?.type))}</small>
   `;
+  renderGraphFocusSearch();
   els.focusType.textContent = typeName(focus?.type);
   els.focusType.style.background = `${colorFor(focus?.type)}18`;
   els.focusType.style.color = colorFor(focus?.type);
@@ -3586,7 +3591,7 @@ function renderScenarioGraphProfile() {
       ? "Local scenario server is active."
       : scenarioState.serverError || "Static mode: open through the local scenario server to save templates or snapshots.";
   if (!selected) {
-    els.graphDetailBadge.textContent = "Customized Scenario";
+    els.graphDetailBadge.textContent = "Scenario";
     els.graphDetailBadge.style.background = "#eef2f7";
     els.graphDetailBadge.style.color = "#475467";
     els.graphDetailTitle.textContent = "No scenario selected";
@@ -3658,7 +3663,7 @@ function renderGraphDetail() {
   els.graphDetailBadge.style.background = `${colorFor(focus?.type)}18`;
   els.graphDetailBadge.style.color = colorFor(focus?.type);
   els.graphDetailTitle.textContent = label(selectedNodeId);
-  els.graphDetailDescription.textContent = description(selectedNodeId) || "No description.";
+  els.graphDetailDescription.textContent = "";
   els.graphDetailBody.innerHTML = renderNodeDetail(focus, data, true);
 }
 
@@ -4089,7 +4094,7 @@ function openScenarioWorkspace() {
   else openPage("scenarios");
 }
 function openPage(page) {
-  const normalizedPage = page || "home";
+  const normalizedPage = page === "catalog" ? "graph" : (page || "home");
   appState.currentPage = normalizedPage;
   const viewMode = PAGE_VIEW_MODE[normalizedPage];
   const showGraph = Boolean(viewMode);
@@ -4124,7 +4129,7 @@ function applyUrlState() {
   }
   const view = params.get("view");
   if (view === "scenarios") openScenarioWorkspace();
-  else if (["home", "catalog", "graph", "ontology", "semantic"].includes(view)) openPage(view);
+  else if (["home", "graph", "ontology", "semantic"].includes(view)) openPage(view);
   else renderAll();
 }
 function openSelectionInGraph() {
@@ -4554,21 +4559,20 @@ document.addEventListener("change", event => {
   event.stopPropagation();
 });
 
-els.catalogSearch.addEventListener("input", event => {
+if (els.catalogSearch) els.catalogSearch.addEventListener("input", event => {
   catalogState.query = event.target.value.trim().toLowerCase();
   renderCatalog();
 });
-els.catalogReset.addEventListener("click", resetCatalogFilters);
-els.openGraph.addEventListener("click", openSelectionInGraph);
+if (els.catalogReset) els.catalogReset.addEventListener("click", resetCatalogFilters);
+if (els.openGraph) els.openGraph.addEventListener("click", openSelectionInGraph);
 if (els.homeTab) els.homeTab.addEventListener("click", () => openPage("home"));
-els.catalogTab.addEventListener("click", () => openPage("catalog"));
-els.graphTab.addEventListener("click", () => openPage("graph"));
+if (els.graphTab) els.graphTab.addEventListener("click", () => openPage("graph"));
 if (els.ontologyTab) els.ontologyTab.addEventListener("click", () => openPage("ontology"));
 if (els.semanticTab) els.semanticTab.addEventListener("click", () => openPage("semantic"));
 if (els.scenarioTab) els.scenarioTab.addEventListener("click", openScenarioWorkspace);
 if (els.graphViewSelector) els.graphViewSelector.addEventListener("change", event => selectGraphViewObject(event.target.value));
 if (els.graphScopeSelector) els.graphScopeSelector.addEventListener("change", event => selectGraphViewObject(event.target.value));
-els.backToCatalog.addEventListener("click", () => openPage("catalog"));
+if (els.backToCatalog) els.backToCatalog.addEventListener("click", () => openPage("home"));
 if (els.scenarioSelect) els.scenarioSelect.addEventListener("change", event => applyScenario(event.target.value, appState.currentPage === "scenarios" ? { page: "scenarios" } : {}));
 if (els.scenarioCenterSelect) els.scenarioCenterSelect.addEventListener("change", event => {
   const selected = scenarioByKey(scenarioState.selectedKey);
@@ -4599,6 +4603,13 @@ if (els.scenarioSaveModal) els.scenarioSaveModal.addEventListener("click", event
 });
 document.addEventListener("keydown", event => {
   if (event.key === "Escape" && els.scenarioSaveModal && !els.scenarioSaveModal.classList.contains("hidden")) closeScenarioSaveModal();
+});
+if (els.graphFocusInput) els.graphFocusInput.addEventListener("change", event => applyGraphFocusSearchValue(event.target.value));
+if (els.graphFocusInput) els.graphFocusInput.addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    applyGraphFocusSearchValue(event.target.value);
+  }
 });
 els.restoreHidden.addEventListener("click", restoreAllHiddenNodes);
 els.depth.addEventListener("input", event => {
