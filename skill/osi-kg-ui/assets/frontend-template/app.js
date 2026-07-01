@@ -1555,7 +1555,7 @@ function renderHomeScenarioList() {
     countClass: item.kind === "preset" ? "preset-pill" : "snapshot-pill",
     description: item.description || scenarioSummaryText(item),
     actionLabel: "Open Scenario",
-    actionAttr: `data-open-scenario="${escapeAttr(scenarioKey(item.kind, item.id))}"`,
+    actionAttr: `data-open-scenario="${escapeAttr(scenarioKey(item.kind, item.id))}" data-open-scenario-page="scenarios"`,
     secondaryActionLabel: "Delete scenario",
     secondaryActionAttr: `data-delete-scenario="${escapeAttr(item.id)}" data-delete-scenario-kind="${escapeAttr(item.kind)}"`,
     secondaryDisabled: !scenarioState.serverAvailable,
@@ -2415,7 +2415,7 @@ function renderMiniEdgeCard(edge, baseId = graphState.focusId) {
 
 function clearGraphSelectionToViewProfile() {
   graphState.selectedEdgeId = null;
-  clearSelectedFields();
+  graphState.selectedFieldId = null;
   if (appState.currentPage === "scenarios") {
     graphState.selectedNodeId = null;
     graphState.showScenarioProfile = true;
@@ -2857,10 +2857,14 @@ function ensureVisibleFocus() {
 }
 
 function clearHiddenSelections() {
+  let removedSelectedField = false;
   [...graphState.selectedFieldIds].forEach(id => {
-    if (graphState.hiddenNodes.has(parentOf(id))) graphState.selectedFieldIds.delete(id);
+    if (graphState.hiddenNodes.has(parentOf(id))) {
+      graphState.selectedFieldIds.delete(id);
+      removedSelectedField = true;
+    }
   });
-  syncSelectedFieldId();
+  if (removedSelectedField || (graphState.selectedFieldId && !graphState.selectedFieldIds.has(graphState.selectedFieldId))) syncSelectedFieldId();
   const selectedEdge = graphState.selectedEdgeId ? selectedGraphEdge() : null;
   if (selectedEdge && (graphState.hiddenNodes.has(selectedEdge.source) || graphState.hiddenNodes.has(selectedEdge.target))) {
     graphState.selectedEdgeId = null;
