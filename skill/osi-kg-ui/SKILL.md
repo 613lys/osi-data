@@ -63,6 +63,7 @@ frontend/scenario-data.js
    - For persistent Saved Scenario support, run `python SKILL_DIR\scripts\serve_osi_ui.py --root SCENARIO_ROOT --port 8766`.
    - Open `http://127.0.0.1:8766/index.html`. The server writes snapshots to `knowledge/scenarios/snapshots/*.json` and reads presets from `knowledge/scenarios/presets/*.yaml`.
    - For UI behavior, read `references/ui-rendering-rules.md`.
+   - When asked to create a shareable saved graph state directly from a scenario description, read `references/agent-generated-snapshots.md` and write a View Snapshot under `knowledge/scenarios/snapshots/`.
 
 ## Required Modeling Rules
 
@@ -99,6 +100,7 @@ frontend/scenario-data.js
 - `references/generation-stages.md`: Incremental generation workflow, stage gates, required relationships, and validation constraints for complex scenarios.
 - `references/report-requirement-data-logic.md`: Report Requirement and Report Data Logic modeling rules, field-level mapping, expressions, controls, and examples.
 - `references/ui-rendering-rules.md`: Graph/UI behavior, node visibility, field expansion, profile behavior, and browser verification checklist.
+- `references/agent-generated-snapshots.md`: How an agent can generate shareable View Snapshot JSON files directly from a user-described graph review scenario.
 
 ## Assets And Scripts
 

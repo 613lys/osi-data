@@ -59,6 +59,9 @@ const els = {
   backToCatalog: document.getElementById("backToCatalogButton"),
   graphFocusSection: document.getElementById("graphFocusSection"),
   graphFocusCard: document.getElementById("graphFocusCard"),
+  graphFocusInput: document.getElementById("graphFocusInput"),
+  graphFocusDatalist: document.getElementById("graphFocusDatalist"),
+  graphFocusResults: document.getElementById("graphFocusResults"),
   graphViewSelectorSection: document.getElementById("graphViewSelectorSection"),
   graphViewSelectorTitle: document.getElementById("graphViewSelectorTitle"),
   graphViewSelector: document.getElementById("graphViewSelector"),
@@ -1482,14 +1485,14 @@ function semanticModelDescription(modelId) {
   return entry.description || aiContextSummary(entry.ai_context) || `${datasetCount} datasets · ${metricCount} metrics`;
 }
 
-function renderHomeEntryCard({ id, title, badge, colorType, count, description, actionLabel, actionAttr, pillClass = "", secondaryActionLabel = "", secondaryActionAttr = "", secondaryDisabled = false }) {
+function renderHomeEntryCard({ id, title, badge, colorType, count, description, actionLabel, actionAttr, pillClass = "", secondaryActionLabel = "", secondaryActionAttr = "", secondaryDisabled = false, showBadge = true }) {
   const pillStyle = pillClass ? "" : ` style="background:${colorFor(colorType)}18;color:${colorFor(colorType)}"`;
   const secondaryTitle = secondaryActionLabel ? `${secondaryActionLabel} ${title || id}` : "";
   return `
     <article class="home-card home-entry-card ${secondaryActionLabel ? "has-delete" : ""}" data-home-entry="${escapeAttr(id)}">
       ${secondaryActionLabel ? `<button class="home-card-delete-button" type="button" ${secondaryActionAttr} ${secondaryDisabled ? "disabled" : ""} aria-label="${escapeAttr(secondaryTitle)}" title="${escapeAttr(secondaryActionLabel)}">&times;</button>` : ""}
       <div class="home-card-main">
-        <span class="type-pill ${escapeAttr(pillClass)}"${pillStyle}>${escapeHtml(badge)}</span>
+        ${showBadge ? `<span class="type-pill ${escapeAttr(pillClass)}"${pillStyle}>${escapeHtml(badge)}</span>` : ""}
         <h4>${escapeHtml(title || id)}</h4>
         <p>${escapeHtml(description || id)}</p>
       </div>
@@ -1524,6 +1527,7 @@ function renderHomeScenarioList() {
     secondaryActionAttr: `data-delete-scenario="${escapeAttr(item.id)}" data-delete-scenario-kind="${escapeAttr(item.kind)}"`,
     secondaryDisabled: !scenarioState.serverAvailable,
     pillClass: item.kind === "preset" ? "preset-pill" : "snapshot-pill",
+    showBadge: false,
   })).join("");
 }
 function scenarioSummaryText(item) {
@@ -2556,7 +2560,37 @@ function renderGraphFocusSearch() {
   const current = options.find(item => item.id === graphState.focusId);
   if (document.activeElement !== els.graphFocusInput) {
     els.graphFocusInput.value = current?.text || "";
+    renderGraphFocusResults("", false);
   }
+}
+
+function renderGraphFocusResults(query = els.graphFocusInput?.value || "", forceOpen = false) {
+  if (!els.graphFocusResults) return;
+  const text = String(query || "").trim().toLowerCase();
+  const currentText = focusSearchOptions().find(item => item.id === graphState.focusId)?.text || "";
+  const shouldShowAll = forceOpen && (!text || text === currentText.toLowerCase());
+  const matches = focusSearchOptions()
+    .filter(item => shouldShowAll || !text || item.text.toLowerCase().includes(text) || item.id.toLowerCase().includes(text))
+    .slice(0, 24);
+  if (!forceOpen && !text) {
+    els.graphFocusResults.classList.add("hidden");
+    els.graphFocusResults.innerHTML = "";
+    return;
+  }
+  els.graphFocusResults.innerHTML = matches.length
+    ? matches.map(item => `
+      <button class="focus-search-option" type="button" data-focus-node="${escapeAttr(item.id)}">
+        <strong>${escapeHtml(label(item.id))}</strong>
+        <small>${escapeHtml(typeName(nodeType(item.id)))} · ${escapeHtml(item.id)}</small>
+      </button>
+    `).join("")
+    : `<div class="focus-search-empty">No matching nodes.</div>`;
+  els.graphFocusResults.classList.remove("hidden");
+}
+
+function hideGraphFocusResults() {
+  if (!els.graphFocusResults) return;
+  els.graphFocusResults.classList.add("hidden");
 }
 
 function applyGraphFocusSearchValue(value) {
@@ -2564,13 +2598,17 @@ function applyGraphFocusSearchValue(value) {
   if (!text) return;
   const options = focusSearchOptions();
   const match = options.find(item => item.text === text || item.id === text)
-    || options.find(item => item.text.toLowerCase().includes(text.toLowerCase()));
-  if (!match || !node(match.id)) return;
+    || options.find(item => item.text.toLowerCase().includes(text.toLowerCase()) || item.id.toLowerCase().includes(text.toLowerCase()));
+  if (!match || !node(match.id)) {
+    renderGraphFocusResults(text, true);
+    return;
+  }
   setGraphFocus(match.id, { resetEdgeTypes: true });
   graphState.selectedNodeId = match.id;
   graphState.selectedEdgeId = null;
   clearSelectedFields();
   graphState.showScenarioProfile = false;
+  hideGraphFocusResults();
   renderGraphPage({ fitAfter: true });
 }
 
@@ -2578,6 +2616,7 @@ function renderGraphFocus() {
   if (appState.currentPage === "scenarios") {
     if (els.graphFocusInput) els.graphFocusInput.value = "";
     if (els.graphFocusDatalist) els.graphFocusDatalist.innerHTML = "";
+    hideGraphFocusResults();
     setScenarioScopeHeader(true);
     const selected = scenarioByKey(scenarioState.selectedKey) || allScenarios()[0];
     els.focusType.textContent = "Scenario";
@@ -2597,6 +2636,7 @@ function renderGraphFocus() {
   if (!graphViewUsesFocus()) {
     if (els.graphFocusInput) els.graphFocusInput.value = "";
     if (els.graphFocusDatalist) els.graphFocusDatalist.innerHTML = "";
+    hideGraphFocusResults();
     const scopeInfo = currentGraphScopeInfo();
     setCompactScopeHeader(true);
     els.focusType.textContent = graphViewTitle();
@@ -3776,7 +3816,7 @@ function renderFieldProfile(field) {
   els.graphDetailBadge.style.background = `${colorFor(field.type)}18`;
   els.graphDetailBadge.style.color = colorFor(field.type);
   els.graphDetailTitle.textContent = field.name;
-  els.graphDetailDescription.textContent = field.description || field.id;
+  els.graphDetailDescription.textContent = "";
   els.graphDetailBody.innerHTML = `
     <section class="detail-section">
       <h3>Field / Property</h3>
@@ -4610,12 +4650,22 @@ if (els.scenarioSaveModal) els.scenarioSaveModal.addEventListener("click", event
 document.addEventListener("keydown", event => {
   if (event.key === "Escape" && els.scenarioSaveModal && !els.scenarioSaveModal.classList.contains("hidden")) closeScenarioSaveModal();
 });
+if (els.graphFocusInput) els.graphFocusInput.addEventListener("input", event => renderGraphFocusResults(event.target.value, true));
+if (els.graphFocusInput) els.graphFocusInput.addEventListener("focus", event => renderGraphFocusResults(event.target.value, true));
+if (els.graphFocusInput) els.graphFocusInput.addEventListener("blur", () => setTimeout(hideGraphFocusResults, 120));
 if (els.graphFocusInput) els.graphFocusInput.addEventListener("change", event => applyGraphFocusSearchValue(event.target.value));
 if (els.graphFocusInput) els.graphFocusInput.addEventListener("keydown", event => {
   if (event.key === "Enter") {
     event.preventDefault();
     applyGraphFocusSearchValue(event.target.value);
   }
+  if (event.key === "Escape") hideGraphFocusResults();
+});
+if (els.graphFocusResults) els.graphFocusResults.addEventListener("mousedown", event => {
+  const option = event.target.closest("[data-focus-node]");
+  if (!option) return;
+  event.preventDefault();
+  applyGraphFocusSearchValue(option.dataset.focusNode);
 });
 els.restoreHidden.addEventListener("click", restoreAllHiddenNodes);
 els.depth.addEventListener("input", event => {
