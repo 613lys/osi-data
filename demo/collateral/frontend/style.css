@@ -1621,7 +1621,7 @@ p {
 }
 
 .graph-title-area.model-scope-title {
-  grid-template-columns: auto minmax(260px, 520px);
+  grid-template-columns: auto minmax(360px, 860px);
   align-items: center;
   gap: 8px 12px;
 }
@@ -1638,7 +1638,7 @@ p {
 
 .model-scope-title #focusDescription {
   grid-column: 1 / -1;
-  max-width: 760px;
+  max-width: 1120px;
   max-height: 56px;
   overflow-y: auto;
   padding-right: 6px;
