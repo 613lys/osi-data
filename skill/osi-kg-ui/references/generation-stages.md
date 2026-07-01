@@ -56,13 +56,13 @@ Stage gate:
 
 Generate the semantic ontology from the semantic model datasets and fields, plus known business semantics:
 
-- EntityType concepts whose names end with `Data` act as base entities in the UI, such as `TransactionData`, `PositionData`, `AccountData`.
+- EntityType concepts whose names end with `Data` or `数据` act as base entities in the UI, such as `TransactionData`, `PositionData`, `AccountData`, `交易数据`, `头寸数据`, or `账户数据`.
 - `EntityType` for concrete business concepts such as `Trade`, `Position`, `Account`, `Customer`, `Product`.
 - `ValueType` for reusable field meanings such as `TradeIdentifier`, `AccountIdentifier`, `CurrencyCode`, `MonetaryAmount`.
 
 Base Entity rules:
 
-- A base entity is an OSI `EntityType` whose concept name ends with `Data`.
+- A base entity is an OSI `EntityType` whose concept name ends with `Data` or `数据`.
 - Put common ValueType fields on that extended EntityType.
 - Concrete EntityTypes use `extends: [<EntityType>]`.
 - The graph should show `EXTENDS` as an edge, but the graph filter should leave `EXTENDS` unchecked by default.

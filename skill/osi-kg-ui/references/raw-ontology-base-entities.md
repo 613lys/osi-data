@@ -4,15 +4,15 @@ Read this when authoring `raw/fragments/ontology/base_entities/*.yaml`.
 
 ## Base Entity Fragment
 
-Base Entity is not a separate OSI concept type. Author it as `EntityType`; the UI treats it as Base Entity when its concept `name` ends with `Data`. Do not infer Base Entity status from whether another EntityType extends it.
+Base Entity is not a separate OSI concept type. Author it as `EntityType`; the UI treats it as Base Entity when its concept `name` ends with `Data` for English names or `数据` for Chinese names. Do not infer Base Entity status from whether another EntityType extends it.
 
 A Base Entity is an abstraction for a class of data, not a business instance. Its `relationships` should contain ValueType fields common to that whole data class.
 
 Examples:
 
-- `TransactionData`: common transaction id, booking date, status, source system.
-- `PositionData`: common position id, account id, product id, valuation date.
-- `AccountData`: common account id, account status, base currency.
+- `TransactionData` / `交易数据`: common transaction id, booking date, status, source system.
+- `PositionData` / `头寸数据`: common position id, account id, product id, valuation date.
+- `AccountData` / `账户数据`: common account id, account status, base currency.
 
 Base Entity file example:
 
@@ -40,7 +40,7 @@ relationships:
 
 Fields:
 
-- `name`: Required. UpperCamelCase concept name ending with `Data`.
+- `name`: Required. English names use UpperCamelCase ending with `Data`; Chinese names may end with `数据`, such as `交易数据` or `账户数据`.
 - `description`: Required for generated demos. Describe the abstract data class itself.
 - `identify_by`: Optional list of relationship names used as the preferred identifier.
 - `relationships`: Optional list of OSI relationships declared under this concept.

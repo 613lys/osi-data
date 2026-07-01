@@ -6,8 +6,8 @@ These files define semantic concepts and their semantic-to-physical mappings. Th
 
 ## Naming Rules
 
-- English concept names must use UpperCamelCase, for example `AccountData`, `MarginAccount`, `BaseCurrency`, `CollateralAsset`, `AccountIdentifier`.
-- Base Entity names must end with `Data`, for example `TransactionData`, `PositionData`, `AccountData`.
+- English concept names must use UpperCamelCase, for example `AccountData`, `MarginAccount`, `BaseCurrency`, `CollateralAsset`, `AccountIdentifier`. Chinese concept names are allowed when the source ontology is Chinese; keep them concise and stable.
+- Base Entity names must end with `Data` for English concepts or `数据` for Chinese concepts, for example `TransactionData`, `PositionData`, `AccountData`, `交易数据`, `头寸数据`, or `账户数据`.
 - EntityType-to-EntityType relationship names use `<action>_<role>`; generate the action from semantics, and see `raw-ontology-entity-types.md` for naming rules.
 - EntityType-to-ValueType relationship names use semantic field names such as `has_AccountIdentifier`, `has_BaseCurrency`, or `has_MarketValueAmount`. Use this same style in Base Entity and concrete EntityType fragments.
 - Keep ids stable after generation. Rename only when the semantic meaning is actually wrong.
@@ -24,7 +24,7 @@ raw/fragments/ui_annotations/mapping_edge_annotations.yaml
 
 ## What To Read
 
-- `raw-ontology-base-entities.md`: Base Entity fragments. A Base Entity is an OSI `EntityType` whose `name` ends with `Data`.
+- `raw-ontology-base-entities.md`: Base Entity fragments. A Base Entity is an OSI `EntityType` whose `name` ends with `Data` or `数据`.
 - `raw-ontology-entity-types.md`: Concrete EntityType fragments and relationship rules.
 - `raw-ontology-value-types.md`: Shared ValueType fragments and deduplication rules.
 - `raw-concept-mappings.md`: Standalone OSI concept mapping files, required mapping coverage, and multi-source mappings.
@@ -44,7 +44,7 @@ raw/fragments/ui_annotations/mapping_edge_annotations.yaml
 ## UI Effect Summary
 
 - EntityType concepts render as blue EntityType nodes.
-- EntityType concepts whose `name` ends with `Data` render as Base Entity nodes.
+- EntityType concepts whose `name` ends with `Data` or `数据` render as Base Entity nodes.
 - EntityType-to-ValueType relationships render as child field rows under EntityType nodes.
 - Standalone concept mappings create `MAPS_TO` and `MAPS_TO_FIELD` edges.
 - Dataset `description` appears on the Table node profile; optional app metadata `mapping_edge_annotations` appears on the `MAPS_TO` edge profile.

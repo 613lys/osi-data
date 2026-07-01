@@ -38,7 +38,7 @@ relationships:
 
 Additional fields:
 
-- `extends`: Required. Must name an existing Base Entity such as `AccountData`, `TransactionData`, or `PositionData`.
+- `extends`: Required. Must name an existing Base Entity such as `AccountData`, `TransactionData`, `PositionData`, `账户数据`, `交易数据`, or `头寸数据`.
 - EntityType-to-EntityType relationships point to another EntityType in `roles[].concept`.
 - EntityType-to-ValueType relationships point to a ValueType in `roles[].concept` and render as fields/properties in the UI.
 - `description` on every relationship is required. It is the UI edge/profile description and should capture context that is not obvious from `name` and `verbalizes`. Do not rely on `verbalizes` alone; `verbalizes` is a sentence template, while `description` explains the relationship meaning.

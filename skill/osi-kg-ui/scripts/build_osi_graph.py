@@ -170,6 +170,11 @@ def is_value_concept(declared_concepts: dict[str, dict[str, Any]], name: str) ->
     return concept_type_for(declared_concepts, name) == "ValueType"
 
 
+def is_base_entity_name(name: str) -> bool:
+    text = str(name or "").strip()
+    return text.endswith("Data") or text.endswith("数据")
+
+
 def slug(value: str) -> str:
     original = str(value).strip()
     safe = re.sub(r"[^a-zA-Z0-9_.-]+", "_", original).strip("_")
@@ -727,7 +732,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
     base_entity_names = {
         name
         for name, entry in declared_concepts.items()
-        if normalized_concept_type(entry["concept"]) == "EntityType" and name.endswith("Data")
+        if normalized_concept_type(entry["concept"]) == "EntityType" and is_base_entity_name(name)
     }
 
     def ensure_concept(name: str) -> str:
