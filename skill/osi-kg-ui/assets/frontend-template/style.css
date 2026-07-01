@@ -1722,19 +1722,17 @@ p {
 }
 
 .graph-title-area.scenario-scope-title {
-  grid-template-columns: auto minmax(360px, 860px);
+  grid-template-columns: minmax(360px, 980px);
   align-items: start;
   gap: 8px 12px;
 }
 
 .scenario-scope-title > .type-pill {
-  grid-column: 1;
-  grid-row: 1;
-  margin-top: 6px;
+  display: none;
 }
 
 .scenario-scope-title .scenario-top-host {
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
   width: 100%;
   min-width: 0;

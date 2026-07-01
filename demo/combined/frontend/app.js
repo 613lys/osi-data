@@ -60,7 +60,6 @@ const els = {
   graphFocusSection: document.getElementById("graphFocusSection"),
   graphFocusCard: document.getElementById("graphFocusCard"),
   graphFocusInput: document.getElementById("graphFocusInput"),
-  graphFocusDatalist: document.getElementById("graphFocusDatalist"),
   graphFocusResults: document.getElementById("graphFocusResults"),
   graphViewSelectorSection: document.getElementById("graphViewSelectorSection"),
   graphViewSelectorTitle: document.getElementById("graphViewSelectorTitle"),
@@ -2552,11 +2551,8 @@ function focusSearchOptions() {
 }
 
 function renderGraphFocusSearch() {
-  if (!els.graphFocusInput || !els.graphFocusDatalist) return;
+  if (!els.graphFocusInput) return;
   const options = focusSearchOptions();
-  els.graphFocusDatalist.innerHTML = options
-    .map(item => `<option value="${escapeAttr(item.text)}" data-node-id="${escapeAttr(item.id)}"></option>`)
-    .join("");
   const current = options.find(item => item.id === graphState.focusId);
   if (document.activeElement !== els.graphFocusInput) {
     els.graphFocusInput.value = current?.text || "";
@@ -2615,7 +2611,6 @@ function applyGraphFocusSearchValue(value) {
 function renderGraphFocus() {
   if (appState.currentPage === "scenarios") {
     if (els.graphFocusInput) els.graphFocusInput.value = "";
-    if (els.graphFocusDatalist) els.graphFocusDatalist.innerHTML = "";
     hideGraphFocusResults();
     setScenarioScopeHeader(true);
     const selected = scenarioByKey(scenarioState.selectedKey) || allScenarios()[0];
@@ -2635,7 +2630,6 @@ function renderGraphFocus() {
   }
   if (!graphViewUsesFocus()) {
     if (els.graphFocusInput) els.graphFocusInput.value = "";
-    if (els.graphFocusDatalist) els.graphFocusDatalist.innerHTML = "";
     hideGraphFocusResults();
     const scopeInfo = currentGraphScopeInfo();
     setCompactScopeHeader(true);
