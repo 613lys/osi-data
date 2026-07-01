@@ -4619,8 +4619,8 @@ window.CATALOG_DATA = {
       "required": true
     }
   },
-  "report_impl.item_1059227048": {
-    "id": "report_impl.item_1059227048",
+  "report_implementation.item_1059227048": {
+    "id": "report_implementation.item_1059227048",
     "type": "report_implementation",
     "name": "每日贷款风险暴露报表数据逻辑 - Daily Loan Exposure Report Data Logic",
     "description": "说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。",
@@ -4749,7 +4749,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "贷款标识逻辑",
     "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "贷款标识逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -4772,7 +4772,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "借款人标识逻辑",
     "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "借款人标识逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -4795,7 +4795,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "产品标识逻辑",
     "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "产品标识逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -4818,7 +4818,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "本金金额逻辑",
     "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "本金金额逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -4841,7 +4841,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "风险暴露金额逻辑",
     "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "风险暴露金额逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -4864,7 +4864,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "预期损失金额逻辑",
     "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "预期损失金额逻辑",
       "dataset": "loan_exposure_report_lines",

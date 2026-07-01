@@ -13356,8 +13356,8 @@ window.CATALOG_DATA = {
       "required": true
     }
   },
-  "report_impl.item_1059227048": {
-    "id": "report_impl.item_1059227048",
+  "report_implementation.item_1059227048": {
+    "id": "report_implementation.item_1059227048",
     "type": "report_implementation",
     "name": "每日贷款风险暴露报表数据逻辑",
     "description": "说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。",
@@ -13486,7 +13486,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "贷款标识逻辑",
     "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "贷款标识逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -13509,7 +13509,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "借款人标识逻辑",
     "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "借款人标识逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -13532,7 +13532,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "产品标识逻辑",
     "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "产品标识逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -13555,7 +13555,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "本金金额逻辑",
     "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "本金金额逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -13578,7 +13578,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "风险暴露金额逻辑",
     "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "风险暴露金额逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -13601,7 +13601,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "预期损失金额逻辑",
     "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
-    "parent": "report_impl.item_1059227048",
+    "parent": "report_implementation.item_1059227048",
     "implementation_field": {
       "name": "预期损失金额逻辑",
       "dataset": "loan_exposure_report_lines",
@@ -13619,8 +13619,8 @@ window.CATALOG_DATA = {
       }
     }
   },
-  "report_impl.item_23063cbe12": {
-    "id": "report_impl.item_23063cbe12",
+  "report_implementation.item_23063cbe12": {
+    "id": "report_implementation.item_23063cbe12",
     "type": "report_implementation",
     "name": "每日存款流动性报表数据逻辑",
     "description": "说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。",
@@ -13798,7 +13798,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "账户标识逻辑",
     "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "账户标识逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -13821,7 +13821,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "报告日期逻辑",
     "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "报告日期逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -13844,7 +13844,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "客户标识逻辑",
     "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "客户标识逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -13867,7 +13867,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "产品标识逻辑",
     "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "产品标识逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -13890,7 +13890,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "存款余额逻辑",
     "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "存款余额逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -13913,7 +13913,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "存款币种逻辑",
     "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "存款币种逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -13936,7 +13936,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "流动性分组逻辑",
     "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "流动性分组逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -13959,7 +13959,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "稳定资金金额逻辑",
     "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "稳定资金金额逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -13982,7 +13982,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "受保存款金额逻辑",
     "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "受保存款金额逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -14000,8 +14000,8 @@ window.CATALOG_DATA = {
       }
     }
   },
-  "report_impl.item_1f2b617feb": {
-    "id": "report_impl.item_1f2b617feb",
+  "report_implementation.item_1f2b617feb": {
+    "id": "report_implementation.item_1f2b617feb",
     "type": "report_implementation",
     "name": "每日合格抵质押品报表数据逻辑",
     "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。",
@@ -14133,7 +14133,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "保证金账户标识逻辑",
     "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "保证金账户标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -14156,7 +14156,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "交易对手标识逻辑",
     "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "交易对手标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -14179,7 +14179,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "抵质押品标识逻辑",
     "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "抵质押品标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -14202,7 +14202,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "估值日期逻辑",
     "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "估值日期逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -14225,7 +14225,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "抵质押品折扣前市场价值逻辑",
     "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "抵质押品折扣前市场价值逻辑",
       "dataset": "collateral_valuations",
@@ -14248,7 +14248,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "监管折扣率逻辑",
     "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "监管折扣率逻辑",
       "dataset": "collateral_valuations",
@@ -14271,7 +14271,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "折扣后合格抵质押品价值逻辑",
     "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "折扣后合格抵质押品价值逻辑",
       "dataset": "collateral_margin_report_lines",

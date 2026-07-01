@@ -2985,7 +2985,7 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "report_impl.item_1059227048",
+      "id": "report_implementation.item_1059227048",
       "type": "report_implementation",
       "label": "每日贷款风险暴露报表数据逻辑 - Daily Loan Exposure Report Data Logic",
       "properties": {
@@ -2998,7 +2998,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "贷款标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3020,7 +3020,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "借款人标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3042,7 +3042,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "产品标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3064,7 +3064,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "本金金额逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3086,7 +3086,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "风险暴露金额逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3108,7 +3108,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "预期损失金额逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -6116,8 +6116,8 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.report_impl.item_1059227048.IMPLEMENTS.IMPLEMENTS.requirement.item_91da9d8e75",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.IMPLEMENTS.IMPLEMENTS.requirement.item_91da9d8e75",
+      "source": "report_implementation.item_1059227048",
       "target": "requirement.item_91da9d8e75",
       "label": "IMPLEMENTS",
       "properties": {
@@ -6126,8 +6126,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.loan_id",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.loan_id",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.loan_id",
       "label": "CONTAINS",
       "properties": {
@@ -6179,8 +6179,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.borrower_id",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.borrower_id",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.borrower_id",
       "label": "CONTAINS",
       "properties": {
@@ -6232,8 +6232,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.product_id",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.product_id",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.product_id",
       "label": "CONTAINS",
       "properties": {
@@ -6285,8 +6285,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.principal_amount",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.principal_amount",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.principal_amount",
       "label": "CONTAINS",
       "properties": {
@@ -6338,8 +6338,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
       "label": "CONTAINS",
       "properties": {
@@ -6391,8 +6391,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.expected_loss_amount",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
       "label": "CONTAINS",
       "properties": {
@@ -6499,8 +6499,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.expected_loss_amount",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.expected_loss_amount",
+      "source": "report_implementation.item_1059227048",
       "target": "metric.expected_loss_amount",
       "label": "IMPLEMENTS_METRIC",
       "properties": {
@@ -6512,8 +6512,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_METRIC"
     },
     {
-      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.institutional_loans",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.institutional_loans",
+      "source": "report_implementation.item_1059227048",
       "target": "dataset.institutional_loans",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -6530,8 +6530,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.loan_exposure_report_lines",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.loan_exposure_report_lines",
+      "source": "report_implementation.item_1059227048",
       "target": "dataset.loan_exposure_report_lines",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -6548,8 +6548,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.retail_loans",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.retail_loans",
+      "source": "report_implementation.item_1059227048",
       "target": "dataset.retail_loans",
       "label": "SOURCE_TABLE",
       "properties": {

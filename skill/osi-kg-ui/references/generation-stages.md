@@ -191,15 +191,15 @@ report_data_logic:
 
 Required relationships:
 
-- Data Logic -> Requirement with `IMPLEMENTS`.
-- Data Logic field -> described dataset field with `MAPS_TO_FIELD`.
-- Data Logic -> source dataset with `SOURCE_TABLE` from `source_fields`.
-- Data Logic field -> requirement field with `IMPLEMENTS_FIELD`.
-- Data Logic field -> source columns with `SOURCE_FIELD`.
+- Report Data Logic -> Requirement with `IMPLEMENTS`.
+- Report Data Logic field -> described dataset field with `MAPS_TO_FIELD`.
+- Report Data Logic -> source dataset with `SOURCE_TABLE` from `source_fields`.
+- Report Data Logic field -> requirement field with `IMPLEMENTS_FIELD`.
+- Report Data Logic field -> source columns with `SOURCE_FIELD`.
 
 Constraints:
 
-- Data Logic fields must not connect directly to EntityType value fields.
+- Report Data Logic fields must not connect directly to EntityType value fields.
 - Never emit `IMPLEMENTS_SEMANTIC_FIELD`.
 - Never use `output_datasets`, `output_field`, `materialized`, or `materializes` in Report Data Logic.
 - Every field mapping should have `requirement_field` when it satisfies a requirement.

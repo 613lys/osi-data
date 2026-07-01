@@ -4482,8 +4482,8 @@ window.CATALOG_DATA = {
       "required": true
     }
   },
-  "report_impl.item_1f2b617feb": {
-    "id": "report_impl.item_1f2b617feb",
+  "report_implementation.item_1f2b617feb": {
+    "id": "report_implementation.item_1f2b617feb",
     "type": "report_implementation",
     "name": "每日合格抵质押品报表数据逻辑",
     "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。",
@@ -4615,7 +4615,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "保证金账户标识逻辑",
     "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "保证金账户标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -4638,7 +4638,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "交易对手标识逻辑",
     "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "交易对手标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -4661,7 +4661,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "抵质押品标识逻辑",
     "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "抵质押品标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -4684,7 +4684,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "估值日期逻辑",
     "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "估值日期逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -4707,7 +4707,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "抵质押品折扣前市场价值逻辑",
     "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "抵质押品折扣前市场价值逻辑",
       "dataset": "collateral_valuations",
@@ -4730,7 +4730,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "监管折扣率逻辑",
     "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "监管折扣率逻辑",
       "dataset": "collateral_valuations",
@@ -4753,7 +4753,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "折扣后合格抵质押品价值逻辑",
     "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
-    "parent": "report_impl.item_1f2b617feb",
+    "parent": "report_implementation.item_1f2b617feb",
     "implementation_field": {
       "name": "折扣后合格抵质押品价值逻辑",
       "dataset": "collateral_margin_report_lines",

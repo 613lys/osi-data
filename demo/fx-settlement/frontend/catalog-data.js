@@ -6031,8 +6031,8 @@ window.CATALOG_DATA = {
       "required": true
     }
   },
-  "report_impl.item_e781d082f3": {
-    "id": "report_impl.item_e781d082f3",
+  "report_implementation.item_e781d082f3": {
+    "id": "report_implementation.item_e781d082f3",
     "type": "report_implementation",
     "name": "每日外汇结算监测数据逻辑",
     "description": "说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。",
@@ -6183,7 +6183,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "交易标识逻辑",
     "description": "数据逻辑说明监测明细字段 trade_id 如何承载交易标识需求，并从外汇交易数据取得交易主键。",
-    "parent": "report_impl.item_e781d082f3",
+    "parent": "report_implementation.item_e781d082f3",
     "implementation_field": {
       "name": "交易标识逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6206,7 +6206,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算指令标识逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_instruction_id 如何承载结算指令标识需求，并从结算指令数据取得运营指令主键。",
-    "parent": "report_impl.item_e781d082f3",
+    "parent": "report_implementation.item_e781d082f3",
     "implementation_field": {
       "name": "结算指令标识逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6229,7 +6229,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "交易对手标识逻辑",
     "description": "数据逻辑说明监测明细字段 counterparty_id 如何承载交易对手标识需求，并使用交易上的交易对手引用。",
-    "parent": "report_impl.item_e781d082f3",
+    "parent": "report_implementation.item_e781d082f3",
     "implementation_field": {
       "name": "交易对手标识逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6252,7 +6252,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算币种逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_currency 如何承载结算币种需求，并从结算指令取得实际交收币种。",
-    "parent": "report_impl.item_e781d082f3",
+    "parent": "report_implementation.item_e781d082f3",
     "implementation_field": {
       "name": "结算币种逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6275,7 +6275,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算金额逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_amount 如何承载结算金额需求，并从结算指令取得现金交收金额。",
-    "parent": "report_impl.item_e781d082f3",
+    "parent": "report_implementation.item_e781d082f3",
     "implementation_field": {
       "name": "结算金额逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6298,7 +6298,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算状态逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_status 如何承载结算状态需求，并从结算指令取得运营处理状态。",
-    "parent": "report_impl.item_e781d082f3",
+    "parent": "report_implementation.item_e781d082f3",
     "implementation_field": {
       "name": "结算状态逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6321,7 +6321,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "折算后报送币种敞口金额逻辑",
     "description": "数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。",
-    "parent": "report_impl.item_e781d082f3",
+    "parent": "report_implementation.item_e781d082f3",
     "implementation_field": {
       "name": "折算后报送币种敞口金额逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6343,7 +6343,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算延迟天数逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。",
-    "parent": "report_impl.item_e781d082f3",
+    "parent": "report_implementation.item_e781d082f3",
     "implementation_field": {
       "name": "结算延迟天数逻辑",
       "dataset": "fx_settlement_monitoring_lines",

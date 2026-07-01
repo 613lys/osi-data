@@ -52,7 +52,7 @@ calculations:
 Fields:
 
 - `name`: Required. Requirement node id/name.
-- `type`: Required for UI profile consistency. Use `ReportRequirement` when creating new fragments. Do not use old regulatory-report implementation names in new fragments.
+- `type`: Required for UI profile consistency. Use `ReportRequirement` when creating new fragments. Do not use old regulatory-data logic names in new fragments.
 - `description`: Required. Chinese requirement/BRD wording. Describe the requirement itself, including non-data requirements such as timing, approval, reconciliation, retention, manual review, exception handling, or submission controls. Do not reduce it to a data-field summary.
 - `source`: Required string. Raw source resource for the requirement, such as a regulation article, BRD section, spreadsheet tab, Jira/Confluence page, email, or interview note. Keep it as one concise citation string; do not expand it into nested metadata fields.
 - `SLA`: Required string when the requirement has any timeliness, review, submission, retention, or operational service target. Use it for delivery cadence/deadline expectations instead of `reporting_frequency`.

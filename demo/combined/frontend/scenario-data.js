@@ -228,7 +228,7 @@ window.SCENARIO_DATA = {
         "expanded": [],
         "autoExpandSuppressed": [],
         "hiddenNodes": [
-          "report_impl.item",
+          "report_implementation.item",
           "concept.Depositor",
           "requirement.item"
         ],
@@ -355,7 +355,7 @@ window.SCENARIO_DATA = {
         "expanded": [],
         "autoExpandSuppressed": [],
         "hiddenNodes": [
-          "report_impl.item",
+          "report_implementation.item",
           "concept.Depositor"
         ],
         "selectedEdgeId": null,
@@ -483,7 +483,7 @@ window.SCENARIO_DATA = {
         ],
         "autoExpandSuppressed": [],
         "hiddenNodes": [
-          "report_impl.item"
+          "report_implementation.item"
         ],
         "selectedEdgeId": null,
         "selectedFieldId": null,

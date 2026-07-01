@@ -3897,7 +3897,7 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "report_impl.item_e781d082f3",
+      "id": "report_implementation.item_e781d082f3",
       "type": "report_implementation",
       "label": "每日外汇结算监测数据逻辑",
       "properties": {
@@ -3910,7 +3910,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "交易标识逻辑",
       "properties": {
-        "parent": "report_impl.item_e781d082f3",
+        "parent": "report_implementation.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 trade_id 如何承载交易标识需求，并从外汇交易数据取得交易主键。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3930,7 +3930,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "结算指令标识逻辑",
       "properties": {
-        "parent": "report_impl.item_e781d082f3",
+        "parent": "report_implementation.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_instruction_id 如何承载结算指令标识需求，并从结算指令数据取得运营指令主键。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3950,7 +3950,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "交易对手标识逻辑",
       "properties": {
-        "parent": "report_impl.item_e781d082f3",
+        "parent": "report_implementation.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 counterparty_id 如何承载交易对手标识需求，并使用交易上的交易对手引用。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3970,7 +3970,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "结算币种逻辑",
       "properties": {
-        "parent": "report_impl.item_e781d082f3",
+        "parent": "report_implementation.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_currency 如何承载结算币种需求，并从结算指令取得实际交收币种。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3990,7 +3990,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "结算金额逻辑",
       "properties": {
-        "parent": "report_impl.item_e781d082f3",
+        "parent": "report_implementation.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_amount 如何承载结算金额需求，并从结算指令取得现金交收金额。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -4010,7 +4010,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "结算状态逻辑",
       "properties": {
-        "parent": "report_impl.item_e781d082f3",
+        "parent": "report_implementation.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_status 如何承载结算状态需求，并从结算指令取得运营处理状态。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -4030,7 +4030,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "折算后报送币种敞口金额逻辑",
       "properties": {
-        "parent": "report_impl.item_e781d082f3",
+        "parent": "report_implementation.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -4051,7 +4051,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "结算延迟天数逻辑",
       "properties": {
-        "parent": "report_impl.item_e781d082f3",
+        "parent": "report_implementation.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -7845,8 +7845,8 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.IMPLEMENTS.IMPLEMENTS.requirement.item_a172b51eff",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.IMPLEMENTS.IMPLEMENTS.requirement.item_a172b51eff",
+      "source": "report_implementation.item_e781d082f3",
       "target": "requirement.item_a172b51eff",
       "label": "IMPLEMENTS",
       "properties": {
@@ -7855,8 +7855,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.trade_id",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.trade_id",
+      "source": "report_implementation.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.trade_id",
       "label": "CONTAINS",
       "properties": {
@@ -7898,8 +7898,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_instruction_id",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_instruction_id",
+      "source": "report_implementation.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_instruction_id",
       "label": "CONTAINS",
       "properties": {
@@ -7941,8 +7941,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.counterparty_id",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.counterparty_id",
+      "source": "report_implementation.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.counterparty_id",
       "label": "CONTAINS",
       "properties": {
@@ -7984,8 +7984,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_currency",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_currency",
+      "source": "report_implementation.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_currency",
       "label": "CONTAINS",
       "properties": {
@@ -8027,8 +8027,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_amount",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_amount",
+      "source": "report_implementation.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_amount",
       "label": "CONTAINS",
       "properties": {
@@ -8070,8 +8070,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_status",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_status",
+      "source": "report_implementation.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_status",
       "label": "CONTAINS",
       "properties": {
@@ -8113,8 +8113,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
+      "source": "report_implementation.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
       "label": "CONTAINS",
       "properties": {
@@ -8181,8 +8181,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
+      "source": "report_implementation.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
       "label": "CONTAINS",
       "properties": {
@@ -8249,8 +8249,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.report_currency_exposure_amount",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.report_currency_exposure_amount",
+      "source": "report_implementation.item_e781d082f3",
       "target": "metric.report_currency_exposure_amount",
       "label": "IMPLEMENTS_METRIC",
       "properties": {
@@ -8262,8 +8262,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_METRIC"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.settlement_delay_days",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.settlement_delay_days",
+      "source": "report_implementation.item_e781d082f3",
       "target": "metric.settlement_delay_days",
       "label": "IMPLEMENTS_METRIC",
       "properties": {
@@ -8275,8 +8275,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_METRIC"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.fx_rates",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.fx_rates",
+      "source": "report_implementation.item_e781d082f3",
       "target": "dataset.fx_rates",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -8288,8 +8288,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.fx_trades",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.fx_trades",
+      "source": "report_implementation.item_e781d082f3",
       "target": "dataset.fx_trades",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -8303,8 +8303,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.settlement_instructions",
-      "source": "report_impl.item_e781d082f3",
+      "id": "edge.report_implementation.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.settlement_instructions",
+      "source": "report_implementation.item_e781d082f3",
       "target": "dataset.settlement_instructions",
       "label": "SOURCE_TABLE",
       "properties": {

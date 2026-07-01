@@ -4321,8 +4321,8 @@ window.CATALOG_DATA = {
       "required": true
     }
   },
-  "report_impl.item_23063cbe12": {
-    "id": "report_impl.item_23063cbe12",
+  "report_implementation.item_23063cbe12": {
+    "id": "report_implementation.item_23063cbe12",
     "type": "report_implementation",
     "name": "每日存款流动性报表数据逻辑",
     "description": "说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。",
@@ -4500,7 +4500,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "账户标识逻辑",
     "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "账户标识逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -4523,7 +4523,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "报告日期逻辑",
     "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "报告日期逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -4546,7 +4546,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "客户标识逻辑",
     "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "客户标识逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -4569,7 +4569,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "产品标识逻辑",
     "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "产品标识逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -4592,7 +4592,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "存款余额逻辑",
     "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "存款余额逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -4615,7 +4615,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "存款币种逻辑",
     "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "存款币种逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -4638,7 +4638,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "流动性分组逻辑",
     "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "流动性分组逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -4661,7 +4661,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "稳定资金金额逻辑",
     "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "稳定资金金额逻辑",
       "dataset": "deposit_liquidity_report_lines",
@@ -4684,7 +4684,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "受保存款金额逻辑",
     "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
-    "parent": "report_impl.item_23063cbe12",
+    "parent": "report_implementation.item_23063cbe12",
     "implementation_field": {
       "name": "受保存款金额逻辑",
       "dataset": "deposit_liquidity_report_lines",

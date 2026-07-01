@@ -147,14 +147,14 @@ Fields:
 - `source_fields`: Optional list of physical source fields read by the implementation. The builder also parses `dataset.column` references from expressions.
 - Edge/profile descriptions derived from Report Data Logic must come from `field_mappings[].description`. Do not generate generic English descriptions such as `<logic> reads source dataset <table>`, `<logic> maps data logic field <field>`, or `<field> reads <column>`. For a Report Data Logic -> Table `SOURCE_TABLE` edge, summarize the descriptions of all `field_mappings[]` that reference that dataset through `source_field` or SQL expression refs.
 
-Data Logic field rules:
+Report Data Logic field rules:
 
 - Do not use `output_datasets`, `output_field`, `materialized`, or `materializes`.
 - Do not put `semantic_reference` on Report Data Logic fields.
-- Do not map Data Logic directly to EntityType value fields.
+- Do not map Report Data Logic directly to EntityType value fields.
 - Map to requirement semantics through `requirement_field` only.
 - Map to physical data through `dataset`, `dataset_field`, `expression`, optional `source_field`, and parsed source fields.
-- If the field is calculated from multiple inputs, define or reuse a semantic model metric and map that metric to an EntityType-owned value field through concept mapping when the calculation is also a semantic concept; keep the Data Logic field focused on implementation expression and requirement field.
+- If the field is calculated from multiple inputs, define or reuse a semantic model metric and map that metric to an EntityType-owned value field through concept mapping when the calculation is also a semantic concept; keep the Report Data Logic field focused on implementation expression and requirement field.
 ## Forbidden Fields
 
 Do not generate these fields unless a separate app extension explicitly introduces them:
@@ -169,11 +169,11 @@ Do not generate these fields unless a separate app extension explicitly introduc
 - Requirement scope concepts create `REQUIRES_CONCEPT` edges to Entity Concept nodes using `semantic_scope.concepts[].description` as the edge/profile description. Requirement required fields create child rows under the requirement node.
 - Requirement field child rows connect to EntityType value fields with `REQUIRES_SEMANTIC_FIELD`.
 - Report Data Logic creates a purple top-level node.
-- Data Logic field mappings create child rows under the data logic node.
-- Data Logic field child rows connect to requirement fields with `IMPLEMENTS_FIELD`.
-- Data Logic field child rows connect to the described dataset field with `MAPS_TO_FIELD`, to source columns from `expression` and `source_field` with `SOURCE_FIELD`, and to requirement fields with `IMPLEMENTS_FIELD`.
-- When a Data Logic field implements a requirement calculation whose semantic output is mapped to a semantic model metric through OSI concept mapping (`expression: metric.<metric_name>`), the graph generator adds `IMPLEMENTS_METRIC` edges from the Report Data Logic node and the concrete Data Logic field row to that Metric node. The edge description must come from the relevant `field_mappings[].description`; do not invent generic text.
-- Selecting a Data Logic field should not reveal a direct edge to EntityType value fields.
+- Report Data Logic field mappings create child rows under the data logic node.
+- Report Data Logic field child rows connect to requirement fields with `IMPLEMENTS_FIELD`.
+- Report Data Logic field child rows connect to the described dataset field with `MAPS_TO_FIELD`, to source columns from `expression` and `source_field` with `SOURCE_FIELD`, and to requirement fields with `IMPLEMENTS_FIELD`.
+- When a Report Data Logic field implements a requirement calculation whose semantic output is mapped to a semantic model metric through OSI concept mapping (`expression: metric.<metric_name>`), the graph generator adds `IMPLEMENTS_METRIC` edges from the Report Data Logic node and the concrete Report Data Logic field row to that Metric node. The edge description must come from the relevant `field_mappings[].description`; do not invent generic text.
+- Selecting a Report Data Logic field should not reveal a direct edge to EntityType value fields.
 
 
 

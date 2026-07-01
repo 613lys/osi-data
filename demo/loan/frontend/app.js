@@ -1517,27 +1517,20 @@ function semanticModelDescription(modelId) {
   return entry.description || aiContextSummary(entry.ai_context) || `${datasetCount} datasets · ${metricCount} metrics`;
 }
 
-function renderHomeEntryCard({ id, title, badge, colorType, count, countClass = "", description, actionLabel, actionAttr, pillClass = "", secondaryActionLabel = "", secondaryActionAttr = "", secondaryDisabled = false, showBadge = true }) {
+function renderHomeEntryCard({ id, title, badge, colorType, description, actionAttr, pillClass = "", secondaryActionLabel = "", secondaryActionAttr = "", secondaryDisabled = false, showBadge = true }) {
   const pillStyle = pillClass ? "" : ` style="background:${colorFor(colorType)}18;color:${colorFor(colorType)}"`;
   const secondaryTitle = secondaryActionLabel ? `${secondaryActionLabel} ${title || id}` : "";
   return `
-    <article class="home-card home-entry-card ${secondaryActionLabel ? "has-delete" : ""}" data-home-entry="${escapeAttr(id)}">
+    <article class="home-card home-entry-card ${secondaryActionLabel ? "has-delete" : ""}" data-home-entry="${escapeAttr(id)}" ${actionAttr} tabindex="0" role="button">
       ${secondaryActionLabel ? `<button class="home-card-delete-button" type="button" ${secondaryActionAttr} ${secondaryDisabled ? "disabled" : ""} aria-label="${escapeAttr(secondaryTitle)}" title="${escapeAttr(secondaryActionLabel)}">&times;</button>` : ""}
       <div class="home-card-main">
         ${showBadge ? `<span class="type-pill ${escapeAttr(pillClass)}"${pillStyle}>${escapeHtml(badge)}</span>` : ""}
         <h4>${bilingualTitleHtml(title || id)}</h4>
         <p>${escapeHtml(description || id)}</p>
       </div>
-      <div class="home-card-action">
-        ${count ? `<span class="home-count ${escapeAttr(countClass)}">${escapeHtml(count)}</span>` : ""}
-        <div class="home-entry-actions">
-          <button class="primary compact-button" type="button" ${actionAttr}>${escapeHtml(actionLabel)}</button>
-        </div>
-      </div>
     </article>
   `;
 }
-
 function renderHomeScenarioList() {
   const scenarios = allScenarios();
   if (!scenarios.length) {
@@ -1551,10 +1544,7 @@ function renderHomeScenarioList() {
     title: item.name,
     badge: scenarioKindLabel(item.kind, true),
     colorType: item.kind === "preset" ? "regulatory_requirement" : "report_implementation",
-    count: scenarioKindLabel(item.kind, true),
-    countClass: item.kind === "preset" ? "preset-pill" : "snapshot-pill",
     description: item.description || scenarioSummaryText(item),
-    actionLabel: "Open Scenario",
     actionAttr: `data-open-scenario="${escapeAttr(scenarioKey(item.kind, item.id))}" data-open-scenario-page="scenarios"`,
     secondaryActionLabel: "Delete scenario",
     secondaryActionAttr: `data-delete-scenario="${escapeAttr(item.id)}" data-delete-scenario-kind="${escapeAttr(item.kind)}"`,
@@ -3784,12 +3774,10 @@ function renderScopeProfile(info) {
   els.graphDetailBadge.style.background = "#eef2f7";
   els.graphDetailBadge.style.color = "#475467";
   setBilingualTitle(els.graphDetailTitle, info.displayName || info.id);
-  els.graphDetailDescription.textContent = scopeHeaderText(info) || "No description.";
+  els.graphDetailDescription.textContent = "";
   els.graphDetailBody.innerHTML = `
     <section class="detail-section">
       <h3>${escapeHtml(info.type)} Profile</h3>
-      ${kv("ID", info.id)}
-      ${kv("Display Name", info.displayName || info.id)}
       ${info.description ? kv("description", info.description) : ""}
       ${info.version ? kv("version", info.version) : ""}
       ${info.ontology ? kv("ontology", optionLabel(info.ontology)) : ""}
@@ -4488,7 +4476,7 @@ document.addEventListener("click", event => {
   }
 
   const openScenario = event.target.closest("[data-open-scenario]");
-  if (openScenario) {
+  if (openScenario && !event.target.closest("[data-delete-scenario]")) {
     applyScenario(openScenario.dataset.openScenario, openScenario.dataset.openScenarioPage === "scenarios" ? { page: "scenarios" } : {});
     event.stopPropagation();
     return;
@@ -4684,6 +4672,11 @@ if (els.scenarioSaveModal) els.scenarioSaveModal.addEventListener("click", event
 });
 document.addEventListener("keydown", event => {
   if (event.key === "Escape" && els.scenarioSaveModal && !els.scenarioSaveModal.classList.contains("hidden")) closeScenarioSaveModal();
+  const scenarioCard = event.target.closest?.("[data-open-scenario]");
+  if (scenarioCard && !event.target.closest("[data-delete-scenario]") && (event.key === "Enter" || event.key === " ")) {
+    event.preventDefault();
+    applyScenario(scenarioCard.dataset.openScenario, scenarioCard.dataset.openScenarioPage === "scenarios" ? { page: "scenarios" } : {});
+  }
 });
 if (els.graphFocusInput) els.graphFocusInput.addEventListener("input", event => renderGraphFocusResults(event.target.value, true));
 if (els.graphFocusInput) els.graphFocusInput.addEventListener("focus", event => renderGraphFocusResults(event.target.value, true));

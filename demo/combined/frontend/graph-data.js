@@ -8684,7 +8684,7 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "report_impl.item_1059227048",
+      "id": "report_implementation.item_1059227048",
       "type": "report_implementation",
       "label": "每日贷款风险暴露报表数据逻辑",
       "properties": {
@@ -8697,7 +8697,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "贷款标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8719,7 +8719,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "借款人标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8741,7 +8741,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "产品标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8763,7 +8763,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "本金金额逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8785,7 +8785,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "风险暴露金额逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8807,7 +8807,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "预期损失金额逻辑",
       "properties": {
-        "parent": "report_impl.item_1059227048",
+        "parent": "report_implementation.item_1059227048",
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8829,7 +8829,7 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "report_impl.item_23063cbe12",
+      "id": "report_implementation.item_23063cbe12",
       "type": "report_implementation",
       "label": "每日存款流动性报表数据逻辑",
       "properties": {
@@ -8842,7 +8842,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "账户标识逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8863,7 +8863,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "报告日期逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8884,7 +8884,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "客户标识逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8905,7 +8905,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "产品标识逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8926,7 +8926,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "存款余额逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8947,7 +8947,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "存款币种逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8968,7 +8968,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "流动性分组逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8989,7 +8989,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "稳定资金金额逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9012,7 +9012,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "受保存款金额逻辑",
       "properties": {
-        "parent": "report_impl.item_23063cbe12",
+        "parent": "report_implementation.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9030,7 +9030,7 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "report_impl.item_1f2b617feb",
+      "id": "report_implementation.item_1f2b617feb",
       "type": "report_implementation",
       "label": "每日合格抵质押品报表数据逻辑",
       "properties": {
@@ -9043,7 +9043,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "保证金账户标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1f2b617feb",
+        "parent": "report_implementation.item_1f2b617feb",
         "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9063,7 +9063,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "交易对手标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1f2b617feb",
+        "parent": "report_implementation.item_1f2b617feb",
         "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9083,7 +9083,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "抵质押品标识逻辑",
       "properties": {
-        "parent": "report_impl.item_1f2b617feb",
+        "parent": "report_implementation.item_1f2b617feb",
         "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9103,7 +9103,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "估值日期逻辑",
       "properties": {
-        "parent": "report_impl.item_1f2b617feb",
+        "parent": "report_implementation.item_1f2b617feb",
         "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9123,7 +9123,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "抵质押品折扣前市场价值逻辑",
       "properties": {
-        "parent": "report_impl.item_1f2b617feb",
+        "parent": "report_implementation.item_1f2b617feb",
         "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9143,7 +9143,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "监管折扣率逻辑",
       "properties": {
-        "parent": "report_impl.item_1f2b617feb",
+        "parent": "report_implementation.item_1f2b617feb",
         "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9163,7 +9163,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "折扣后合格抵质押品价值逻辑",
       "properties": {
-        "parent": "report_impl.item_1f2b617feb",
+        "parent": "report_implementation.item_1f2b617feb",
         "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -18457,8 +18457,8 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.report_impl.item_1059227048.IMPLEMENTS.IMPLEMENTS.requirement.item_91da9d8e75",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.IMPLEMENTS.IMPLEMENTS.requirement.item_91da9d8e75",
+      "source": "report_implementation.item_1059227048",
       "target": "requirement.item_91da9d8e75",
       "label": "IMPLEMENTS",
       "properties": {
@@ -18467,8 +18467,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.loan_id",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.loan_id",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.loan_id",
       "label": "CONTAINS",
       "properties": {
@@ -18520,8 +18520,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.borrower_id",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.borrower_id",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.borrower_id",
       "label": "CONTAINS",
       "properties": {
@@ -18573,8 +18573,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.product_id",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.product_id",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.product_id",
       "label": "CONTAINS",
       "properties": {
@@ -18626,8 +18626,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.principal_amount",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.principal_amount",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.principal_amount",
       "label": "CONTAINS",
       "properties": {
@@ -18679,8 +18679,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
       "label": "CONTAINS",
       "properties": {
@@ -18732,8 +18732,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.expected_loss_amount",
+      "source": "report_implementation.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
       "label": "CONTAINS",
       "properties": {
@@ -18840,8 +18840,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1059227048.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.expected_loss_amount",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.expected_loss_amount",
+      "source": "report_implementation.item_1059227048",
       "target": "metric.expected_loss_amount",
       "label": "IMPLEMENTS_METRIC",
       "properties": {
@@ -18853,8 +18853,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_METRIC"
     },
     {
-      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.institutional_loans",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.institutional_loans",
+      "source": "report_implementation.item_1059227048",
       "target": "dataset.institutional_loans",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -18871,8 +18871,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.loan_exposure_report_lines",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.loan_exposure_report_lines",
+      "source": "report_implementation.item_1059227048",
       "target": "dataset.loan_exposure_report_lines",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -18889,8 +18889,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.retail_loans",
-      "source": "report_impl.item_1059227048",
+      "id": "edge.report_implementation.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.retail_loans",
+      "source": "report_implementation.item_1059227048",
       "target": "dataset.retail_loans",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -18907,8 +18907,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS.IMPLEMENTS.requirement.item_cb03a7baa9",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.IMPLEMENTS.IMPLEMENTS.requirement.item_cb03a7baa9",
+      "source": "report_implementation.item_23063cbe12",
       "target": "requirement.item_cb03a7baa9",
       "label": "IMPLEMENTS",
       "properties": {
@@ -18917,8 +18917,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.account_id",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.account_id",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.account_id",
       "label": "CONTAINS",
       "properties": {
@@ -18960,8 +18960,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.as_of_date",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.as_of_date",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.as_of_date",
       "label": "CONTAINS",
       "properties": {
@@ -19003,8 +19003,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.customer_id",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.customer_id",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.customer_id",
       "label": "CONTAINS",
       "properties": {
@@ -19046,8 +19046,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.product_id",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.product_id",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.product_id",
       "label": "CONTAINS",
       "properties": {
@@ -19089,8 +19089,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.balance_amount",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.balance_amount",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.balance_amount",
       "label": "CONTAINS",
       "properties": {
@@ -19132,8 +19132,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.currency",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.currency",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.currency",
       "label": "CONTAINS",
       "properties": {
@@ -19175,8 +19175,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
       "label": "CONTAINS",
       "properties": {
@@ -19218,8 +19218,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
       "label": "CONTAINS",
       "properties": {
@@ -19296,8 +19296,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
+      "source": "report_implementation.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
       "label": "CONTAINS",
       "properties": {
@@ -19364,8 +19364,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.insured_balance_amount",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.insured_balance_amount",
+      "source": "report_implementation.item_23063cbe12",
       "target": "metric.insured_balance_amount",
       "label": "IMPLEMENTS_METRIC",
       "properties": {
@@ -19377,8 +19377,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_METRIC"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.stable_funding_amount",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.stable_funding_amount",
+      "source": "report_implementation.item_23063cbe12",
       "target": "metric.stable_funding_amount",
       "label": "IMPLEMENTS_METRIC",
       "properties": {
@@ -19390,8 +19390,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_METRIC"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_accounts",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_accounts",
+      "source": "report_implementation.item_23063cbe12",
       "target": "dataset.deposit_accounts",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19410,8 +19410,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_liquidity_report_lines",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_liquidity_report_lines",
+      "source": "report_implementation.item_23063cbe12",
       "target": "dataset.deposit_liquidity_report_lines",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19431,8 +19431,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_products",
-      "source": "report_impl.item_23063cbe12",
+      "id": "edge.report_implementation.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_products",
+      "source": "report_implementation.item_23063cbe12",
       "target": "dataset.deposit_products",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19445,8 +19445,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.IMPLEMENTS.IMPLEMENTS.requirement.item_66140f50d5",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.IMPLEMENTS.IMPLEMENTS.requirement.item_66140f50d5",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "requirement.item_66140f50d5",
       "label": "IMPLEMENTS",
       "properties": {
@@ -19455,8 +19455,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.account_id",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.account_id",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.account_id",
       "label": "CONTAINS",
       "properties": {
@@ -19498,8 +19498,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.counterparty_id",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.counterparty_id",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.counterparty_id",
       "label": "CONTAINS",
       "properties": {
@@ -19541,8 +19541,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.collateral_id",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.collateral_id",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.collateral_id",
       "label": "CONTAINS",
       "properties": {
@@ -19584,8 +19584,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.valuation_date",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.valuation_date",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.valuation_date",
       "label": "CONTAINS",
       "properties": {
@@ -19627,8 +19627,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_valuations.market_value_amount",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_valuations.market_value_amount",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "implementation_field.collateral_valuations.market_value_amount",
       "label": "CONTAINS",
       "properties": {
@@ -19660,8 +19660,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_valuations.haircut_rate",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_valuations.haircut_rate",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "implementation_field.collateral_valuations.haircut_rate",
       "label": "CONTAINS",
       "properties": {
@@ -19693,8 +19693,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.eligible_collateral_value",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
       "label": "CONTAINS",
       "properties": {
@@ -19761,8 +19761,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.eligible_collateral_value",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.eligible_collateral_value",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "metric.eligible_collateral_value",
       "label": "IMPLEMENTS_METRIC",
       "properties": {
@@ -19774,8 +19774,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_METRIC"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_positions",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_positions",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "dataset.collateral_positions",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19787,8 +19787,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_valuations",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_valuations",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "dataset.collateral_valuations",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19802,8 +19802,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.counterparties",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.counterparties",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "dataset.counterparties",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19815,8 +19815,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.margin_accounts",
-      "source": "report_impl.item_1f2b617feb",
+      "id": "edge.report_implementation.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.margin_accounts",
+      "source": "report_implementation.item_1f2b617feb",
       "target": "dataset.margin_accounts",
       "label": "SOURCE_TABLE",
       "properties": {

@@ -1862,7 +1862,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
         name = implementation.get("name")
         if not name:
             continue
-        implementation_id = node_id("report_impl", name)
+        implementation_id = node_id("report_implementation", name)
         add_node(
             nodes,
             implementation_id,

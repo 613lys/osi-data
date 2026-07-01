@@ -1617,10 +1617,16 @@ p {
 }
 
 .home-entry-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
+  display: block;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.home-entry-card:hover,
+.home-entry-card:focus-visible {
+  border-color: var(--blue);
+  box-shadow: 0 8px 20px rgba(16, 24, 40, .08);
+  outline: none;
 }
 .home-entry-card.has-delete {
   position: relative;
@@ -1662,23 +1668,6 @@ p {
   min-width: 0;
 }
 
-.home-card-action {
-  display: grid;
-  justify-items: end;
-  gap: 8px;
-  min-width: 132px;
-}
-
-.home-card-action button {
-  white-space: nowrap;
-}
-.home-entry-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 6px;
-}
-
 .home-entry-card p {
   display: -webkit-box;
   overflow: hidden;
@@ -1687,41 +1676,9 @@ p {
   -webkit-line-clamp: 2;
 }
 
-.home-count {
-  flex: 0 0 auto;
-  align-self: flex-start;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: #f2f4f7;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.home-count.preset-pill {
-  background: #fff7ed;
-  color: #c2410c;
-}
-
-.home-count.snapshot-pill {
-  background: #faf5ff;
-  color: #7e22ce;
-}
-
 @media (max-width: 760px) {
   .home-entry-card {
-    grid-template-columns: 1fr;
-  }
-
-  .home-card-action {
-    width: 100%;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    justify-items: stretch;
-  }
-
-  .home-card-action button {
-    justify-self: end;
+    display: block;
   }
 }
 
