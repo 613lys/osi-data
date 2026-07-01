@@ -98,11 +98,11 @@ window.OSI_SUMMARY = {
   "entity_type_concepts": 17,
   "base_entity_concepts": 7,
   "value_type_concepts": 22,
-  "regulatory_requirements": 1,
-  "report_data_logic": 1,
+  "regulatory_requirements": 3,
+  "report_data_logic": 3,
   "semantic_datasets": 14,
   "physical_tables": 12,
-  "edges": 743,
+  "edges": 753,
   "warning_count": 16,
   "warnings": [
     {

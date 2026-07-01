@@ -410,9 +410,9 @@
     "text": "metric.insured_balance_amount semantic_metric insured_balance_amount Insured balance amount calculated as the lower of account balance and product insurance limit. Insured balance amount calculated as the lower of account balance and product insurance limit."
   },
   {
-    "id": "requirement.item",
+    "id": "requirement.item_cb03a7baa9",
     "type": "regulatory_requirement",
-    "text": "requirement.item regulatory_requirement 存款流动性稳定资金报送需求 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 Deposit Liquidity Reporting BRD v1.0 section 4.1"
+    "text": "requirement.item_cb03a7baa9 regulatory_requirement 存款流动性稳定资金报送需求 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 Deposit Liquidity Reporting BRD v1.0 section 4.1"
   },
   {
     "id": "requirement_item..DepositAccount.has_AccountIdentifier",
@@ -460,9 +460,9 @@
     "text": "requirement_item..DepositAccount.has_InsuredBalanceAmount requirement_semantic_item 受保存款金额 需求需要受保存款金额，用于展示存款余额中受产品保险限额覆盖的部分。"
   },
   {
-    "id": "report_impl.item",
+    "id": "report_impl.item_23063cbe12",
     "type": "report_implementation",
-    "text": "report_impl.item report_implementation 每日存款流动性报表数据逻辑 说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。 说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。"
+    "text": "report_impl.item_23063cbe12 report_implementation 每日存款流动性报表数据逻辑 说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。 说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。"
   },
   {
     "id": "implementation_field.deposit_liquidity_report_lines.account_id",

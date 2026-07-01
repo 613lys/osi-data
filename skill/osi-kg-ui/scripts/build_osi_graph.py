@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -170,8 +171,12 @@ def is_value_concept(declared_concepts: dict[str, dict[str, Any]], name: str) ->
 
 
 def slug(value: str) -> str:
-    value = re.sub(r"[^a-zA-Z0-9_.-]+", "_", str(value).strip())
-    return value.strip("_") or "item"
+    original = str(value).strip()
+    safe = re.sub(r"[^a-zA-Z0-9_.-]+", "_", original).strip("_")
+    if safe:
+        return safe
+    digest = hashlib.sha1(original.encode("utf-8")).hexdigest()[:10] if original else "item"
+    return f"item_{digest}"
 
 
 def node_id(prefix: str, name: str) -> str:
@@ -980,6 +985,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
     dataset_index: dict[str, dict[str, Any]] = {}
     field_index: dict[str, dict[str, Any]] = {}
     metric_definitions_by_name: dict[str, dict[str, Any]] = {}
+    semantic_reference_metrics_by_field: dict[str, set[str]] = defaultdict(set)
 
     for ontology_map in data.get("ontology_mappings") or []:
         sm = ontology_map.get("semantic_model") or {}
@@ -1442,8 +1448,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 for rel_ref in relationship_field_refs(object_mapping):
                     metric_name = metric_reference_name(rel_ref["field"], semantic_metric_names)
                     if metric_name:
-                        mapping_metric_fields_by_concept[concept].add((rel_ref["relationship"], metric_name))
+                        relationship_name = rel_ref["relationship"]
+                        mapping_metric_fields_by_concept[concept].add((relationship_name, metric_name))
                         mapping_metrics_by_concept[concept].add(metric_name)
+                        semantic_reference_metrics_by_field[f"{concept}.{relationship_name}"].add(metric_name)
                     else:
                         mapping_value_fields_by_concept[concept].add((rel_ref["relationship"], rel_ref["field"]))
                 for ref in refs:
@@ -1464,8 +1472,10 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 for rel_ref in relationship_refs:
                     metric_name = metric_reference_name(rel_ref["field"], semantic_metric_names)
                     if metric_name:
-                        mapping_metric_fields_by_concept[concept].add((rel_ref["relationship"], metric_name))
+                        relationship_name = rel_ref["relationship"]
+                        mapping_metric_fields_by_concept[concept].add((relationship_name, metric_name))
                         mapping_metrics_by_concept[concept].add(metric_name)
+                        semantic_reference_metrics_by_field[f"{concept}.{relationship_name}"].add(metric_name)
                     else:
                         mapping_value_fields_by_concept[concept].add((rel_ref["relationship"], rel_ref["field"]))
                 for ref in refs:
@@ -1597,6 +1607,8 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             catalog_entry["mapped_tables"] = sorted(datasets)
             catalog_entry["mapped_fields"] = sorted(mapping_fields_by_concept[concept])
             catalog_entry["mapped_metrics"] = sorted(mapping_metrics_by_concept[concept])
+
+    metric_requirements_by_requirement: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
 
     semantic_metric_names = {
         metric.get("name")
@@ -1796,6 +1808,9 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                 "required_field": field,
             }
             requirement_field_ids[name][item_name] = item_id
+            for metric_name in semantic_reference_metrics_by_field.get(semantic_ref, set()):
+                metric_requirements_by_requirement[name][item_name].add(metric_name)
+                metric_requirements_by_requirement[name][semantic_ref].add(metric_name)
             add_edge(edges, requirement_id, item_id, "CONTAINS", "CONTAINS", field.get("description") or "")
             if semantic_node:
                 add_edge(
@@ -1824,7 +1839,12 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                     "inputs": calc.get("inputs") or [],
                 },
             )
-            requirement_field_ids[name][calc.get("name", "calculation")] = calc_id
+            calc_name = calc.get("name", "calculation")
+            calc_output = normalize_semantic_reference(calc.get("output", ""))
+            requirement_field_ids[name][calc_name] = calc_id
+            for metric_name in semantic_reference_metrics_by_field.get(calc_output, set()):
+                metric_requirements_by_requirement[name][calc_name].add(metric_name)
+                metric_requirements_by_requirement[name][calc_output].add(metric_name)
             if calc.get("output"):
                 requirement_field_ids[name][calc.get("output")] = calc_id
             add_edge(edges, requirement_id, calc_id, "CONTAINS", "CONTAINS", calc.get("description", ""))
@@ -1870,6 +1890,7 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
 
         source_table_descriptions: dict[str, list[str]] = defaultdict(list)
         source_table_fields: dict[str, set[str]] = defaultdict(set)
+        implementation_metric_descriptions: dict[str, list[str]] = defaultdict(list)
 
         def remember_source_table(field_ref: str, description: str) -> None:
             if not field_ref or "." not in str(field_ref):
@@ -1939,7 +1960,30 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
             for read_ref in sorted(read_refs):
                 if read_ref and dataset_field_node_id(read_ref) in nodes:
                     add_edge(edges, binding_id, dataset_field_node_id(read_ref), "SOURCE_FIELD", "SOURCE_FIELD", field_description)
-            implemented_requirement = requirement_field_ids.get(implementation.get("implements", ""), {}).get(field.get("requirement_field", ""))
+            requirement_name = implementation.get("implements", "")
+            requirement_field_name = field.get("requirement_field", "")
+            for metric_name in sorted(metric_requirements_by_requirement.get(requirement_name, {}).get(requirement_field_name, set())):
+                metric_id = node_id("metric", metric_name)
+                if metric_id in nodes:
+                    metric_description = field_description or nodes.get(metric_id, {}).get("properties", {}).get("description", "")
+                    if metric_description and metric_description not in implementation_metric_descriptions[metric_name]:
+                        implementation_metric_descriptions[metric_name].append(metric_description)
+                    add_edge(
+                        edges,
+                        binding_id,
+                        metric_id,
+                        "IMPLEMENTS_METRIC",
+                        "IMPLEMENTS_METRIC",
+                        metric_description,
+                        {
+                            "requirement": requirement_name,
+                            "requirement_field": requirement_field_name,
+                            "semantic_metric": metric_name,
+                            "semantic_reference": f"metric.{metric_name}",
+                            "expression": expression_value,
+                        },
+                    )
+            implemented_requirement = requirement_field_ids.get(requirement_name, {}).get(requirement_field_name)
             if implemented_requirement:
                 add_edge(
                     edges,
@@ -1954,6 +1998,23 @@ def compile_catalog_and_graph(data: dict[str, Any]) -> tuple[dict[str, Any], dic
                         "expression": expression_value,
                     },
                 )
+        for metric_name, descriptions in sorted(implementation_metric_descriptions.items()):
+            metric_id = node_id("metric", metric_name)
+            if metric_id in nodes:
+                add_edge(
+                    edges,
+                    implementation_id,
+                    metric_id,
+                    "IMPLEMENTS_METRIC",
+                    "IMPLEMENTS_METRIC",
+                    "；".join(descriptions),
+                    {
+                        "semantic_metric": metric_name,
+                        "semantic_reference": f"metric.{metric_name}",
+                        "requirement": implementation.get("implements", ""),
+                    },
+                )
+
         for field_ref in implementation.get("source_fields") or []:
             remember_source_table(str(field_ref), "")
         for dataset_name in sorted(source_table_fields):

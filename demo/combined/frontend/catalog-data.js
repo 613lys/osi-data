@@ -12714,8 +12714,437 @@ window.CATALOG_DATA = {
       "custom_extensions": []
     }
   },
-  "requirement.item": {
-    "id": "requirement.item",
+  "requirement.item_91da9d8e75": {
+    "id": "requirement.item_91da9d8e75",
+    "type": "regulatory_requirement",
+    "name": "贷款风险暴露报送需求",
+    "description": "监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。",
+    "source": "Loan Credit Exposure Reporting BRD v1.0 section 5.2",
+    "SLA": "Daily EOD before 22:00 local time; credit risk review completed before regulatory submission.",
+    "semantic_scope": {
+      "concepts": [
+        {
+          "name": "Loan",
+          "description": "需求需要 Loan 作为贷款风险暴露的核心语义对象，用于表达每笔零售或机构贷款的标识、本金、风险暴露和预期损失口径。"
+        },
+        {
+          "name": "Borrower",
+          "description": "需求需要 Borrower 作为承担还款责任的客户或法律实体语义对象，用于说明每笔贷款暴露归属的借款人。"
+        },
+        {
+          "name": "LoanProduct",
+          "description": "需求需要 LoanProduct 作为贷款产品语义对象，用于按监管产品类别解释和汇总贷款风险暴露。"
+        }
+      ],
+      "required_fields": [
+        {
+          "name": "贷款标识",
+          "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
+          "semantic_reference": "Loan.has_LoanIdentifier",
+          "required": true
+        },
+        {
+          "name": "借款人标识",
+          "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
+          "semantic_reference": "Borrower.has_CustomerIdentifier",
+          "required": true
+        },
+        {
+          "name": "产品标识",
+          "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
+          "semantic_reference": "LoanProduct.has_ProductIdentifier",
+          "required": true
+        },
+        {
+          "name": "本金金额",
+          "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
+          "semantic_reference": "Loan.has_PrincipalAmount",
+          "required": true
+        },
+        {
+          "name": "风险暴露金额",
+          "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
+          "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
+          "required": true
+        }
+      ],
+      "controls": [
+        {
+          "name": "loan_identifier_present",
+          "target": "Loan.has_LoanIdentifier",
+          "rule": "Loan identifier must be present for every report line."
+        },
+        {
+          "name": "borrower_identifier_present",
+          "target": "Borrower.has_CustomerIdentifier",
+          "rule": "Borrower identifier must be present for every report line."
+        }
+      ]
+    },
+    "required_fields": [
+      {
+        "name": "贷款标识",
+        "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
+        "semantic_reference": "Loan.has_LoanIdentifier",
+        "required": true
+      },
+      {
+        "name": "借款人标识",
+        "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
+        "semantic_reference": "Borrower.has_CustomerIdentifier",
+        "required": true
+      },
+      {
+        "name": "产品标识",
+        "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
+        "semantic_reference": "LoanProduct.has_ProductIdentifier",
+        "required": true
+      },
+      {
+        "name": "本金金额",
+        "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
+        "semantic_reference": "Loan.has_PrincipalAmount",
+        "required": true
+      },
+      {
+        "name": "风险暴露金额",
+        "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
+        "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
+        "required": true
+      }
+    ],
+    "calculations": [
+      {
+        "name": "预期损失金额",
+        "description": "需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。",
+        "output": "Loan.has_ExpectedLossAmount",
+        "inputs": [
+          "Loan.has_ExposureAtDefaultAmount",
+          "Loan.has_ProbabilityOfDefault",
+          "Loan.has_LossGivenDefault"
+        ],
+        "expression": "Loan.has_ExposureAtDefaultAmount * Loan.has_ProbabilityOfDefault * Loan.has_LossGivenDefault"
+      }
+    ],
+    "controls": []
+  },
+  "requirement_item..Loan.has_LoanIdentifier": {
+    "id": "requirement_item..Loan.has_LoanIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "贷款标识",
+    "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
+    "parent": "requirement.item_91da9d8e75",
+    "semantic_reference": "Loan.has_LoanIdentifier",
+    "required_field": {
+      "name": "贷款标识",
+      "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
+      "semantic_reference": "Loan.has_LoanIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..Borrower.has_CustomerIdentifier": {
+    "id": "requirement_item..Borrower.has_CustomerIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "借款人标识",
+    "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
+    "parent": "requirement.item_91da9d8e75",
+    "semantic_reference": "Borrower.has_CustomerIdentifier",
+    "required_field": {
+      "name": "借款人标识",
+      "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
+      "semantic_reference": "Borrower.has_CustomerIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..LoanProduct.has_ProductIdentifier": {
+    "id": "requirement_item..LoanProduct.has_ProductIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "产品标识",
+    "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
+    "parent": "requirement.item_91da9d8e75",
+    "semantic_reference": "LoanProduct.has_ProductIdentifier",
+    "required_field": {
+      "name": "产品标识",
+      "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
+      "semantic_reference": "LoanProduct.has_ProductIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..Loan.has_PrincipalAmount": {
+    "id": "requirement_item..Loan.has_PrincipalAmount",
+    "type": "requirement_semantic_item",
+    "name": "本金金额",
+    "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
+    "parent": "requirement.item_91da9d8e75",
+    "semantic_reference": "Loan.has_PrincipalAmount",
+    "required_field": {
+      "name": "本金金额",
+      "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
+      "semantic_reference": "Loan.has_PrincipalAmount",
+      "required": true
+    }
+  },
+  "requirement_item..Loan.has_ExposureAtDefaultAmount": {
+    "id": "requirement_item..Loan.has_ExposureAtDefaultAmount",
+    "type": "requirement_semantic_item",
+    "name": "风险暴露金额",
+    "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
+    "parent": "requirement.item_91da9d8e75",
+    "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
+    "required_field": {
+      "name": "风险暴露金额",
+      "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
+      "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
+      "required": true
+    }
+  },
+  "requirement.item_cb03a7baa9": {
+    "id": "requirement.item_cb03a7baa9",
+    "type": "regulatory_requirement",
+    "name": "存款流动性稳定资金报送需求",
+    "description": "监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。",
+    "source": "Deposit Liquidity Reporting BRD v1.0 section 4.1",
+    "SLA": "Daily EOD before 20:30 local time; treasury liquidity review completed before regulatory submission.",
+    "semantic_scope": {
+      "concepts": [
+        {
+          "name": "DepositAccount",
+          "description": "需求需要 DepositAccount 作为存款流动性报送的核心语义对象，用于表达每个账户在报告日的余额、币种、流动性分组和稳定资金金额口径。"
+        },
+        {
+          "name": "Depositor",
+          "description": "需求需要 Depositor 作为持有存款账户的客户或法律实体语义对象，用于按客户分组、归属和辖区解释存款余额。"
+        },
+        {
+          "name": "DepositProduct",
+          "description": "需求需要 DepositProduct 作为存款产品语义对象，用于说明产品监管分类、标准流失率和保险限额。"
+        }
+      ],
+      "required_fields": [
+        {
+          "name": "账户标识",
+          "description": "需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。",
+          "semantic_reference": "DepositAccount.has_AccountIdentifier",
+          "required": true
+        },
+        {
+          "name": "报告日期",
+          "description": "需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。",
+          "semantic_reference": "DepositAccount.has_AsOfDate",
+          "required": true
+        },
+        {
+          "name": "客户标识",
+          "description": "需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。",
+          "semantic_reference": "Depositor.has_CustomerIdentifier",
+          "required": true
+        },
+        {
+          "name": "产品标识",
+          "description": "需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。",
+          "semantic_reference": "DepositProduct.has_ProductIdentifier",
+          "required": true
+        },
+        {
+          "name": "存款余额",
+          "description": "需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。",
+          "semantic_reference": "DepositAccount.has_DepositBalanceAmount",
+          "required": true
+        },
+        {
+          "name": "存款币种",
+          "description": "需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。",
+          "semantic_reference": "DepositAccount.has_DepositCurrency",
+          "required": true
+        },
+        {
+          "name": "流动性分组",
+          "description": "需求需要流动性分组，用于按监管流动性桶分类展示存款余额。",
+          "semantic_reference": "DepositAccount.has_LiquidityBucket",
+          "required": true
+        }
+      ],
+      "controls": [
+        {
+          "name": "account_identifier_present",
+          "target": "DepositAccount.has_AccountIdentifier",
+          "rule": "Account identifier must be present for every report line."
+        },
+        {
+          "name": "reporting_date_present",
+          "target": "DepositAccount.has_AsOfDate",
+          "rule": "Reporting date must be present for every report line."
+        }
+      ]
+    },
+    "required_fields": [
+      {
+        "name": "账户标识",
+        "description": "需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。",
+        "semantic_reference": "DepositAccount.has_AccountIdentifier",
+        "required": true
+      },
+      {
+        "name": "报告日期",
+        "description": "需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。",
+        "semantic_reference": "DepositAccount.has_AsOfDate",
+        "required": true
+      },
+      {
+        "name": "客户标识",
+        "description": "需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。",
+        "semantic_reference": "Depositor.has_CustomerIdentifier",
+        "required": true
+      },
+      {
+        "name": "产品标识",
+        "description": "需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。",
+        "semantic_reference": "DepositProduct.has_ProductIdentifier",
+        "required": true
+      },
+      {
+        "name": "存款余额",
+        "description": "需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。",
+        "semantic_reference": "DepositAccount.has_DepositBalanceAmount",
+        "required": true
+      },
+      {
+        "name": "存款币种",
+        "description": "需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。",
+        "semantic_reference": "DepositAccount.has_DepositCurrency",
+        "required": true
+      },
+      {
+        "name": "流动性分组",
+        "description": "需求需要流动性分组，用于按监管流动性桶分类展示存款余额。",
+        "semantic_reference": "DepositAccount.has_LiquidityBucket",
+        "required": true
+      }
+    ],
+    "calculations": [
+      {
+        "name": "稳定资金金额",
+        "description": "需求需要稳定资金金额，用于根据存款余额和适用流失率计算可计入稳定资金的金额。",
+        "output": "DepositAccount.has_StableFundingAmount",
+        "inputs": [
+          "DepositAccount.has_DepositBalanceAmount",
+          "DepositAccount.has_RunoffRate"
+        ],
+        "expression": "DepositAccount.has_DepositBalanceAmount * DepositAccount.has_RunoffRate"
+      },
+      {
+        "name": "受保存款金额",
+        "description": "需求需要受保存款金额，用于展示存款余额中受产品保险限额覆盖的部分。",
+        "output": "DepositAccount.has_InsuredBalanceAmount",
+        "inputs": [
+          "DepositAccount.has_DepositBalanceAmount",
+          "DepositProduct.has_InsuranceLimitAmount"
+        ],
+        "expression": "min(DepositAccount.has_DepositBalanceAmount, DepositProduct.has_InsuranceLimitAmount)"
+      }
+    ],
+    "controls": []
+  },
+  "requirement_item..DepositAccount.has_AccountIdentifier": {
+    "id": "requirement_item..DepositAccount.has_AccountIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "账户标识",
+    "description": "需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。",
+    "parent": "requirement.item_cb03a7baa9",
+    "semantic_reference": "DepositAccount.has_AccountIdentifier",
+    "required_field": {
+      "name": "账户标识",
+      "description": "需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。",
+      "semantic_reference": "DepositAccount.has_AccountIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..DepositAccount.has_AsOfDate": {
+    "id": "requirement_item..DepositAccount.has_AsOfDate",
+    "type": "requirement_semantic_item",
+    "name": "报告日期",
+    "description": "需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。",
+    "parent": "requirement.item_cb03a7baa9",
+    "semantic_reference": "DepositAccount.has_AsOfDate",
+    "required_field": {
+      "name": "报告日期",
+      "description": "需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。",
+      "semantic_reference": "DepositAccount.has_AsOfDate",
+      "required": true
+    }
+  },
+  "requirement_item..Depositor.has_CustomerIdentifier": {
+    "id": "requirement_item..Depositor.has_CustomerIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "客户标识",
+    "description": "需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。",
+    "parent": "requirement.item_cb03a7baa9",
+    "semantic_reference": "Depositor.has_CustomerIdentifier",
+    "required_field": {
+      "name": "客户标识",
+      "description": "需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。",
+      "semantic_reference": "Depositor.has_CustomerIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..DepositProduct.has_ProductIdentifier": {
+    "id": "requirement_item..DepositProduct.has_ProductIdentifier",
+    "type": "requirement_semantic_item",
+    "name": "产品标识",
+    "description": "需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。",
+    "parent": "requirement.item_cb03a7baa9",
+    "semantic_reference": "DepositProduct.has_ProductIdentifier",
+    "required_field": {
+      "name": "产品标识",
+      "description": "需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。",
+      "semantic_reference": "DepositProduct.has_ProductIdentifier",
+      "required": true
+    }
+  },
+  "requirement_item..DepositAccount.has_DepositBalanceAmount": {
+    "id": "requirement_item..DepositAccount.has_DepositBalanceAmount",
+    "type": "requirement_semantic_item",
+    "name": "存款余额",
+    "description": "需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。",
+    "parent": "requirement.item_cb03a7baa9",
+    "semantic_reference": "DepositAccount.has_DepositBalanceAmount",
+    "required_field": {
+      "name": "存款余额",
+      "description": "需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。",
+      "semantic_reference": "DepositAccount.has_DepositBalanceAmount",
+      "required": true
+    }
+  },
+  "requirement_item..DepositAccount.has_DepositCurrency": {
+    "id": "requirement_item..DepositAccount.has_DepositCurrency",
+    "type": "requirement_semantic_item",
+    "name": "存款币种",
+    "description": "需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。",
+    "parent": "requirement.item_cb03a7baa9",
+    "semantic_reference": "DepositAccount.has_DepositCurrency",
+    "required_field": {
+      "name": "存款币种",
+      "description": "需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。",
+      "semantic_reference": "DepositAccount.has_DepositCurrency",
+      "required": true
+    }
+  },
+  "requirement_item..DepositAccount.has_LiquidityBucket": {
+    "id": "requirement_item..DepositAccount.has_LiquidityBucket",
+    "type": "requirement_semantic_item",
+    "name": "流动性分组",
+    "description": "需求需要流动性分组，用于按监管流动性桶分类展示存款余额。",
+    "parent": "requirement.item_cb03a7baa9",
+    "semantic_reference": "DepositAccount.has_LiquidityBucket",
+    "required_field": {
+      "name": "流动性分组",
+      "description": "需求需要流动性分组，用于按监管流动性桶分类展示存款余额。",
+      "semantic_reference": "DepositAccount.has_LiquidityBucket",
+      "required": true
+    }
+  },
+  "requirement.item_66140f50d5": {
+    "id": "requirement.item_66140f50d5",
     "type": "regulatory_requirement",
     "name": "合格抵质押品报送需求",
     "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
@@ -12843,180 +13272,12 @@ window.CATALOG_DATA = {
     ],
     "controls": []
   },
-  "requirement_item..Loan.has_LoanIdentifier": {
-    "id": "requirement_item..Loan.has_LoanIdentifier",
-    "type": "requirement_semantic_item",
-    "name": "贷款标识",
-    "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
-    "parent": "requirement.item",
-    "semantic_reference": "Loan.has_LoanIdentifier",
-    "required_field": {
-      "name": "贷款标识",
-      "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
-      "semantic_reference": "Loan.has_LoanIdentifier",
-      "required": true
-    }
-  },
-  "requirement_item..Borrower.has_CustomerIdentifier": {
-    "id": "requirement_item..Borrower.has_CustomerIdentifier",
-    "type": "requirement_semantic_item",
-    "name": "借款人标识",
-    "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
-    "parent": "requirement.item",
-    "semantic_reference": "Borrower.has_CustomerIdentifier",
-    "required_field": {
-      "name": "借款人标识",
-      "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
-      "semantic_reference": "Borrower.has_CustomerIdentifier",
-      "required": true
-    }
-  },
-  "requirement_item..LoanProduct.has_ProductIdentifier": {
-    "id": "requirement_item..LoanProduct.has_ProductIdentifier",
-    "type": "requirement_semantic_item",
-    "name": "产品标识",
-    "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
-    "parent": "requirement.item",
-    "semantic_reference": "LoanProduct.has_ProductIdentifier",
-    "required_field": {
-      "name": "产品标识",
-      "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
-      "semantic_reference": "LoanProduct.has_ProductIdentifier",
-      "required": true
-    }
-  },
-  "requirement_item..Loan.has_PrincipalAmount": {
-    "id": "requirement_item..Loan.has_PrincipalAmount",
-    "type": "requirement_semantic_item",
-    "name": "本金金额",
-    "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
-    "parent": "requirement.item",
-    "semantic_reference": "Loan.has_PrincipalAmount",
-    "required_field": {
-      "name": "本金金额",
-      "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
-      "semantic_reference": "Loan.has_PrincipalAmount",
-      "required": true
-    }
-  },
-  "requirement_item..Loan.has_ExposureAtDefaultAmount": {
-    "id": "requirement_item..Loan.has_ExposureAtDefaultAmount",
-    "type": "requirement_semantic_item",
-    "name": "风险暴露金额",
-    "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
-    "parent": "requirement.item",
-    "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
-    "required_field": {
-      "name": "风险暴露金额",
-      "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
-      "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
-      "required": true
-    }
-  },
-  "requirement_item..DepositAccount.has_AccountIdentifier": {
-    "id": "requirement_item..DepositAccount.has_AccountIdentifier",
-    "type": "requirement_semantic_item",
-    "name": "账户标识",
-    "description": "需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。",
-    "parent": "requirement.item",
-    "semantic_reference": "DepositAccount.has_AccountIdentifier",
-    "required_field": {
-      "name": "账户标识",
-      "description": "需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。",
-      "semantic_reference": "DepositAccount.has_AccountIdentifier",
-      "required": true
-    }
-  },
-  "requirement_item..DepositAccount.has_AsOfDate": {
-    "id": "requirement_item..DepositAccount.has_AsOfDate",
-    "type": "requirement_semantic_item",
-    "name": "报告日期",
-    "description": "需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。",
-    "parent": "requirement.item",
-    "semantic_reference": "DepositAccount.has_AsOfDate",
-    "required_field": {
-      "name": "报告日期",
-      "description": "需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。",
-      "semantic_reference": "DepositAccount.has_AsOfDate",
-      "required": true
-    }
-  },
-  "requirement_item..Depositor.has_CustomerIdentifier": {
-    "id": "requirement_item..Depositor.has_CustomerIdentifier",
-    "type": "requirement_semantic_item",
-    "name": "客户标识",
-    "description": "需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。",
-    "parent": "requirement.item",
-    "semantic_reference": "Depositor.has_CustomerIdentifier",
-    "required_field": {
-      "name": "客户标识",
-      "description": "需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。",
-      "semantic_reference": "Depositor.has_CustomerIdentifier",
-      "required": true
-    }
-  },
-  "requirement_item..DepositProduct.has_ProductIdentifier": {
-    "id": "requirement_item..DepositProduct.has_ProductIdentifier",
-    "type": "requirement_semantic_item",
-    "name": "产品标识",
-    "description": "需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。",
-    "parent": "requirement.item",
-    "semantic_reference": "DepositProduct.has_ProductIdentifier",
-    "required_field": {
-      "name": "产品标识",
-      "description": "需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。",
-      "semantic_reference": "DepositProduct.has_ProductIdentifier",
-      "required": true
-    }
-  },
-  "requirement_item..DepositAccount.has_DepositBalanceAmount": {
-    "id": "requirement_item..DepositAccount.has_DepositBalanceAmount",
-    "type": "requirement_semantic_item",
-    "name": "存款余额",
-    "description": "需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。",
-    "parent": "requirement.item",
-    "semantic_reference": "DepositAccount.has_DepositBalanceAmount",
-    "required_field": {
-      "name": "存款余额",
-      "description": "需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。",
-      "semantic_reference": "DepositAccount.has_DepositBalanceAmount",
-      "required": true
-    }
-  },
-  "requirement_item..DepositAccount.has_DepositCurrency": {
-    "id": "requirement_item..DepositAccount.has_DepositCurrency",
-    "type": "requirement_semantic_item",
-    "name": "存款币种",
-    "description": "需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。",
-    "parent": "requirement.item",
-    "semantic_reference": "DepositAccount.has_DepositCurrency",
-    "required_field": {
-      "name": "存款币种",
-      "description": "需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。",
-      "semantic_reference": "DepositAccount.has_DepositCurrency",
-      "required": true
-    }
-  },
-  "requirement_item..DepositAccount.has_LiquidityBucket": {
-    "id": "requirement_item..DepositAccount.has_LiquidityBucket",
-    "type": "requirement_semantic_item",
-    "name": "流动性分组",
-    "description": "需求需要流动性分组，用于按监管流动性桶分类展示存款余额。",
-    "parent": "requirement.item",
-    "semantic_reference": "DepositAccount.has_LiquidityBucket",
-    "required_field": {
-      "name": "流动性分组",
-      "description": "需求需要流动性分组，用于按监管流动性桶分类展示存款余额。",
-      "semantic_reference": "DepositAccount.has_LiquidityBucket",
-      "required": true
-    }
-  },
   "requirement_item..CollateralMarginAccount.has_AccountIdentifier": {
     "id": "requirement_item..CollateralMarginAccount.has_AccountIdentifier",
     "type": "requirement_semantic_item",
     "name": "保证金账户标识",
     "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralMarginAccount.has_AccountIdentifier",
     "required_field": {
       "name": "保证金账户标识",
@@ -13030,7 +13291,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "交易对手标识",
     "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralCounterparty.has_CounterpartyIdentifier",
     "required_field": {
       "name": "交易对手标识",
@@ -13044,7 +13305,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "抵质押品标识",
     "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralAsset.has_CollateralIdentifier",
     "required_field": {
       "name": "抵质押品标识",
@@ -13058,7 +13319,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "估值日期",
     "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralValuation.has_ValuationDate",
     "required_field": {
       "name": "估值日期",
@@ -13072,7 +13333,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "抵质押品折扣前市场价值",
     "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralValuation.has_MarketValueAmount",
     "required_field": {
       "name": "抵质押品折扣前市场价值",
@@ -13086,7 +13347,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "监管折扣率",
     "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralValuation.has_HaircutRate",
     "required_field": {
       "name": "监管折扣率",
@@ -13095,8 +13356,652 @@ window.CATALOG_DATA = {
       "required": true
     }
   },
-  "report_impl.item": {
-    "id": "report_impl.item",
+  "report_impl.item_1059227048": {
+    "id": "report_impl.item_1059227048",
+    "type": "report_implementation",
+    "name": "每日贷款风险暴露报表数据逻辑",
+    "description": "说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。",
+    "implements": "贷款风险暴露报送需求",
+    "field_mappings": [
+      {
+        "name": "贷款标识逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "loan_id",
+        "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
+        "requirement_field": "贷款标识",
+        "source_field": "loan_exposure_report_lines.loan_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id, loan_exposure_report_lines.loan_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "借款人标识逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "borrower_id",
+        "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
+        "requirement_field": "借款人标识",
+        "source_field": "loan_exposure_report_lines.borrower_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id, loan_exposure_report_lines.borrower_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "产品标识逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "product_id",
+        "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
+        "requirement_field": "产品标识",
+        "source_field": "loan_exposure_report_lines.product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code, loan_exposure_report_lines.product_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "本金金额逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "principal_amount",
+        "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
+        "requirement_field": "本金金额",
+        "source_field": "loan_exposure_report_lines.principal_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount, loan_exposure_report_lines.principal_amount)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "风险暴露金额逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "exposure_at_default_amount",
+        "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
+        "requirement_field": "风险暴露金额",
+        "source_field": "loan_exposure_report_lines.exposure_at_default_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(loan_exposure_report_lines.exposure_at_default_amount, retail_loans.principal_amount, institutional_loans.notional_amount)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "预期损失金额逻辑",
+        "dataset": "loan_exposure_report_lines",
+        "dataset_field": "expected_loss_amount",
+        "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
+        "requirement_field": "预期损失金额",
+        "source_field": "loan_exposure_report_lines.expected_loss_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(loan_exposure_report_lines.expected_loss_amount, retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd, institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default)"
+            }
+          ]
+        }
+      }
+    ],
+    "source_fields": [
+      "retail_loans.loan_id",
+      "retail_loans.borrower_id",
+      "retail_loans.product_id",
+      "retail_loans.principal_amount",
+      "retail_loans.pd",
+      "retail_loans.lgd",
+      "institutional_loans.facility_id",
+      "institutional_loans.legal_entity_id",
+      "institutional_loans.product_code",
+      "institutional_loans.notional_amount",
+      "institutional_loans.probability_default",
+      "institutional_loans.loss_given_default",
+      "loan_exposure_report_lines.loan_id",
+      "loan_exposure_report_lines.borrower_id",
+      "loan_exposure_report_lines.product_id",
+      "loan_exposure_report_lines.principal_amount",
+      "loan_exposure_report_lines.exposure_at_default_amount",
+      "loan_exposure_report_lines.expected_loss_amount"
+    ]
+  },
+  "implementation_field.loan_exposure_report_lines.loan_id": {
+    "id": "implementation_field.loan_exposure_report_lines.loan_id",
+    "type": "implementation_field_binding",
+    "name": "贷款标识逻辑",
+    "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
+    "parent": "report_impl.item_1059227048",
+    "implementation_field": {
+      "name": "贷款标识逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "loan_id",
+      "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
+      "requirement_field": "贷款标识",
+      "source_field": "loan_exposure_report_lines.loan_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id, loan_exposure_report_lines.loan_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.borrower_id": {
+    "id": "implementation_field.loan_exposure_report_lines.borrower_id",
+    "type": "implementation_field_binding",
+    "name": "借款人标识逻辑",
+    "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
+    "parent": "report_impl.item_1059227048",
+    "implementation_field": {
+      "name": "借款人标识逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "borrower_id",
+      "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
+      "requirement_field": "借款人标识",
+      "source_field": "loan_exposure_report_lines.borrower_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id, loan_exposure_report_lines.borrower_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.product_id": {
+    "id": "implementation_field.loan_exposure_report_lines.product_id",
+    "type": "implementation_field_binding",
+    "name": "产品标识逻辑",
+    "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
+    "parent": "report_impl.item_1059227048",
+    "implementation_field": {
+      "name": "产品标识逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "product_id",
+      "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
+      "requirement_field": "产品标识",
+      "source_field": "loan_exposure_report_lines.product_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code, loan_exposure_report_lines.product_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.principal_amount": {
+    "id": "implementation_field.loan_exposure_report_lines.principal_amount",
+    "type": "implementation_field_binding",
+    "name": "本金金额逻辑",
+    "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
+    "parent": "report_impl.item_1059227048",
+    "implementation_field": {
+      "name": "本金金额逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "principal_amount",
+      "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
+      "requirement_field": "本金金额",
+      "source_field": "loan_exposure_report_lines.principal_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount, loan_exposure_report_lines.principal_amount)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.exposure_at_default_amount": {
+    "id": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
+    "type": "implementation_field_binding",
+    "name": "风险暴露金额逻辑",
+    "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
+    "parent": "report_impl.item_1059227048",
+    "implementation_field": {
+      "name": "风险暴露金额逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "exposure_at_default_amount",
+      "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
+      "requirement_field": "风险暴露金额",
+      "source_field": "loan_exposure_report_lines.exposure_at_default_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(loan_exposure_report_lines.exposure_at_default_amount, retail_loans.principal_amount, institutional_loans.notional_amount)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.loan_exposure_report_lines.expected_loss_amount": {
+    "id": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
+    "type": "implementation_field_binding",
+    "name": "预期损失金额逻辑",
+    "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
+    "parent": "report_impl.item_1059227048",
+    "implementation_field": {
+      "name": "预期损失金额逻辑",
+      "dataset": "loan_exposure_report_lines",
+      "dataset_field": "expected_loss_amount",
+      "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
+      "requirement_field": "预期损失金额",
+      "source_field": "loan_exposure_report_lines.expected_loss_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(loan_exposure_report_lines.expected_loss_amount, retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd, institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default)"
+          }
+        ]
+      }
+    }
+  },
+  "report_impl.item_23063cbe12": {
+    "id": "report_impl.item_23063cbe12",
+    "type": "report_implementation",
+    "name": "每日存款流动性报表数据逻辑",
+    "description": "说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。",
+    "implements": "存款流动性稳定资金报送需求",
+    "field_mappings": [
+      {
+        "name": "账户标识逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "account_id",
+        "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
+        "requirement_field": "账户标识",
+        "source_field": "deposit_liquidity_report_lines.account_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.account_id, deposit_accounts.account_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "报告日期逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "as_of_date",
+        "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
+        "requirement_field": "报告日期",
+        "source_field": "deposit_liquidity_report_lines.as_of_date",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.as_of_date, deposit_accounts.as_of_date)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "客户标识逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "customer_id",
+        "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
+        "requirement_field": "客户标识",
+        "source_field": "deposit_liquidity_report_lines.customer_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.customer_id, deposit_accounts.customer_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "产品标识逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "product_id",
+        "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
+        "requirement_field": "产品标识",
+        "source_field": "deposit_liquidity_report_lines.product_id",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.product_id, deposit_accounts.product_id)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "存款余额逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "balance_amount",
+        "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
+        "requirement_field": "存款余额",
+        "source_field": "deposit_liquidity_report_lines.balance_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.balance_amount, deposit_accounts.balance_amount)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "存款币种逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "currency",
+        "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
+        "requirement_field": "存款币种",
+        "source_field": "deposit_liquidity_report_lines.currency",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.currency, deposit_accounts.currency)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "流动性分组逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "liquidity_bucket",
+        "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
+        "requirement_field": "流动性分组",
+        "source_field": "deposit_liquidity_report_lines.liquidity_bucket",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.liquidity_bucket, deposit_accounts.liquidity_bucket)"
+            }
+          ]
+        }
+      },
+      {
+        "name": "稳定资金金额逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "stable_funding_amount",
+        "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
+        "requirement_field": "稳定资金金额",
+        "source_field": "deposit_liquidity_report_lines.stable_funding_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.stable_funding_amount, deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate))"
+            }
+          ]
+        }
+      },
+      {
+        "name": "受保存款金额逻辑",
+        "dataset": "deposit_liquidity_report_lines",
+        "dataset_field": "insured_balance_amount",
+        "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
+        "requirement_field": "受保存款金额",
+        "source_field": "deposit_liquidity_report_lines.insured_balance_amount",
+        "expression": {
+          "dialects": [
+            {
+              "dialect": "ANSI_SQL",
+              "expression": "COALESCE(deposit_liquidity_report_lines.insured_balance_amount, CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END)"
+            }
+          ]
+        }
+      }
+    ],
+    "source_fields": [
+      "deposit_accounts.account_id",
+      "deposit_accounts.as_of_date",
+      "deposit_accounts.customer_id",
+      "deposit_accounts.product_id",
+      "deposit_accounts.balance_amount",
+      "deposit_accounts.currency",
+      "deposit_accounts.liquidity_bucket",
+      "deposit_accounts.rate_override",
+      "deposit_products.standard_runoff_rate",
+      "deposit_products.insurance_limit_amount",
+      "deposit_liquidity_report_lines.account_id",
+      "deposit_liquidity_report_lines.as_of_date",
+      "deposit_liquidity_report_lines.customer_id",
+      "deposit_liquidity_report_lines.product_id",
+      "deposit_liquidity_report_lines.balance_amount",
+      "deposit_liquidity_report_lines.currency",
+      "deposit_liquidity_report_lines.liquidity_bucket",
+      "deposit_liquidity_report_lines.stable_funding_amount",
+      "deposit_liquidity_report_lines.insured_balance_amount"
+    ]
+  },
+  "implementation_field.deposit_liquidity_report_lines.account_id": {
+    "id": "implementation_field.deposit_liquidity_report_lines.account_id",
+    "type": "implementation_field_binding",
+    "name": "账户标识逻辑",
+    "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "账户标识逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "account_id",
+      "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
+      "requirement_field": "账户标识",
+      "source_field": "deposit_liquidity_report_lines.account_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.account_id, deposit_accounts.account_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.deposit_liquidity_report_lines.as_of_date": {
+    "id": "implementation_field.deposit_liquidity_report_lines.as_of_date",
+    "type": "implementation_field_binding",
+    "name": "报告日期逻辑",
+    "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "报告日期逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "as_of_date",
+      "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
+      "requirement_field": "报告日期",
+      "source_field": "deposit_liquidity_report_lines.as_of_date",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.as_of_date, deposit_accounts.as_of_date)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.deposit_liquidity_report_lines.customer_id": {
+    "id": "implementation_field.deposit_liquidity_report_lines.customer_id",
+    "type": "implementation_field_binding",
+    "name": "客户标识逻辑",
+    "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "客户标识逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "customer_id",
+      "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
+      "requirement_field": "客户标识",
+      "source_field": "deposit_liquidity_report_lines.customer_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.customer_id, deposit_accounts.customer_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.deposit_liquidity_report_lines.product_id": {
+    "id": "implementation_field.deposit_liquidity_report_lines.product_id",
+    "type": "implementation_field_binding",
+    "name": "产品标识逻辑",
+    "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "产品标识逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "product_id",
+      "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
+      "requirement_field": "产品标识",
+      "source_field": "deposit_liquidity_report_lines.product_id",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.product_id, deposit_accounts.product_id)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.deposit_liquidity_report_lines.balance_amount": {
+    "id": "implementation_field.deposit_liquidity_report_lines.balance_amount",
+    "type": "implementation_field_binding",
+    "name": "存款余额逻辑",
+    "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "存款余额逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "balance_amount",
+      "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
+      "requirement_field": "存款余额",
+      "source_field": "deposit_liquidity_report_lines.balance_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.balance_amount, deposit_accounts.balance_amount)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.deposit_liquidity_report_lines.currency": {
+    "id": "implementation_field.deposit_liquidity_report_lines.currency",
+    "type": "implementation_field_binding",
+    "name": "存款币种逻辑",
+    "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "存款币种逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "currency",
+      "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
+      "requirement_field": "存款币种",
+      "source_field": "deposit_liquidity_report_lines.currency",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.currency, deposit_accounts.currency)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.deposit_liquidity_report_lines.liquidity_bucket": {
+    "id": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
+    "type": "implementation_field_binding",
+    "name": "流动性分组逻辑",
+    "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "流动性分组逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "liquidity_bucket",
+      "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
+      "requirement_field": "流动性分组",
+      "source_field": "deposit_liquidity_report_lines.liquidity_bucket",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.liquidity_bucket, deposit_accounts.liquidity_bucket)"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.deposit_liquidity_report_lines.stable_funding_amount": {
+    "id": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
+    "type": "implementation_field_binding",
+    "name": "稳定资金金额逻辑",
+    "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "稳定资金金额逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "stable_funding_amount",
+      "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
+      "requirement_field": "稳定资金金额",
+      "source_field": "deposit_liquidity_report_lines.stable_funding_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.stable_funding_amount, deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate))"
+          }
+        ]
+      }
+    }
+  },
+  "implementation_field.deposit_liquidity_report_lines.insured_balance_amount": {
+    "id": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
+    "type": "implementation_field_binding",
+    "name": "受保存款金额逻辑",
+    "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
+    "parent": "report_impl.item_23063cbe12",
+    "implementation_field": {
+      "name": "受保存款金额逻辑",
+      "dataset": "deposit_liquidity_report_lines",
+      "dataset_field": "insured_balance_amount",
+      "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
+      "requirement_field": "受保存款金额",
+      "source_field": "deposit_liquidity_report_lines.insured_balance_amount",
+      "expression": {
+        "dialects": [
+          {
+            "dialect": "ANSI_SQL",
+            "expression": "COALESCE(deposit_liquidity_report_lines.insured_balance_amount, CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END)"
+          }
+        ]
+      }
+    }
+  },
+  "report_impl.item_1f2b617feb": {
+    "id": "report_impl.item_1f2b617feb",
     "type": "report_implementation",
     "name": "每日合格抵质押品报表数据逻辑",
     "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。",
@@ -13223,357 +14128,12 @@ window.CATALOG_DATA = {
       "collateral_valuations.haircut_rate"
     ]
   },
-  "implementation_field.loan_exposure_report_lines.loan_id": {
-    "id": "implementation_field.loan_exposure_report_lines.loan_id",
-    "type": "implementation_field_binding",
-    "name": "贷款标识逻辑",
-    "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "贷款标识逻辑",
-      "dataset": "loan_exposure_report_lines",
-      "dataset_field": "loan_id",
-      "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
-      "requirement_field": "贷款标识",
-      "source_field": "loan_exposure_report_lines.loan_id",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(retail_loans.loan_id, institutional_loans.facility_id, loan_exposure_report_lines.loan_id)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.loan_exposure_report_lines.borrower_id": {
-    "id": "implementation_field.loan_exposure_report_lines.borrower_id",
-    "type": "implementation_field_binding",
-    "name": "借款人标识逻辑",
-    "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "借款人标识逻辑",
-      "dataset": "loan_exposure_report_lines",
-      "dataset_field": "borrower_id",
-      "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
-      "requirement_field": "借款人标识",
-      "source_field": "loan_exposure_report_lines.borrower_id",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(retail_loans.borrower_id, institutional_loans.legal_entity_id, loan_exposure_report_lines.borrower_id)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.loan_exposure_report_lines.product_id": {
-    "id": "implementation_field.loan_exposure_report_lines.product_id",
-    "type": "implementation_field_binding",
-    "name": "产品标识逻辑",
-    "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "产品标识逻辑",
-      "dataset": "loan_exposure_report_lines",
-      "dataset_field": "product_id",
-      "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
-      "requirement_field": "产品标识",
-      "source_field": "loan_exposure_report_lines.product_id",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(retail_loans.product_id, institutional_loans.product_code, loan_exposure_report_lines.product_id)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.loan_exposure_report_lines.principal_amount": {
-    "id": "implementation_field.loan_exposure_report_lines.principal_amount",
-    "type": "implementation_field_binding",
-    "name": "本金金额逻辑",
-    "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "本金金额逻辑",
-      "dataset": "loan_exposure_report_lines",
-      "dataset_field": "principal_amount",
-      "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
-      "requirement_field": "本金金额",
-      "source_field": "loan_exposure_report_lines.principal_amount",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(retail_loans.principal_amount, institutional_loans.notional_amount, loan_exposure_report_lines.principal_amount)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.loan_exposure_report_lines.exposure_at_default_amount": {
-    "id": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
-    "type": "implementation_field_binding",
-    "name": "风险暴露金额逻辑",
-    "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "风险暴露金额逻辑",
-      "dataset": "loan_exposure_report_lines",
-      "dataset_field": "exposure_at_default_amount",
-      "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
-      "requirement_field": "风险暴露金额",
-      "source_field": "loan_exposure_report_lines.exposure_at_default_amount",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(loan_exposure_report_lines.exposure_at_default_amount, retail_loans.principal_amount, institutional_loans.notional_amount)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.loan_exposure_report_lines.expected_loss_amount": {
-    "id": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
-    "type": "implementation_field_binding",
-    "name": "预期损失金额逻辑",
-    "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "预期损失金额逻辑",
-      "dataset": "loan_exposure_report_lines",
-      "dataset_field": "expected_loss_amount",
-      "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
-      "requirement_field": "预期损失金额",
-      "source_field": "loan_exposure_report_lines.expected_loss_amount",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(loan_exposure_report_lines.expected_loss_amount, retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd, institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.account_id": {
-    "id": "implementation_field.deposit_liquidity_report_lines.account_id",
-    "type": "implementation_field_binding",
-    "name": "账户标识逻辑",
-    "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "账户标识逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "account_id",
-      "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
-      "requirement_field": "账户标识",
-      "source_field": "deposit_liquidity_report_lines.account_id",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.account_id, deposit_accounts.account_id)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.as_of_date": {
-    "id": "implementation_field.deposit_liquidity_report_lines.as_of_date",
-    "type": "implementation_field_binding",
-    "name": "报告日期逻辑",
-    "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "报告日期逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "as_of_date",
-      "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
-      "requirement_field": "报告日期",
-      "source_field": "deposit_liquidity_report_lines.as_of_date",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.as_of_date, deposit_accounts.as_of_date)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.customer_id": {
-    "id": "implementation_field.deposit_liquidity_report_lines.customer_id",
-    "type": "implementation_field_binding",
-    "name": "客户标识逻辑",
-    "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "客户标识逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "customer_id",
-      "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
-      "requirement_field": "客户标识",
-      "source_field": "deposit_liquidity_report_lines.customer_id",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.customer_id, deposit_accounts.customer_id)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.product_id": {
-    "id": "implementation_field.deposit_liquidity_report_lines.product_id",
-    "type": "implementation_field_binding",
-    "name": "产品标识逻辑",
-    "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "产品标识逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "product_id",
-      "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
-      "requirement_field": "产品标识",
-      "source_field": "deposit_liquidity_report_lines.product_id",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.product_id, deposit_accounts.product_id)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.balance_amount": {
-    "id": "implementation_field.deposit_liquidity_report_lines.balance_amount",
-    "type": "implementation_field_binding",
-    "name": "存款余额逻辑",
-    "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "存款余额逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "balance_amount",
-      "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
-      "requirement_field": "存款余额",
-      "source_field": "deposit_liquidity_report_lines.balance_amount",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.balance_amount, deposit_accounts.balance_amount)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.currency": {
-    "id": "implementation_field.deposit_liquidity_report_lines.currency",
-    "type": "implementation_field_binding",
-    "name": "存款币种逻辑",
-    "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "存款币种逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "currency",
-      "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
-      "requirement_field": "存款币种",
-      "source_field": "deposit_liquidity_report_lines.currency",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.currency, deposit_accounts.currency)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.liquidity_bucket": {
-    "id": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
-    "type": "implementation_field_binding",
-    "name": "流动性分组逻辑",
-    "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "流动性分组逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "liquidity_bucket",
-      "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
-      "requirement_field": "流动性分组",
-      "source_field": "deposit_liquidity_report_lines.liquidity_bucket",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.liquidity_bucket, deposit_accounts.liquidity_bucket)"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.stable_funding_amount": {
-    "id": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
-    "type": "implementation_field_binding",
-    "name": "稳定资金金额逻辑",
-    "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "稳定资金金额逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "stable_funding_amount",
-      "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
-      "requirement_field": "稳定资金金额",
-      "source_field": "deposit_liquidity_report_lines.stable_funding_amount",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.stable_funding_amount, deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate))"
-          }
-        ]
-      }
-    }
-  },
-  "implementation_field.deposit_liquidity_report_lines.insured_balance_amount": {
-    "id": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
-    "type": "implementation_field_binding",
-    "name": "受保存款金额逻辑",
-    "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
-    "parent": "report_impl.item",
-    "implementation_field": {
-      "name": "受保存款金额逻辑",
-      "dataset": "deposit_liquidity_report_lines",
-      "dataset_field": "insured_balance_amount",
-      "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
-      "requirement_field": "受保存款金额",
-      "source_field": "deposit_liquidity_report_lines.insured_balance_amount",
-      "expression": {
-        "dialects": [
-          {
-            "dialect": "ANSI_SQL",
-            "expression": "COALESCE(deposit_liquidity_report_lines.insured_balance_amount, CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END)"
-          }
-        ]
-      }
-    }
-  },
   "implementation_field.collateral_margin_report_lines.account_id": {
     "id": "implementation_field.collateral_margin_report_lines.account_id",
     "type": "implementation_field_binding",
     "name": "保证金账户标识逻辑",
     "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "保证金账户标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -13596,7 +14156,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "交易对手标识逻辑",
     "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "交易对手标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -13619,7 +14179,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "抵质押品标识逻辑",
     "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "抵质押品标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -13642,7 +14202,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "估值日期逻辑",
     "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "估值日期逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -13665,7 +14225,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "抵质押品折扣前市场价值逻辑",
     "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "抵质押品折扣前市场价值逻辑",
       "dataset": "collateral_valuations",
@@ -13688,7 +14248,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "监管折扣率逻辑",
     "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "监管折扣率逻辑",
       "dataset": "collateral_valuations",
@@ -13711,7 +14271,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "折扣后合格抵质押品价值逻辑",
     "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "折扣后合格抵质押品价值逻辑",
       "dataset": "collateral_margin_report_lines",

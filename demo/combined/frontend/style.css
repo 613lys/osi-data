@@ -1639,6 +1639,10 @@ p {
 .model-scope-title #focusDescription {
   grid-column: 1 / -1;
   max-width: 760px;
+  max-height: 56px;
+  overflow-y: auto;
+  padding-right: 6px;
+  line-height: 1.35;
 }
 .graph-toolbar.scenario-toolbar {
   display: grid;

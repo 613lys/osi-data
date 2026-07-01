@@ -2602,7 +2602,7 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "requirement.item",
+      "id": "requirement.item_cb03a7baa9",
       "type": "regulatory_requirement",
       "label": "存款流动性稳定资金报送需求",
       "properties": {
@@ -2616,7 +2616,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "账户标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。",
         "data_type": "AccountIdentifier",
         "semantic_reference": "DepositAccount.has_AccountIdentifier",
@@ -2632,7 +2632,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "报告日期",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。",
         "data_type": "CalendarDate",
         "semantic_reference": "DepositAccount.has_AsOfDate",
@@ -2648,7 +2648,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "客户标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。",
         "data_type": "CustomerIdentifier",
         "semantic_reference": "Depositor.has_CustomerIdentifier",
@@ -2664,7 +2664,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "产品标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。",
         "data_type": "ProductIdentifier",
         "semantic_reference": "DepositProduct.has_ProductIdentifier",
@@ -2680,7 +2680,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "存款余额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。",
         "data_type": "MonetaryAmount",
         "semantic_reference": "DepositAccount.has_DepositBalanceAmount",
@@ -2696,7 +2696,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "存款币种",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。",
         "data_type": "CurrencyCode",
         "semantic_reference": "DepositAccount.has_DepositCurrency",
@@ -2712,7 +2712,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "流动性分组",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要流动性分组，用于按监管流动性桶分类展示存款余额。",
         "data_type": "LiquidityBucket",
         "semantic_reference": "DepositAccount.has_LiquidityBucket",
@@ -2728,7 +2728,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "稳定资金金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要稳定资金金额，用于根据存款余额和适用流失率计算可计入稳定资金的金额。",
         "data_type": "calculation",
         "semantic_reference": "DepositAccount.has_StableFundingAmount",
@@ -2744,7 +2744,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "受保存款金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要受保存款金额，用于展示存款余额中受产品保险限额覆盖的部分。",
         "data_type": "calculation",
         "semantic_reference": "DepositAccount.has_InsuredBalanceAmount",
@@ -2756,7 +2756,7 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "report_impl.item",
+      "id": "report_impl.item_23063cbe12",
       "type": "report_implementation",
       "label": "每日存款流动性报表数据逻辑",
       "properties": {
@@ -2769,7 +2769,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "账户标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2790,7 +2790,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "报告日期逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2811,7 +2811,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "客户标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2832,7 +2832,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "产品标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2853,7 +2853,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "存款余额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2874,7 +2874,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "存款币种逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2895,7 +2895,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "流动性分组逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2916,7 +2916,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "稳定资金金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2939,7 +2939,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "受保存款金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -5317,8 +5317,8 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.DepositAccount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.DepositAccount",
+      "source": "requirement.item_cb03a7baa9",
       "target": "concept.DepositAccount",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -5365,8 +5365,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.DepositProduct",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.DepositProduct",
+      "source": "requirement.item_cb03a7baa9",
       "target": "concept.DepositProduct",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -5383,8 +5383,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Depositor",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Depositor",
+      "source": "requirement.item_cb03a7baa9",
       "target": "concept.Depositor",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -5401,8 +5401,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_AccountIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_AccountIdentifier",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_AccountIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -5427,8 +5427,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_AsOfDate",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_AsOfDate",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_AsOfDate",
       "label": "CONTAINS",
       "properties": {
@@ -5453,8 +5453,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Depositor.has_CustomerIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..Depositor.has_CustomerIdentifier",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..Depositor.has_CustomerIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -5479,8 +5479,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositProduct.has_ProductIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositProduct.has_ProductIdentifier",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositProduct.has_ProductIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -5505,8 +5505,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_DepositBalanceAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_DepositBalanceAmount",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_DepositBalanceAmount",
       "label": "CONTAINS",
       "properties": {
@@ -5531,8 +5531,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_DepositCurrency",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_DepositCurrency",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_DepositCurrency",
       "label": "CONTAINS",
       "properties": {
@@ -5557,8 +5557,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_LiquidityBucket",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_LiquidityBucket",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_LiquidityBucket",
       "label": "CONTAINS",
       "properties": {
@@ -5583,8 +5583,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_StableFundingAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_StableFundingAmount",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_StableFundingAmount",
       "label": "CONTAINS",
       "properties": {
@@ -5613,8 +5613,8 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_InsuredBalanceAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_InsuredBalanceAmount",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_InsuredBalanceAmount",
       "label": "CONTAINS",
       "properties": {
@@ -5643,9 +5643,9 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.report_impl.item.IMPLEMENTS.IMPLEMENTS.requirement.item",
-      "source": "report_impl.item",
-      "target": "requirement.item",
+      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS.IMPLEMENTS.requirement.item_cb03a7baa9",
+      "source": "report_impl.item_23063cbe12",
+      "target": "requirement.item_cb03a7baa9",
       "label": "IMPLEMENTS",
       "properties": {
         "description": "说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。"
@@ -5653,8 +5653,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.account_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.account_id",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.account_id",
       "label": "CONTAINS",
       "properties": {
@@ -5696,8 +5696,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.as_of_date",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.as_of_date",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.as_of_date",
       "label": "CONTAINS",
       "properties": {
@@ -5739,8 +5739,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.customer_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.customer_id",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.customer_id",
       "label": "CONTAINS",
       "properties": {
@@ -5782,8 +5782,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.product_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.product_id",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.product_id",
       "label": "CONTAINS",
       "properties": {
@@ -5825,8 +5825,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.balance_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.balance_amount",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.balance_amount",
       "label": "CONTAINS",
       "properties": {
@@ -5868,8 +5868,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.currency",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.currency",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.currency",
       "label": "CONTAINS",
       "properties": {
@@ -5911,8 +5911,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
       "label": "CONTAINS",
       "properties": {
@@ -5954,8 +5954,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
       "label": "CONTAINS",
       "properties": {
@@ -6004,6 +6004,21 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.deposit_liquidity_report_lines.stable_funding_amount.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.stable_funding_amount",
+      "source": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
+      "target": "metric.stable_funding_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
+        "requirement": "存款流动性稳定资金报送需求",
+        "requirement_field": "稳定资金金额",
+        "semantic_metric": "stable_funding_amount",
+        "semantic_reference": "metric.stable_funding_amount",
+        "expression": "COALESCE(deposit_liquidity_report_lines.stable_funding_amount, deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate))"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.deposit_liquidity_report_lines.stable_funding_amount.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..DepositAccount.has_StableFundingAmount",
       "source": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
       "target": "requirement_item..DepositAccount.has_StableFundingAmount",
@@ -6017,8 +6032,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
       "label": "CONTAINS",
       "properties": {
@@ -6057,6 +6072,21 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.deposit_liquidity_report_lines.insured_balance_amount.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.insured_balance_amount",
+      "source": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
+      "target": "metric.insured_balance_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
+        "requirement": "存款流动性稳定资金报送需求",
+        "requirement_field": "受保存款金额",
+        "semantic_metric": "insured_balance_amount",
+        "semantic_reference": "metric.insured_balance_amount",
+        "expression": "COALESCE(deposit_liquidity_report_lines.insured_balance_amount, CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END)"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.deposit_liquidity_report_lines.insured_balance_amount.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..DepositAccount.has_InsuredBalanceAmount",
       "source": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
       "target": "requirement_item..DepositAccount.has_InsuredBalanceAmount",
@@ -6070,8 +6100,34 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_accounts",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.insured_balance_amount",
+      "source": "report_impl.item_23063cbe12",
+      "target": "metric.insured_balance_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
+        "semantic_metric": "insured_balance_amount",
+        "semantic_reference": "metric.insured_balance_amount",
+        "requirement": "存款流动性稳定资金报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.stable_funding_amount",
+      "source": "report_impl.item_23063cbe12",
+      "target": "metric.stable_funding_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
+        "semantic_metric": "stable_funding_amount",
+        "semantic_reference": "metric.stable_funding_amount",
+        "requirement": "存款流动性稳定资金报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_accounts",
+      "source": "report_impl.item_23063cbe12",
       "target": "dataset.deposit_accounts",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -6090,8 +6146,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_liquidity_report_lines",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_liquidity_report_lines",
+      "source": "report_impl.item_23063cbe12",
       "target": "dataset.deposit_liquidity_report_lines",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -6111,8 +6167,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_products",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_products",
+      "source": "report_impl.item_23063cbe12",
       "target": "dataset.deposit_products",
       "label": "SOURCE_TABLE",
       "properties": {

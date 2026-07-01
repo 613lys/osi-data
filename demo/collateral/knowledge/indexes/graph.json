@@ -2804,7 +2804,7 @@
       }
     },
     {
-      "id": "requirement.item",
+      "id": "requirement.item_66140f50d5",
       "type": "regulatory_requirement",
       "label": "合格抵质押品报送需求",
       "properties": {
@@ -2818,7 +2818,7 @@
       "type": "requirement_semantic_item",
       "label": "保证金账户标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
         "data_type": "AccountIdentifier",
         "semantic_reference": "MarginAccount.has_AccountIdentifier",
@@ -2834,7 +2834,7 @@
       "type": "requirement_semantic_item",
       "label": "交易对手标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
         "data_type": "CounterpartyIdentifier",
         "semantic_reference": "Counterparty.has_CounterpartyIdentifier",
@@ -2850,7 +2850,7 @@
       "type": "requirement_semantic_item",
       "label": "抵质押品标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
         "data_type": "CollateralIdentifier",
         "semantic_reference": "CollateralAsset.has_CollateralIdentifier",
@@ -2866,7 +2866,7 @@
       "type": "requirement_semantic_item",
       "label": "估值日期",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。",
         "data_type": "Date",
         "semantic_reference": "CollateralValuation.has_ValuationDate",
@@ -2882,7 +2882,7 @@
       "type": "requirement_semantic_item",
       "label": "抵质押品折扣前市场价值",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。",
         "data_type": "MonetaryAmount",
         "semantic_reference": "CollateralValuation.has_MarketValueAmount",
@@ -2898,7 +2898,7 @@
       "type": "requirement_semantic_item",
       "label": "监管折扣率",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。",
         "data_type": "Rate",
         "semantic_reference": "CollateralValuation.has_HaircutRate",
@@ -2914,7 +2914,7 @@
       "type": "requirement_semantic_item",
       "label": "折扣后合格抵质押品价值",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。",
         "data_type": "calculation",
         "semantic_reference": "CollateralValuation.has_EligibleCollateralValue",
@@ -2926,7 +2926,7 @@
       }
     },
     {
-      "id": "report_impl.item",
+      "id": "report_impl.item_1f2b617feb",
       "type": "report_implementation",
       "label": "每日合格抵质押品报表数据逻辑",
       "properties": {
@@ -2939,7 +2939,7 @@
       "type": "implementation_field_binding",
       "label": "保证金账户标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2959,7 +2959,7 @@
       "type": "implementation_field_binding",
       "label": "交易对手标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2979,7 +2979,7 @@
       "type": "implementation_field_binding",
       "label": "抵质押品标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -2999,7 +2999,7 @@
       "type": "implementation_field_binding",
       "label": "估值日期逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3019,7 +3019,7 @@
       "type": "implementation_field_binding",
       "label": "抵质押品折扣前市场价值逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3039,7 +3039,7 @@
       "type": "implementation_field_binding",
       "label": "监管折扣率逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3059,7 +3059,7 @@
       "type": "implementation_field_binding",
       "label": "折扣后合格抵质押品价值逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -5359,8 +5359,8 @@
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralAsset",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralAsset",
+      "source": "requirement.item_66140f50d5",
       "target": "concept.CollateralAsset",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -5377,8 +5377,8 @@
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralValuation",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralValuation",
+      "source": "requirement.item_66140f50d5",
       "target": "concept.CollateralValuation",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -5410,8 +5410,8 @@
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Counterparty",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Counterparty",
+      "source": "requirement.item_66140f50d5",
       "target": "concept.Counterparty",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -5428,8 +5428,8 @@
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.MarginAccount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.MarginAccount",
+      "source": "requirement.item_66140f50d5",
       "target": "concept.MarginAccount",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -5446,8 +5446,8 @@
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..MarginAccount.has_AccountIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..MarginAccount.has_AccountIdentifier",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..MarginAccount.has_AccountIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -5472,8 +5472,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Counterparty.has_CounterpartyIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..Counterparty.has_CounterpartyIdentifier",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..Counterparty.has_CounterpartyIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -5498,8 +5498,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralAsset.has_CollateralIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralAsset.has_CollateralIdentifier",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralAsset.has_CollateralIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -5524,8 +5524,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_ValuationDate",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_ValuationDate",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralValuation.has_ValuationDate",
       "label": "CONTAINS",
       "properties": {
@@ -5550,8 +5550,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_MarketValueAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_MarketValueAmount",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralValuation.has_MarketValueAmount",
       "label": "CONTAINS",
       "properties": {
@@ -5576,8 +5576,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_HaircutRate",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_HaircutRate",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralValuation.has_HaircutRate",
       "label": "CONTAINS",
       "properties": {
@@ -5602,8 +5602,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_EligibleCollateralValue",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_EligibleCollateralValue",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
       "label": "CONTAINS",
       "properties": {
@@ -5632,9 +5632,9 @@
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.report_impl.item.IMPLEMENTS.IMPLEMENTS.requirement.item",
-      "source": "report_impl.item",
-      "target": "requirement.item",
+      "id": "edge.report_impl.item_1f2b617feb.IMPLEMENTS.IMPLEMENTS.requirement.item_66140f50d5",
+      "source": "report_impl.item_1f2b617feb",
+      "target": "requirement.item_66140f50d5",
       "label": "IMPLEMENTS",
       "properties": {
         "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
@@ -5642,8 +5642,8 @@
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.account_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.account_id",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.account_id",
       "label": "CONTAINS",
       "properties": {
@@ -5685,8 +5685,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.counterparty_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.counterparty_id",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.counterparty_id",
       "label": "CONTAINS",
       "properties": {
@@ -5728,8 +5728,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.collateral_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.collateral_id",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.collateral_id",
       "label": "CONTAINS",
       "properties": {
@@ -5771,8 +5771,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.valuation_date",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.valuation_date",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.valuation_date",
       "label": "CONTAINS",
       "properties": {
@@ -5814,8 +5814,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_valuations.market_value_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_valuations.market_value_amount",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_valuations.market_value_amount",
       "label": "CONTAINS",
       "properties": {
@@ -5847,8 +5847,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_valuations.haircut_rate",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_valuations.haircut_rate",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_valuations.haircut_rate",
       "label": "CONTAINS",
       "properties": {
@@ -5880,8 +5880,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.eligible_collateral_value",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
       "label": "CONTAINS",
       "properties": {
@@ -5920,6 +5920,21 @@
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.collateral_margin_report_lines.eligible_collateral_value.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.eligible_collateral_value",
+      "source": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "target": "metric.eligible_collateral_value",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "折扣后合格抵质押品价值",
+        "semantic_metric": "eligible_collateral_value",
+        "semantic_reference": "metric.eligible_collateral_value",
+        "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.collateral_margin_report_lines.eligible_collateral_value.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..CollateralValuation.has_EligibleCollateralValue",
       "source": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
       "target": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
@@ -5933,8 +5948,21 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_positions",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.eligible_collateral_value",
+      "source": "report_impl.item_1f2b617feb",
+      "target": "metric.eligible_collateral_value",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
+        "semantic_metric": "eligible_collateral_value",
+        "semantic_reference": "metric.eligible_collateral_value",
+        "requirement": "合格抵质押品报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_positions",
+      "source": "report_impl.item_1f2b617feb",
       "target": "dataset.collateral_positions",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -5946,8 +5974,8 @@
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_valuations",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_valuations",
+      "source": "report_impl.item_1f2b617feb",
       "target": "dataset.collateral_valuations",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -5961,8 +5989,8 @@
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.counterparties",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.counterparties",
+      "source": "report_impl.item_1f2b617feb",
       "target": "dataset.counterparties",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -5974,8 +6002,8 @@
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.margin_accounts",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.margin_accounts",
+      "source": "report_impl.item_1f2b617feb",
       "target": "dataset.margin_accounts",
       "label": "SOURCE_TABLE",
       "properties": {

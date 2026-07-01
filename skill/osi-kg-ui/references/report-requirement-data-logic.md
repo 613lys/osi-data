@@ -172,6 +172,7 @@ Do not generate these fields unless a separate app extension explicitly introduc
 - Data Logic field mappings create child rows under the data logic node.
 - Data Logic field child rows connect to requirement fields with `IMPLEMENTS_FIELD`.
 - Data Logic field child rows connect to the described dataset field with `MAPS_TO_FIELD`, to source columns from `expression` and `source_field` with `SOURCE_FIELD`, and to requirement fields with `IMPLEMENTS_FIELD`.
+- When a Data Logic field implements a requirement calculation whose semantic output is mapped to a semantic model metric through OSI concept mapping (`expression: metric.<metric_name>`), the graph generator adds `IMPLEMENTS_METRIC` edges from the Report Data Logic node and the concrete Data Logic field row to that Metric node. The edge description must come from the relevant `field_mappings[].description`; do not invent generic text.
 - Selecting a Data Logic field should not reveal a direct edge to EntityType value fields.
 
 

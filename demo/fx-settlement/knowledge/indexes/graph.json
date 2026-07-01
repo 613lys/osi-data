@@ -3759,7 +3759,7 @@
       }
     },
     {
-      "id": "requirement.item",
+      "id": "requirement.item_a172b51eff",
       "type": "regulatory_requirement",
       "label": "外汇结算监测报送需求",
       "properties": {
@@ -3773,7 +3773,7 @@
       "type": "requirement_semantic_item",
       "label": "交易标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_a172b51eff",
         "description": "需求需要交易标识，用于唯一识别每笔外汇交易并支持报表行级对账。",
         "data_type": "TransactionIdentifier",
         "semantic_reference": "FxTrade.has_TransactionIdentifier",
@@ -3789,7 +3789,7 @@
       "type": "requirement_semantic_item",
       "label": "结算指令标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_a172b51eff",
         "description": "需求需要结算指令标识，用于定位执行结算的运营指令并追踪处理状态。",
         "data_type": "InstructionIdentifier",
         "semantic_reference": "SettlementInstruction.has_InstructionIdentifier",
@@ -3805,7 +3805,7 @@
       "type": "requirement_semantic_item",
       "label": "交易对手标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_a172b51eff",
         "description": "需求需要交易对手标识，用于识别交易责任主体并支持风险分组。",
         "data_type": "CounterpartyIdentifier",
         "semantic_reference": "Counterparty.has_CounterpartyIdentifier",
@@ -3821,7 +3821,7 @@
       "type": "requirement_semantic_item",
       "label": "结算币种",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_a172b51eff",
         "description": "需求需要结算币种，用于说明现金实际交收的币种口径。",
         "data_type": "CurrencyCode",
         "semantic_reference": "SettlementInstruction.has_SettlementCurrency",
@@ -3837,7 +3837,7 @@
       "type": "requirement_semantic_item",
       "label": "结算金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_a172b51eff",
         "description": "需求需要结算金额，用于展示外汇结算现金金额并支持金额级对账。",
         "data_type": "MonetaryAmount",
         "semantic_reference": "SettlementInstruction.has_SettlementAmount",
@@ -3853,7 +3853,7 @@
       "type": "requirement_semantic_item",
       "label": "结算状态",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_a172b51eff",
         "description": "需求需要结算状态，用于识别未完成、失败或已完成的结算指令。",
         "data_type": "SettlementStatus",
         "semantic_reference": "SettlementInstruction.has_SettlementStatus",
@@ -3869,7 +3869,7 @@
       "type": "requirement_semantic_item",
       "label": "折算后报送币种敞口金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_a172b51eff",
         "description": "需求需要将外汇交易名义金额按汇率折算为报送币种金额，用于衡量结算风险敞口。",
         "data_type": "calculation",
         "semantic_reference": "FxTrade.has_ReportCurrencyExposureAmount",
@@ -3885,7 +3885,7 @@
       "type": "requirement_semantic_item",
       "label": "结算延迟天数",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_a172b51eff",
         "description": "需求需要计算预计结算日和实际结算日之间的延迟天数，用于识别结算超时风险。",
         "data_type": "calculation",
         "semantic_reference": "SettlementInstruction.has_SettlementDelayDays",
@@ -3897,7 +3897,7 @@
       }
     },
     {
-      "id": "report_impl.item",
+      "id": "report_impl.item_e781d082f3",
       "type": "report_implementation",
       "label": "每日外汇结算监测数据逻辑",
       "properties": {
@@ -3910,7 +3910,7 @@
       "type": "implementation_field_binding",
       "label": "交易标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 trade_id 如何承载交易标识需求，并从外汇交易数据取得交易主键。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3930,7 +3930,7 @@
       "type": "implementation_field_binding",
       "label": "结算指令标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_instruction_id 如何承载结算指令标识需求，并从结算指令数据取得运营指令主键。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3950,7 +3950,7 @@
       "type": "implementation_field_binding",
       "label": "交易对手标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 counterparty_id 如何承载交易对手标识需求，并使用交易上的交易对手引用。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3970,7 +3970,7 @@
       "type": "implementation_field_binding",
       "label": "结算币种逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_currency 如何承载结算币种需求，并从结算指令取得实际交收币种。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -3990,7 +3990,7 @@
       "type": "implementation_field_binding",
       "label": "结算金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_amount 如何承载结算金额需求，并从结算指令取得现金交收金额。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -4010,7 +4010,7 @@
       "type": "implementation_field_binding",
       "label": "结算状态逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_status 如何承载结算状态需求，并从结算指令取得运营处理状态。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -4030,7 +4030,7 @@
       "type": "implementation_field_binding",
       "label": "折算后报送币种敞口金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -4051,7 +4051,7 @@
       "type": "implementation_field_binding",
       "label": "结算延迟天数逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_e781d082f3",
         "description": "数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -7538,8 +7538,8 @@
       "type": "DERIVED_BY"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Counterparty",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Counterparty",
+      "source": "requirement.item_a172b51eff",
       "target": "concept.Counterparty",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -7556,8 +7556,8 @@
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.FxTrade",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.FxTrade",
+      "source": "requirement.item_a172b51eff",
       "target": "concept.FxTrade",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -7579,8 +7579,8 @@
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.NostroAccount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.NostroAccount",
+      "source": "requirement.item_a172b51eff",
       "target": "concept.NostroAccount",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -7591,8 +7591,8 @@
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.SettlementInstruction",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.SettlementInstruction",
+      "source": "requirement.item_a172b51eff",
       "target": "concept.SettlementInstruction",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -7629,8 +7629,8 @@
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..FxTrade.has_TransactionIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.CONTAINS.CONTAINS.requirement_item..FxTrade.has_TransactionIdentifier",
+      "source": "requirement.item_a172b51eff",
       "target": "requirement_item..FxTrade.has_TransactionIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -7655,8 +7655,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_InstructionIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_InstructionIdentifier",
+      "source": "requirement.item_a172b51eff",
       "target": "requirement_item..SettlementInstruction.has_InstructionIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -7681,8 +7681,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Counterparty.has_CounterpartyIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.CONTAINS.CONTAINS.requirement_item..Counterparty.has_CounterpartyIdentifier",
+      "source": "requirement.item_a172b51eff",
       "target": "requirement_item..Counterparty.has_CounterpartyIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -7707,8 +7707,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_SettlementCurrency",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_SettlementCurrency",
+      "source": "requirement.item_a172b51eff",
       "target": "requirement_item..SettlementInstruction.has_SettlementCurrency",
       "label": "CONTAINS",
       "properties": {
@@ -7733,8 +7733,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_SettlementAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_SettlementAmount",
+      "source": "requirement.item_a172b51eff",
       "target": "requirement_item..SettlementInstruction.has_SettlementAmount",
       "label": "CONTAINS",
       "properties": {
@@ -7759,8 +7759,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_SettlementStatus",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_SettlementStatus",
+      "source": "requirement.item_a172b51eff",
       "target": "requirement_item..SettlementInstruction.has_SettlementStatus",
       "label": "CONTAINS",
       "properties": {
@@ -7785,8 +7785,8 @@
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..FxTrade.has_ReportCurrencyExposureAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.CONTAINS.CONTAINS.requirement_item..FxTrade.has_ReportCurrencyExposureAmount",
+      "source": "requirement.item_a172b51eff",
       "target": "requirement_item..FxTrade.has_ReportCurrencyExposureAmount",
       "label": "CONTAINS",
       "properties": {
@@ -7815,8 +7815,8 @@
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_SettlementDelayDays",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_a172b51eff.CONTAINS.CONTAINS.requirement_item..SettlementInstruction.has_SettlementDelayDays",
+      "source": "requirement.item_a172b51eff",
       "target": "requirement_item..SettlementInstruction.has_SettlementDelayDays",
       "label": "CONTAINS",
       "properties": {
@@ -7845,9 +7845,9 @@
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.report_impl.item.IMPLEMENTS.IMPLEMENTS.requirement.item",
-      "source": "report_impl.item",
-      "target": "requirement.item",
+      "id": "edge.report_impl.item_e781d082f3.IMPLEMENTS.IMPLEMENTS.requirement.item_a172b51eff",
+      "source": "report_impl.item_e781d082f3",
+      "target": "requirement.item_a172b51eff",
       "label": "IMPLEMENTS",
       "properties": {
         "description": "说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。"
@@ -7855,8 +7855,8 @@
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.trade_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.trade_id",
+      "source": "report_impl.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.trade_id",
       "label": "CONTAINS",
       "properties": {
@@ -7898,8 +7898,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_instruction_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_instruction_id",
+      "source": "report_impl.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_instruction_id",
       "label": "CONTAINS",
       "properties": {
@@ -7941,8 +7941,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.counterparty_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.counterparty_id",
+      "source": "report_impl.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.counterparty_id",
       "label": "CONTAINS",
       "properties": {
@@ -7984,8 +7984,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_currency",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_currency",
+      "source": "report_impl.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_currency",
       "label": "CONTAINS",
       "properties": {
@@ -8027,8 +8027,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_amount",
+      "source": "report_impl.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_amount",
       "label": "CONTAINS",
       "properties": {
@@ -8070,8 +8070,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_status",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_status",
+      "source": "report_impl.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_status",
       "label": "CONTAINS",
       "properties": {
@@ -8113,8 +8113,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
+      "source": "report_impl.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
       "label": "CONTAINS",
       "properties": {
@@ -8153,6 +8153,21 @@
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.report_currency_exposure_amount",
+      "source": "implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
+      "target": "metric.report_currency_exposure_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。",
+        "requirement": "外汇结算监测报送需求",
+        "requirement_field": "折算后报送币种敞口金额",
+        "semantic_metric": "report_currency_exposure_amount",
+        "semantic_reference": "metric.report_currency_exposure_amount",
+        "expression": "fx_trades.notional_amount * fx_rates.rate_value"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..FxTrade.has_ReportCurrencyExposureAmount",
       "source": "implementation_field.fx_settlement_monitoring_lines.exposure_amount_report_currency",
       "target": "requirement_item..FxTrade.has_ReportCurrencyExposureAmount",
@@ -8166,8 +8181,8 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.CONTAINS.CONTAINS.implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
+      "source": "report_impl.item_e781d082f3",
       "target": "implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
       "label": "CONTAINS",
       "properties": {
@@ -8206,6 +8221,21 @@
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.fx_settlement_monitoring_lines.settlement_delay_days.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.settlement_delay_days",
+      "source": "implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
+      "target": "metric.settlement_delay_days",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。",
+        "requirement": "外汇结算监测报送需求",
+        "requirement_field": "结算延迟天数",
+        "semantic_metric": "settlement_delay_days",
+        "semantic_reference": "metric.settlement_delay_days",
+        "expression": "DATEDIFF(day, settlement_instructions.expected_settlement_date, settlement_instructions.actual_settlement_date)"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.fx_settlement_monitoring_lines.settlement_delay_days.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..SettlementInstruction.has_SettlementDelayDays",
       "source": "implementation_field.fx_settlement_monitoring_lines.settlement_delay_days",
       "target": "requirement_item..SettlementInstruction.has_SettlementDelayDays",
@@ -8219,8 +8249,34 @@
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.fx_rates",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.report_currency_exposure_amount",
+      "source": "report_impl.item_e781d082f3",
+      "target": "metric.report_currency_exposure_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。",
+        "semantic_metric": "report_currency_exposure_amount",
+        "semantic_reference": "metric.report_currency_exposure_amount",
+        "requirement": "外汇结算监测报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_e781d082f3.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.settlement_delay_days",
+      "source": "report_impl.item_e781d082f3",
+      "target": "metric.settlement_delay_days",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。",
+        "semantic_metric": "settlement_delay_days",
+        "semantic_reference": "metric.settlement_delay_days",
+        "requirement": "外汇结算监测报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.fx_rates",
+      "source": "report_impl.item_e781d082f3",
       "target": "dataset.fx_rates",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -8232,8 +8288,8 @@
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.fx_trades",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.fx_trades",
+      "source": "report_impl.item_e781d082f3",
       "target": "dataset.fx_trades",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -8247,8 +8303,8 @@
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.settlement_instructions",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_e781d082f3.SOURCE_TABLE.SOURCE_TABLE.dataset.settlement_instructions",
+      "source": "report_impl.item_e781d082f3",
       "target": "dataset.settlement_instructions",
       "label": "SOURCE_TABLE",
       "properties": {

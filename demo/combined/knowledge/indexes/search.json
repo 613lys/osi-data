@@ -1340,9 +1340,9 @@
     "text": "metric.eligible_collateral_value semantic_metric eligible_collateral_value Market value after haircut for regulatory eligible collateral reporting. Market value after haircut for regulatory eligible collateral reporting."
   },
   {
-    "id": "requirement.item",
+    "id": "requirement.item_91da9d8e75",
     "type": "regulatory_requirement",
-    "text": "requirement.item regulatory_requirement 贷款风险暴露报送需求 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n Collateral Margin Reporting BRD v1.0 section 3.2"
+    "text": "requirement.item_91da9d8e75 regulatory_requirement 贷款风险暴露报送需求 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 Loan Credit Exposure Reporting BRD v1.0 section 5.2"
   },
   {
     "id": "requirement_item..Loan.has_LoanIdentifier",
@@ -1373,6 +1373,11 @@
     "id": "requirement_item..Loan.has_ExpectedLossAmount",
     "type": "requirement_semantic_item",
     "text": "requirement_item..Loan.has_ExpectedLossAmount requirement_semantic_item 预期损失金额 需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。"
+  },
+  {
+    "id": "requirement.item_cb03a7baa9",
+    "type": "regulatory_requirement",
+    "text": "requirement.item_cb03a7baa9 regulatory_requirement 存款流动性稳定资金报送需求 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 Deposit Liquidity Reporting BRD v1.0 section 4.1"
   },
   {
     "id": "requirement_item..DepositAccount.has_AccountIdentifier",
@@ -1420,6 +1425,11 @@
     "text": "requirement_item..DepositAccount.has_InsuredBalanceAmount requirement_semantic_item 受保存款金额 需求需要受保存款金额，用于展示存款余额中受产品保险限额覆盖的部分。"
   },
   {
+    "id": "requirement.item_66140f50d5",
+    "type": "regulatory_requirement",
+    "text": "requirement.item_66140f50d5 regulatory_requirement 合格抵质押品报送需求 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n Collateral Margin Reporting BRD v1.0 section 3.2"
+  },
+  {
     "id": "concept.CollateralCounterparty",
     "type": "external_concept",
     "text": "concept.CollateralCounterparty external_concept CollateralCounterparty Referenced concept not declared in this ontology."
@@ -1465,9 +1475,9 @@
     "text": "requirement_item..CollateralValuation.has_EligibleCollateralValue requirement_semantic_item 折扣后合格抵质押品价值 需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。"
   },
   {
-    "id": "report_impl.item",
+    "id": "report_impl.item_1059227048",
     "type": "report_implementation",
-    "text": "report_impl.item report_implementation 每日贷款风险暴露报表数据逻辑 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
+    "text": "report_impl.item_1059227048 report_implementation 每日贷款风险暴露报表数据逻辑 说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。 说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。"
   },
   {
     "id": "implementation_field.loan_exposure_report_lines.loan_id",
@@ -1498,6 +1508,11 @@
     "id": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
     "type": "implementation_field_binding",
     "text": "implementation_field.loan_exposure_report_lines.expected_loss_amount implementation_field_binding 预期损失金额逻辑 数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。 数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。"
+  },
+  {
+    "id": "report_impl.item_23063cbe12",
+    "type": "report_implementation",
+    "text": "report_impl.item_23063cbe12 report_implementation 每日存款流动性报表数据逻辑 说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。 说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。"
   },
   {
     "id": "implementation_field.deposit_liquidity_report_lines.account_id",
@@ -1543,6 +1558,11 @@
     "id": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
     "type": "implementation_field_binding",
     "text": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount implementation_field_binding 受保存款金额逻辑 数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。 数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。"
+  },
+  {
+    "id": "report_impl.item_1f2b617feb",
+    "type": "report_implementation",
+    "text": "report_impl.item_1f2b617feb report_implementation 每日合格抵质押品报表数据逻辑 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
   },
   {
     "id": "implementation_field.collateral_margin_report_lines.account_id",

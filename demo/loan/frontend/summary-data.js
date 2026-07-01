@@ -45,7 +45,7 @@ window.OSI_SUMMARY = {
   "report_data_logic": 1,
   "semantic_datasets": 5,
   "physical_tables": 4,
-  "edges": 239,
+  "edges": 241,
   "warning_count": 0,
   "warnings": []
 };

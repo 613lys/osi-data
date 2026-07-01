@@ -460,9 +460,9 @@
     "text": "metric.risk_weighted_exposure_amount semantic_metric risk_weighted_exposure_amount Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts. Risk-weighted exposure amount calculated by applying default probability to retail principal and institutional notional amounts."
   },
   {
-    "id": "requirement.item",
+    "id": "requirement.item_91da9d8e75",
     "type": "regulatory_requirement",
-    "text": "requirement.item regulatory_requirement 贷款风险暴露报送需求 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 Loan Credit Exposure Reporting BRD v1.0 section 5.2"
+    "text": "requirement.item_91da9d8e75 regulatory_requirement 贷款风险暴露报送需求 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。 Loan Credit Exposure Reporting BRD v1.0 section 5.2"
   },
   {
     "id": "requirement_item..Loan.has_LoanIdentifier",
@@ -495,9 +495,9 @@
     "text": "requirement_item..Loan.has_ExpectedLossAmount requirement_semantic_item 预期损失金额 需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。"
   },
   {
-    "id": "report_impl.item",
+    "id": "report_impl.item_1059227048",
     "type": "report_implementation",
-    "text": "report_impl.item report_implementation 每日贷款风险暴露报表数据逻辑 说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。 说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。"
+    "text": "report_impl.item_1059227048 report_implementation 每日贷款风险暴露报表数据逻辑 说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。 说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。"
   },
   {
     "id": "implementation_field.loan_exposure_report_lines.loan_id",

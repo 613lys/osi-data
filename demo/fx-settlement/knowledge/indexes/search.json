@@ -620,9 +620,9 @@
     "text": "metric.settlement_delay_days semantic_metric settlement_delay_days Settlement delay measured as the day difference between expected and actual settlement completion dates. Settlement delay measured as the day difference between expected and actual settlement completion dates."
   },
   {
-    "id": "requirement.item",
+    "id": "requirement.item_a172b51eff",
     "type": "regulatory_requirement",
-    "text": "requirement.item regulatory_requirement 外汇结算监测报送需求 监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。\n 监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。\n Treasury FX Settlement Monitoring BRD v1.0 section 2.4"
+    "text": "requirement.item_a172b51eff regulatory_requirement 外汇结算监测报送需求 监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。\n 监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。\n Treasury FX Settlement Monitoring BRD v1.0 section 2.4"
   },
   {
     "id": "requirement_item..FxTrade.has_TransactionIdentifier",
@@ -665,9 +665,9 @@
     "text": "requirement_item..SettlementInstruction.has_SettlementDelayDays requirement_semantic_item 结算延迟天数 需求需要计算预计结算日和实际结算日之间的延迟天数，用于识别结算超时风险。"
   },
   {
-    "id": "report_impl.item",
+    "id": "report_impl.item_e781d082f3",
     "type": "report_implementation",
-    "text": "report_impl.item report_implementation 每日外汇结算监测数据逻辑 说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。 说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。"
+    "text": "report_impl.item_e781d082f3 report_implementation 每日外汇结算监测数据逻辑 说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。 说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。"
   },
   {
     "id": "implementation_field.fx_settlement_monitoring_lines.trade_id",

@@ -231,7 +231,7 @@ Relationship To Other YAML:
 - Metric expressions must reference fields declared in dataset fragments.
 - EntityType concept mappings may reference metrics with `expression: metric.<metric_name>` when the metric is an entity-level calculated value field.
 - Reporting requirements may reference metrics in `calculations` or required fields.
-- Report Data Logic may reference metric-related expressions when explaining how existing dataset fields satisfy calculated requirements.
+- Report Data Logic may reference metric-related expressions when explaining how existing dataset fields satisfy calculated requirements. When a requirement calculation output is mapped to this metric through an EntityType value relationship, the UI graph can show `Report Data Logic -> Metric` and `Data Logic field -> Metric` `IMPLEMENTS_METRIC` edges.
 
 Generated strict OSI:
 

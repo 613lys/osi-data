@@ -5813,8 +5813,8 @@ window.CATALOG_DATA = {
       "custom_extensions": []
     }
   },
-  "requirement.item": {
-    "id": "requirement.item",
+  "requirement.item_a172b51eff": {
+    "id": "requirement.item_a172b51eff",
     "type": "regulatory_requirement",
     "name": "外汇结算监测报送需求",
     "description": "监管/BRD要求每日生成外汇交易结算监测明细，用于识别每笔外汇交易的交易对手、结算指令、结算金额、币种、结算状态、折算后报送币种敞口金额以及结算延迟情况。需求还要求在T+1上午前完成数据生成、运营复核、异常说明和留痕保存；非数据类的复核、留痕和异常处置要求记录在本说明中，不强行建模为字段。\n",
@@ -5952,7 +5952,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "交易标识",
     "description": "需求需要交易标识，用于唯一识别每笔外汇交易并支持报表行级对账。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_a172b51eff",
     "semantic_reference": "FxTrade.has_TransactionIdentifier",
     "required_field": {
       "name": "交易标识",
@@ -5966,7 +5966,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "结算指令标识",
     "description": "需求需要结算指令标识，用于定位执行结算的运营指令并追踪处理状态。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_a172b51eff",
     "semantic_reference": "SettlementInstruction.has_InstructionIdentifier",
     "required_field": {
       "name": "结算指令标识",
@@ -5980,7 +5980,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "交易对手标识",
     "description": "需求需要交易对手标识，用于识别交易责任主体并支持风险分组。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_a172b51eff",
     "semantic_reference": "Counterparty.has_CounterpartyIdentifier",
     "required_field": {
       "name": "交易对手标识",
@@ -5994,7 +5994,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "结算币种",
     "description": "需求需要结算币种，用于说明现金实际交收的币种口径。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_a172b51eff",
     "semantic_reference": "SettlementInstruction.has_SettlementCurrency",
     "required_field": {
       "name": "结算币种",
@@ -6008,7 +6008,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "结算金额",
     "description": "需求需要结算金额，用于展示外汇结算现金金额并支持金额级对账。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_a172b51eff",
     "semantic_reference": "SettlementInstruction.has_SettlementAmount",
     "required_field": {
       "name": "结算金额",
@@ -6022,7 +6022,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "结算状态",
     "description": "需求需要结算状态，用于识别未完成、失败或已完成的结算指令。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_a172b51eff",
     "semantic_reference": "SettlementInstruction.has_SettlementStatus",
     "required_field": {
       "name": "结算状态",
@@ -6031,8 +6031,8 @@ window.CATALOG_DATA = {
       "required": true
     }
   },
-  "report_impl.item": {
-    "id": "report_impl.item",
+  "report_impl.item_e781d082f3": {
+    "id": "report_impl.item_e781d082f3",
     "type": "report_implementation",
     "name": "每日外汇结算监测数据逻辑",
     "description": "说明每日外汇结算监测明细字段如何从外汇交易、结算指令、交易对手、nostro账户和汇率数据中取数、计算并满足需求口径；该逻辑不创建或拥有物理表。",
@@ -6183,7 +6183,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "交易标识逻辑",
     "description": "数据逻辑说明监测明细字段 trade_id 如何承载交易标识需求，并从外汇交易数据取得交易主键。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_e781d082f3",
     "implementation_field": {
       "name": "交易标识逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6206,7 +6206,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算指令标识逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_instruction_id 如何承载结算指令标识需求，并从结算指令数据取得运营指令主键。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_e781d082f3",
     "implementation_field": {
       "name": "结算指令标识逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6229,7 +6229,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "交易对手标识逻辑",
     "description": "数据逻辑说明监测明细字段 counterparty_id 如何承载交易对手标识需求，并使用交易上的交易对手引用。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_e781d082f3",
     "implementation_field": {
       "name": "交易对手标识逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6252,7 +6252,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算币种逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_currency 如何承载结算币种需求，并从结算指令取得实际交收币种。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_e781d082f3",
     "implementation_field": {
       "name": "结算币种逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6275,7 +6275,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算金额逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_amount 如何承载结算金额需求，并从结算指令取得现金交收金额。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_e781d082f3",
     "implementation_field": {
       "name": "结算金额逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6298,7 +6298,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算状态逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_status 如何承载结算状态需求，并从结算指令取得运营处理状态。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_e781d082f3",
     "implementation_field": {
       "name": "结算状态逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6321,7 +6321,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "折算后报送币种敞口金额逻辑",
     "description": "数据逻辑说明监测明细字段 exposure_amount_report_currency 如何按交易名义金额和汇率计算报送币种敞口金额。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_e781d082f3",
     "implementation_field": {
       "name": "折算后报送币种敞口金额逻辑",
       "dataset": "fx_settlement_monitoring_lines",
@@ -6343,7 +6343,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "结算延迟天数逻辑",
     "description": "数据逻辑说明监测明细字段 settlement_delay_days 如何通过预计结算日和实际结算日计算延迟天数。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_e781d082f3",
     "implementation_field": {
       "name": "结算延迟天数逻辑",
       "dataset": "fx_settlement_monitoring_lines",

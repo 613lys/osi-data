@@ -4269,8 +4269,8 @@ window.CATALOG_DATA = {
       "custom_extensions": []
     }
   },
-  "requirement.item": {
-    "id": "requirement.item",
+  "requirement.item_66140f50d5": {
+    "id": "requirement.item_66140f50d5",
     "type": "regulatory_requirement",
     "name": "合格抵质押品报送需求",
     "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
@@ -4403,7 +4403,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "保证金账户标识",
     "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "MarginAccount.has_AccountIdentifier",
     "required_field": {
       "name": "保证金账户标识",
@@ -4417,7 +4417,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "交易对手标识",
     "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "Counterparty.has_CounterpartyIdentifier",
     "required_field": {
       "name": "交易对手标识",
@@ -4431,7 +4431,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "抵质押品标识",
     "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralAsset.has_CollateralIdentifier",
     "required_field": {
       "name": "抵质押品标识",
@@ -4445,7 +4445,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "估值日期",
     "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralValuation.has_ValuationDate",
     "required_field": {
       "name": "估值日期",
@@ -4459,7 +4459,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "抵质押品折扣前市场价值",
     "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralValuation.has_MarketValueAmount",
     "required_field": {
       "name": "抵质押品折扣前市场价值",
@@ -4473,7 +4473,7 @@ window.CATALOG_DATA = {
     "type": "requirement_semantic_item",
     "name": "监管折扣率",
     "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。",
-    "parent": "requirement.item",
+    "parent": "requirement.item_66140f50d5",
     "semantic_reference": "CollateralValuation.has_HaircutRate",
     "required_field": {
       "name": "监管折扣率",
@@ -4482,8 +4482,8 @@ window.CATALOG_DATA = {
       "required": true
     }
   },
-  "report_impl.item": {
-    "id": "report_impl.item",
+  "report_impl.item_1f2b617feb": {
+    "id": "report_impl.item_1f2b617feb",
     "type": "report_implementation",
     "name": "每日合格抵质押品报表数据逻辑",
     "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。",
@@ -4615,7 +4615,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "保证金账户标识逻辑",
     "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "保证金账户标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -4638,7 +4638,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "交易对手标识逻辑",
     "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "交易对手标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -4661,7 +4661,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "抵质押品标识逻辑",
     "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "抵质押品标识逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -4684,7 +4684,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "估值日期逻辑",
     "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "估值日期逻辑",
       "dataset": "collateral_margin_report_lines",
@@ -4707,7 +4707,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "抵质押品折扣前市场价值逻辑",
     "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "抵质押品折扣前市场价值逻辑",
       "dataset": "collateral_valuations",
@@ -4730,7 +4730,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "监管折扣率逻辑",
     "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "监管折扣率逻辑",
       "dataset": "collateral_valuations",
@@ -4753,7 +4753,7 @@ window.CATALOG_DATA = {
     "type": "implementation_field_binding",
     "name": "折扣后合格抵质押品价值逻辑",
     "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
-    "parent": "report_impl.item",
+    "parent": "report_impl.item_1f2b617feb",
     "implementation_field": {
       "name": "折扣后合格抵质押品价值逻辑",
       "dataset": "collateral_margin_report_lines",

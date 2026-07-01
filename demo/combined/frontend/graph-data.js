@@ -8283,13 +8283,13 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "requirement.item",
+      "id": "requirement.item_91da9d8e75",
       "type": "regulatory_requirement",
       "label": "贷款风险暴露报送需求",
       "properties": {
-        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
-        "source": "Collateral Margin Reporting BRD v1.0 section 3.2",
-        "SLA": "Daily EOD before 21:00 local time; business review and exception notes completed before submission."
+        "description": "监管/BRD要求按日生成贷款风险暴露报送数据，用于说明每笔零售或机构贷款在报告日的借款人、产品、本金、风险暴露和预期损失口径。需求还要求在日终前完成数据生成、业务复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。",
+        "source": "Loan Credit Exposure Reporting BRD v1.0 section 5.2",
+        "SLA": "Daily EOD before 22:00 local time; credit risk review completed before regulatory submission."
       }
     },
     {
@@ -8297,7 +8297,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "贷款标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_91da9d8e75",
         "description": "需求需要贷款标识，用于唯一识别每条报送贷款或授信并支持行级对账。",
         "data_type": "LoanIdentifier",
         "semantic_reference": "Loan.has_LoanIdentifier",
@@ -8313,7 +8313,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "借款人标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_91da9d8e75",
         "description": "需求需要借款人标识，用于将贷款暴露归属到承担还款责任的客户或法律实体。",
         "data_type": "CustomerIdentifier",
         "semantic_reference": "Borrower.has_CustomerIdentifier",
@@ -8329,7 +8329,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "产品标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_91da9d8e75",
         "description": "需求需要产品标识，用于按照监管产品类别汇总贷款风险暴露。",
         "data_type": "ProductIdentifier",
         "semantic_reference": "LoanProduct.has_ProductIdentifier",
@@ -8345,7 +8345,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "本金金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_91da9d8e75",
         "description": "需求需要本金金额，用于作为贷款风险暴露和预期损失计算的基础金额。",
         "data_type": "MonetaryAmount",
         "semantic_reference": "Loan.has_PrincipalAmount",
@@ -8361,7 +8361,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "风险暴露金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_91da9d8e75",
         "description": "需求需要风险暴露金额，用于展示监管口径下违约时风险暴露规模。",
         "data_type": "MonetaryAmount",
         "semantic_reference": "Loan.has_ExposureAtDefaultAmount",
@@ -8377,7 +8377,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "预期损失金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_91da9d8e75",
         "description": "需求需要预期损失金额，用于按风险暴露金额、违约概率和违约损失率计算监管信用风险损失。",
         "data_type": "calculation",
         "semantic_reference": "Loan.has_ExpectedLossAmount",
@@ -8390,11 +8390,21 @@ window.GRAPH_DATA = {
       }
     },
     {
+      "id": "requirement.item_cb03a7baa9",
+      "type": "regulatory_requirement",
+      "label": "存款流动性稳定资金报送需求",
+      "properties": {
+        "description": "监管/BRD要求按日生成账户级存款流动性稳定资金报送数据，用于说明每个存款账户在报告日的客户、产品、余额、币种、流动性分组、流失率、受保存款金额和稳定资金金额口径。需求还要求日终前完成数据生成、资金部门复核、异常说明和报送留痕；这些非数据类要求保留在说明中，不强行建模为字段。",
+        "source": "Deposit Liquidity Reporting BRD v1.0 section 4.1",
+        "SLA": "Daily EOD before 20:30 local time; treasury liquidity review completed before regulatory submission."
+      }
+    },
+    {
       "id": "requirement_item..DepositAccount.has_AccountIdentifier",
       "type": "requirement_semantic_item",
       "label": "账户标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要账户标识，用于唯一识别每条存款报送记录并支持账户级对账。",
         "data_type": "AccountIdentifier",
         "semantic_reference": "DepositAccount.has_AccountIdentifier",
@@ -8410,7 +8420,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "报告日期",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要报告日期，用于确定存款余额和流动性指标所属的监管报告日。",
         "data_type": "CalendarDate",
         "semantic_reference": "DepositAccount.has_AsOfDate",
@@ -8426,7 +8436,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "客户标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要客户标识，用于将存款账户归属到持有该存款的客户或法律实体。",
         "data_type": "CustomerIdentifier",
         "semantic_reference": "Depositor.has_CustomerIdentifier",
@@ -8442,7 +8452,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "产品标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要产品标识，用于按照监管产品类别解释和汇总存款流动性余额。",
         "data_type": "ProductIdentifier",
         "semantic_reference": "DepositProduct.has_ProductIdentifier",
@@ -8458,7 +8468,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "存款余额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要存款余额，用于作为流动性稳定资金和受保存款计算的基础金额。",
         "data_type": "MonetaryAmount",
         "semantic_reference": "DepositAccount.has_DepositBalanceAmount",
@@ -8474,7 +8484,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "存款币种",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要存款币种，用于说明存款余额的计价币种并支持币种维度汇总。",
         "data_type": "CurrencyCode",
         "semantic_reference": "DepositAccount.has_DepositCurrency",
@@ -8490,7 +8500,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "流动性分组",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要流动性分组，用于按监管流动性桶分类展示存款余额。",
         "data_type": "LiquidityBucket",
         "semantic_reference": "DepositAccount.has_LiquidityBucket",
@@ -8506,7 +8516,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "稳定资金金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要稳定资金金额，用于根据存款余额和适用流失率计算可计入稳定资金的金额。",
         "data_type": "calculation",
         "semantic_reference": "DepositAccount.has_StableFundingAmount",
@@ -8522,7 +8532,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "受保存款金额",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_cb03a7baa9",
         "description": "需求需要受保存款金额，用于展示存款余额中受产品保险限额覆盖的部分。",
         "data_type": "calculation",
         "semantic_reference": "DepositAccount.has_InsuredBalanceAmount",
@@ -8531,6 +8541,16 @@ window.GRAPH_DATA = {
           "DepositAccount.has_DepositBalanceAmount",
           "DepositProduct.has_InsuranceLimitAmount"
         ]
+      }
+    },
+    {
+      "id": "requirement.item_66140f50d5",
+      "type": "regulatory_requirement",
+      "label": "合格抵质押品报送需求",
+      "properties": {
+        "description": "监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n",
+        "source": "Collateral Margin Reporting BRD v1.0 section 3.2",
+        "SLA": "Daily EOD before 21:00 local time; business review and exception notes completed before submission."
       }
     },
     {
@@ -8556,7 +8576,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "保证金账户标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要保证金账户标识，用于确定每条报表记录归属的账户并支持账户级对账。",
         "data_type": "semantic field",
         "semantic_reference": "CollateralMarginAccount.has_AccountIdentifier",
@@ -8572,7 +8592,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "交易对手标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要交易对手标识，用于按法律实体或监管对象汇总抵质押品暴露。",
         "data_type": "semantic field",
         "semantic_reference": "CollateralCounterparty.has_CounterpartyIdentifier",
@@ -8588,7 +8608,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "抵质押品标识",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要抵质押品标识，用于识别参与合格抵质押品计算的具体资产或头寸。",
         "data_type": "CollateralIdentifier",
         "semantic_reference": "CollateralAsset.has_CollateralIdentifier",
@@ -8604,7 +8624,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "估值日期",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要估值日期，用于说明抵质押品价值和折扣率适用的报告日期。",
         "data_type": "Date",
         "semantic_reference": "CollateralValuation.has_ValuationDate",
@@ -8620,7 +8640,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "抵质押品折扣前市场价值",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要抵质押品折扣前市场价值，用于作为合格抵质押品价值计算的基础金额。",
         "data_type": "MonetaryAmount",
         "semantic_reference": "CollateralValuation.has_MarketValueAmount",
@@ -8636,7 +8656,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "监管折扣率",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要监管折扣率，用于从市场价值计算监管口径下可计入的合格抵质押品价值。",
         "data_type": "Rate",
         "semantic_reference": "CollateralValuation.has_HaircutRate",
@@ -8652,7 +8672,7 @@ window.GRAPH_DATA = {
       "type": "requirement_semantic_item",
       "label": "折扣后合格抵质押品价值",
       "properties": {
-        "parent": "requirement.item",
+        "parent": "requirement.item_66140f50d5",
         "description": "需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。",
         "data_type": "calculation",
         "semantic_reference": "CollateralValuation.has_EligibleCollateralValue",
@@ -8664,12 +8684,12 @@ window.GRAPH_DATA = {
       }
     },
     {
-      "id": "report_impl.item",
+      "id": "report_impl.item_1059227048",
       "type": "report_implementation",
       "label": "每日贷款风险暴露报表数据逻辑",
       "properties": {
-        "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。",
-        "implements": "合格抵质押品报送需求"
+        "description": "说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。",
+        "implements": "贷款风险暴露报送需求"
       }
     },
     {
@@ -8677,7 +8697,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "贷款标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1059227048",
         "description": "数据逻辑说明报表明细字段 loan_id 如何承载贷款标识需求，并兼容零售贷款号和机构授信号来源。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8699,7 +8719,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "借款人标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1059227048",
         "description": "数据逻辑说明报表明细字段 borrower_id 如何承载借款人标识需求，并对齐客户主数据中的借款人记录。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8721,7 +8741,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "产品标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1059227048",
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品主数据的监管分类对齐。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8743,7 +8763,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "本金金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1059227048",
         "description": "数据逻辑说明报表明细字段 principal_amount 如何承载本金金额需求，并统一零售本金与机构授信名义金额。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8765,7 +8785,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "风险暴露金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1059227048",
         "description": "数据逻辑说明报表明细字段 exposure_at_default_amount 如何承载风险暴露金额需求，并作为监管信用风险计算基础。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8787,7 +8807,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "预期损失金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1059227048",
         "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8809,11 +8829,20 @@ window.GRAPH_DATA = {
       }
     },
     {
+      "id": "report_impl.item_23063cbe12",
+      "type": "report_implementation",
+      "label": "每日存款流动性报表数据逻辑",
+      "properties": {
+        "description": "说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。",
+        "implements": "存款流动性稳定资金报送需求"
+      }
+    },
+    {
       "id": "implementation_field.deposit_liquidity_report_lines.account_id",
       "type": "implementation_field_binding",
       "label": "账户标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 account_id 如何承载账户标识需求，并与存款账户余额源记录保持一致。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8834,7 +8863,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "报告日期逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 as_of_date 如何承载报告日期需求，并限定账户余额快照所属日期。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8855,7 +8884,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "客户标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 customer_id 如何承载客户标识需求，并对齐客户主数据中的存款持有人。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8876,7 +8905,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "产品标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 product_id 如何承载产品标识需求，并支持与产品参数的监管分类对齐。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8897,7 +8926,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "存款余额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 balance_amount 如何承载存款余额需求，并作为稳定资金和受保存款计算基础。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8918,7 +8947,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "存款币种逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 currency 如何承载存款币种需求，并保持与存款账户余额币种一致。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8939,7 +8968,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "流动性分组逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 liquidity_bucket 如何承载流动性分组需求，并用于监管分类汇总。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8960,7 +8989,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "稳定资金金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -8983,7 +9012,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "受保存款金额逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_23063cbe12",
         "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9001,11 +9030,20 @@ window.GRAPH_DATA = {
       }
     },
     {
+      "id": "report_impl.item_1f2b617feb",
+      "type": "report_implementation",
+      "label": "每日合格抵质押品报表数据逻辑",
+      "properties": {
+        "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。",
+        "implements": "合格抵质押品报送需求"
+      }
+    },
+    {
       "id": "implementation_field.collateral_margin_report_lines.account_id",
       "type": "implementation_field_binding",
       "label": "保证金账户标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明保证金账户标识需求如何对应报表明细字段 account_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9025,7 +9063,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "交易对手标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明交易对手标识需求如何对应报表明细字段 counterparty_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9045,7 +9083,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "抵质押品标识逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明抵质押品标识需求如何对应报表明细字段 collateral_id。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9065,7 +9103,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "估值日期逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明估值日期需求如何对应报表明细字段 valuation_date。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9085,7 +9123,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "抵质押品折扣前市场价值逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明抵质押品折扣前市场价值需求如何对应估值数据字段 market_value_amount。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9105,7 +9143,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "监管折扣率逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明监管折扣率需求如何对应估值数据字段 haircut_rate。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -9125,7 +9163,7 @@ window.GRAPH_DATA = {
       "type": "implementation_field_binding",
       "label": "折扣后合格抵质押品价值逻辑",
       "properties": {
-        "parent": "report_impl.item",
+        "parent": "report_impl.item_1f2b617feb",
         "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
         "data_type": "logic field",
         "binding_role": "logic field",
@@ -17581,8 +17619,8 @@ window.GRAPH_DATA = {
       "type": "MAPS_TO_FIELD"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Borrower",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Borrower",
+      "source": "requirement.item_91da9d8e75",
       "target": "concept.Borrower",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -17599,8 +17637,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Loan",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Loan",
+      "source": "requirement.item_91da9d8e75",
       "target": "concept.Loan",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -17632,8 +17670,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.LoanProduct",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.LoanProduct",
+      "source": "requirement.item_91da9d8e75",
       "target": "concept.LoanProduct",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -17650,8 +17688,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Loan.has_LoanIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.CONTAINS.CONTAINS.requirement_item..Loan.has_LoanIdentifier",
+      "source": "requirement.item_91da9d8e75",
       "target": "requirement_item..Loan.has_LoanIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -17676,8 +17714,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Borrower.has_CustomerIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.CONTAINS.CONTAINS.requirement_item..Borrower.has_CustomerIdentifier",
+      "source": "requirement.item_91da9d8e75",
       "target": "requirement_item..Borrower.has_CustomerIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -17702,8 +17740,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..LoanProduct.has_ProductIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.CONTAINS.CONTAINS.requirement_item..LoanProduct.has_ProductIdentifier",
+      "source": "requirement.item_91da9d8e75",
       "target": "requirement_item..LoanProduct.has_ProductIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -17728,8 +17766,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Loan.has_PrincipalAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.CONTAINS.CONTAINS.requirement_item..Loan.has_PrincipalAmount",
+      "source": "requirement.item_91da9d8e75",
       "target": "requirement_item..Loan.has_PrincipalAmount",
       "label": "CONTAINS",
       "properties": {
@@ -17754,8 +17792,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Loan.has_ExposureAtDefaultAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.CONTAINS.CONTAINS.requirement_item..Loan.has_ExposureAtDefaultAmount",
+      "source": "requirement.item_91da9d8e75",
       "target": "requirement_item..Loan.has_ExposureAtDefaultAmount",
       "label": "CONTAINS",
       "properties": {
@@ -17780,8 +17818,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Loan.has_ExpectedLossAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_91da9d8e75.CONTAINS.CONTAINS.requirement_item..Loan.has_ExpectedLossAmount",
+      "source": "requirement.item_91da9d8e75",
       "target": "requirement_item..Loan.has_ExpectedLossAmount",
       "label": "CONTAINS",
       "properties": {
@@ -17820,8 +17858,8 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.DepositAccount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.DepositAccount",
+      "source": "requirement.item_cb03a7baa9",
       "target": "concept.DepositAccount",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -17868,8 +17906,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.DepositProduct",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.DepositProduct",
+      "source": "requirement.item_cb03a7baa9",
       "target": "concept.DepositProduct",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -17886,8 +17924,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Depositor",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.Depositor",
+      "source": "requirement.item_cb03a7baa9",
       "target": "concept.Depositor",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -17904,8 +17942,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_AccountIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_AccountIdentifier",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_AccountIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -17930,8 +17968,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_AsOfDate",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_AsOfDate",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_AsOfDate",
       "label": "CONTAINS",
       "properties": {
@@ -17956,8 +17994,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..Depositor.has_CustomerIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..Depositor.has_CustomerIdentifier",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..Depositor.has_CustomerIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -17982,8 +18020,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositProduct.has_ProductIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositProduct.has_ProductIdentifier",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositProduct.has_ProductIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -18008,8 +18046,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_DepositBalanceAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_DepositBalanceAmount",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_DepositBalanceAmount",
       "label": "CONTAINS",
       "properties": {
@@ -18034,8 +18072,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_DepositCurrency",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_DepositCurrency",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_DepositCurrency",
       "label": "CONTAINS",
       "properties": {
@@ -18060,8 +18098,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_LiquidityBucket",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_LiquidityBucket",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_LiquidityBucket",
       "label": "CONTAINS",
       "properties": {
@@ -18086,8 +18124,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_StableFundingAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_StableFundingAmount",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_StableFundingAmount",
       "label": "CONTAINS",
       "properties": {
@@ -18116,8 +18154,8 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_InsuredBalanceAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_cb03a7baa9.CONTAINS.CONTAINS.requirement_item..DepositAccount.has_InsuredBalanceAmount",
+      "source": "requirement.item_cb03a7baa9",
       "target": "requirement_item..DepositAccount.has_InsuredBalanceAmount",
       "label": "CONTAINS",
       "properties": {
@@ -18146,8 +18184,8 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralAsset",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralAsset",
+      "source": "requirement.item_66140f50d5",
       "target": "concept.CollateralAsset",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -18164,8 +18202,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralCounterparty",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralCounterparty",
+      "source": "requirement.item_66140f50d5",
       "target": "concept.CollateralCounterparty",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -18182,8 +18220,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralMarginAccount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralMarginAccount",
+      "source": "requirement.item_66140f50d5",
       "target": "concept.CollateralMarginAccount",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -18200,8 +18238,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralValuation",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.REQUIRES_CONCEPT.REQUIRES_CONCEPT.concept.CollateralValuation",
+      "source": "requirement.item_66140f50d5",
       "target": "concept.CollateralValuation",
       "label": "REQUIRES_CONCEPT",
       "properties": {
@@ -18233,8 +18271,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_CONCEPT"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralMarginAccount.has_AccountIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralMarginAccount.has_AccountIdentifier",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralMarginAccount.has_AccountIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -18259,8 +18297,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralCounterparty.has_CounterpartyIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralCounterparty.has_CounterpartyIdentifier",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralCounterparty.has_CounterpartyIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -18285,8 +18323,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralAsset.has_CollateralIdentifier",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralAsset.has_CollateralIdentifier",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralAsset.has_CollateralIdentifier",
       "label": "CONTAINS",
       "properties": {
@@ -18311,8 +18349,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_ValuationDate",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_ValuationDate",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralValuation.has_ValuationDate",
       "label": "CONTAINS",
       "properties": {
@@ -18337,8 +18375,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_MarketValueAmount",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_MarketValueAmount",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralValuation.has_MarketValueAmount",
       "label": "CONTAINS",
       "properties": {
@@ -18363,8 +18401,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_HaircutRate",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_HaircutRate",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralValuation.has_HaircutRate",
       "label": "CONTAINS",
       "properties": {
@@ -18389,8 +18427,8 @@ window.GRAPH_DATA = {
       "type": "REQUIRES_SEMANTIC_FIELD"
     },
     {
-      "id": "edge.requirement.item.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_EligibleCollateralValue",
-      "source": "requirement.item",
+      "id": "edge.requirement.item_66140f50d5.CONTAINS.CONTAINS.requirement_item..CollateralValuation.has_EligibleCollateralValue",
+      "source": "requirement.item_66140f50d5",
       "target": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
       "label": "CONTAINS",
       "properties": {
@@ -18419,18 +18457,18 @@ window.GRAPH_DATA = {
       "type": "DERIVED_FROM"
     },
     {
-      "id": "edge.report_impl.item.IMPLEMENTS.IMPLEMENTS.requirement.item",
-      "source": "report_impl.item",
-      "target": "requirement.item",
+      "id": "edge.report_impl.item_1059227048.IMPLEMENTS.IMPLEMENTS.requirement.item_91da9d8e75",
+      "source": "report_impl.item_1059227048",
+      "target": "requirement.item_91da9d8e75",
       "label": "IMPLEMENTS",
       "properties": {
-        "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
+        "description": "说明每日贷款风险暴露报表字段如何从零售贷款、机构授信、借款人主数据、产品主数据和已准备的报表明细数据中取数、归一化并满足监管需求口径；该逻辑不创建或拥有物理表。"
       },
       "type": "IMPLEMENTS"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.loan_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.loan_id",
+      "source": "report_impl.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.loan_id",
       "label": "CONTAINS",
       "properties": {
@@ -18482,8 +18520,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.borrower_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.borrower_id",
+      "source": "report_impl.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.borrower_id",
       "label": "CONTAINS",
       "properties": {
@@ -18535,8 +18573,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.product_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.product_id",
+      "source": "report_impl.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.product_id",
       "label": "CONTAINS",
       "properties": {
@@ -18588,8 +18626,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.principal_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.principal_amount",
+      "source": "report_impl.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.principal_amount",
       "label": "CONTAINS",
       "properties": {
@@ -18641,8 +18679,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
+      "source": "report_impl.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.exposure_at_default_amount",
       "label": "CONTAINS",
       "properties": {
@@ -18694,8 +18732,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.expected_loss_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.CONTAINS.CONTAINS.implementation_field.loan_exposure_report_lines.expected_loss_amount",
+      "source": "report_impl.item_1059227048",
       "target": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
       "label": "CONTAINS",
       "properties": {
@@ -18774,6 +18812,21 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.expected_loss_amount",
+      "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
+      "target": "metric.expected_loss_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
+        "requirement": "贷款风险暴露报送需求",
+        "requirement_field": "预期损失金额",
+        "semantic_metric": "expected_loss_amount",
+        "semantic_reference": "metric.expected_loss_amount",
+        "expression": "COALESCE(loan_exposure_report_lines.expected_loss_amount, retail_loans.principal_amount * retail_loans.pd * retail_loans.lgd, institutional_loans.notional_amount * institutional_loans.probability_default * institutional_loans.loss_given_default)"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.loan_exposure_report_lines.expected_loss_amount.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..Loan.has_ExpectedLossAmount",
       "source": "implementation_field.loan_exposure_report_lines.expected_loss_amount",
       "target": "requirement_item..Loan.has_ExpectedLossAmount",
@@ -18787,8 +18840,21 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.institutional_loans",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.expected_loss_amount",
+      "source": "report_impl.item_1059227048",
+      "target": "metric.expected_loss_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 expected_loss_amount 如何承载预期损失金额需求，并由风险暴露、违约概率和违约损失率计算得到。",
+        "semantic_metric": "expected_loss_amount",
+        "semantic_reference": "metric.expected_loss_amount",
+        "requirement": "贷款风险暴露报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.institutional_loans",
+      "source": "report_impl.item_1059227048",
       "target": "dataset.institutional_loans",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -18805,8 +18871,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.loan_exposure_report_lines",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.loan_exposure_report_lines",
+      "source": "report_impl.item_1059227048",
       "target": "dataset.loan_exposure_report_lines",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -18823,8 +18889,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.retail_loans",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1059227048.SOURCE_TABLE.SOURCE_TABLE.dataset.retail_loans",
+      "source": "report_impl.item_1059227048",
       "target": "dataset.retail_loans",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -18841,8 +18907,18 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.account_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS.IMPLEMENTS.requirement.item_cb03a7baa9",
+      "source": "report_impl.item_23063cbe12",
+      "target": "requirement.item_cb03a7baa9",
+      "label": "IMPLEMENTS",
+      "properties": {
+        "description": "说明每日存款流动性报表字段如何从存款账户余额、客户主数据、产品参数和已准备的报表明细数据中取数、计算并满足监管需求口径；该逻辑不创建或拥有物理表。"
+      },
+      "type": "IMPLEMENTS"
+    },
+    {
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.account_id",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.account_id",
       "label": "CONTAINS",
       "properties": {
@@ -18884,8 +18960,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.as_of_date",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.as_of_date",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.as_of_date",
       "label": "CONTAINS",
       "properties": {
@@ -18927,8 +19003,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.customer_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.customer_id",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.customer_id",
       "label": "CONTAINS",
       "properties": {
@@ -18970,8 +19046,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.product_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.product_id",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.product_id",
       "label": "CONTAINS",
       "properties": {
@@ -19013,8 +19089,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.balance_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.balance_amount",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.balance_amount",
       "label": "CONTAINS",
       "properties": {
@@ -19056,8 +19132,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.currency",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.currency",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.currency",
       "label": "CONTAINS",
       "properties": {
@@ -19099,8 +19175,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.liquidity_bucket",
       "label": "CONTAINS",
       "properties": {
@@ -19142,8 +19218,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
       "label": "CONTAINS",
       "properties": {
@@ -19192,6 +19268,21 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.deposit_liquidity_report_lines.stable_funding_amount.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.stable_funding_amount",
+      "source": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
+      "target": "metric.stable_funding_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
+        "requirement": "存款流动性稳定资金报送需求",
+        "requirement_field": "稳定资金金额",
+        "semantic_metric": "stable_funding_amount",
+        "semantic_reference": "metric.stable_funding_amount",
+        "expression": "COALESCE(deposit_liquidity_report_lines.stable_funding_amount, deposit_accounts.balance_amount * COALESCE(deposit_accounts.rate_override, deposit_products.standard_runoff_rate))"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.deposit_liquidity_report_lines.stable_funding_amount.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..DepositAccount.has_StableFundingAmount",
       "source": "implementation_field.deposit_liquidity_report_lines.stable_funding_amount",
       "target": "requirement_item..DepositAccount.has_StableFundingAmount",
@@ -19205,8 +19296,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.CONTAINS.CONTAINS.implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
+      "source": "report_impl.item_23063cbe12",
       "target": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
       "label": "CONTAINS",
       "properties": {
@@ -19245,6 +19336,21 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.deposit_liquidity_report_lines.insured_balance_amount.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.insured_balance_amount",
+      "source": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
+      "target": "metric.insured_balance_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
+        "requirement": "存款流动性稳定资金报送需求",
+        "requirement_field": "受保存款金额",
+        "semantic_metric": "insured_balance_amount",
+        "semantic_reference": "metric.insured_balance_amount",
+        "expression": "COALESCE(deposit_liquidity_report_lines.insured_balance_amount, CASE WHEN deposit_accounts.balance_amount <= deposit_products.insurance_limit_amount THEN deposit_accounts.balance_amount ELSE deposit_products.insurance_limit_amount END)"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.deposit_liquidity_report_lines.insured_balance_amount.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..DepositAccount.has_InsuredBalanceAmount",
       "source": "implementation_field.deposit_liquidity_report_lines.insured_balance_amount",
       "target": "requirement_item..DepositAccount.has_InsuredBalanceAmount",
@@ -19258,8 +19364,34 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_accounts",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.insured_balance_amount",
+      "source": "report_impl.item_23063cbe12",
+      "target": "metric.insured_balance_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 insured_balance_amount 如何承载受保存款金额需求，并按照余额与产品保险限额取较小值。",
+        "semantic_metric": "insured_balance_amount",
+        "semantic_reference": "metric.insured_balance_amount",
+        "requirement": "存款流动性稳定资金报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_23063cbe12.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.stable_funding_amount",
+      "source": "report_impl.item_23063cbe12",
+      "target": "metric.stable_funding_amount",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明报表明细字段 stable_funding_amount 如何承载稳定资金金额需求，并由存款余额和适用流失率计算得到。",
+        "semantic_metric": "stable_funding_amount",
+        "semantic_reference": "metric.stable_funding_amount",
+        "requirement": "存款流动性稳定资金报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_accounts",
+      "source": "report_impl.item_23063cbe12",
       "target": "dataset.deposit_accounts",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19278,8 +19410,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_liquidity_report_lines",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_liquidity_report_lines",
+      "source": "report_impl.item_23063cbe12",
       "target": "dataset.deposit_liquidity_report_lines",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19299,8 +19431,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_products",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_23063cbe12.SOURCE_TABLE.SOURCE_TABLE.dataset.deposit_products",
+      "source": "report_impl.item_23063cbe12",
       "target": "dataset.deposit_products",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19313,8 +19445,18 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.account_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.IMPLEMENTS.IMPLEMENTS.requirement.item_66140f50d5",
+      "source": "report_impl.item_1f2b617feb",
+      "target": "requirement.item_66140f50d5",
+      "label": "IMPLEMENTS",
+      "properties": {
+        "description": "说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
+      },
+      "type": "IMPLEMENTS"
+    },
+    {
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.account_id",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.account_id",
       "label": "CONTAINS",
       "properties": {
@@ -19356,8 +19498,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.counterparty_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.counterparty_id",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.counterparty_id",
       "label": "CONTAINS",
       "properties": {
@@ -19399,8 +19541,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.collateral_id",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.collateral_id",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.collateral_id",
       "label": "CONTAINS",
       "properties": {
@@ -19442,8 +19584,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.valuation_date",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.valuation_date",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.valuation_date",
       "label": "CONTAINS",
       "properties": {
@@ -19485,8 +19627,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_valuations.market_value_amount",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_valuations.market_value_amount",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_valuations.market_value_amount",
       "label": "CONTAINS",
       "properties": {
@@ -19518,8 +19660,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_valuations.haircut_rate",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_valuations.haircut_rate",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_valuations.haircut_rate",
       "label": "CONTAINS",
       "properties": {
@@ -19551,8 +19693,8 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.eligible_collateral_value",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.CONTAINS.CONTAINS.implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "source": "report_impl.item_1f2b617feb",
       "target": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
       "label": "CONTAINS",
       "properties": {
@@ -19591,6 +19733,21 @@ window.GRAPH_DATA = {
       "type": "SOURCE_FIELD"
     },
     {
+      "id": "edge.implementation_field.collateral_margin_report_lines.eligible_collateral_value.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.eligible_collateral_value",
+      "source": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
+      "target": "metric.eligible_collateral_value",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
+        "requirement": "合格抵质押品报送需求",
+        "requirement_field": "折扣后合格抵质押品价值",
+        "semantic_metric": "eligible_collateral_value",
+        "semantic_reference": "metric.eligible_collateral_value",
+        "expression": "collateral_valuations.market_value_amount * (1 - collateral_valuations.haircut_rate)"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
       "id": "edge.implementation_field.collateral_margin_report_lines.eligible_collateral_value.IMPLEMENTS_FIELD.IMPLEMENTS_FIELD.requirement_item..CollateralValuation.has_EligibleCollateralValue",
       "source": "implementation_field.collateral_margin_report_lines.eligible_collateral_value",
       "target": "requirement_item..CollateralValuation.has_EligibleCollateralValue",
@@ -19604,8 +19761,21 @@ window.GRAPH_DATA = {
       "type": "IMPLEMENTS_FIELD"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_positions",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.IMPLEMENTS_METRIC.IMPLEMENTS_METRIC.metric.eligible_collateral_value",
+      "source": "report_impl.item_1f2b617feb",
+      "target": "metric.eligible_collateral_value",
+      "label": "IMPLEMENTS_METRIC",
+      "properties": {
+        "description": "数据逻辑说明折扣后合格抵质押品价值需求如何由市场价值和监管折扣率计算并对应报表明细字段 eligible_collateral_value。",
+        "semantic_metric": "eligible_collateral_value",
+        "semantic_reference": "metric.eligible_collateral_value",
+        "requirement": "合格抵质押品报送需求"
+      },
+      "type": "IMPLEMENTS_METRIC"
+    },
+    {
+      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_positions",
+      "source": "report_impl.item_1f2b617feb",
       "target": "dataset.collateral_positions",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19617,8 +19787,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_valuations",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.collateral_valuations",
+      "source": "report_impl.item_1f2b617feb",
       "target": "dataset.collateral_valuations",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19632,8 +19802,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.counterparties",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.counterparties",
+      "source": "report_impl.item_1f2b617feb",
       "target": "dataset.counterparties",
       "label": "SOURCE_TABLE",
       "properties": {
@@ -19645,8 +19815,8 @@ window.GRAPH_DATA = {
       "type": "SOURCE_TABLE"
     },
     {
-      "id": "edge.report_impl.item.SOURCE_TABLE.SOURCE_TABLE.dataset.margin_accounts",
-      "source": "report_impl.item",
+      "id": "edge.report_impl.item_1f2b617feb.SOURCE_TABLE.SOURCE_TABLE.dataset.margin_accounts",
+      "source": "report_impl.item_1f2b617feb",
       "target": "dataset.margin_accounts",
       "label": "SOURCE_TABLE",
       "properties": {

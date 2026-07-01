@@ -485,9 +485,9 @@
     "text": "metric.eligible_collateral_value semantic_metric eligible_collateral_value Market value after haircut for regulatory eligible collateral reporting. Market value after haircut for regulatory eligible collateral reporting."
   },
   {
-    "id": "requirement.item",
+    "id": "requirement.item_66140f50d5",
     "type": "regulatory_requirement",
-    "text": "requirement.item regulatory_requirement 合格抵质押品报送需求 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n Collateral Margin Reporting BRD v1.0 section 3.2"
+    "text": "requirement.item_66140f50d5 regulatory_requirement 合格抵质押品报送需求 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n 监管/BRD要求每日生成保证金账户级合格抵质押品报表，用于说明每个保证金账户在估值日可计入监管口径的抵质押品资产、估值金额、监管折扣率和折扣后价值。需求还包括每日EOD生成、业务复核、异常估值说明和报表留痕；这些非数据类要求保留在本说明中，不强行建模为字段。\n Collateral Margin Reporting BRD v1.0 section 3.2"
   },
   {
     "id": "requirement_item..MarginAccount.has_AccountIdentifier",
@@ -525,9 +525,9 @@
     "text": "requirement_item..CollateralValuation.has_EligibleCollateralValue requirement_semantic_item 折扣后合格抵质押品价值 需求需要折扣后合格抵质押品价值，用于展示监管口径下可计入的抵质押品金额。"
   },
   {
-    "id": "report_impl.item",
+    "id": "report_impl.item_1f2b617feb",
     "type": "report_implementation",
-    "text": "report_impl.item report_implementation 每日合格抵质押品报表数据逻辑 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
+    "text": "report_impl.item_1f2b617feb report_implementation 每日合格抵质押品报表数据逻辑 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。 说明每日合格抵质押品报表字段如何从已有保证金账户、交易对手、抵质押品和估值数据中取数、计算并满足需求口径；该逻辑不创建物理表。"
   },
   {
     "id": "implementation_field.collateral_margin_report_lines.account_id",
