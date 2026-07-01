@@ -1,0 +1,50 @@
+{
+  "id": "loan-exposure-field-lineage",
+  "kind": "snapshot",
+  "name": "贷款风险暴露字段血缘 - Loan Exposure Field Lineage",
+  "description": "打开贷款风险暴露报送需求，并预选风险暴露金额字段，展示需求字段、贷款实体字段和报表明细 dataset 字段之间的字段级关系。",
+  "createdAt": "2026-07-01T00:00:00.000Z",
+  "updatedAt": "2026-07-01T00:00:00.000Z",
+  "view": {
+    "viewMode": "traceability",
+    "focusId": "requirement.item_91da9d8e75",
+    "selectedNodeId": "requirement.item_91da9d8e75",
+    "selectedOntology": "LoanExposureReportingOntology",
+    "selectedSemanticModel": "LoanExposureSemanticModel",
+    "maxDepth": 2,
+    "nodeTypes": [
+      "regulatory_requirement",
+      "entity_type_concept",
+      "base_entity_concept",
+      "semantic_dataset",
+      "semantic_metric"
+    ],
+    "businessEdgeTypes": [],
+    "edgeTypes": [
+      "REQUIRES_CONCEPT::regulatory_requirement::entity_type_concept",
+      "MAPS_TO::entity_type_concept::semantic_dataset",
+      "MAPS_TO::entity_type_concept::semantic_metric",
+      "DERIVED_BY::semantic_metric::semantic_dataset"
+    ],
+    "metricOverlays": [],
+    "tags": [],
+    "expanded": [
+      "requirement.item_91da9d8e75",
+      "concept.Loan",
+      "dataset.loan_exposure_report_lines"
+    ],
+    "autoExpandSuppressed": [],
+    "hiddenNodes": [],
+    "selectedEdgeId": null,
+    "selectedFieldId": "requirement_item..Loan.has_ExposureAtDefaultAmount",
+    "selectedFieldIds": [
+      "requirement_item..Loan.has_ExposureAtDefaultAmount",
+      "value.Loan.has_ExposureAtDefaultAmount",
+      "field.loan_exposure_report_lines.exposure_at_default_amount"
+    ],
+    "scroll": {
+      "left": 0,
+      "top": 0
+    }
+  }
+}

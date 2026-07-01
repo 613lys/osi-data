@@ -110,6 +110,69 @@ Top-level fields:
 - `positions`: Optional manual node positions. Include only ids that are expected to be visible.
 - `scroll`: Optional canvas scroll state.
 
+
+## Layout And Saved Positions
+
+For agent-generated snapshots, prefer omitting `view.positions` unless the positions were captured from a rendered, verified browser session.
+
+Why:
+
+- `positions` are treated as manual coordinates and override the automatic graph layout.
+- Expanded nodes are much taller than collapsed nodes.
+- Preselected fields can auto-expand linked parent nodes and add field-level edges.
+- If an agent writes positions before those final expansions are known, restored snapshots can overlap even when the graph data is correct.
+
+Use this rule:
+
+- If the snapshot is generated from a text description or raw metadata, omit `positions`; the frontend will use ELK/fallback layout after applying `expanded` and `selectedFieldIds`.
+- If the snapshot must preserve an exact visual layout, first open the snapshot in the frontend, let the graph render, verify there are no node rectangle overlaps, then save/capture the rendered positions.
+- Never hand-write compact positions for expanded field scenarios unless the estimated node heights and horizontal/vertical gaps have been checked.
+- A good generated snapshot can still include `scroll`, but set it to `{ "left": 0, "top": 0 }` unless a verified viewport position is needed.
+
+Validation expectation:
+
+- Open the snapshot in the UI.
+- Confirm selected field rows have the `selected connected` visual state.
+- Confirm `field-edge` SVG paths are present for the intended field-level edges.
+- Confirm visible top-level node rectangles do not overlap.
+## Opening A Node With Preselected Field Edges
+
+An agent-generated snapshot can open a specific node and also behave as if the user had already clicked one or more child fields. This is the right format for requests such as: "open the loan requirement, click the exposure amount field, and show the field-level mapping edges".
+
+Required pattern:
+
+```json
+"view": {
+  "viewMode": "traceability",
+  "focusId": "requirement.item_91da9d8e75",
+  "selectedNodeId": "requirement.item_91da9d8e75",
+  "expanded": [
+    "requirement.item_91da9d8e75",
+    "concept.Loan",
+    "dataset.loan_exposure_report_lines"
+  ],
+  "selectedFieldId": "requirement_item..Loan.has_ExposureAtDefaultAmount",
+  "selectedFieldIds": [
+    "requirement_item..Loan.has_ExposureAtDefaultAmount",
+    "value.Loan.has_ExposureAtDefaultAmount",
+    "field.loan_exposure_report_lines.exposure_at_default_amount"
+  ]
+}
+```
+
+Rules:
+
+- `focusId` opens the graph around the chosen top-level node.
+- `selectedNodeId` controls the node profile if no field profile is selected.
+- `expanded` must include every top-level parent whose child field row should be visible.
+- `selectedFieldIds` is the list of child fields the UI treats as clicked; field-level edges connected to those fields become visible.
+- `selectedFieldId` is optional, but when present it controls which one field profile is open on the right side by default.
+- The selected field ids must be real child-node ids from `knowledge/indexes/graph.json`.
+- Do not put field-level edge types such as `REQUIRES_SEMANTIC_FIELD`, `MAPS_TO_FIELD`, `SOURCE_FIELD`, or field-level `DERIVED_BY` into `view.edgeTypes` just to reveal them. Field-level visibility is controlled by `selectedFieldIds`.
+- If the field edge should connect to a dataset field, also include the dataset parent in `expanded`; otherwise the field edge may exist but the concrete field row is not visible.
+
+When deriving this from free-text user intent, identify the business field phrase first, then find matching child-node ids by label, `properties.field_name`, `properties.relationship_name`, `properties.semantic_reference`, or description. Prefer selecting the requirement item, the matching EntityType value field, and the matching dataset field together so the graph shows the semantic chain end to end.
+
 ## Generation Steps
 
 1. Compile or load graph indexes.

@@ -1555,7 +1555,7 @@ function renderHomeScenarioList() {
     countClass: item.kind === "preset" ? "preset-pill" : "snapshot-pill",
     description: item.description || scenarioSummaryText(item),
     actionLabel: "Open Scenario",
-    actionAttr: `data-open-scenario="${escapeAttr(scenarioKey(item.kind, item.id))}" data-open-scenario-page="scenarios"`,
+    actionAttr: `data-open-scenario="${escapeAttr(scenarioKey(item.kind, item.id))}"`,
     secondaryActionLabel: "Delete scenario",
     secondaryActionAttr: `data-delete-scenario="${escapeAttr(item.id)}" data-delete-scenario-kind="${escapeAttr(item.kind)}"`,
     secondaryDisabled: !scenarioState.serverAvailable,
@@ -1777,6 +1777,7 @@ function restoreScenarioView(view = {}) {
   graphState.selectedFieldIds = new Set((view.selectedFieldIds || []).filter(id => node(id) && isChildNode(id)));
   if (view.selectedFieldId && node(view.selectedFieldId) && isChildNode(view.selectedFieldId)) graphState.selectedFieldIds.add(view.selectedFieldId);
   graphState.selectedFieldId = view.selectedFieldId && graphState.selectedFieldIds.has(view.selectedFieldId) ? view.selectedFieldId : null;
+  [...graphState.selectedFieldIds].forEach(expandLinkedParentsForField);
   syncSelectedFieldId();
   graphState.manualPositions = restoredPositions(view.positions);
 }
@@ -1880,11 +1881,13 @@ function applyPresetScenario(scenario, options = {}) {
 }
 
 function applySnapshotScenario(scenario, options = {}) {
-  restoreScenarioView(scenario.view || {});
+  const view = scenario.view || {};
+  const mode = GRAPH_VIEW_CONFIG[view.viewMode] ? view.viewMode : "traceability";
   scenarioState.selectedKey = scenarioKey(scenario.kind, scenario.id);
+  openPage(options.page || pageForGraphMode(mode));
+  restoreScenarioView(view);
   graphState.showScenarioProfile = true;
-  openPage(options.page || pageForGraphMode(graphState.viewMode));
-  renderGraphPage({ scrollAfter: scenario.view?.scroll });
+  renderGraphPage({ scrollAfter: view.scroll });
   setScenarioHint("");
 }
 
@@ -4482,7 +4485,7 @@ document.addEventListener("click", event => {
 
   const openScenario = event.target.closest("[data-open-scenario]");
   if (openScenario) {
-    applyScenario(openScenario.dataset.openScenario, (appState.currentPage === "scenarios" || openScenario.dataset.openScenarioPage === "scenarios") ? { page: "scenarios" } : {});
+    applyScenario(openScenario.dataset.openScenario, openScenario.dataset.openScenarioPage === "scenarios" ? { page: "scenarios" } : {});
     event.stopPropagation();
     return;
   }
