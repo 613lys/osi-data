@@ -460,7 +460,7 @@ const PAGE_VIEW_MODE = {
 };
 
 const GRAPH_CONTROL_SECTIONS = {
-  traceability: ["focus", "hidden", "depth", "nodeTypes", "edgeTypes"],
+  traceability: ["focus", "hidden", "depth", "nodeTypes", "businessEdges", "edgeTypes"],
   ontology: ["selector", "hidden", "nodeTypes", "businessEdges", "edgeTypes"],
   semantic: ["selector", "hidden", "nodeTypes", "metrics", "edgeTypes"],
   requirement: ["selector", "hidden", "edgeTypes"],
@@ -2424,9 +2424,9 @@ function renderGraphPage(options = {}) {
     graphState.selectedNodeId = null;
   }
   clearHiddenSelections();
+  expandSelectedMetricValueParents();
   graphState.visible = graphNeighborhood();
   if (graphViewConfig().autoExpandFields) expandVisibleViewNodes();
-  expandSelectedMetricValueParents();
   renderScenarioControls();
   renderScenarioSaveButton();
   renderGraphFilters();
@@ -2448,7 +2448,7 @@ function expandVisibleViewNodes() {
 }
 
 function expandSelectedMetricValueParents() {
-  if (graphState.viewMode !== "semantic" || !graphState.metricOverlays.size) return;
+  if (!["semantic", "traceability"].includes(graphState.viewMode) || !graphState.metricOverlays.size) return;
   const parentTypes = new Set(["semantic_dataset", "entity_type_concept", "base_entity_concept"]);
   [...selectedMetricValueEdges(), ...selectedMetricDependencyEdges()].forEach(edge => {
     [edge.sourceOriginal, edge.targetOriginal].forEach(id => {
@@ -2666,7 +2666,7 @@ function graphNeighborhood() {
 
   const nodeSet = new Set([...visited.keys()].filter(id => node(id)));
   const childEdgeCandidates = childEdgesForCurrentView();
-  if (graphState.viewMode !== "traceability") {
+  if (childEdgeCandidates.length) {
     expandNodeSetFromChildEdges(nodeSet, childEdgeCandidates);
   }
   const selectedChildEdges = childEdgeCandidates.filter(edge => {
@@ -2681,6 +2681,7 @@ function graphNeighborhood() {
 
   const visibleEdges = traversalEdges.filter(edge => {
     if (!nodeSet.has(edge.source) || !nodeSet.has(edge.target)) return false;
+    if (nodeEdgeCoveredByFieldEdge(edge, selectedChildEdges)) return false;
     return true;
   });
   const visibleChildEdges = selectedChildEdges.filter(edge => {
@@ -2727,7 +2728,7 @@ function graphModelView(traversalEdges) {
     if (!childEdgeCanParticipate(edge)) return false;
     return true;
   });
-  const visibleEdges = traversalEdges.filter(edge => nodeSet.has(edge.source) && nodeSet.has(edge.target));
+  const visibleEdges = traversalEdges.filter(edge => nodeSet.has(edge.source) && nodeSet.has(edge.target) && !nodeEdgeCoveredByFieldEdge(edge, selectedChildEdges));
   const connectedIds = new Set();
   [...visibleEdges, ...selectedChildEdges].forEach(edge => {
     connectedIds.add(edge.source);
@@ -2834,7 +2835,7 @@ function selectedMetricValueEdges() {
 }
 
 function selectedMetricDependencyEdges() {
-  if (graphState.viewMode !== "semantic" || !graphState.metricOverlays.size) return [];
+  if (!["semantic", "traceability"].includes(graphState.viewMode) || !graphState.metricOverlays.size) return [];
   return childEdges().filter(edge => {
     const metricName = edge.raw?.properties?.semantic_metric || "";
     if (!metricName || !graphState.metricOverlays.has(metricName)) return false;
@@ -2845,11 +2846,25 @@ function selectedMetricDependencyEdges() {
 
 function childEdgesForCurrentView() {
   const selectedEdges = selectedFieldEdges();
-  if (graphState.viewMode === "traceability") return selectedEdges;
+  const overlayEdges = [...selectedMetricValueEdges(), ...selectedMetricDependencyEdges()];
+  if (graphState.viewMode === "traceability") return dedupeEdges([...selectedEdges, ...overlayEdges]);
   const allowedChildTypes = childEdgeTypesForMode();
   if (!allowedChildTypes.size) return [];
-  const overlayEdges = [...selectedMetricValueEdges(), ...selectedMetricDependencyEdges()];
   return dedupeEdges([...selectedEdges, ...overlayEdges]).filter(edge => allowedChildTypes.has(edge.type));
+}
+
+function childEdgeEndpointsVisible(edge) {
+  return [edge.sourceOriginal, edge.targetOriginal].every(id => !isChildNode(id) || isExpandedNode(parentOf(id)));
+}
+
+function nodeEdgeCoveredByFieldEdge(edge, childEdgesInView) {
+  if (edge.type !== "DERIVED_BY") return false;
+  return childEdgesInView.some(childEdge =>
+    childEdge.type === edge.type &&
+    childEdge.source === edge.source &&
+    childEdge.target === edge.target &&
+    childEdgeEndpointsVisible(childEdge)
+  );
 }
 function childEdgeCanParticipate(edge) {
   if (!graphNodeVisible(edge.source) || !graphNodeVisible(edge.target)) return false;
