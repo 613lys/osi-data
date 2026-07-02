@@ -43,6 +43,7 @@ Use lowercase kebab-case for `<snapshot-id>`. After writing the file, rebuild th
     "selectedOntology": "LoanExposureReportingOntology",
     "selectedSemanticModel": "LoanExposureSemanticModel",
     "maxDepth": 2,
+    "zoom": 1,
     "nodeTypes": [
       "regulatory_requirement",
       "entity_type_concept",
@@ -96,6 +97,7 @@ Top-level fields:
 - `selectedOntology`: Optional but recommended when multiple ontologies are compiled.
 - `selectedSemanticModel`: Optional but recommended when multiple semantic models are compiled.
 - `maxDepth`: Graph traversal depth. Prefer `1` for tight impact review, `2` for requirement-to-semantic traceability, and `3` only when the result is still readable.
+- `zoom`: Optional graph canvas zoom level. Use `1` by default; use a verified value such as `0.8` or `1.2` only when the intended snapshot needs that viewport scale.
 - `nodeTypes`: Node type allow-list. Include only types needed for the user task.
 - `businessEdgeTypes`: Entity-to-Entity action filters, such as `REFERENCES` or `DEPENDS_ON`, when business relationships are part of the task.
 - `edgeTypes`: Node-to-node edge filter keys. Prefer full route keys in `<edgeType>::<sourceNodeType>::<targetNodeType>` form when available in the graph. Use bare edge types only when that is how the current scenario data stores presets.

@@ -3,6 +3,9 @@ const catalog = window.CATALOG_DATA || window.OSI_CATALOG_DATA || {};
 const summary = window.OSI_SUMMARY || window.SUMMARY_DATA || {};
 const scenarioData = window.SCENARIO_DATA || { presets: [], snapshots: [] };
 const DEFAULT_GRAPH_SIZE = { width: 1800, height: 1300 };
+const GRAPH_ZOOM_MIN = 0.5;
+const GRAPH_ZOOM_MAX = 1.8;
+const GRAPH_ZOOM_STEP = 0.1;
 const GRAPH_PADDING = 90;
 const DEFAULT_UNCHECKED_GRAPH_EDGE_TYPES = new Set(["EXTENDS"]);
 const STRUCTURAL_EDGE_TYPES = new Set(["CONTAINS"]);
@@ -90,8 +93,14 @@ const els = {
   focusTitle: document.getElementById("focusTitle"),
   focusDescription: document.getElementById("focusDescription"),
   fit: document.getElementById("fitButton"),
+  zoomOut: document.getElementById("zoomOutButton"),
+  zoomReset: document.getElementById("zoomResetButton"),
+  zoomIn: document.getElementById("zoomInButton"),
+  zoomValue: document.getElementById("zoomValue"),
   expandSelected: document.getElementById("expandSelectedButton"),
   viewport: document.getElementById("graphViewport"),
+  zoomLayer: document.getElementById("graphZoomLayer"),
+  canvas: document.getElementById("graphCanvas"),
   board: document.getElementById("graphBoard"),
   edgeLayer: document.getElementById("edgeLayer"),
   fieldEdgeLayer: document.getElementById("fieldEdgeLayer"),
@@ -269,6 +278,7 @@ const graphState = {
   selectedFieldId: null,
   selectedFieldIds: new Set(),
   maxDepth: 1,
+  zoom: 1,
   nodeTypes: new Set(nodeTypes()),
   businessEdgeTypes: new Set(businessEdgeTypes()),
   edgeTypes: defaultGraphEdgeTypesForFocus(catalogState.selectedId),
@@ -1696,7 +1706,8 @@ function currentScenarioView() {
     selectedOntology: graphState.selectedOntology,
     selectedSemanticModel: graphState.selectedSemanticModel,
     maxDepth: graphState.maxDepth,
-    nodeTypes: [...graphState.nodeTypes],
+    zoom: graphState.zoom,
+      nodeTypes: [...graphState.nodeTypes],
     businessEdgeTypes: [...graphState.businessEdgeTypes],
     edgeTypes: [...graphState.edgeTypes],
     metricOverlays: [...graphState.metricOverlays],
@@ -1740,6 +1751,7 @@ function currentScenarioTemplate(name, existingPreset = null, now = new Date().t
       selectedOntology: graphState.selectedOntology || undefined,
       selectedSemanticModel: graphState.selectedSemanticModel || undefined,
       maxDepth: graphState.maxDepth,
+      zoom: graphState.zoom,
       nodeTypes: [...graphState.nodeTypes],
       businessEdgeTypes: [...graphState.businessEdgeTypes],
       edgeTypes: [...graphState.edgeTypes],
@@ -1756,6 +1768,7 @@ function restoreScenarioView(view = {}) {
   graphState.focusId = node(view.focusId) && !isChildNode(view.focusId) ? view.focusId : focusCandidateForMode(mode);
   graphState.selectedNodeId = node(view.selectedNodeId) && !isChildNode(view.selectedNodeId) ? view.selectedNodeId : graphState.focusId;
   graphState.maxDepth = clamp(Number(view.maxDepth) || graphViewConfig(mode).minDepth || 1, Number(els.depth.min) || 1, Number(els.depth.max) || 4);
+  graphState.zoom = normalizeGraphZoom(view.zoom);
   graphState.nodeTypes = restoredSet(view.nodeTypes, [...graphNodeTypeOptions(mode)]);
   graphState.businessEdgeTypes = restoredSet(view.businessEdgeTypes, [...graphBusinessEdgeTypeOptions(mode)]);
   graphState.edgeTypes = restoredEdgeFilterSet(view.edgeTypes, [...defaultEdgeTypesForMode(mode, graphState.focusId)]);
@@ -3423,10 +3436,22 @@ function restoreGraphScroll(scroll) {
 function setGraphCanvasSize(size) {
   const width = Math.max(DEFAULT_GRAPH_SIZE.width, Math.ceil(size?.width || DEFAULT_GRAPH_SIZE.width));
   const height = Math.max(DEFAULT_GRAPH_SIZE.height, Math.ceil(size?.height || DEFAULT_GRAPH_SIZE.height));
+  const zoom = normalizeGraphZoom(graphState.zoom);
+  graphState.zoom = zoom;
+  if (els.zoomLayer) {
+    els.zoomLayer.style.width = `${Math.ceil(width * zoom)}px`;
+    els.zoomLayer.style.height = `${Math.ceil(height * zoom)}px`;
+  }
+  if (els.canvas) {
+    els.canvas.style.width = `${width}px`;
+    els.canvas.style.height = `${height}px`;
+    els.canvas.style.transform = `scale(${zoom})`;
+  }
   [els.board, els.edgeLayer, els.fieldEdgeLayer].forEach(el => {
     el.style.width = `${width}px`;
     el.style.height = `${height}px`;
   });
+  updateGraphZoomControls();
 }
 
 function renderLaneLabels() {
@@ -3624,10 +3649,11 @@ function childElement(id) {
 function relativeRect(el) {
   const viewport = els.viewport.getBoundingClientRect();
   const rect = el.getBoundingClientRect();
-  const zoom = pageZoomFactor();
+  const graphZoom = normalizeGraphZoom(graphState.zoom);
+  const zoom = pageZoomFactor() * graphZoom;
   return {
-    left: (rect.left - viewport.left) / zoom + els.viewport.scrollLeft,
-    top: (rect.top - viewport.top) / zoom + els.viewport.scrollTop,
+    left: (rect.left - viewport.left) / zoom + els.viewport.scrollLeft / graphZoom,
+    top: (rect.top - viewport.top) / zoom + els.viewport.scrollTop / graphZoom,
     width: rect.width / zoom,
     height: rect.height / zoom,
   };
@@ -3636,6 +3662,31 @@ function relativeRect(el) {
 function pageZoomFactor() {
   const zoom = Number.parseFloat(window.getComputedStyle(document.body).zoom);
   return Number.isFinite(zoom) && zoom > 0 ? zoom : 1;
+}
+
+function normalizeGraphZoom(value) {
+  return clamp(Number(value) || 1, GRAPH_ZOOM_MIN, GRAPH_ZOOM_MAX);
+}
+
+function updateGraphZoomControls() {
+  const zoom = normalizeGraphZoom(graphState.zoom);
+  if (els.zoomValue) els.zoomValue.textContent = `${Math.round(zoom * 100)}%`;
+  if (els.zoomOut) els.zoomOut.disabled = zoom <= GRAPH_ZOOM_MIN + 0.001;
+  if (els.zoomIn) els.zoomIn.disabled = zoom >= GRAPH_ZOOM_MAX - 0.001;
+}
+
+function setGraphZoom(value, options = {}) {
+  const previous = normalizeGraphZoom(graphState.zoom);
+  const next = normalizeGraphZoom(value);
+  if (Math.abs(previous - next) < 0.001) return;
+  const viewport = els.viewport;
+  const centerX = (viewport.scrollLeft + viewport.clientWidth / 2) / previous;
+  const centerY = (viewport.scrollTop + viewport.clientHeight / 2) / previous;
+  graphState.zoom = next;
+  setGraphCanvasSize(graphState.visible.size || DEFAULT_GRAPH_SIZE);
+  const left = Math.max(0, centerX * next - viewport.clientWidth / 2);
+  const top = Math.max(0, centerY * next - viewport.clientHeight / 2);
+  viewport.scrollTo({ left, top, behavior: options.instant ? "auto" : "smooth" });
 }
 
 function rightMiddle(el) {
@@ -4302,10 +4353,11 @@ function closeFilterDropdowns(except) {
 
 function fitGraph() {
   const bounds = visibleGraphBounds();
+  const zoom = normalizeGraphZoom(graphState.zoom);
   const viewportWidth = Math.max(els.viewport.clientWidth, 320);
   const viewportHeight = Math.max(els.viewport.clientHeight, 260);
-  const left = Math.max(0, bounds.left + bounds.width / 2 - viewportWidth / 2);
-  const top = Math.max(0, bounds.top + bounds.height / 2 - viewportHeight / 2);
+  const left = Math.max(0, (bounds.left + bounds.width / 2) * zoom - viewportWidth / 2);
+  const top = Math.max(0, (bounds.top + bounds.height / 2) * zoom - viewportHeight / 2);
   els.viewport.scrollTo({ left, top, behavior: "smooth" });
 }
 
@@ -4693,6 +4745,9 @@ els.depth.addEventListener("input", event => {
 });
 els.graphReset.addEventListener("click", resetGraphFilters);
 els.fit.addEventListener("click", fitGraph);
+if (els.zoomOut) els.zoomOut.addEventListener("click", () => setGraphZoom(graphState.zoom - GRAPH_ZOOM_STEP));
+if (els.zoomIn) els.zoomIn.addEventListener("click", () => setGraphZoom(graphState.zoom + GRAPH_ZOOM_STEP));
+if (els.zoomReset) els.zoomReset.addEventListener("click", () => setGraphZoom(1));
 els.expandSelected.addEventListener("click", () => {
   const open = !allVisibleFieldNodesExpanded();
   setAllVisibleFields(open);

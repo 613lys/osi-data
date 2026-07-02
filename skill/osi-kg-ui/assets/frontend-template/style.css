@@ -919,8 +919,42 @@ p {
 
 .toolbar-actions {
   display: flex;
+  align-items: center;
   gap: 8px;
   white-space: nowrap;
+}
+
+.zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #cfd8e6;
+  border-radius: 7px;
+  background: #fff;
+}
+
+.zoom-controls button {
+  min-height: 30px;
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.zoom-controls button + button {
+  border-left: 1px solid #e5eaf1;
+}
+
+.zoom-controls button:hover {
+  background: #f3f6fa;
+}
+
+#zoomResetButton {
+  min-width: 52px;
 }
 
 .graph-viewport {
@@ -932,6 +966,20 @@ p {
     linear-gradient(90deg, #e9eef5 1px, transparent 1px),
     #fbfcfe;
   background-size: 28px 28px;
+}
+
+.graph-zoom-layer {
+  position: relative;
+  width: 1800px;
+  height: 1300px;
+}
+
+.graph-canvas {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 1800px;
+  height: 1300px;
+  transform-origin: 0 0;
 }
 
 #edgeLayer,

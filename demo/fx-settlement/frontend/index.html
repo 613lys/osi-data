@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>China Ops Data Knowledge Graph</title>
-    <link rel="stylesheet" href="./style.css?v=scope-profile-v1" />
+    <link rel="stylesheet" href="./style.css?v=graph-zoom-v1" />
   </head>
   <body>
     <header class="topbar">
@@ -204,14 +204,23 @@
           </div>
           <div class="toolbar-actions">
             <button id="fitButton" type="button">Fit graph</button>
+            <div class="zoom-controls" aria-label="Graph zoom controls">
+              <button id="zoomOutButton" type="button" title="Zoom out">-</button>
+              <button id="zoomResetButton" type="button" title="Reset zoom"><span id="zoomValue">100%</span></button>
+              <button id="zoomInButton" type="button" title="Zoom in">+</button>
+            </div>
             <button id="expandSelectedButton" type="button">Expand fields</button>
             <button id="openScenarioSaveButton" class="primary" type="button">Save scenario</button>
           </div>
         </div>
         <div id="graphViewport" class="graph-viewport">
-          <svg id="edgeLayer" aria-hidden="true"></svg>
-          <div id="graphBoard" class="graph-board"></div>
-          <svg id="fieldEdgeLayer" aria-hidden="true"></svg>
+          <div id="graphZoomLayer" class="graph-zoom-layer">
+            <div id="graphCanvas" class="graph-canvas">
+              <svg id="edgeLayer" aria-hidden="true"></svg>
+              <div id="graphBoard" class="graph-board"></div>
+              <svg id="fieldEdgeLayer" aria-hidden="true"></svg>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -260,11 +269,11 @@
       </section>
     </div>
     <script src="./vendor/elk.bundled.js?v=0.9.3"></script>
-    <script src="./graph-data.js?v=scope-profile-v1"></script>
-    <script src="./catalog-data.js?v=scope-profile-v1"></script>
-    <script src="./summary-data.js?v=scope-profile-v1"></script>
-    <script src="./scenario-data.js?v=scope-profile-v1"></script>
-    <script src="./app.js?v=scope-profile-v1"></script>
+    <script src="./graph-data.js?v=graph-zoom-v1"></script>
+    <script src="./catalog-data.js?v=graph-zoom-v1"></script>
+    <script src="./summary-data.js?v=graph-zoom-v1"></script>
+    <script src="./scenario-data.js?v=graph-zoom-v1"></script>
+    <script src="./app.js?v=graph-zoom-v1"></script>
   </body>
 </html>
 
