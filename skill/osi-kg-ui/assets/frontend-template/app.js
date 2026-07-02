@@ -973,6 +973,7 @@ function applyGraphViewMode(mode, options = {}) {
   const normalizedMode = GRAPH_VIEW_CONFIG[mode] ? mode : "traceability";
   const previousMode = graphState.viewMode;
   graphState.viewMode = normalizedMode;
+  if (!options.preserveZoom) graphState.zoom = 1;
   ensureGraphScopeSelection(normalizedMode);
   const shouldReset = options.resetFilters || previousMode !== normalizedMode;
   if (shouldReset) {
@@ -1706,7 +1707,7 @@ function currentScenarioView() {
     selectedSemanticModel: graphState.selectedSemanticModel,
     maxDepth: graphState.maxDepth,
     zoom: graphState.zoom,
-      nodeTypes: [...graphState.nodeTypes],
+    nodeTypes: [...graphState.nodeTypes],
     businessEdgeTypes: [...graphState.businessEdgeTypes],
     edgeTypes: [...graphState.edgeTypes],
     metricOverlays: [...graphState.metricOverlays],
@@ -1750,8 +1751,7 @@ function currentScenarioTemplate(name, existingPreset = null, now = new Date().t
       selectedOntology: graphState.selectedOntology || undefined,
       selectedSemanticModel: graphState.selectedSemanticModel || undefined,
       maxDepth: graphState.maxDepth,
-      zoom: graphState.zoom,
-      nodeTypes: [...graphState.nodeTypes],
+    nodeTypes: [...graphState.nodeTypes],
       businessEdgeTypes: [...graphState.businessEdgeTypes],
       edgeTypes: [...graphState.edgeTypes],
       metricOverlays: [...graphState.metricOverlays],

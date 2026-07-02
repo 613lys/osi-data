@@ -173,6 +173,7 @@ Layout guidance:
 - Keep the focused node or selected slice near the center-left. In model-wide views, prefer layered layouts that group related node types and keep selected ontology or semantic model contents readable.
 - Keep fields inside their parent node and keep all field rows hidden by default in every view. User field hide/show controls expansion. Field-level edges appear only for selected field rows; selecting a field toggles it, selecting another field adds to the current field selection, and clicking an already selected field removes it without clearing other selected fields.
 - Graph zoom must scale the graph canvas as a whole, including nodes and all SVG edge layers, without recomputing layout or changing edge anchor rules. Edges must still attach to node/field left and right midpoints after zooming.
+- Opening Graph Explorer, Ontology View, Semantic Model View, or a Scenario Template should default graph zoom to 100%. Only View Snapshots may restore a saved `view.zoom` value because snapshots preserve exact UI state.
 - Do not show disconnected nodes after filters remove their connecting edge.
 - Avoid generic fallback edge text. Edge descriptions must come from YAML/app metadata or be empty with a validation error during generation.
 - Metrics are semantic-model overlay nodes derived from `semantic_model.metrics[]`; expose a multi-select Metric Overlay in Semantic Model View. Only selected metrics render as Metric nodes. Do not render metrics as Table child rows.
